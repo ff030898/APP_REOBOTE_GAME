@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">REOBOTEGAME</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="versiculo">
+        E partiu dali, e cavou outro poço, e não porfiaram sobre ele; por isso chamou-o Reobote, e disse: Porque agora nos alargou o Senhor, e crescemos nesta terra.\n
+    </string>
+    <string name="palavra_de_hoje">PALAVRA DE HOJE</string>
+    <string name="b_blia">Bíblia</string>
+
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/menu_pesquisar"
+        android:orderInCategory="100"
+        android:title="Procurar"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_search"
+        />
+
+    <item
+        android:id="@+id/menu_notificacoes"
+        android:title="Notificações"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_perfil"
+        android:orderInCategory="100"
+        android:title="Perfil"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_configuracoes"
+        android:orderInCategory="100"
+        android:title="Configurações"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_sair"
+        android:orderInCategory="100"
+        android:title="Sair"
+        app:showAsAction="never"
+        />
+
+
+</menu>

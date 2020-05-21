@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.reobotetechnology.reobotegame">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme2">
+
+        <activity android:name=".ui.EditarPerfilActivity" android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.PerfilActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.Main14Activity" />
+        <activity android:name=".ui.Main13Activity" />
+        <activity android:name=".ui.Main12Activity" />
+        <activity android:name=".ui.Main11Activity" />
+        <activity android:name=".ui.Main10Activity" />
+        <activity android:name=".ui.Main9Activity" />
+        <activity android:name=".ui.ImagemActivity" />
+        <activity
+            android:name=".ui.Amigos_PerfilActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.PlayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.VersiculosActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.CapitulosActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.BibliaActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.WelcomeActivity" />
+        <activity
+            android:name=".ui.PartidaActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.PostActivity" />
+        <activity
+            android:name=".ui.TermosActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.AmigosActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.ChatActivity" />
+        <activity
+            android:name=".ui.NotificacoesActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.AvaliarActivity" />
+        <activity android:name=".ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.EsqueceuSenhaActivity" />
+        <activity android:name=".ui.CadastroActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.SlidesActivity" />
+        <activity android:name=".ui.PontuacaoActivity" />
+        <activity
+            android:name=".ui.ConfiguracoesActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.PerguntasActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
+    </application>
+
+</manifest>

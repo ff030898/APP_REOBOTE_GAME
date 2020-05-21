@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ChatActivity">
+
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <Toolbar
+           android:layout_width="match_parent"
+           android:layout_height="?attr/actionBarSize"
+           android:background="?attr/colorPrimary"
+           tools:targetApi="lollipop">
+
+       <de.hdodenhof.circleimageview.CircleImageView
+           android:id="@+id/imagemUsuarioConversa"
+           android:layout_width="42dp"
+           android:layout_height="42dp"
+           android:src="@drawable/eu"/>
+
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+
+               <androidx.appcompat.widget.AppCompatTextView
+                   android:id="@+id/nomeUsuarioConversa"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textColor="@color/colorBranco"
+                   android:textStyle="bold"
+                   android:textSize="16sp"
+                   android:layout_marginLeft="15dp"
+                   android:text="Fabrício Ferreira"
+                   android:layout_marginStart="15dp" />
+
+               <androidx.appcompat.widget.AppCompatTextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textColor="@color/colorBranco"
+                   android:textSize="13sp"
+                   android:layout_marginLeft="15dp"
+                   android:text="Online"
+                   android:layout_marginStart="15dp" />
+           </LinearLayout>
+
+       </Toolbar>
+
+   </FrameLayout>
+
+  <include layout="@layout/content_chat" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

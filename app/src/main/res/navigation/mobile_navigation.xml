@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.reobotetechnology.reobotegame.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_biblia"
+        android:name="com.reobotetechnology.reobotegame.ui.biblia.BibliaFragment"
+        android:label="Bíblia"
+        tools:layout="@layout/biblia_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_feed"
+        android:name="com.reobotetechnology.reobotegame.ui.feed.FeedFragment"
+        android:label="Feed"
+        tools:layout="@layout/fragment_feed" />
+
+    <fragment
+        android:id="@+id/navigation_ranking"
+        android:name="com.reobotetechnology.reobotegame.ui.ranking.RankingFragment"
+        android:label="Ranking"
+        tools:layout="@layout/ranking_fragment"/>
+
+    <fragment
+        android:id="@+id/navigation_mensagens"
+        android:name="com.reobotetechnology.reobotegame.ui.mensagens.MensagensFragment"
+        android:label="Mensagens"
+        tools:layout="@layout/mensagens_fragment"/>
+
+
+</navigation>
