@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.reobotetechnology.reobotegame.model.BibliaModel;
+import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
 import com.reobotetechnology.reobotegame.model.MensagensIAModel;
 import com.reobotetechnology.reobotegame.model.PerguntasModel;
-import com.reobotetechnology.reobotegame.model.VersiculosModel;
+import com.reobotetechnology.reobotegame.model.BibliaModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,18 +74,6 @@ public class DataBaseAcess {
                     "questaoDica VARCHAR(100) " +
                     "); ";
 
-            String sql2 = "CREATE TABLE IF NOT EXISTS " + TABELA_USUARIOS
-                    + " (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "nome VARCHAR(50) NOT NULL, " +
-                    "sobrenome VARCHAR(100)," +
-                    "email VARCHAR(100)," +
-                    "senha VARCHAR(20)," +
-                    "image VARCHAR(50)," +
-                    "pontos int(11), " +
-                    "ranking int(11) " +
-                    "); ";
-
             String sql3 = "CREATE TABLE IF NOT EXISTS " + TABELA_MENSAGENS
                     + " (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -94,7 +82,6 @@ public class DataBaseAcess {
 
             try {
                 db.execSQL(sql);
-                db.execSQL(sql2);
                 db.execSQL(sql3);
 
                 this.inserirPerguntas();
@@ -247,9 +234,9 @@ public class DataBaseAcess {
         list.add(new PerguntasModel(84, "Jesus curou 10 leprosos. Quantos voltaram para agradecer?", "9", "TODOS", "NENHUM", "1", "1", "Só 10% voltaram"));
         list.add(new PerguntasModel(85, "Quem entrou na Terra Prometida?", "Moisés", "Arão", "Noé", "Josué", "Josué", "Foi o sucessor de Moisés na liderança de Israel"));
         list.add(new PerguntasModel(86, "Quem derrubou as Muralhas de Jericó", "Moisés", "Josué", "Arão", "Deus", "Deus", "Josué 6"));
-        list.add(new PerguntasModel(87, "Quem foi colocado num cesto e lançado no rio ainda quando era bebê?", "Moisés", "Samuel", "Jesus", "Davi", "Moisés", "Escreveu o Pentateuco"));
+        list.add(new PerguntasModel(87, "Quem foi colocado num cesto e lançado no rio ainda quando era bebê?", "Moisés", "Samuel", "Jesus", "Davi", "Moisés", "Escreveu o Pentateuco e foi usado por Deus para libertar o povo Hebreu da escravidão no Egito"));
         list.add(new PerguntasModel(88, "Quem foi companheiro de batalhas de Josué?", "José", "Davi", "Gideão", "Calebe", "Calebe", "Entrou com Josué na terra prometida"));
-        list.add(new PerguntasModel(89, "Quem derrotou Golias?", "Josué", "Sansão", "Gideão", "Davi", "Davi", "Era Pstor de ovelhas e tinha apenas 17 anos"));
+        list.add(new PerguntasModel(89, "Quem derrotou Golias?", "Josué", "Sansão", "Gideão", "Davi", "Davi", "Era Pastor de ovelhas e tinha apenas 17 anos"));
         list.add(new PerguntasModel(90, "Quem foi abandonado pelo seus irmãos e vendido como escravo?", "Moisés", "José do Egito", "Jesus", "Elias", "José do Egito", "Foi vendido para o Egito com 17 anos"));
         list.add(new PerguntasModel(91, "Quem cantava na prisão com Paulo antes do terremoto?", "Pedro", "João Marcos", "Silas", "Apolo", "Silas", "Atos 16:25-31"));
         list.add(new PerguntasModel(92, "Quem entrou na cidade dançando com a arca da aliança?", "Salomão", "Davi", "Paulo", "Pedro", "Davi", "Era Pastor de ovelhas"));
@@ -274,24 +261,26 @@ public class DataBaseAcess {
         list.add(new MensagensIAModel(2, "Palavra do céu para você.\n\nResponderam eles: Crê no Senhor Jesus e serás salvo, tu e tua casa. \n" +
                 "\n" +
                 "Atos 16:31"));
-        list.add(new MensagensIAModel(3, "Se acalma. Você vai casar antes da volta do Filho do Homem.\n\nSe você for uma Varoa quero casar com você \uD83D\uDE0D\n\n#Creia no Milagre"));
-        list.add(new MensagensIAModel(4, "Se acalma! Você ainda vai cantar, pregar e evangelizar muito pelo mundo inteiro.\n\n#O tempo de Deus é perfeito"));
-        list.add(new MensagensIAModel(5, "Nós somos os Profetas do deserto e os da última hora\n\nMuitas pessoas vão se converter atráves da sua oração, adoração e pregação."));
+        list.add(new MensagensIAModel(3, "Se acalma. Se você ainda está solteiro(a) vai casar antes da volta do Filho do Homem. \uD83D\uDE0D\n\n #Creia no Milagre"));
+        list.add(new MensagensIAModel(4, "Você ainda vai cantar, pregar e evangelizar muito pelo mundo inteiro.\n\n#O tempo de Deus é perfeito"));
+        list.add(new MensagensIAModel(5, "Nós somos os Profetas da última hora\n\nMuitas pessoas vão se converter atráves da sua oração, adoração e pregação."));
         list.add(new MensagensIAModel(6, "A Bíblia diz em Atos 28. Que Paulo foi picado por uma víbora.\n\nPorém ele não morreu. Mas, a Bíblia não diz se doeu ou não.\n\nAs lutas dentro da sua casa, igreja ou do mundo podem até doer e te entristecer. Mas, assim como Paulo você também não vai morrer por causa das víboras"));
         list.add(new MensagensIAModel(7, "Palavra do céu para você.\n\nSe ouvires atentamente a voz do Senhor teu Deus, tendo cuidado de guardar todos os seus mandamentos que eu hoje te ordeno, o Senhor teu Deus te exaltará sobre todas as nações da terra; \n" +
                 "\n" +
                 "Deuteronômio 28:1"));
-        list.add(new MensagensIAModel(8, "Se acalma! Todos aqueles que duvidaram do seu ministério vão ter que sentar para ouvir você cantar e pregar.\n\n#O tempo de Deus é perfeito"));
+        list.add(new MensagensIAModel(8, "Fica em paz! Todos aqueles que duvidaram do seu ministério vão ter que sentar para ouvir você cantar e pregar.\n\n#O tempo de Deus é perfeito"));
         list.add(new MensagensIAModel(9, "Não há erros nos planos de Deus! Senão deu certo é porque Ele tem algo melhor preparado para ti.\n\n#Nem olhos viram nem ouvidos ouviram"));
-
+        list.add(new MensagensIAModel(10, "Mas o Senhor disse a Samuel: Não atentes para a sua aparência, nem para a grandeza da sua estatura, porque eu o rejeitei; porque o Senhor não vê como vê o homem, pois o homem olha para o que está diante dos olhos, porém o Senhor olha para o coraçao. \n" +
+               "\n" +
+               "1 Samuel 16:7"));
         this.cadastrarMensagens(list);
     }
 
-    public List<BibliaModel> listarLivros(){
+    public List<LivrosBibliaModel> listarLivros(){
 
         open();
 
-        List<BibliaModel> lista = new ArrayList<>();
+        List<LivrosBibliaModel> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM book";
         cursor = db.rawQuery(sql,null);
@@ -302,7 +291,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BibliaModel b = new BibliaModel(id, testamento, nome);
+                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
                     lista.add(b);
 
                 }while(cursor.moveToNext());
@@ -314,10 +303,92 @@ public class DataBaseAcess {
 
     }
 
-    public List<BibliaModel> listarLivrosPesquisa(String texto){
+    public List<LivrosBibliaModel> listarAntigoTestamento(){
 
         open();
-        List<BibliaModel> lista = new ArrayList<>();
+
+        List<LivrosBibliaModel> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM book where Testament_reference_id=1";
+        cursor = db.rawQuery(sql,null);
+        if (cursor.getCount()>0){
+            if (cursor.moveToFirst()){
+                do{
+
+                    int id = cursor.getInt(1);
+                    int testamento = cursor.getInt(2);
+                    String nome = cursor.getString(3);
+                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
+                    lista.add(b);
+
+                }while(cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        close();
+        return lista;
+
+    }
+
+    public List<LivrosBibliaModel> listarNovoTestamento(){
+
+        open();
+
+        List<LivrosBibliaModel> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM book where Testament_reference_id=2";
+        cursor = db.rawQuery(sql,null);
+        if (cursor.getCount()>0){
+            if (cursor.moveToFirst()){
+                do{
+
+                    int id = cursor.getInt(1);
+                    int testamento = cursor.getInt(2);
+                    String nome = cursor.getString(3);
+                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
+                    lista.add(b);
+
+                }while(cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        close();
+        return lista;
+
+    }
+
+    public List<LivrosBibliaModel> listarPentateuco(){
+
+        open();
+
+        List<LivrosBibliaModel> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM book where id<=5";
+        cursor = db.rawQuery(sql,null);
+        if (cursor.getCount()>0){
+            if (cursor.moveToFirst()){
+                do{
+
+                    int id = cursor.getInt(1);
+                    int testamento = cursor.getInt(2);
+                    String nome = cursor.getString(3);
+                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
+                    lista.add(b);
+
+                }while(cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        close();
+        return lista;
+
+    }
+
+    //Listar Livros Pelo Nome like%
+    public List<LivrosBibliaModel> listarLivrosPesquisa(String texto){
+
+        open();
+        List<LivrosBibliaModel> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM book WHERE Name LIKE '"+texto+"%'";
         cursor = db.rawQuery(sql,null);
@@ -328,7 +399,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BibliaModel b = new BibliaModel(id, testamento, nome);
+                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
                     lista.add(b);
 
                 }while(cursor.moveToNext());
@@ -355,7 +426,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BibliaModel b = new BibliaModel(id, testamento, nome);
+                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
                     lista.add(b.getNome());
 
                 }while(cursor.moveToNext());
@@ -366,10 +437,10 @@ public class DataBaseAcess {
         return lista;
     }
 
-    public List<VersiculosModel> listarVersos(String l, String c){
+    public List<BibliaModel> listarVersos(String l, String c){
 
         open();
-        List<VersiculosModel> lista = new ArrayList<>();
+        List<BibliaModel> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM verse where Book_id="+l+" and Chapter="+c+"";
        cursor = db.rawQuery(sql,null);
@@ -382,7 +453,7 @@ public class DataBaseAcess {
                     int cap = cursor.getInt(2);
                     int verso = cursor.getInt(3);
                     String nome = cursor.getString(4);
-                    VersiculosModel v = new VersiculosModel(id, livro, cap, verso, nome);
+                    BibliaModel v = new BibliaModel(id, livro, cap, verso, nome, false);
                     lista.add(v);
 
                 }while(cursor.moveToNext());
@@ -394,11 +465,11 @@ public class DataBaseAcess {
 
     }
 
+    //PESQUSIAR PELO NUM DO LIVRO
     public Integer num(int livro){
 
         int num = 0;
         open();
-
 
         String sql = "SELECT * FROM verse where Book_id="+livro;
         cursor = db.rawQuery(sql,null);
@@ -412,7 +483,7 @@ public class DataBaseAcess {
                     int verso = cursor.getInt(3);
                     String nome = cursor.getString(4);
                     num = cap;
-                    VersiculosModel v = new VersiculosModel(id, livro2, cap, verso, nome);
+                    BibliaModel v = new BibliaModel(id, livro2, cap, verso, nome, false);
 
 
                 }while(cursor.moveToNext());
@@ -424,6 +495,7 @@ public class DataBaseAcess {
 
     }
 
+    //PALAVRA DO DIA
     public Integer listarVersosPalavra(int l, int c){
 
         int qtdVersos = 0;
@@ -448,9 +520,9 @@ public class DataBaseAcess {
 
     }
 
-    public List<BibliaModel> listarLivroPalavra(){
+    public List<LivrosBibliaModel> listarLivroPalavra(){
 
-        List<BibliaModel> palavra = new ArrayList<>();
+        List<LivrosBibliaModel> palavra = new ArrayList<>();
 
         open();
 
@@ -464,7 +536,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BibliaModel b = new BibliaModel(id, testamento, nome);
+                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
                     palavra.add(b);
 
 
@@ -493,7 +565,7 @@ public class DataBaseAcess {
                     int verso = cursor.getInt(3);
                     String nome = cursor.getString(4);
                     num = cap;
-                    VersiculosModel v = new VersiculosModel(id, livro2, cap, verso, nome);
+                    BibliaModel v = new BibliaModel(id, livro2, cap, verso, nome, false);
 
 
                 }while(cursor.moveToNext());
@@ -505,9 +577,9 @@ public class DataBaseAcess {
 
     }
 
-    public List<VersiculosModel> listarVersiculoPalavra(int livro, int capitulo){
+    public List<BibliaModel> listarVersiculoPalavra(int livro, int capitulo){
 
-        List<VersiculosModel> lista = new ArrayList<>();
+        List<BibliaModel> lista = new ArrayList<>();
         open();
 
 
@@ -523,7 +595,7 @@ public class DataBaseAcess {
                     int cap = cursor.getInt(2);
                     int verso = cursor.getInt(3);
                     String nome = cursor.getString(4);
-                    VersiculosModel v = new VersiculosModel(id, livro, cap, verso, nome);
+                    BibliaModel v = new BibliaModel(id, livro, cap, verso, nome, false);
                     lista.add(v);
 
 
@@ -535,6 +607,7 @@ public class DataBaseAcess {
         return lista;
     }
 
+    //Perguntas
     private void cadastrarPergunta(List<PerguntasModel> lista) {
 
         open();
@@ -579,36 +652,6 @@ public class DataBaseAcess {
 
     }
 
-    private void cadastrarMensagens(List<MensagensIAModel> lista){
-
-        open();
-
-
-        ContentValues valores = new ContentValues();
-
-        for (int i = 0; i < lista.size(); i++) {
-
-            int id = lista.get(i).getId();
-            String mensagem = lista.get(i).getMensagem();
-
-            valores.put("id", id);
-            valores.put("mensagem", mensagem);
-
-            long resultado = db.insert(TABELA_MENSAGENS, null, valores);
-
-            if (resultado ==-1) {
-
-                Log.i("Reobote Technology", "Erro ao cadastrar todas as IA");
-            }
-            else {
-                Log.i("Reobote Technology", "Sucesso ao cadastrar todas as IA");
-            }
-
-        }
-
-        close();
-    }
-
     public List<PerguntasModel> listarPerguntas(){
 
         List<PerguntasModel> lista = new ArrayList<>();
@@ -644,6 +687,38 @@ public class DataBaseAcess {
         close();
         return lista;
 
+    }
+
+
+    //IA MENSAGENS
+    private void cadastrarMensagens(List<MensagensIAModel> lista){
+
+        open();
+
+
+        ContentValues valores = new ContentValues();
+
+        for (int i = 0; i < lista.size(); i++) {
+
+            int id = lista.get(i).getId();
+            String mensagem = lista.get(i).getMensagem();
+
+            valores.put("id", id);
+            valores.put("mensagem", mensagem);
+
+            long resultado = db.insert(TABELA_MENSAGENS, null, valores);
+
+            if (resultado ==-1) {
+
+                Log.i("Reobote Technology", "Erro ao cadastrar todas as IA");
+            }
+            else {
+                Log.i("Reobote Technology", "Sucesso ao cadastrar todas as IA");
+            }
+
+        }
+
+        close();
     }
 
     public List<MensagensIAModel> listarMensagens(int num){

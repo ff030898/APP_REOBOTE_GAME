@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">REOBOTEGAME</string>
+    <string name="app_name">Reobote Game</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="versiculo">
@@ -7,5 +7,92 @@
     </string>
     <string name="palavra_de_hoje">PALAVRA DE HOJE</string>
     <string name="b_blia">Bíblia</string>
+    <string name="bem_vindo_de_volta">BEM VINDO DE VOLTA</string>
+    <string name="informe_os_dados_abaixo_para_efetuar_o_cadastro">Informe os dados abaixo para efetuar o cadastro</string>
+    <string name="informe_os_dados_abaixo_para_efetuar_o_login">Informe os dados abaixo para efetuar o login</string>
+    <string name="bem_vindo_ao_reobote_game">BEM VINDO AO REOBOTE GAME</string>
+    <string name="li_e_concordo_com_os_termos">Li e concordo com os termos</string>
+    <string name="texto_email">Enviaremos um código de recuperação
+        para o seu email ex***@mail.com</string>
+    <string name="txt_senha">RECUPERAR SENHA</string>
+    <string name="por_favor_preencha_o_endere_o">Por favor preencha o endereço:</string>
+    <string name="e_mail">E-mail</string>
+    <string name="enviar">Enviar</string>
+    <string name="recuperar_senha">RECUPERAR SENHA</string>
+    <string name="j_tem_conta_login">Já tem conta? Login</string>
+    <string name="facebook_app_id">247257450044944</string>
+    <string name="fb_login_protocol_scheme">fb247257450044944</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+
+
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="ranking">Ranking</string>
+    <string name="seguindo">SEGUINDO</string>
+    <string name="seguidores">SEGUIDORES</string>
+    <string name="editar_perfil">EDITAR PERFIL</string>
+    <string name="online">Online</string>
+    <string name="usuario">Usuario</string>
+    <string name="user_gmail_com">user@gmail.com</string>
+    <string name="seguir">SEGUIR</string>
+    <string name="_1">1º</string>
+    <string name="_2">2º</string>
+    <string name="_3">3º</string>
+    <string name="modo_offline">MODO SINGLE PLAYER VS ANDROID</string>
+    <string name="multiplayer_1_vs_1">MODO MULTIPLAYER 1 VS 1</string>
+    <string name="regras_do_jogo">REGRAS DO JOGO:</string>
+    <string name="regras">
+    Cada partida vale 10 pontos\n\nCada jogador tem 15 segundos para responder cada pergunta\n\nQuem acertar mais perguntas vence e ganha +10 pontos no ranking.\n\nSe o número de acertos for igual é empate e cada um ganha +5 pontos\n\nO Perdedor da partida perde -3 pontos\n\nEm caso de vitória o jogador vencedor poderá dobrar os pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de empate os dois jogadores poderão dobrar os seus pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de derrota o jogador perdedor poderá recuperar os 3 pontos perdidos da partida assistindo uma propaganda de 30 segundos
+    </string>
+    <string name="ler_mais">LER MAIS</string>
+    <string name="jogar">JOGAR</string>
+    <string name="top_5_da_semana">TOP 5 DE HOJE</string>
+    <string name="amigos_sugeridos">AMIGOS SUGERIDOS</string>
+    <string name="convidar_automaticamente">CONVIDAR AUTOMATICAMENTE</string>
+    <string name="vs">VS</string>
+    <string name="desistir_da_partida">DESISTIR DA PARTIDA</string>
+    <string name="aguardando_confirma_o">AGUARDANDO RESPOSTA</string>
+    <string name="videos_recomendados">VIDEOS RECOMENDADOS</string>
+    <string name="digite_uma_mensagem">Digite uma mensagem...</string>
+    <string name="outros_videos">OUTROS VIDEOS</string>
+    <string name="conversas">CONVERSAS</string>
+    <string name="amigos_online">AMIGOS ONLINE</string>
+    <string name="geral">TODOS</string>
+    <string name="hoje">HOJE</string>
+    <string name="galeria">Galeria</string>
+    <string name="camera">Camera</string>
+    <string name="compartilhar">Compartilhar</string>
+    <string name="copiar">Copiar</string>
+    <string name="sair">SAIR</string>
+    <string name="pr_xima">PRÓXIMA</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="ooh_n_o">OOH NÃO!</string>
+    <string name="vamos_jogar">VAMOS JOGAR?</string>
+    <string name="aceitar">ACEITAR</string>
+    <string name="recusar">RECUSAR</string>
+    <string name="continuar">CONTINUAR</string>
+    <string name="aten_o_voc_tem_15_segundos_para_responder_cada_pergunta">Atenção, você tem 15 segundos para responder cada pergunta.</string>
+    <string name="tempo_esgotado">TEMPO ESGOTADO!</string>
+    <string name="antigo_testamento">ANTIGO TESTAMENTO</string>
+    <string name="novo_testamento">NOVO TESTAMENTO</string>
+    <string name="bem_vindo_a">Bem Vindo(a),</string>
+    <string name="blog">Blog</string>
+    <string name="mensagens">Mensagens</string>
+    <string name="notifica_es">Notificações</string>
+    <string name="perfil">Perfil</string>
+    <string name="amigos">Amigos</string>
+    <string name="configura_es">Configurações</string>
+    <string name="logoff">Logoff</string>
+    <string name="sair2">Sair</string>
 
 </resources>

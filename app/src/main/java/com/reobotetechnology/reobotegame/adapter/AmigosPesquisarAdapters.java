@@ -1,10 +1,12 @@
 package com.reobotetechnology.reobotegame.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,10 +24,12 @@ public class AmigosPesquisarAdapters extends RecyclerView.Adapter<AmigosPesquisa
 
     private List<UsuarioModel> usuario;
     private Context context;
+    private int tipo;
 
-    public AmigosPesquisarAdapters(List<UsuarioModel> usuario, Context context) {
+    public AmigosPesquisarAdapters(List<UsuarioModel> usuario, Context context, int tipo) {
         this.usuario = usuario;
         this.context = context;
+        this.tipo = tipo;
     }
 
     @NonNull
@@ -34,14 +39,33 @@ public class AmigosPesquisarAdapters extends RecyclerView.Adapter<AmigosPesquisa
         return new myViewHolder(itemLista);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final myViewHolder holder, int position) {
 
         UsuarioModel usuarioModel = usuario.get(position);
 
         holder.txtNomeUsuarioPesquisar.setText(usuarioModel.getNome());
-        holder.imgUsuarioPesquisar.setImageResource(usuarioModel.getImg());
+
+        try{
+
+            if(usuarioModel.getImagem().isEmpty()){
+                Picasso.get().load(R.drawable.user).into( holder.imgUsuarioPesquisar);
+            }else {
+                Picasso.get().load(usuarioModel.getImagem()).into( holder.imgUsuarioPesquisar);
+            }
+        }catch (Exception e){
+            Picasso.get().load(R.drawable.user).into( holder.imgUsuarioPesquisar);
+        }
+
+        if(usuarioModel.isOnline()) {
+            holder.online.setVisibility(View.VISIBLE);
+        }
+
         holder.txtRankingUsuarioPesquisar.setText("Ranking: "+usuarioModel.getRanking());
+        if(tipo == 1){
+            holder.btnSeguirUsuario.setText("CONVIDAR");
+        }
         holder.btnSeguirUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +80,7 @@ public class AmigosPesquisarAdapters extends RecyclerView.Adapter<AmigosPesquisa
             }
         });
 
+
     }
 
     @Override
@@ -68,14 +93,16 @@ public class AmigosPesquisarAdapters extends RecyclerView.Adapter<AmigosPesquisa
         CircleImageView imgUsuarioPesquisar;
         TextView txtNomeUsuarioPesquisar, txtRankingUsuarioPesquisar;
         Button btnSeguirUsuario;
+        ImageView online;
 
-        public myViewHolder(@NonNull View itemView) {
+        myViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgUsuarioPesquisar = itemView.findViewById(R.id.imgUsuarioPesquisar);
-            txtNomeUsuarioPesquisar = itemView.findViewById(R.id.txtNomeUsuario);
+            txtNomeUsuarioPesquisar = itemView.findViewById(R.id.txtTitulo);
             txtRankingUsuarioPesquisar = itemView.findViewById(R.id.txtRankingUsuario);
             btnSeguirUsuario = itemView.findViewById(R.id.btnSeguirUsuario);
+            online = itemView.findViewById(R.id.online);
         }
     }
 

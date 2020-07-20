@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPreto"
-    tools:context=".ui.ImagemActivity">
+    tools:context=".ui.visualizar_imagens.VisualizarImagemActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imagemUsuario"
@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNomeImg"
-        app:srcCompat="@drawable/eu" />
+        app:srcCompat="@drawable/user" />
 
     <TextView
         android:id="@+id/txtNomeImg"
@@ -47,4 +47,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_voltar"
         tools:ignore="VectorDrawableCompat" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#f5f5f5"
+    android:backgroundTint="#f5f5f5"
+    android:orientation="horizontal"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="10dp"
+    tools:ignore="RtlSymmetry"
+    android:layout_marginEnd="15dp"
+    tools:targetApi="lollipop">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgAmigo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#f5f5f5"
+        android:src="@drawable/user"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtAmigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#f5f5f5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLength="12"
+        android:maxLines="1"
+        android:text="@string/usuario"
+        android:textColor="@android:color/background_dark"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgAmigo"
+        tools:targetApi="lollipop" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/online"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/btn_online" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

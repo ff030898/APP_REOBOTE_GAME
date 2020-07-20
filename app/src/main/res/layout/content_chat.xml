@@ -25,7 +25,7 @@
         android:paddingBottom="6dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="45dp"
             android:background="@drawable/btn_chat_texto"
             android:layout_marginBottom="3dp"
@@ -35,22 +35,24 @@
             android:elevation="2dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            tools:ignore="VectorDrawableCompat"
+            tools:ignore="UnusedAttribute,VectorDrawableCompat"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:layout_marginEnd="6dp">
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/editMensagem"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Digite uma mensagem..."
+                android:hint="@string/digite_uma_mensagem"
                 android:background="@android:color/white"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                tools:ignore="NestedWeights" />
 
-            <ImageView
-                android:id="@+id/imageView4"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgCameraChat"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/ic_camera"

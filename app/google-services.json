@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "283511108331",
+    "firebase_url": "https://reobote-game-c60f8.firebaseio.com",
+    "project_id": "reobote-game-c60f8",
+    "storage_bucket": "reobote-game-c60f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283511108331:android:4911bbb179a942047004ae",
+        "android_client_info": {
+          "package_name": "com.reobotetechnology.reobotegame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283511108331-9e0hmigjfad7hn5reqmnftf4mji938a7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reobotetechnology.reobotegame",
+            "certificate_hash": "0322972e55ccce87ddc869e91a69114475a03f2a"
+          }
+        },
+        {
+          "client_id": "283511108331-kg1tuddeenhtgr1rrgll0ksid7k5mcpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMXWUKg3DIAaMHU0P0Z_LZZMIxmwZuJxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283511108331-kg1tuddeenhtgr1rrgll0ksid7k5mcpv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

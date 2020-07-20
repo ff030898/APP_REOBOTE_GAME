@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PerfilActivity">
-
+    tools:context=".ui.perfil.PerfilActivity">
 
     <FrameLayout
         android:id="@+id/frameLayout2"
@@ -30,17 +29,18 @@
                 android:layout_width="86dp"
                 android:layout_height="86dp"
                 android:gravity="center"
-                android:src="@drawable/eu"
+                android:src="@drawable/user"
                 android:visibility="visible"
                 app:civ_border_color="@color/colorBranco"
                 app:civ_border_width="3dp" />
 
             <TextView
+                android:id="@+id/txtNomeUsuarioPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Fabrício Ferreira"
+                tools:text="Reobote Technology"
                 android:textColor="@color/colorBranco"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -66,10 +66,11 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txtRankingUsuarioPerfil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="1º"
+                        tools:text="1º"
                         android:textColor="@color/colorBranco"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -78,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="RANKING"
+                        android:text="@string/ranking"
                         android:textColor="@color/colorBranco" />
 
                 </LinearLayout>
@@ -91,19 +92,20 @@
 
 
                     <TextView
+                        android:id="@+id/txtSeguindoUsuarioPerfil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="5"
+                        tools:text="5"
                         android:textColor="@color/colorBranco"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="SEGUINDO"
+                        android:text="@string/seguindo"
                         android:textColor="@color/colorBranco" />
 
                 </LinearLayout>
@@ -115,19 +117,20 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txtSeguidoresUsuarioPerfil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="50"
+                        tools:text="50"
                         android:textColor="@color/colorBranco"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="SEGUIDORES"
+                        android:text="@string/seguidores"
                         android:textColor="@color/colorBranco" />
 
                 </LinearLayout>
@@ -143,7 +146,8 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/btn_screen"
                 android:backgroundTint="@color/colorBranco"
-                android:text="EDITAR PERFIL" />
+                android:text="@string/editar_perfil"
+                tools:targetApi="lollipop" />
 
 
         </LinearLayout>

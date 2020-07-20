@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context=".ui.BibliaActivity">
+    tools:context=".ui.biblia.BibliaActivity">
 
     <FrameLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/frameTopo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:visibility="gone"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +85,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclerVersiculos"
         app:layout_constraintEnd_toStartOf="@+id/spinner4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/frameTopo"
         app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
@@ -100,7 +101,7 @@
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spinner3"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/frameTopo"
         app:layout_constraintVertical_bias="1.0" />
 
     <View

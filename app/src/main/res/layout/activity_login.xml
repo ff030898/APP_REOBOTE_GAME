@@ -8,185 +8,157 @@ android:orientation="vertical"
 android:scrollbars="none"
 android:fillViewport="true">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".ui.LoginActivity">
-
-    <ProgressBar
-        android:id="@+id/progresso"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.393" />
+        tools:context=".ui.login.LoginActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
+        <ProgressBar
+            android:id="@+id/progresso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="30dp"
-            android:src="@drawable/logo" />
+            android:visibility="gone"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frameLayout3"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progresso"
-        app:layout_constraintVertical_bias="0.052">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imagemPerfil"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:src="@drawable/reobote"
+            android:visibility="visible"
+            app:civ_border_color="@color/colorBranco"
+            app:civ_border_width="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtEmail"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="Email"
-            tools:ignore="HardcodedText">
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagemPerfil">
 
-            <com.google.android.material.textfield.TextInputEditText
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
+                android:layout_marginTop="10dp"
+                android:hint="Email"
+                tools:ignore="HardcodedText">
 
-                android:textSize="14sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textSize="16sp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtSenha"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="5dp"
-            android:hint="Senha"
-            android:padding="0dp"
-            app:passwordToggleEnabled="true"
-            tools:ignore="HardcodedText">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtSenha"
                 android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:hint="Senha"
+                android:padding="0dp"
+                app:passwordToggleEnabled="true"
+                tools:ignore="HardcodedText">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editSenha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:textSize="14sp" />
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="esqueceuSenha"
+                android:paddingRight="3dp"
+                android:text="Esqueceu sua senha?"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:onClick="esqueceuSenha"
-            android:paddingRight="3dp"
-            android:text="Esqueceu sua senha?"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry" />
 
         <Button
             android:id="@+id/btnEntrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="end"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_login"
-            android:text="ENTRAR"
+            android:text="LOGIN"
+            android:textAlignment="gravity"
             android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/btnCadastro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnCadastro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/btn_cad_login"
+            android:onClick="cadastrar"
+            android:text="TELA DE CADASTRO"
+            android:textColor="@color/colorPreto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="HardcodedText" />
 
 
-    </LinearLayout>
-
-    <View
-        android:id="@+id/div_dir"
-        android:layout_width="130dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:background="?android:attr/listDivider"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout" />
-
-    <View
-        android:id="@+id/div_esq"
-        android:layout_width="130dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
-        android:background="?android:attr/listDivider"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout" />
-
-    <TextView
-        android:id="@+id/txt_ou"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="OU"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/div_dir"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/div_esq"
-        app:layout_constraintTop_toBottomOf="@+id/layout"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/btnGoogle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/btn_google"
-        android:gravity="center"
-        android:onClick="google"
-        android:text="CONTINUAR COM O GOOGLE"
-        android:textAlignment="gravity"
-        android:textColor="@android:color/black"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_ou"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="HardcodedText,RtlSymmetry" />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

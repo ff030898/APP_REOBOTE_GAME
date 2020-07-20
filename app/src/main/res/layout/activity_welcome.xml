@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".ui.WelcomeActivity">
+    tools:context=".ui.main.WelcomeActivity">
 
     <ProgressBar
         android:id="@+id/progressoIniciar"
@@ -17,9 +17,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        tools:targetApi="lollipop" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logo"
         android:layout_width="0dp"
         android:layout_height="350dp"
@@ -43,30 +44,27 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/txtLogin"
-            android:layout_width="0dp"
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="32dp"
-            android:gravity="center"
-            android:onClick="login"
-            android:text="Já tem conta?  Login"
-            android:textAlignment="center"
-            android:textColor="@android:color/background_light"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="28dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnEmail"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
 
         <Button
             android:id="@+id/btnEmail"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginEnd="32dp"
@@ -81,23 +79,24 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/btnGoogle"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txtLogin"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="32dp"
-            android:background="@drawable/btn_login"
-            android:backgroundTint="@android:color/white"
-            android:onClick="home"
-            android:text="CONTINUAR COM O GOOGLE"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/btnEmail"
+            android:gravity="center"
+            android:onClick="login"
+            android:text="@string/j_tem_conta_login"
+            android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
 

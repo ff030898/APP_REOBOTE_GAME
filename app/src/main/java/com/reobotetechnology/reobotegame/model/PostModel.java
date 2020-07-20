@@ -1,24 +1,22 @@
 package com.reobotetechnology.reobotegame.model;
 
-import java.util.Date;
-
 public class PostModel {
 
-    private int id, imagem, amei, comentarios, compartilhamentos;
+    private int id, amei, tipo;
     private UsuarioModel user;
-    private String desc, link;
-    private Date data;
+    private String imagem, titulo, desc;
+    private String data, hora;
 
-    public PostModel(int id, int imagem, int amei, int comentarios, int compartilhamentos, UsuarioModel user, String desc, String link, Date data) {
+    public PostModel(int id, int amei, int tipo, UsuarioModel user, String imagem, String titulo, String desc, String data, String hora) {
         this.id = id;
-        this.imagem = imagem;
         this.amei = amei;
-        this.comentarios = comentarios;
-        this.compartilhamentos = compartilhamentos;
+        this.tipo = tipo;
         this.user = user;
+        this.imagem = imagem;
+        this.titulo = titulo;
         this.desc = desc;
-        this.link = link;
         this.data = data;
+        this.hora = hora;
     }
 
     public int getId() {
@@ -29,14 +27,6 @@ public class PostModel {
         this.id = id;
     }
 
-    public int getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(int imagem) {
-        this.imagem = imagem;
-    }
-
     public int getAmei() {
         return amei;
     }
@@ -45,20 +35,12 @@ public class PostModel {
         this.amei = amei;
     }
 
-    public int getComentarios() {
-        return comentarios;
+    public int getTipo() {
+        return tipo;
     }
 
-    public void setComentarios(int comentarios) {
-        this.comentarios = comentarios;
-    }
-
-    public int getCompartilhamentos() {
-        return compartilhamentos;
-    }
-
-    public void setCompartilhamentos(int compartilhamentos) {
-        this.compartilhamentos = compartilhamentos;
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 
     public UsuarioModel getUser() {
@@ -69,6 +51,22 @@ public class PostModel {
         this.user = user;
     }
 
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
     public String getDesc() {
         return desc;
     }
@@ -77,19 +75,19 @@ public class PostModel {
         this.desc = desc;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 }

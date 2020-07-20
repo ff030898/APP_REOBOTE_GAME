@@ -1,9 +1,11 @@
 package com.reobotetechnology.reobotegame.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class AmigosAdapters extends RecyclerView.Adapter<AmigosAdapters.myViewHo
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_amigos, parent, false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_amigos, parent, false);
         return new myViewHolder(itemLista);
     }
 
@@ -37,17 +40,25 @@ public class AmigosAdapters extends RecyclerView.Adapter<AmigosAdapters.myViewHo
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
         UsuarioModel usuarioModel = usuario.get(position);
+        String[] linhas = usuarioModel.getNome().split(" ");
+        holder.nome.setText(linhas[0]);
+        try{
 
-        holder.nome.setText(usuarioModel.getNome());
-        holder.img.setImageResource(usuarioModel.getImg());
+            if(usuarioModel.getImagem().isEmpty()){
+                //Picasso.get().load(R.drawable.user).into(holder.img);
+                holder.img.setImageResource(R.drawable.user);
+            }else {
+                Picasso.get().load(usuarioModel.getImagem()).into(holder.img);
+                //holder.img.setImageResource(usuarioModel.getImagem());
+            }
+        }catch (Exception e){
+            //Picasso.get().load(R.drawable.user).into(holder.img);
+            holder.img.setImageResource(R.drawable.user);
+        }
 
-        /*if( usuario.getFoto() != null ){
-            Uri uri = Uri.parse( usuario.getFoto() );
-            Glide.with( context ).load( uri ).into( holder.foto );
-        }else {
-            holder.foto.setImageResource( R.drawable.padrao );
-        }*/
-
+        if(usuarioModel.isOnline()){
+            holder.online.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -56,16 +67,18 @@ public class AmigosAdapters extends RecyclerView.Adapter<AmigosAdapters.myViewHo
         return usuario.size();
     }
 
-    public class myViewHolder extends RecyclerView.ViewHolder{
+    static class myViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView img;
         TextView nome;
+        ImageView online;
 
-        public myViewHolder(@NonNull View itemView) {
+        myViewHolder(@NonNull View itemView) {
             super(itemView);
 
             img = itemView.findViewById(R.id.imgAmigo);
-            nome= itemView.findViewById(R.id.txtAmigo);
+            nome = itemView.findViewById(R.id.txtAmigo);
+            online = itemView.findViewById(R.id.online);
         }
     }
 }

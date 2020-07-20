@@ -1,8 +1,16 @@
 package com.reobotetechnology.reobotegame.model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
+
 public class PerguntasModel {
     private int id;
     private String pergunta,questaoA,questaoB,questaoC,questaoD,questaoCorreta, questaoDica;
+
+    public PerguntasModel() {
+    }
+
 
     public PerguntasModel(int id, String pergunta, String questaoA, String questaoB, String questaoC, String questaoD, String questaoCorreta, String questaoDica) {
         this.id = id;
@@ -14,6 +22,7 @@ public class PerguntasModel {
         this.questaoCorreta = questaoCorreta;
         this.questaoDica = questaoDica;
     }
+
 
     public int getId() {
         return id;
@@ -78,4 +87,15 @@ public class PerguntasModel {
     public void setQuestaoDica(String questaoDica) {
         this.questaoDica = questaoDica;
     }
+
+    public void salvar(String partida){
+        DatabaseReference firebase = ConfiguracaoFireBase.getFirebaseDataBase();
+        firebase.child("partidas")
+                .child(partida)
+                .child("perguntas")
+                .child(String.valueOf(this.id))
+                .setValue( this );
+    }
+
+
 }

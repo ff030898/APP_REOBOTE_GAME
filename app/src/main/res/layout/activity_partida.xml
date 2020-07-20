@@ -1,261 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBranco"
     android:fillViewport="true"
-    android:background="@android:color/background_light"
-    android:scrollbars="none"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@android:color/background_light"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorBranco"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/background_light"
-            android:gravity="start"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:context=".activies.PerguntasActivity">
+            android:alpha="0.9"
+            android:background="@color/colorPrimary"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="5dp">
+                android:paddingBottom="10dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <LinearLayout
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:orientation="horizontal">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/imagem_usuario_conversa"
-                            android:layout_width="46dp"
-                            android:layout_height="46dp"
-                            android:src="@drawable/eu"
-                            android:visibility="visible"
-                            app:civ_border_color="@color/colorGreen1"
-                            app:civ_border_width="3dp" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/btn_quiz"
-                            android:gravity="center"
-                            android:text="Fabrício"
-                            android:textColor="@android:color/background_light"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btnTimer"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/btn_quiz_timer"
-                            android:gravity="center"
-                            android:text="30"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginRight="0dp"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/btn_quiz_2"
-                            android:gravity="center"
-                            android:text="Danilo"
-                            android:textColor="@android:color/background_light"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profile_image2"
-                            android:layout_width="46dp"
-                            android:layout_height="46dp"
-                            android:src="@drawable/danilo"
-                            android:visibility="visible"
-                            app:civ_border_color="@android:color/holo_red_dark"
-                            app:civ_border_width="3dp" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="15dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imagemPerfil"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/user"
+                    app:civ_border_color="@color/colorBranco"
+                    app:civ_border_width="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/txtPergunta"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginRight="0dp"
-                    android:background="@drawable/categoria_bg"
+                    android:id="@+id/txtUsuario1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:maxLength="12"
+                    android:textColor="@color/colorBranco"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/txtScorePlayer1"
+                    app:layout_constraintStart_toEndOf="@+id/imagemPerfil"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="Usuário 1" />
+
+                <TextView
+                    android:id="@+id/txtScorePlayer1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="0"
+                    android:textColor="@color/colorBranco"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imagemPerfil"
+                    app:layout_constraintTop_toBottomOf="@+id/txtUsuario1"
+                    tools:ignore="HardcodedText" />
+
+                <Button
+                    android:id="@+id/btnTimer"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_quiz_timer"
                     android:gravity="center"
-                    android:padding="20dp"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="30" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imagemPerfil2"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/user"
+                    app:civ_border_color="@color/colorBranco"
+                    app:civ_border_width="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtUsuario2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:maxLength="12"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBranco"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/txtScorePlayer2"
+                    app:layout_constraintEnd_toStartOf="@+id/imagemPerfil2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Usuario2" />
+
+                <TextView
+                    android:id="@+id/txtScorePlayer2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="0"
+                    android:textColor="@color/colorBranco"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/imagemPerfil2"
+                    app:layout_constraintTop_toBottomOf="@+id/txtUsuario2"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearPergunta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical"
+            ads:layout_constraintBottom_toTopOf="@+id/linearAlternativas"
+            ads:layout_constraintEnd_toStartOf="@+id/frameLayout"
+            ads:layout_constraintHorizontal_bias="0.5"
+            ads:layout_constraintStart_toEndOf="@+id/frameLayout"
+            ads:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+            <TextView
+                android:id="@+id/txtPergunta"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@drawable/bg_pergunta"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp">
 
                 <TextView
                     android:id="@+id/txtIndicador"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="1/10"
-                    android:textColor="@android:color/background_light"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="25dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="1/10" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearAlternativas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/background_light"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <Button
-                    android:id="@+id/btn01"
-                    android:layout_width="match_parent"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnDica"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/btn_perguntas"
-                    android:backgroundTint="#989898" />
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_ajudar_branco"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/btn02"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/btn_perguntas"
-                    android:backgroundTint="#989898" />
-
-                <Button
-                    android:id="@+id/btn03"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/btn_perguntas"
-                    android:backgroundTint="#989898" />
-
-                <Button
-                    android:id="@+id/btn04"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/btn_perguntas"
-                    android:backgroundTint="#989898"
-
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="15dp"
-                    android:weightSum="2">
-
-                    <Button
-                        android:id="@+id/btnCompartilhar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_splash"
-                        android:backgroundTint="@android:color/holo_red_dark"
-                        android:gravity="center"
-                        android:text="SAIR"
-                        android:textColor="@android:color/white"
-                        android:layout_marginRight="5dp" />
-
-                    <Button
-                        android:id="@+id/btnProximo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
-                        android:alpha="0.7"
-                        android:background="@drawable/btn_splash"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:enabled="false"
-                        android:gravity="center"
-                        android:text="PRÓXIMA"
-                        android:textColor="@android:color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
 
+        <LinearLayout
+            android:id="@+id/linearAlternativas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:orientation="vertical"
+            android:padding="15dp"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/linearPergunta">
+
+            <Button
+                android:id="@+id/btn01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_perguntas" />
+
+            <Button
+                android:id="@+id/btn02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/btn_perguntas" />
+
+            <Button
+                android:id="@+id/btn03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/btn_perguntas" />
+
+            <Button
+                android:id="@+id/btn04"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/btn_perguntas" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="25dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCompartilhar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_splash"
+                    android:backgroundTint="@android:color/holo_red_dark"
+                    android:drawableStart="@drawable/ic_exit"
+                    android:drawableLeft="@drawable/ic_exit"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:text="@string/desistir_da_partida"
+                    android:textColor="@android:color/white"
+                    tools:ignore="RtlSymmetry,UnusedAttribute" />
+
+                <Button
+                    android:id="@+id/btnProximo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:alpha="1"
+                    android:background="@drawable/btn_splash"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"
+                    tools:ignore="UnusedAttribute"
+                    tools:text="PULAR" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+
+

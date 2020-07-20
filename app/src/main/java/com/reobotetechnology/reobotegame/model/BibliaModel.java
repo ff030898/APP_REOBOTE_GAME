@@ -1,14 +1,17 @@
 package com.reobotetechnology.reobotegame.model;
 
 public class BibliaModel {
+    private int id,livro,capitulo,verso;
+    private String text;
+    private boolean selected;
 
-    private int id, testamento;
-    private String nome;
-
-    public BibliaModel(int id, int testamento, String nome) {
+    public BibliaModel(int id, int livro, int capitulo, int verso, String text, boolean selected) {
         this.id = id;
-        this.testamento = testamento;
-        this.nome = nome;
+        this.livro = livro;
+        this.capitulo = capitulo;
+        this.verso = verso;
+        this.text = text;
+        this.selected = selected;
     }
 
     public int getId() {
@@ -19,26 +22,43 @@ public class BibliaModel {
         this.id = id;
     }
 
-    public int getTestamento() {
-        return testamento;
+    public int getLivro() {
+        return livro;
     }
 
-    public void setTestamento(int testamento) {
-        this.testamento = testamento;
+    public void setLivro(int livro) {
+        this.livro = livro;
     }
 
-    public String getNome() {
-        return nome;
+    public int getCapitulo() {
+        return capitulo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setCapitulo(int capitulo) {
+        this.capitulo = capitulo;
     }
 
-    @Override
-    public String toString() {
-        return "BibliaModel{" +
-                "nome='" + nome + '\'' +
-                '}';
+    public int getVerso() {
+        return verso;
+    }
+
+    public void setVerso(int verso) {
+        this.verso = verso;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

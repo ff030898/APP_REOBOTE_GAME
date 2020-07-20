@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ChatActivity">
+    tools:context=".ui.chat.ChatActivity">
 
    <FrameLayout
        android:layout_width="match_parent"
@@ -14,13 +14,14 @@
            android:layout_width="match_parent"
            android:layout_height="?attr/actionBarSize"
            android:background="?attr/colorPrimary"
+           android:alpha="0.9"
            tools:targetApi="lollipop">
 
        <de.hdodenhof.circleimageview.CircleImageView
            android:id="@+id/imagemUsuarioConversa"
            android:layout_width="42dp"
            android:layout_height="42dp"
-           android:src="@drawable/eu"/>
+           android:src="@drawable/user"/>
 
            <LinearLayout
                android:layout_width="wrap_content"
@@ -35,7 +36,7 @@
                    android:textStyle="bold"
                    android:textSize="16sp"
                    android:layout_marginLeft="15dp"
-                   android:text="Fabrício Ferreira"
+                   tools:text="Nome do Usuário"
                    android:layout_marginStart="15dp" />
 
                <androidx.appcompat.widget.AppCompatTextView
@@ -44,7 +45,7 @@
                    android:textColor="@color/colorBranco"
                    android:textSize="13sp"
                    android:layout_marginLeft="15dp"
-                   android:text="Online"
+                   android:text="@string/online"
                    android:layout_marginStart="15dp" />
            </LinearLayout>
 

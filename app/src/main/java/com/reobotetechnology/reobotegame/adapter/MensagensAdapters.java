@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.MensagensModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,8 +38,23 @@ public class MensagensAdapters extends RecyclerView.Adapter<MensagensAdapters.my
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
       MensagensModel m = lista.get(position);
-      holder.imagem_usuario_conversa.setImageResource(m.getEnvia().getImg());
-      holder.nome_usuario_conversa.setText(m.getEnvia().getNome());
+      String nome = m.getEnvia().getNome();
+      holder.nome_usuario_conversa.setText(nome);
+        try{
+            if(nome.equals("Reobote Technology")){
+                Picasso.get().load(R.drawable.reobote).into(holder.imagem_usuario_conversa);
+            }else {
+                if (m.getEnvia().getImagem().isEmpty()) {
+                    Picasso.get().load(R.drawable.user).into(holder.imagem_usuario_conversa);
+                } else {
+                    Picasso.get().load(m.getEnvia().getImagem()).into(holder.imagem_usuario_conversa);
+                }
+            }
+
+        }catch (Exception e){
+            Picasso.get().load(R.drawable.user).into(holder.imagem_usuario_conversa);
+        }
+
       holder.usuario_conversa_hora.setText(""+m.getHora());
       holder.usuario_conversa_texto.setText(m.getTexto());
       holder.usuario_conversa_qtd.setText(""+m.getId());
