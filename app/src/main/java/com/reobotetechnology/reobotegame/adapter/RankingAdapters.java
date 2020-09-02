@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +21,7 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 import java.util.Objects;
@@ -63,12 +64,28 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
 
         try {
             if (usuarioModel.getImagem().isEmpty()) {
-                Picasso.get().load(R.drawable.user).into(holder.img);
+
+                Glide
+                        .with(context)
+                        .load(R.drawable.user)
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .into(holder.img);
             } else {
-                Picasso.get().load(usuarioModel.getImagem()).into(holder.img);
+                Glide
+                        .with(context)
+                        .load(usuarioModel.getImagem())
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .into(holder.img);
             }
         } catch (Exception e) {
-            Picasso.get().load(R.drawable.user).into(holder.img);
+            Glide
+                    .with(context)
+                    .load(R.drawable.user)
+                    .centerCrop()
+                    .placeholder(R.drawable.user)
+                    .into(holder.img);
         }
 
         if (tipo == 0) {

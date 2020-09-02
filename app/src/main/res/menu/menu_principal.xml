@@ -6,7 +6,7 @@
         android:id="@+id/menu_notificacoes"
         android:orderInCategory="100"
         android:title="@string/notifica_es"
-        app:actionLayout="@layout/custom_action_item_layout"
+        app:actionLayout="@layout/badges_notifications"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_notifications_black_24dp"/>
 

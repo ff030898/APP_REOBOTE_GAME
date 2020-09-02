@@ -12,6 +12,7 @@
     <color name="colorGreen1">#247b37</color>
     <color name="colorBranco">#fff</color>
     <color name="colorPreto">#000</color>
+    <color name="colorWarning">#df7f00</color>
 
     <array name="rainbow">
         <item>@color/colorPrimary</item>

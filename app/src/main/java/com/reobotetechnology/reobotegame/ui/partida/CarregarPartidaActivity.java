@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +45,7 @@ import com.reobotetechnology.reobotegame.model.PerguntasModel;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
-import com.squareup.picasso.Picasso;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -346,14 +347,32 @@ public class CarregarPartidaActivity extends AppCompatActivity {
         try {
 
             if (user.getPhotoUrl() == null) {
-                Picasso.get().load(R.drawable.user).into(imagemPerfil);
+
+                Glide
+                        .with(getApplicationContext())
+                        .load(R.drawable.user)
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .into(imagemPerfil);
             } else {
-                Picasso.get().load(user.getPhotoUrl()).into(imagemPerfil);
+
+                Glide
+                        .with(getApplicationContext())
+                        .load(user.getPhotoUrl())
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .into(imagemPerfil);
             }
 
         } catch (Exception e) {
-            Picasso.get().load(R.drawable.user).into(imagemPerfil);
-            Picasso.get().load(R.drawable.user).into(imagemPerfil2);
+            Glide
+                    .with(getApplicationContext())
+                    .load(R.drawable.user)
+                    .centerCrop()
+                    .placeholder(R.drawable.user)
+                    .into(imagemPerfil);
+
+
         }
 
     }
@@ -378,13 +397,28 @@ public class CarregarPartidaActivity extends AppCompatActivity {
                     imagem = usuarioModel.getImagem();
 
                     if (imagem.isEmpty()) {
-                        Picasso.get().load(R.drawable.user).into(imagemPerfil2);
+                        Glide
+                                .with(getApplicationContext())
+                                .load(R.drawable.user)
+                                .centerCrop()
+                                .placeholder(R.drawable.user)
+                                .into(imagemPerfil2);
                     } else {
-                        Picasso.get().load(imagem).into(imagemPerfil2);
+
+                        Glide
+                                .with(getApplicationContext())
+                                .load(imagem)
+                                .centerCrop()
+                                .placeholder(R.drawable.user)
+                                .into(imagemPerfil2);
                     }
                 } catch (Exception e) {
-                    Picasso.get().load(R.drawable.user).into(imagemPerfil);
-                    Picasso.get().load(R.drawable.user).into(imagemPerfil2);
+                    Glide
+                            .with(getApplicationContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .placeholder(R.drawable.user)
+                            .into(imagemPerfil2);
                 }
 
             }
@@ -730,6 +764,7 @@ public class CarregarPartidaActivity extends AppCompatActivity {
             } else {
                 notification.setFromImage("");
             }
+            notification.setView(false);
             DatabaseReference usuarioRef = firebaseRef.child("notifications");
             usuarioRef.child(idUsuario2).setValue(notification);
 

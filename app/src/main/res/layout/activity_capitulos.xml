@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="#fff"
-    tools:context=".ui.biblia_capitulos.CapitulosActivity">
+    tools:context=".ui.biblia.biblia_capitulos.CapitulosActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCapitulos"

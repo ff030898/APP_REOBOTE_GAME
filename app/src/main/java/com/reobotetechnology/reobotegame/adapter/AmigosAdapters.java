@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,14 +45,17 @@ public class AmigosAdapters extends RecyclerView.Adapter<AmigosAdapters.myViewHo
         try{
 
             if(usuarioModel.getImagem().isEmpty()){
-                //Picasso.get().load(R.drawable.user).into(holder.img);
                 holder.img.setImageResource(R.drawable.user);
             }else {
-                Picasso.get().load(usuarioModel.getImagem()).into(holder.img);
-                //holder.img.setImageResource(usuarioModel.getImagem());
+                Glide
+                        .with(context)
+                        .load(usuarioModel.getImagem())
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .into(holder.img);
+
             }
         }catch (Exception e){
-            //Picasso.get().load(R.drawable.user).into(holder.img);
             holder.img.setImageResource(R.drawable.user);
         }
 

@@ -5,13 +5,15 @@
     <string name="versiculo">
         E partiu dali, e cavou outro poço, e não porfiaram sobre ele; por isso chamou-o Reobote, e disse: Porque agora nos alargou o Senhor, e crescemos nesta terra.\n
     </string>
+    <string name="verso_cap_livro">
+        Gênesis 26:22
+    </string>
     <string name="palavra_de_hoje">PALAVRA DE HOJE</string>
     <string name="b_blia">Bíblia</string>
     <string name="bem_vindo_de_volta">BEM VINDO DE VOLTA</string>
     <string name="informe_os_dados_abaixo_para_efetuar_o_cadastro">Informe os dados abaixo para efetuar o cadastro</string>
     <string name="informe_os_dados_abaixo_para_efetuar_o_login">Informe os dados abaixo para efetuar o login</string>
     <string name="bem_vindo_ao_reobote_game">BEM VINDO AO REOBOTE GAME</string>
-    <string name="li_e_concordo_com_os_termos">Li e concordo com os termos</string>
     <string name="texto_email">Enviaremos um código de recuperação
         para o seu email ex***@mail.com</string>
     <string name="txt_senha">RECUPERAR SENHA</string>
@@ -22,17 +24,9 @@
     <string name="j_tem_conta_login">Já tem conta? Login</string>
     <string name="facebook_app_id">247257450044944</string>
     <string name="fb_login_protocol_scheme">fb247257450044944</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Home</string>
-
-
     <string name="title_activity_home">HomeActivity</string>
     <string name="ranking">Ranking</string>
     <string name="seguindo">SEGUINDO</string>
@@ -74,7 +68,7 @@
     <string name="pr_xima">PRÓXIMA</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="pesquisar">Pesquisar</string>
+
     <string name="default_notification_channel_id">fcm_default_channel</string>
     <string name="ooh_n_o">OOH NÃO!</string>
     <string name="vamos_jogar">VAMOS JOGAR?</string>
@@ -94,5 +88,33 @@
     <string name="configura_es">Configurações</string>
     <string name="logoff">Logoff</string>
     <string name="sair2">Sair</string>
+    <string name="ganhar_10_pontos">GANHAR +10 PONTOS</string>
+    <string name="continuar_com_email">CONTINUAR COM EMAIL</string>
+    <string name="n_o_h_novas_notifica_es">NÃO HÁ NOVAS NOTIFICAÇÕES!</string>
+    <string name="continuar_com_o_google">Continuar com o google</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="pular">PULAR</string>
+    <string name="escolha_uma_foto_de_perfil">ESCOLHA UMA FOTO DE PERFIL</string>
+    <string name="preencha_os_dados_abaixo">Preencha os dados abaixo:</string>
+    <string name="bem_vindo">Bem vindo</string>
+    <string name="ou">OU</string>
+    <string name="j_tem_conta_entrar">Já tem conta? Entrar</string>
+    <string name="finalizar">FINALIZAR</string>
+    <string name="entrar">Entrar</string>
+    <string name="esqueceu_sua_senha">Esqueceu sua senha?</string>
+    <string name="não_tem_conta">Não tem conta? Cadastrar</string>
+    <string name="pesquisar">Pesquisar Livros</string>
+    <string name="title_activity_main_teste">MainTesteActivity</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="o_melhor_jogo">O melhor jogo online da bíblia para você e seus amigos se divertirem e aprenderem juntos de uma forma divertida. Junte-se agora é simples e rápido.</string>
+    <string name="concorda">Ao clicar em continuar você concorda com as</string>
+    <string name="regras_e_termos_de_uso">Regras e termos de uso</string>
+    <string name="recuperar_senha2">Recuperar Senha</string>
+    <string name="salvar_altera_es">SALVAR ALTERAÇÕES</string>
+
 
 </resources>
+
+

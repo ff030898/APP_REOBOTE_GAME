@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,7 +56,7 @@ import com.reobotetechnology.reobotegame.model.PerguntasModel;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
-import com.squareup.picasso.Picasso;
+import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,10 +213,33 @@ public class PartidaActivity extends AppCompatActivity {
                 if (cronometro > 2) {
                     String dica = list.get(position).getQuestaoDica();
                     if (dica.isEmpty()) {
-                        alert("Ainda não cadastrei dica para essa pergunta. Tente na próxima pergunta");
-                        //COLOCAR MODAR DE DICAS
+
+                        Alerter.create(PartidaActivity.this)
+                                .setTitle("Dica")
+                                .setText("Ainda não cadastrei dica para essa pergunta. Tente na próxima pergunta")
+                                .setDuration(5000)
+                                .setBackgroundColorRes(R.color.colorPrimary)
+                                .setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Alerter.hide();
+                                    }
+                                })
+                                .show();
                     } else {
-                        alert(list.get(position).getQuestaoDica());
+
+                        Alerter.create(PartidaActivity.this)
+                                .setTitle("Dica")
+                                .setText(list.get(position).getQuestaoDica())
+                                .setDuration(5000)
+                                .setBackgroundColorRes(R.color.colorPrimary)
+                                .setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Alerter.hide();
+                                    }
+                                })
+                                .show();
                     }
                 }
             }
@@ -241,23 +265,60 @@ public class PartidaActivity extends AppCompatActivity {
                 try {
 
                     if (usuario2Model.getImagem().isEmpty()) {
-                        Picasso.get().load(R.drawable.user).into(imagemPerfil);
+                        Glide
+                                .with(getApplicationContext())
+                                .load(R.drawable.user)
+                                .centerCrop()
+                                .placeholder(R.drawable.user)
+                                .into(imagemPerfil);
+
                     } else {
-                        Picasso.get().load(usuario2Model.getImagem()).into(imagemPerfil);
+
+                        Glide
+                                .with(getApplicationContext())
+                                .load(usuario2Model.getImagem())
+                                .centerCrop()
+                                .placeholder(R.drawable.user)
+                                .into(imagemPerfil);
                     }
 
                     if (imagem.isEmpty()) {
                         if (nomeJogador2.equals("Reobote")) {
-                            Picasso.get().load(R.drawable.reobote).into(imagemPerfil2);
+                            Glide
+                                    .with(getApplicationContext())
+                                    .load(R.drawable.reobote)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.user)
+                                    .into(imagemPerfil2);
                         } else {
-                            Picasso.get().load(R.drawable.user).into(imagemPerfil2);
+                            Glide
+                                    .with(getApplicationContext())
+                                    .load(R.drawable.user)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.user)
+                                    .into(imagemPerfil2);
                         }
                     } else {
-                        Picasso.get().load(imagem).into(imagemPerfil2);
+                        Glide
+                                .with(getApplicationContext())
+                                .load(imagem)
+                                .centerCrop()
+                                .placeholder(R.drawable.user)
+                                .into(imagemPerfil2);
                     }
                 } catch (Exception e) {
-                    Picasso.get().load(R.drawable.user).into(imagemPerfil);
-                    Picasso.get().load(R.drawable.user).into(imagemPerfil2);
+                    Glide
+                            .with(getApplicationContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .placeholder(R.drawable.user)
+                            .into(imagemPerfil);
+                    Glide
+                            .with(getApplicationContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .placeholder(R.drawable.user)
+                            .into(imagemPerfil2);
                 }
 
             }
@@ -598,6 +659,19 @@ public class PartidaActivity extends AppCompatActivity {
             selectedOption.setBackgroundTintList(ColorStateList.valueOf(0xFF4CAF50));
             selectedOption.setTextColor(ColorStateList.valueOf(0xff000000));
             acertos.setText("" + score);
+            Alerter.create(PartidaActivity.this)
+                    .setTitle("Obaa...")
+                    .setText("Parabéns, você acertou!")
+                    .setIcon(R.drawable.ic_success)
+                    .setDuration(2000)
+                    .setBackgroundColorRes(R.color.colorGreen1)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Alerter.hide();
+                        }
+                    })
+                    .show();
 
         } else {
 
@@ -610,6 +684,20 @@ public class PartidaActivity extends AppCompatActivity {
             Button corretaOption = linearAlternativas.findViewWithTag(list.get(position).getQuestaoCorreta());
             corretaOption.setBackgroundTintList(ColorStateList.valueOf(0xFF4CAF50));
             corretaOption.setTextColor(ColorStateList.valueOf(0xff000000));
+
+            Alerter.create(PartidaActivity.this)
+                    .setTitle("Oops...")
+                    .setText("Oh não, você errou!")
+                    .setIcon(R.drawable.ic_erro)
+                    .setDuration(2000)
+                    .setBackgroundColorRes(R.color.colorRed1)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Alerter.hide();
+                        }
+                    })
+                    .show();
         }
 
 
@@ -617,7 +705,6 @@ public class PartidaActivity extends AppCompatActivity {
 
             int numero = new Random().nextInt(5);
             if (numero <= 2) {
-                //Depois que tiver online descomentar o código
                 scoreJogador2++;
                 acertos2.setText("" + scoreJogador2);
             }
@@ -636,7 +723,7 @@ public class PartidaActivity extends AppCompatActivity {
                 jogando(true);
 
             }
-        }, 4000);
+        }, 2000);
 
 
     }
@@ -703,7 +790,7 @@ public class PartidaActivity extends AppCompatActivity {
                             try {
                                 boolean foregroud = new ChecarSegundoPlano().execute(getApplicationContext()).get();
                                 if (foregroud) {
-                                    modalTempo();
+                                    expiredTimer();
                                 }
 
                             } catch (ExecutionException e) {
@@ -728,7 +815,7 @@ public class PartidaActivity extends AppCompatActivity {
     //Modal de Aviso (Tempo Esgotado) *Provisória*
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("InflateParams")
-    public void modalTempo() {
+    public void expiredTimer() {
 
         try {
             tempo.cancel();
@@ -736,64 +823,47 @@ public class PartidaActivity extends AppCompatActivity {
             long milliseconds = 1000;
             assert vibrator != null;
             vibrator.vibrate(milliseconds);
-            timerDIalog = new Dialog(this);
-            timerDIalog.setContentView(R.layout.modal_timer);
 
-            cardTimer = timerDIalog.findViewById(R.id.cardTimer);
-            cardTimer.startAnimation(modal_anima);
-            btnModal = timerDIalog.findViewById(R.id.btnTimer);
-
-
-            Objects.requireNonNull(timerDIalog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            timerDIalog.setCancelable(false);
-
-            timerDIalog.show();
             enabledOption(false);
 
+            Alerter.create(this)
+                    .setTitle("Oops...")
+                    .setText("TEMPO ESGOTADO!")
+                    .setIcon(R.drawable.ic_tempo)
+                    .setDuration(2000)
+                    .setBackgroundColorRes(R.color.colorWarning)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Alerter.hide();
+                        }
+                    })
+                    .show();
 
             if (!txtUsuario2.getText().equals("Reobote")) {
-                btnModal.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-                    @Override
-                    public void onClick(View v) {
-                        timerDIalog.dismiss();
-                        enabledOption(false);
-                    }
-                });
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        timerDIalog.dismiss();
+                        enabledOption(false);
                         recuperarPontosJogador2();
-                        enabledOption(true);
                         nextPergunta();
-
                     }
-                }, 4000);
+                }, 2000);
 
             } else {
 
-                btnModal.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-                    @Override
-                    public void onClick(View v) {
-                        timerDIalog.dismiss();
-                    }
-                });
 
                 new Handler().postDelayed(new Runnable() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
-                        timerDIalog.dismiss();
+                        enabledOption(false);
                         scoreJogador2++;
                         acertos2.setText("" + scoreJogador2);
                         nextPergunta();
-
                     }
-                }, 4000);
+                }, 2000);
             }
 
         } catch (Exception e) {
@@ -925,6 +995,10 @@ public class PartidaActivity extends AppCompatActivity {
         jogando(false);
         Intent i = new Intent(getApplicationContext(), FinalizarPartidaActivity.class);
         i.putExtra("resultado", resultado);
+        i.putExtra("pontos", score);
+        i.putExtra("jogador2", nomeJogador2);
+        i.putExtra("imagem", imagem);
+        i.putExtra("pontos2", scoreJogador2);
         startActivity( i );
         finish();
 
@@ -941,10 +1015,7 @@ public class PartidaActivity extends AppCompatActivity {
 
     }
 
-    //Método responsável por exibir um Alert Toast
-    private void alert(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

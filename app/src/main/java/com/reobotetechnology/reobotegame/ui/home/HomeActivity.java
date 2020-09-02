@@ -2,54 +2,40 @@ package com.reobotetechnology.reobotegame.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
 import android.os.Bundle;
-
-import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
+import com.bumptech.glide.Glide;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.adapter.RankingAdapters;
 import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.UserOnline;
 import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.reobotetechnology.reobotegame.ui.amigos_list.AmigosActivity;
+import com.reobotetechnology.reobotegame.ui.amigos.amigos_list.AmigosActivity;
 import com.reobotetechnology.reobotegame.ui.configuraçoes.ConfiguracoesActivity;
 import com.reobotetechnology.reobotegame.ui.main.WelcomeActivity;
 import com.reobotetechnology.reobotegame.ui.notificações.NotificacoesActivity;
-import com.reobotetechnology.reobotegame.ui.partida.CarregarPartidaActivity;
 import com.reobotetechnology.reobotegame.ui.perfil.PerfilActivity;
-import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
-import com.squareup.picasso.Picasso;
+import com.tapadoo.alerter.Alerter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.Constraints;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -57,13 +43,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -74,7 +54,6 @@ public class HomeActivity extends AppCompatActivity {
 
     CircleImageView imagemUsuarioMenu;
     TextView txtUsuarioMenu, txtEmailMenu;
-
 
     private FirebaseAuth autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
     private FirebaseUser user;
@@ -138,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
 
         String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(autenticacao.getCurrentUser()).getEmail()));
 
-        DatabaseReference usuarioRef = firebaseRef.child("notifications").child(idUsuario);
+        final DatabaseReference usuarioRef = firebaseRef.child("notifications").child(idUsuario);
 
         usuarioRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -153,12 +132,28 @@ public class HomeActivity extends AppCompatActivity {
 
                     if (notification.getTipo().equals("partida")) {
 
-                        String idUsuario = Base64Custom.decodificarBase64(notification.getFromId());
-                        String idExcluir = notification.getToId();
-                        mNotificationsCount = 1;
+                        mNotificationsCount++;
                         setupBadge();
-                        modalConvite(notification.getFromName(), notification.getIdPartida(), idUsuario, idExcluir, notification.getFromImage());
+                        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        long milliseconds = 1000;
+                        assert vibrator != null;
+                        vibrator.vibrate(milliseconds);
 
+                        Alerter.create(HomeActivity.this)
+                                .setTitle("CONVITE")
+                                .setText("O Jogador: "+notification.getFromName()+" está te desafiando para uma partida online!")
+                                .setDuration(10000)
+                                .setBackgroundColorRes(R.color.colorWarning)
+                                .setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mNotificationsCount = 0;
+                                        setupBadge();
+                                        startActivity(new Intent(getApplicationContext(), NotificacoesActivity.class));
+                                        Alerter.hide();
+                                    }
+                                })
+                                .show();
                     }
 
 
@@ -180,111 +175,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @SuppressLint("SetTextI18n")
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void modalConvite(final String nome, final String idPartida, final String email, final String idExcluir, final String imagem) {
-
-
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.modal_convidar, null);
-        alertDialog.setCancelable(false);
-
-        final CircleImageView img_jogador_invite = mView.findViewById(R.id.img_jogador_invite);
-        final Button btnAceitar = mView.findViewById(R.id.btnAceitar);
-        final Button btnRecusar = mView.findViewById(R.id.btnRecusar);
-        final TextView txtConvite = mView.findViewById(R.id.txtDescJogador);
-        txtConvite.setText("O jogador(a): " + nome + " está te convidando para jogar uma partida online.\n\nDeseja aceitar o desafio?");
-
-        try {
-            if (imagem.isEmpty()) {
-                //Picasso.get().load(R.drawable.user).into(holder.img);
-                img_jogador_invite.setImageResource(R.drawable.user);
-            } else {
-                Picasso.get().load(imagem).into(img_jogador_invite);
-            }
-        } catch (Exception e) {
-            img_jogador_invite.setImageResource(R.drawable.user);
-        }
-
-        alertDialog.setView(mView);
-        final AlertDialog alert = alertDialog.create();
-        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
-        alert.getWindow().setLayout(Constraints.LayoutParams.WRAP_CONTENT, Constraints.LayoutParams.WRAP_CONTENT);
-        InsetDrawable inset = new InsetDrawable(back, 130);
-        Objects.requireNonNull(alert.getWindow()).setBackgroundDrawable(inset);
-        alert.show();
-
-            btnAceitar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-
-                        DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
-
-                        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                try {
-
-                                    String desconectado = Objects.requireNonNull(dataSnapshot.child("desconectado").getValue()).toString();
-
-                                    if (desconectado.equals("true")) {
-                                        Toast.makeText(getApplicationContext(), "OOH NÃO!\nO jogador(a) " + nome + " desistiu da partida", Toast.LENGTH_LONG).show();
-                                        alert.dismiss();
-                                    } else {
-
-                                        DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
-                                        usuarioRef.child("aceito").setValue(true);
-                                        DatabaseReference usuarioRef2 = firebaseRef.child("notifications");
-                                        usuarioRef2.child(idExcluir).removeValue();
-                                        Intent intent = new Intent(getApplicationContext(), CarregarPartidaActivity.class);
-                                        intent.putExtra("token", "");
-                                        intent.putExtra("email", email);
-                                        intent.putExtra("convidado", "sim");
-                                        intent.putExtra("idPartida", idPartida);
-                                        startActivity(intent);
-                                        finish();
-                                        alert.dismiss();
-                                    }
-
-                                } catch (Exception e) {
-
-
-                                }
-
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-
-                    } catch (Exception e) {
-
-                    }
-
-                }
-            });
-
-            btnRecusar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
-                    usuarioRef.child("recusado").setValue(true);
-                    DatabaseReference usuarioRef2 = firebaseRef.child("notifications");
-                    usuarioRef2.child(idExcluir).removeValue();
-                    alert.dismiss();
-                }
-            });
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -335,11 +225,6 @@ public class HomeActivity extends AppCompatActivity {
 
         } else if (item.getItemId() == R.id.menu_logoff) {
 
-            /*if (user != null) {
-                String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(user.getEmail())));
-                DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
-                usuarioRef.child("online").setValue(false);
-            }*/
             autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
             autenticacao.signOut();
             startActivity(new Intent(this, WelcomeActivity.class));
@@ -399,12 +284,29 @@ public class HomeActivity extends AppCompatActivity {
             try {
 
                 if (user.getPhotoUrl() == null) {
-                    Picasso.get().load(R.drawable.user).into(imagemUsuarioMenu);
+
+                    Glide
+                            .with(getApplicationContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .placeholder(R.drawable.user)
+                            .into(imagemUsuarioMenu);
                 } else {
-                    Picasso.get().load(user.getPhotoUrl()).into(imagemUsuarioMenu);
+
+                    Glide
+                            .with(getApplicationContext())
+                            .load(user.getPhotoUrl())
+                            .centerCrop()
+                            .placeholder(R.drawable.user)
+                            .into(imagemUsuarioMenu);
                 }
             } catch (Exception e) {
-                Picasso.get().load(R.drawable.user).into(imagemUsuarioMenu);
+                Glide
+                        .with(getApplicationContext())
+                        .load(R.drawable.user)
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .into(imagemUsuarioMenu);
             }
 
             txtUsuarioMenu.setText(user.getDisplayName());

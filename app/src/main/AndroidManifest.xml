@@ -5,20 +5,41 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".helper.UserOnline"
         android:allowBackup="true"
         android:icon="@mipmap/ic_icone2"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_icone2"
         android:supportsRtl="true"
-        android:name=".helper.UserOnline"
-        android:theme="@style/AppTheme3">
+        android:theme="@style/AppTheme3"
+        tools:ignore="AllowBackup">
+        <activity android:name=".ui.teste.TesteActivity" android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.biblia.biblia_livros.ListBibliaGrid" />
+        <activity android:name=".ui.main.selected_image.ProfileActivity" />
         <activity
             android:name=".ui.partida.RegrasActivity"
-            android:theme="@style/AppTheme2"/>
+            android:theme="@style/AppTheme2" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -42,7 +63,6 @@
         <activity
             android:name=".ui.partida.FinalizarPartidaActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.home.HomeActivity"
@@ -51,7 +71,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.editar_perfil.EditarPerfilActivity"
+            android:name=".ui.perfil.editar_perfil.EditarPerfilActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
@@ -65,7 +85,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.amigos_profile.Amigos_PerfilActivity"
+            android:name=".ui.amigos.amigos_profile.Amigos_PerfilActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
@@ -74,17 +94,17 @@
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.biblia_versiculos.VersiculosActivity"
+            android:name=".ui.biblia.biblia_versiculos.VersiculosActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.biblia_capitulos.CapitulosActivity"
+            android:name=".ui.biblia.biblia_capitulos.CapitulosActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.biblia.BibliaActivity"
+            android:name=".ui.biblia.biblia_toda.BibliaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
@@ -96,7 +116,6 @@
         <activity
             android:name=".ui.blog.PostActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.termos.TermosActivity"
@@ -104,11 +123,11 @@
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.amigos_list.AmigosActivity"
+            android:name=".ui.amigos.amigos_list.AmigosActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ui.chat.ChatActivity" />
+        <activity android:name=".ui.amigos.chat.ChatActivity" />
         <activity
             android:name=".ui.notificações.NotificacoesActivity"
             android:screenOrientation="portrait"
@@ -125,21 +144,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.esqueceu_senha.EsqueceuSenhaActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.cadastro.CadastroActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme2"
-            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".ui.esqueceu_senha.EsqueceuSenhaActivity" />
+        <activity android:name=".ui.main.cadastro.CadastroActivity" />
+        <activity android:name=".ui.main.login.LoginActivity" />
         <activity
             android:name=".ui.configuraçoes.ConfiguracoesActivity"
             android:screenOrientation="portrait"
@@ -150,29 +157,34 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
 
-        <service
-            android:name=".service.MyFirebaseMessagingService">
+        <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_partida" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
     </application>
 
 </manifest>

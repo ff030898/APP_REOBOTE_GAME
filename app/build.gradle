@@ -58,14 +58,22 @@ dependencies {
     implementation 'com.google.android.gms:play-services-identity:17.0.0'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     implementation 'com.google.android.gms:play-services-wallet:18.0.0'
-    //Picasso Tratamento de imagens
-    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Glide Tratamento de imagens
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 
     //arredondando imagem
     implementation 'com.makeramen:roundedimageview:2.3.0'
+
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    //Alert Customer
+    implementation 'com.tapadoo.android:alerter:2.0.6'
+
+    //CompressImage
+    implementation 'com.github.yalantis:ucrop:2.2.6'
 
 
 }

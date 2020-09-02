@@ -6,13 +6,13 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+
+import com.bumptech.glide.Glide;
 import com.reobotetechnology.reobotegame.R;
-import com.squareup.picasso.Picasso;
+
 
 public class VisualizarImagemActivity extends AppCompatActivity {
 
@@ -44,16 +44,39 @@ public class VisualizarImagemActivity extends AppCompatActivity {
         txtNomeImagem.setText(nome);
         try{
             if(nome.equals("Reobote Technology")){
-                Picasso.get().load(R.drawable.reobote).into(imagemUsuario);
+
+                Glide
+                        .with(getApplicationContext())
+                        .load(R.drawable.reobote)
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .into(imagemUsuario);
             }else {
                 if (imagem.isEmpty()) {
-                    Picasso.get().load(R.drawable.user).into(imagemUsuario);
+
+                    Glide
+                            .with(getApplicationContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .placeholder(R.drawable.user)
+                            .into(imagemUsuario);
                 } else {
-                    Picasso.get().load(imagem).into(imagemUsuario);
+
+                    Glide
+                            .with(getApplicationContext())
+                            .load(imagem)
+                            .centerCrop()
+                            .placeholder(R.drawable.user)
+                            .into(imagemUsuario);
                 }
             }
         }catch (Exception e){
-            Picasso.get().load(R.drawable.user).into(imagemUsuario);
+            Glide
+                    .with(getApplicationContext())
+                    .load(R.drawable.user)
+                    .centerCrop()
+                    .placeholder(R.drawable.user)
+                    .into(imagemUsuario);
         }
 
 

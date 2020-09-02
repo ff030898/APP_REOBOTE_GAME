@@ -9,12 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,10 +26,10 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.reobotetechnology.reobotegame.ui.amigos_list.AmigosActivity;
-import com.reobotetechnology.reobotegame.ui.editar_perfil.EditarPerfilActivity;
+import com.reobotetechnology.reobotegame.ui.amigos.amigos_list.AmigosActivity;
+import com.reobotetechnology.reobotegame.ui.perfil.editar_perfil.EditarPerfilActivity;
 import com.reobotetechnology.reobotegame.ui.visualizar_imagens.VisualizarImagemActivity;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.Objects;
 
@@ -113,13 +113,30 @@ public class PerfilActivity extends AppCompatActivity {
                         try{
 
                             if(user.getImagem().isEmpty()){
-                                Picasso.get().load(R.drawable.user).into(imagemPerfil);
+
+                                Glide
+                                        .with(getApplicationContext())
+                                        .load(R.drawable.user)
+                                        .centerCrop()
+                                        .placeholder(R.drawable.user)
+                                        .into(imagemPerfil);
                             }else {
-                                Picasso.get().load(user.getImagem()).into(imagemPerfil);
+
                                 imagem = user.getImagem();
+                                Glide
+                                        .with(getApplicationContext())
+                                        .load(imagem)
+                                        .centerCrop()
+                                        .placeholder(R.drawable.user)
+                                        .into(imagemPerfil);
                             }
                         }catch (Exception e){
-                            Picasso.get().load(R.drawable.user).into(imagemPerfil);
+                            Glide
+                                    .with(getApplicationContext())
+                                    .load(R.drawable.user)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.user)
+                                    .into(imagemPerfil);
                         }
                     }
                 }

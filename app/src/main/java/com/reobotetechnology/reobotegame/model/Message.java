@@ -6,6 +6,8 @@ public class Message {
     private long timestamp;
     private String fromId;
     private String toId;
+    private boolean view;
+
 
     public String getText() {
         return text;
@@ -37,5 +39,13 @@ public class Message {
 
     public void setToId(String toId) {
         this.toId = toId;
+    }
+
+    public boolean isView() {
+        return view;
+    }
+
+    public void setView(boolean view) {
+        this.view = view;
     }
 }

@@ -33,7 +33,7 @@ import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.MensagensModel;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.reobotetechnology.reobotegame.ui.chat.ChatActivity;
+import com.reobotetechnology.reobotegame.ui.amigos.chat.ChatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -7,11 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +24,24 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.RankingAdapters;
 import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.reobotetechnology.reobotegame.ui.amigos_profile.Amigos_PerfilActivity;
+import com.reobotetechnology.reobotegame.ui.amigos.amigos_profile.Amigos_PerfilActivity;
 import com.reobotetechnology.reobotegame.ui.perfil.PerfilActivity;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RankingFragment extends Fragment {
 
@@ -103,6 +106,7 @@ public class RankingFragment extends Fragment {
         ConstraintUsuarioLogado.setVisibility(View.GONE);
 
         btnGeral.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 listarUsuarios(0);
@@ -110,6 +114,7 @@ public class RankingFragment extends Fragment {
         });
 
         btnSeguidores.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 listarUsuarios(1);
@@ -117,6 +122,7 @@ public class RankingFragment extends Fragment {
         });
 
         btnSeguindo.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 listarUsuarios(2);
@@ -124,6 +130,7 @@ public class RankingFragment extends Fragment {
         });
 
         btnHoje.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 listarUsuarios(3);
@@ -230,186 +237,209 @@ public class RankingFragment extends Fragment {
                 )
         );
 
-        /*swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onStart();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });*/
 
         return root;
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void listarUsuarios(final int tipo) {
 
-        adapterRanking = new RankingAdapters(listaRanking, getActivity(), 0);
+        try {
 
-        //RecyclerRanking
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerJogadores.setLayoutManager(layoutManager);
-        recyclerJogadores.setHasFixedSize(true);
-        recyclerJogadores.setAdapter(adapterRanking);
+            adapterRanking = new RankingAdapters(listaRanking, getActivity(), 0);
 
-        String select = "pontosG";
+            //RecyclerRanking
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerJogadores.setLayoutManager(layoutManager);
+            recyclerJogadores.setHasFixedSize(true);
+            recyclerJogadores.setAdapter(adapterRanking);
 
-        if (tipo == 0) {
-            select = "pontosG";
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
-                btnGeral.setTextColor(ColorStateList.valueOf(0xFFffffff));
-                btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnSeguindo.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnSeguidores.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnHoje.setTextColor(ColorStateList.valueOf(0xFF000000));
+            String select = "pontosG";
 
+            if (tipo == 0) {
+                select = "pontosG";
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
+                    btnGeral.setTextColor(ColorStateList.valueOf(0xFFffffff));
+                    btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnSeguindo.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnSeguidores.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnHoje.setTextColor(ColorStateList.valueOf(0xFF000000));
+
+                }
+
+            } else if (tipo == 1) {
+                //select = "pontosM";
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnGeral.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnSeguindo.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
+                    btnSeguidores.setTextColor(ColorStateList.valueOf(0xFFffffff));
+                    btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnHoje.setTextColor(ColorStateList.valueOf(0xFF000000));
+
+                }
+            } else if (tipo == 2) {
+                //select = "pontosS";
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnGeral.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
+                    btnSeguindo.setTextColor(ColorStateList.valueOf(0xFFffffff));
+                    btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnSeguidores.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnHoje.setTextColor(ColorStateList.valueOf(0xFF000000));
+                }
+
+            } else if (tipo == 3) {
+                select = "pontosD";
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnGeral.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnSeguindo.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
+                    btnSeguidores.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
+                    btnHoje.setTextColor(ColorStateList.valueOf(0xFFffffff));
+                }
             }
 
-        } else if (tipo == 1) {
-            //select = "pontosM";
+            firebaseRef.child("usuarios").orderByChild(select).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnGeral.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnSeguindo.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
-                btnSeguidores.setTextColor(ColorStateList.valueOf(0xFFffffff));
-                btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnHoje.setTextColor(ColorStateList.valueOf(0xFF000000));
+                    listaRanking.clear();
+                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-            }
-        } else if (tipo == 2) {
-            //select = "pontosS";
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnGeral.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
-                btnSeguindo.setTextColor(ColorStateList.valueOf(0xFFffffff));
-                btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnSeguidores.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnHoje.setTextColor(ColorStateList.valueOf(0xFF000000));
-            }
+                        UsuarioModel usuario2Model = dados.getValue(UsuarioModel.class);
 
-        }else if(tipo == 3){
-            select = "pontosD";
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                btnGeral.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnGeral.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnSeguindo.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnSeguindo.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnSeguidores.setBackgroundTintList(ColorStateList.valueOf(0xFFf5f5f5));
-                btnSeguidores.setTextColor(ColorStateList.valueOf(0xFF000000));
-                btnHoje.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
-                btnHoje.setTextColor(ColorStateList.valueOf(0xFFffffff));
-            }
-        }
+                        assert usuario2Model != null;
+                        try {
+                            if (usuario2Model.getEmail().equals(user.getEmail())) {
+                                if (usuario2Model.getImagem().isEmpty()) {
+                                    img_user_logado.setImageResource(R.drawable.user);
+                                } else {
 
-        firebaseRef.child("usuarios").orderByChild(select).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Glide
+                                            .with(RankingFragment.this)
+                                            .load(usuario2Model.getImagem())
+                                            .centerCrop()
+                                            .placeholder(R.drawable.user)
+                                            .into(img_user_logado);
+                                }
 
-                listaRanking.clear();
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                                txtNomeLogado.setText("Você");
+                                txtPontosLogado.setText("" + usuario2Model.getPontosG());
+                                txtRankingLogado.setText(usuario2Model.getRanking() + "º");
+                            }
 
-                    UsuarioModel usuario2Model = dados.getValue(UsuarioModel.class);
+                        } catch (Exception e) {
 
-                    if (usuario2Model.getEmail().equals(user.getEmail())) {
-                        if (usuario2Model.getImagem().isEmpty()) {
-                            Picasso.get().load(R.drawable.user).into(img_user_logado);
-                        } else {
-                            Picasso.get().load(usuario2Model.getImagem()).into(img_user_logado);
+                            img_user_logado.setImageResource(R.drawable.user);
                         }
 
-                        txtNomeLogado.setText("Você");
-                        txtPontosLogado.setText("" + usuario2Model.getPontosG());
-                        txtRankingLogado.setText(usuario2Model.getRanking() + "º");
+                        listaRanking.add(usuario2Model);
+
+
                     }
 
-                    listaRanking.add(usuario2Model);
+                    adapterRanking.notifyDataSetChanged();
 
+                    try {
+
+                        int tamanho = listaRanking.size();
+
+                        String imagem = listaRanking.get(tamanho - 1).getImagem();
+                        String imagem2 = listaRanking.get(tamanho - 2).getImagem();
+                        String imagem3 = listaRanking.get(tamanho - 3).getImagem();
+
+
+                        String pjogador = listaRanking.get(tamanho - 1).getPontosG() + "";
+                        String pjogador2 = listaRanking.get(tamanho - 2).getPontosG() + "";
+                        String pjogador3 = listaRanking.get(tamanho - 3).getPontosG() + "";
+
+
+                        String jogador[] = listaRanking.get(tamanho - 1).getNome().split(" ");
+                        String jogador2[] = listaRanking.get(tamanho - 2).getNome().split(" ");
+                        String jogador3[] = listaRanking.get(tamanho - 3).getNome().split(" ");
+
+                        Jogador.setText(jogador[0]);
+                        Jogador2.setText(jogador2[0]);
+                        Jogador3.setText(jogador3[0]);
+                        pJogador.setText(pjogador);
+                        pJogador2.setText(pjogador2);
+                        pJogador3.setText(pjogador3);
+
+                        if (imagem.isEmpty()) {
+
+                            img_user.setImageResource(R.drawable.user);
+                        } else {
+
+                            Glide
+                                    .with(RankingFragment.this)
+                                    .load(imagem)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.user)
+                                    .into(img_user);
+                        }
+
+                        if (imagem2.isEmpty()) {
+                            img_user2.setImageResource(R.drawable.user);
+                        } else {
+                            Glide
+                                    .with(RankingFragment.this)
+                                    .load(imagem2)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.user)
+                                    .into(img_user2);
+                        }
+
+                        if (imagem3.isEmpty()) {
+                            img_user3.setImageResource(R.drawable.user);
+                        } else {
+                            Glide
+                                    .with(RankingFragment.this)
+                                    .load(imagem3)
+                                    .centerCrop()
+                                    .placeholder(R.drawable.user)
+                                    .into(img_user3);
+                        }
+
+
+                    } catch (Exception e) {
+                        img_user.setImageResource(R.drawable.user);
+                        img_user2.setImageResource(R.drawable.user);
+                        img_user3.setImageResource(R.drawable.user);
+                    }
+
+
+                    progressBar5.setVisibility(View.GONE);
+                    linearPrincipal.setVisibility(View.VISIBLE);
+                    ConstraintUsuarioLogado.setVisibility(View.VISIBLE);
 
                 }
 
-                adapterRanking.notifyDataSetChanged();
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                try {
-
-                    int tamanho = listaRanking.size();
-
-                    String imagem = listaRanking.get(tamanho - 1).getImagem();
-                    String imagem2 = listaRanking.get(tamanho - 2).getImagem();
-                    String imagem3 = listaRanking.get(tamanho - 3).getImagem();
-
-
-                    String pjogador = listaRanking.get(tamanho - 1).getPontosG() + "";
-                    String pjogador2 = listaRanking.get(tamanho - 2).getPontosG() + "";
-                    String pjogador3 = listaRanking.get(tamanho - 3).getPontosG() + "";
-
-
-                    String jogador[] = listaRanking.get(tamanho - 1).getNome().split(" ");
-                    String jogador2[] = listaRanking.get(tamanho - 2).getNome().split(" ");
-                    String jogador3[] = listaRanking.get(tamanho - 3).getNome().split(" ");
-
-                    Jogador.setText(jogador[0]);
-                    Jogador2.setText(jogador2[0]);
-                    Jogador3.setText(jogador3[0]);
-                    pJogador.setText(pjogador);
-                    pJogador2.setText(pjogador2);
-                    pJogador3.setText(pjogador3);
-
-                    if (imagem.isEmpty()) {
-                        Picasso.get().load(R.drawable.user).into(img_user);
-                    } else {
-                        Picasso.get().load(imagem).into(img_user);
-                    }
-
-                    if (imagem2.isEmpty()) {
-                        Picasso.get().load(R.drawable.user).into(img_user2);
-                    } else {
-                        Picasso.get().load(imagem2).into(img_user2);
-                    }
-
-                    if (imagem3.isEmpty()) {
-                        Picasso.get().load(R.drawable.user).into(img_user3);
-                    } else {
-                        Picasso.get().load(imagem3).into(img_user3);
-                    }
-
-
-                } catch (Exception e) {
-                    Picasso.get().load(R.drawable.user).into(img_user);
-                    Picasso.get().load(R.drawable.user).into(img_user2);
-                    Picasso.get().load(R.drawable.user).into(img_user3);
                 }
+            });
+        }catch(Exception e){
 
-
-                progressBar5.setVisibility(View.GONE);
-                linearPrincipal.setVisibility(View.VISIBLE);
-                ConstraintUsuarioLogado.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+            Log.d("Erro", Objects.requireNonNull(e.getMessage()));
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onStart() {
         super.onStart();

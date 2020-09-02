@@ -3,7 +3,6 @@ package com.reobotetechnology.reobotegame.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.PostModel;
-import com.reobotetechnology.reobotegame.ui.amigos_profile.Amigos_PerfilActivity;
+import com.reobotetechnology.reobotegame.ui.amigos.amigos_profile.Amigos_PerfilActivity;
 import com.reobotetechnology.reobotegame.ui.blog.PostActivity;
 import com.reobotetechnology.reobotegame.ui.perfil.PerfilActivity;
 import com.reobotetechnology.reobotegame.ui.play_videos.PlayActivity;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 
@@ -67,12 +67,29 @@ public class PostAdapters extends RecyclerView.Adapter<PostAdapters.myViewHolder
 
         try {
             if (p.getUser().getImagem().isEmpty()) {
-                Picasso.get().load(R.drawable.user).into(holder.imgUsuarioPost);
+
+                Glide
+                        .with(context)
+                        .load(R.drawable.user)
+                        .centerCrop()
+                        .placeholder(R.drawable.img_feed)
+                        .into(holder.imgUsuarioPost);
             } else {
-                Picasso.get().load(p.getUser().getImagem()).into(holder.imgUsuarioPost);
+
+                Glide
+                        .with(context)
+                        .load(p.getUser().getImagem())
+                        .centerCrop()
+                        .placeholder(R.drawable.img_feed)
+                        .into(holder.imgUsuarioPost);
             }
         } catch (Exception e) {
-            Picasso.get().load(R.drawable.user).into(holder.imgUsuarioPost);
+            Glide
+                    .with(context)
+                    .load(R.drawable.user)
+                    .centerCrop()
+                    .placeholder(R.drawable.img_feed)
+                    .into(holder.imgUsuarioPost);
         }
 
         if(p.getTipo() == 1) {
@@ -80,13 +97,30 @@ public class PostAdapters extends RecyclerView.Adapter<PostAdapters.myViewHolder
             try{
 
                 if(p.getImagem().isEmpty()){
-                    Picasso.get().load(R.drawable.fundo).into(holder.img_video);
+
+                    Glide
+                            .with(context)
+                            .load(R.drawable.fundo)
+                            .centerCrop()
+                            .placeholder(R.drawable.img_feed)
+                            .into(holder.img_video);
                 }else{
-                    Picasso.get().load(p.getImagem()).into(holder.img_video);
+
+                    Glide
+                            .with(context)
+                            .load(p.getImagem())
+                            .centerCrop()
+                            .placeholder(R.drawable.img_feed)
+                            .into(holder.img_video);
                 }
 
             }catch(Exception e){
-                Picasso.get().load(R.drawable.fundo).into(holder.img_video);
+                Glide
+                        .with(context)
+                        .load(R.drawable.fundo)
+                        .centerCrop()
+                        .placeholder(R.drawable.img_feed)
+                        .into(holder.img_video);
             }
 
             holder.btn_play.setOnClickListener(new View.OnClickListener() {
@@ -101,13 +135,29 @@ public class PostAdapters extends RecyclerView.Adapter<PostAdapters.myViewHolder
             try{
 
                 if(p.getImagem().isEmpty()){
-                    Picasso.get().load(R.drawable.img_feed).into(holder.img_post);
+
+                    Glide
+                            .with(context)
+                            .load(R.drawable.img_feed)
+                            .centerCrop()
+                            .placeholder(R.drawable.img_feed)
+                            .into(holder.img_post);
                 }else{
-                    Picasso.get().load(p.getImagem()).into(holder.img_post);
+                    Glide
+                            .with(context)
+                            .load(p.getImagem())
+                            .centerCrop()
+                            .placeholder(R.drawable.img_feed)
+                            .into(holder.img_post);
                 }
 
             }catch(Exception e){
-                Picasso.get().load(R.drawable.fundo).into(holder.img_post);
+                Glide
+                        .with(context)
+                        .load(R.drawable.img_feed)
+                        .centerCrop()
+                        .placeholder(R.drawable.img_feed)
+                        .into(holder.img_post);
             }
 
             holder.img_post.setOnClickListener(new View.OnClickListener() {

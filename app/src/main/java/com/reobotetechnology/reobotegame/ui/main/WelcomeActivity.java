@@ -7,13 +7,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -46,23 +44,21 @@ import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.reobotetechnology.reobotegame.ui.cadastro.CadastroActivity;
+import com.reobotetechnology.reobotegame.ui.main.cadastro.CadastroActivity;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
-import com.reobotetechnology.reobotegame.ui.login.LoginActivity;
+import com.reobotetechnology.reobotegame.ui.termos.TermosActivity;
 
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 100;
-    SignInButton mGoogle;
+    Button mGoogle;
     private GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progressDialog;
 
     Button btnCadastro;
-    TextView txtLogin;
     ImageView logo;
     ConstraintLayout itens;
     ProgressBar progressoIniciar;
@@ -75,6 +71,8 @@ public class WelcomeActivity extends AppCompatActivity {
     Animation topAnim, bottomAnim;
     String token = "";
 
+    ConstraintLayout constraintPrincipal;
+
 
 
     @SuppressLint("SetTextI18n")
@@ -86,15 +84,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mGoogle = findViewById(R.id.btnGoogle);
-        TextView textView = (TextView) mGoogle.getChildAt(0);
-        textView.setText("CONTINUAR COM O GOOGLE");
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Aguarde....");
-
-
-        usuarioLogado();
-
 
         topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
         bottomAnim = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
@@ -102,15 +94,12 @@ public class WelcomeActivity extends AppCompatActivity {
         btnCadastro = findViewById(R.id.btnEmail);
         itens = findViewById(R.id.itens);
         progressoIniciar = findViewById(R.id.progressoIniciar);
-        txtLogin = findViewById(R.id.txtLogin);
-        destacarTextoComNegrito(txtLogin.getText().toString(), "Login", txtLogin);
         logo = findViewById(R.id.logo);
+        constraintPrincipal = findViewById(R.id.constraintPrincipal);
 
-        btnCadastro.setVisibility(View.GONE);
-        mGoogle.setVisibility(View.GONE);
-        itens.setVisibility(View.GONE);
-        txtLogin.setVisibility(View.GONE);
-        logo.setVisibility(View.GONE);
+        progressoIniciar.setVisibility(View.VISIBLE);
+        constraintPrincipal.setVisibility(View.GONE);
+
 
 
         new Handler().postDelayed(new Runnable() {
@@ -157,41 +146,22 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    public static void destacarTextoComNegrito(String textoCompleto, String textoDestaque,
-                                               final TextView txtDesc) {
 
-        int start = textoCompleto.indexOf(textoDestaque);
-        int end = start + textoDestaque.length();
-
-        Spannable spannableText = new SpannableString(textoCompleto);
-        spannableText.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
-
-        txtDesc.setText(spannableText);
-
-    }
 
     public void iniciar(){
 
         progressoIniciar.setVisibility(View.GONE);
-        btnCadastro.setVisibility(View.VISIBLE);
-        mGoogle.setVisibility(View.VISIBLE);
-        txtLogin.setVisibility(View.VISIBLE);
-        logo.setVisibility(View.VISIBLE);
-        logo.setAnimation(topAnim);
-        itens.setVisibility(View.VISIBLE);
-        itens.setAnimation(bottomAnim);
-    }
-
-    public void login(View view){
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-        finish();
-
+        constraintPrincipal.setVisibility(View.VISIBLE);
+        //logo.setAnimation(topAnim);
+        //itens.setAnimation(bottomAnim);
     }
 
     public void cadastro(View view){
         startActivity(new Intent(getApplicationContext(), CadastroActivity.class));
-        finish();
+    }
 
+    public void termos(View view){
+        startActivity(new Intent(getApplicationContext(), TermosActivity.class));
     }
 
     private void inicializarBancoDeDados() {
@@ -307,6 +277,9 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        usuarioLogado();
+    }
 }
