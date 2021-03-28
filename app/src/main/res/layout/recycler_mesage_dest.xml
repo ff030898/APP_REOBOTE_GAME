@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:layout_marginRight="70dp"
+    android:layout_marginEnd="70dp">
+
+
+    <TextView
+        android:id="@+id/textMensagemTexto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_message_user"
+        android:backgroundTint="#ccc"
+        android:maxWidth="250dp"
+        android:text="@string/lorem2"
+        android:textColor="@color/colorPreto"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/profileDes"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
+
+    <TextView
+        android:id="@+id/textMensagemHora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="53dp"
+        android:text="21:37"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textMensagemTexto"
+        app:layout_constraintTop_toBottomOf="@+id/textMensagemTexto"
+        tools:ignore="HardcodedText" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileDes"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/profile"
+        android:visibility="visible"
+        app:civ_border_color="@color/colorStatusBar"
+        app:civ_border_width="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

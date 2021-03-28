@@ -62,9 +62,6 @@ dependencies {
     //Glide Tratamento de imagens
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    //arredondando imagem
-    implementation 'com.makeramen:roundedimageview:2.3.0'
-
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -72,8 +69,21 @@ dependencies {
     //Alert Customer
     implementation 'com.tapadoo.android:alerter:2.0.6'
 
+    //Sweet Alert
+    implementation 'com.github.f0ris.sweetalert:library:1.5.6'
+
     //CompressImage
     implementation 'com.github.yalantis:ucrop:2.2.6'
+
+    //Dependências bottom navigationEX
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
+
+    //Dependencias slide
+    implementation 'com.heinrichreimersoftware:material-intro:master-SNAPSHOT'
+
+    //TesteLoad
+
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
 
 }

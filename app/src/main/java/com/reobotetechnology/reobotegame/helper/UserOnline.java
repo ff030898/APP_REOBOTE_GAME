@@ -2,27 +2,17 @@ package com.reobotetechnology.reobotegame.helper;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
-import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.ui.partida.CarregarPartidaActivity;
+import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 
 import java.util.Objects;
 
@@ -32,8 +22,8 @@ public class UserOnline extends Application implements Application.ActivityLifec
 
 
     private void setOnline(boolean enabled){
-        DatabaseReference firebaseRef = ConfiguracaoFireBase.getFirebaseDataBase();
-        FirebaseAuth autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
+        DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
+        FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
         FirebaseUser user = autenticacao.getCurrentUser();
         if(user != null) {
             String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(user.getEmail())));

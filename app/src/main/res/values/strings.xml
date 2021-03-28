@@ -24,7 +24,6 @@
     <string name="j_tem_conta_login">Já tem conta? Login</string>
     <string name="facebook_app_id">247257450044944</string>
     <string name="fb_login_protocol_scheme">fb247257450044944</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="menu_home">Home</string>
     <string name="title_activity_home">HomeActivity</string>
@@ -33,6 +32,7 @@
     <string name="seguidores">SEGUIDORES</string>
     <string name="editar_perfil">EDITAR PERFIL</string>
     <string name="online">Online</string>
+    <string name="digited">Digitando...</string>
     <string name="usuario">Usuario</string>
     <string name="user_gmail_com">user@gmail.com</string>
     <string name="seguir">SEGUIR</string>
@@ -46,7 +46,7 @@
     Cada partida vale 10 pontos\n\nCada jogador tem 15 segundos para responder cada pergunta\n\nQuem acertar mais perguntas vence e ganha +10 pontos no ranking.\n\nSe o número de acertos for igual é empate e cada um ganha +5 pontos\n\nO Perdedor da partida perde -3 pontos\n\nEm caso de vitória o jogador vencedor poderá dobrar os pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de empate os dois jogadores poderão dobrar os seus pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de derrota o jogador perdedor poderá recuperar os 3 pontos perdidos da partida assistindo uma propaganda de 30 segundos
     </string>
     <string name="ler_mais">LER MAIS</string>
-    <string name="jogar">JOGAR</string>
+    <string name="jogar">JOGAR AGORA</string>
     <string name="top_5_da_semana">TOP 5 DE HOJE</string>
     <string name="amigos_sugeridos">AMIGOS SUGERIDOS</string>
     <string name="convidar_automaticamente">CONVIDAR AUTOMATICAMENTE</string>
@@ -73,12 +73,13 @@
     <string name="ooh_n_o">OOH NÃO!</string>
     <string name="vamos_jogar">VAMOS JOGAR?</string>
     <string name="aceitar">ACEITAR</string>
-    <string name="recusar">RECUSAR</string>
     <string name="continuar">CONTINUAR</string>
     <string name="aten_o_voc_tem_15_segundos_para_responder_cada_pergunta">Atenção, você tem 15 segundos para responder cada pergunta.</string>
     <string name="tempo_esgotado">TEMPO ESGOTADO!</string>
-    <string name="antigo_testamento">ANTIGO TESTAMENTO</string>
-    <string name="novo_testamento">NOVO TESTAMENTO</string>
+    <string name="antigo_testamento">Antigo Testamento</string>
+    <string name="novo_testamento">Novo Testamento</string>
+    <string name="antigo_testamentoM">ANTIGO TESTAMENTO</string>
+    <string name="novo_testamentoM">NOVO TESTAMENTO</string>
     <string name="bem_vindo_a">Bem Vindo(a),</string>
     <string name="blog">Blog</string>
     <string name="mensagens">Mensagens</string>
@@ -109,10 +110,106 @@
     <string name="title_activity_settings">Settings</string>
 
     <string name="o_melhor_jogo">O melhor jogo online da bíblia para você e seus amigos se divertirem e aprenderem juntos de uma forma divertida. Junte-se agora é simples e rápido.</string>
-    <string name="concorda">Ao clicar em continuar você concorda com as</string>
-    <string name="regras_e_termos_de_uso">Regras e termos de uso</string>
+    <string name="concorda">Ao clicar em continuar você concorda com os</string>
+    <string name="regras_e_termos_de_uso">Termos de uso</string>
+    <string name="politica_privacidade">Privacidade</string>
     <string name="recuperar_senha2">Recuperar Senha</string>
     <string name="salvar_altera_es">SALVAR ALTERAÇÕES</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="feed">Blog</string>
+    <string name="graphics">Gráficos</string>
+    <string name="pr_ximo">PRÓXIMO</string>
+    <string name="email">Email</string>
+    <string name="Senha">Senha</string>
+    <string name="Nome">Nome</string>
+    <string name="e">e</string>
+    <string name="crie_sua_conta_gr_tis">Crie sua conta grátis</string>
+    <string name="lorem2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. Duis sodales diam eu placerat dapibus.</string>
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pretium ante ac maximus tincidunt. In hac habitasse platea dictumst. Vestibulum venenatis luctus scelerisque. In sollicitudin erat a tellus maximus condimentum. Donec sed lobortis urna, nec blandit nibh. In maximus, augue eget egestas mattis, sem ante ullamcorper est, a accumsan elit augue vel turpis. Cras nisi mauris, ullamcorper sed tellus et, mollis efficitur metus. Donec quis consequat turpis, eu mollis lectus. Sed at elementum justo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed vitae commodo turpis. \n
+
+\nNullam aliquam fringilla nisl, sit amet tincidunt mauris mollis ut. Nulla non odio et nunc dapibus eleifend. Sed et ex diam. Vivamus enim ante, ullamcorper nec nisl quis, commodo rhoncus felis. Duis bibendum ex eget quam efficitur, vel venenatis velit auctor. Cras massa erat, finibus nec fringilla non, dapibus vel tortor. Duis tempus elit ut urna tristique pharetra. \n
+
+\nAliquam rutrum, enim id consectetur cursus, lectus nisl malesuada sapien, et aliquet tellus diam sed velit. Suspendisse eu aliquet dolor. Sed blandit fermentum massa eget lobortis. Suspendisse vestibulum id diam quis euismod. Aliquam eu porttitor ex, sed condimentum lacus. Praesent congue euismod eleifend. Ut dictum eu orci faucibus imperdiet. Vivamus vulputate enim vel cursus venenatis. Morbi molestie semper dignissim. Nulla in nunc nec libero ultrices auctor id quis dui. Donec accumsan a augue vel gravida. \n
+
+\nPhasellus varius arcu vel libero mollis, eu lacinia ex posuere. Mauris euismod pulvinar justo sed consequat. Phasellus sit amet sollicitudin elit. Proin a congue metus, in tristique lorem. Curabitur eget condimentum ligula. Phasellus a tortor quis enim vestibulum scelerisque. Suspendisse potenti. Nam scelerisque aliquam lacus, ac malesuada tortor mattis ut. Integer tincidunt mi eu mauris tincidunt, vitae ullamcorper odio viverra. In auctor tortor arcu, vitae lacinia nibh molestie nec. Sed egestas mollis est eu posuere. Cras nec massa vestibulum, hendrerit enim ut, consectetur nibh. Nulla elit nulla, tincidunt sed scelerisque eget, mattis id arcu. \n
+
+\nPellentesque dapibus ipsum felis, in tristique mauris posuere elementum. Quisque convallis laoreet metus id porta. Duis sed sollicitudin ipsum. Nam vehicula, ipsum vitae vestibulum ultrices, turpis orci porttitor leo, vitae venenatis neque odio sed diam. Duis porttitor consequat mollis. Nulla mauris ligula, tempus ut fringilla a, euismod non risus. Aenean aliquam lorem eu hendrerit ultricies. Donec nec justo vulputate, porta dui sit amet, vestibulum leo. Cras tincidunt quis ligula vel tincidunt. Aenean sodales magna vel fringilla congue. Mauris ornare, lectus vel auctor aliquet, lectus justo fermentum dolor, a efficitur dolor tortor quis nisl. Nullam a enim convallis, malesuada ex a, tincidunt dui. Suspendisse porta, elit et rhoncus interdum, tortor est commodo diam, a maximus erat metus eget sapien. Aenean dapibus mattis erat, sit amet placerat metus mattis ac. Donec auctor felis vel tortor tristique, at commodo velit bibendum. \n
+
+\nSed pharetra, ligula vel venenatis tincidunt, risus sapien hendrerit mauris, a gravida ligula risus nec ante. Donec ipsum diam, ultrices ut auctor eu, elementum eleifend ligula. Donec ut neque quam. Donec condimentum accumsan nulla et viverra. Maecenas semper neque vel leo iaculis scelerisque. Sed molestie vel ligula in accumsan. Maecenas ornare eleifend odio, ac lacinia dui vestibulum vitae. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras gravida magna non elit commodo, a semper dui scelerisque. \n</string>
+    <string name="politica_de_privacidadeM">Política de Privacidade</string>
+    <string name="regras_termosM">Regras e Termos de Uso</string>
+    <string name="leia_com_aten_o">Leia com atenção</string>
+    <string name="carregando">CARREGANDO...</string>
+    <string name="amigos_sugeridosM">Amigos Sugeridos</string>
+    <string name="seguirM">SEGUIR</string>
+    <string name="app_nameM">REOBOTE GAME</string>
+    <string name="ajuda">Ajuda</string>
+    <string name="convide_um_amigo_para_jogar">DESAFIE UM AMIGO</string>
+    <string name="autor">Autor:</string>
+    <string name="voc_est_lendo">VOCÊ ESTÁ LENDO</string>
+    <string name="pesquisar2">Pesquisar</string>
+    <string name="vers_culos_por_tema">VERSÍCULOS POR TEMA</string>
+    <string name="themes">Temas</string>
+    <string name="themes_description">Escolha um tema para meditar</string>
+    <string name="pessoas_recomendadas_que_voc_talvez_conhe_a">Pessoas que você talvez conheça</string>
+    <string name="harpa_cristaM">HARPA CRISTÃ</string>
+    <string name="escolha_um_hino_da_harpa_para_meditar_e_adorar">Escolha um hino da harpa para meditar e adorar</string>
+    <string name="acompanhe_diariamente_para_ser_edificado">Acompanhe diariamente para ser edificado</string>
+    <string name="escolha_uma_data">ESCOLHA UMA DATA</string>
+    <string name="clique_na_seta_a_direita_para_ver_o_ranking_completo">Visualizar o ranking completo</string>
+    <string name="escolha_um_amigo_para_come_ar_a_jogar">Escolha um amigo para começar a jogar</string>
+    <string name="nova_senha">Nova Senha</string>
+    <string name="senha_atual">Senha Atual</string>
+    <string name="confirmar_senha">Confirmar Senha</string>
+    <string name="salvar">Salvar</string>
+    <string name="jogarMin">Jogar</string>
+    <string name="escolha_um_livro_da_b_blia_abaixo_para_meditar">Escolha um livro para meditar</string>
+    <string name="whatsapp">whatsapp</string>
+    <string name="imagem">imagem</string>
+    <string name="remover_foto">Remover</string>
+    <string name="description_blog">Contéudos exclusivos para você</string>
+    <string name="comentar_post">Comentar...</string>
+    <string name="conte_do_exclusivo_para_voc">Conteúdo exclusivo para você</string>
+    <string name="buscar">Buscar</string>
+    <string name="meu_perfil">Meu perfil</string>
+    <string name="edit_perfil">Editar perfil</string>
+    <string name="perfil_atualizado">Mantenha seu perfil atualizado</string>
+    <string name="ranking2">RANKING</string>
+    <string name="sobre">SOBRE</string>
+    <string name="sobre_mim">SOBRE MIM</string>
+    <string name="name_robot">Reobote IA</string>
+    <string name="editar">(EDITAR)</string>
+    <string name="conquistas">CONQUISTAS</string>
+    <string name="partidas">PARTIDAS</string>
+    <string name="partidasM">Partidas</string>
+    <string name="livros_favoritos">LIVROS FAVORITOS</string>
+    <string name="acompanhe_o_hist_rico_das_partidas">Acompanhe o histórico das partidas</string>
+    <string name="capther_description">Escolha um capítulo para meditar</string>
+    <string name="verse_description">Escolha um versículo para meditar</string>
+    <string name="notifications_404">Acompanhe para se manter atualizado</string>
+    <string name="x">X</string>
+    <string name="nenhuma_notifica_o">NENHUMA NOTIFICAÇÃO</string>
+    <string name="desafiar">DESAFIAR</string>
+    <string name="recusar">RECUSAR</string>
+    <string name="ver_perfil">VER PERFIL</string>
+    <string name="coment_rios">COMENTÁRIOS</string>
+    <string name="comentar">Comentar</string>
+    <string name="seguindoMin">Seguindo</string>
+    <string name="seguidoresMin">Seguidores</string>
+    <string name="vitoriasMin">Vitorias</string>
+    <string name="empatesMin">Empates</string>
+    <string name="derrotas">Derrotas</string>
+    <string name="view">visualizado</string>
+    <string name="fechar">Fechar</string>
+    <string name="descriptionWelcome">Bem vindo, você ganhou \n +50 pontos</string>
+    <string name="Ontem">Ontem</string>
+    <string name="Hoje">Hoje</string>
+    <string name="Todas">Todas</string>
+    <string name="detalhes">Detalhes</string>
+    <string name="Audio">Audio</string>
 
 
 </resources>

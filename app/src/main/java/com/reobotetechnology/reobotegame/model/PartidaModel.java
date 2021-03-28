@@ -2,21 +2,24 @@ package com.reobotetechnology.reobotegame.model;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
-import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
+import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 
 public class PartidaModel {
 
     private String id;
     private boolean desconectado, aceito, recusado, internet;
     private String resultado;
+    private String datetime;
+    private UsuarioModel user1, user2;
 
-    public PartidaModel(String id, boolean desconectado, boolean aceito, boolean recusado, boolean internet, String resultado) {
+    public PartidaModel(String id, boolean desconectado, boolean aceito, boolean recusado, boolean internet, String resultado, String datetime) {
         this.id = id;
         this.desconectado = desconectado;
         this.aceito = aceito;
         this.recusado = recusado;
         this.internet = internet;
         this.resultado = resultado;
+        this.datetime = datetime;
     }
 
     @Exclude
@@ -68,8 +71,16 @@ public class PartidaModel {
         this.internet = internet;
     }
 
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
     public void salvar(){
-        DatabaseReference firebase = ConfiguracaoFireBase.getFirebaseDataBase();
+        DatabaseReference firebase = ConfigurationFireBase.getFirebaseDataBase();
         firebase.child("partidas")
                 .child( this.id )
                 .setValue( this );

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="25dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/btnCapVersos"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_cap_verse"
+        tools:text="176"
+        android:textColor="@color/colorPreto"
+        android:textSize="15sp"
+        tools:ignore="UnusedAttribute" />
+</LinearLayout>

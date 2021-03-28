@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.partida.FinalizarPartidaActivity">
+    android:background="@color/colorBranco"
+    tools:context=".ui.match.FinishMatchActivity">
 
     <LinearLayout
         android:id="@+id/linearTopo"
@@ -49,7 +50,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="170dp"
         android:layout_marginRight="170dp"
-        android:src="@drawable/user"
+        android:src="@drawable/profile"
         app:civ_border_color="@color/colorBranco"
         app:civ_border_width="3dp"
         app:layout_constraintBottom_toTopOf="@+id/txtNome1"
@@ -58,7 +59,7 @@
         app:layout_constraintStart_toEndOf="@+id/linearTopo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearTopo"
-        app:srcCompat="@drawable/user" />
+        app:srcCompat="@drawable/profile" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imagemPerfil2"
@@ -67,7 +68,7 @@
         android:layout_marginStart="170dp"
         android:layout_marginLeft="170dp"
         android:layout_marginTop="50dp"
-        android:src="@drawable/user"
+        android:src="@drawable/profile"
         app:civ_border_color="@color/colorBranco"
         app:civ_border_width="3dp"
         app:layout_constraintBottom_toTopOf="@+id/txtNome2"
@@ -75,7 +76,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearTopo"
-        app:srcCompat="@drawable/user" />
+        app:srcCompat="@drawable/profile" />
 
     <TextView
         android:id="@+id/txtNome1"
@@ -179,6 +180,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:clickable="true"
+        android:backgroundTint="@color/colorBlue"
         android:tooltipText="FECHAR"
         app:layout_constraintBottom_toTopOf="@+id/linearB"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,116 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical"
-    android:scrollbars="none">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBranco">
-
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintPrincipal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:background="@color/colorBranco">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnPesquisar"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/btn_search"
-                android:drawableStart="@drawable/ic_search"
-                android:drawableLeft="@drawable/ic_search"
-                android:hint="@string/pesquisar"
-                android:padding="10dp"
-                android:paddingEnd="24dp"
-                android:paddingRight="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/img_user_logado"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="RtlSymmetry" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_user_logado"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="22dp"
-                android:src="@drawable/user"
-                app:civ_border_color="@color/colorActive"
-                app:civ_border_width="2dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <LinearLayout
+            <ProgressBar
+                android:id="@+id/progressBar3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
+                android:indeterminateTint="@color/colorBlue"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UnusedAttribute"
+                 />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintPrincipal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnPesquisar">
+                app:layout_constraintTop_toTopOf="parent">
 
-                <include layout="@layout/include_palavra" />
+                <include
+                    android:id="@+id/include2"
+                    layout="@layout/include_toolbar_fragments"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnJogar"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/btn_screen"
-                    android:drawableEnd="@drawable/ic_continuar"
-                    android:drawableRight="@drawable/ic_continuar"
-                    android:paddingStart="40dp"
-                    android:paddingLeft="40dp"
-                    android:paddingEnd="15dp"
-                    android:paddingRight="15dp"
-                    android:text="@string/jogar"
-                    android:textColor="@color/colorBranco"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="70dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/include2">
 
-                <include layout="@layout/include_amigos_sugeridos" />
 
-                <include layout="@layout/include_livros_at" />
 
-                <include layout="@layout/include_livros_nt" />
+                    <include layout="@layout/include_home_verse_day" />
 
-                <include layout="@layout/include_top_ranking" />
+                    <include layout="@layout/include_home_friends_quiz" />
 
-                <include layout="@layout/include_banner" />
+                    <include layout="@layout/include_home_themes_verses" />
 
-            </LinearLayout>
+                    <include layout="@layout/include_home_book_at" />
 
+                    <include layout="@layout/include_home_book_nt" />
+
+                    <include layout="@layout/include_home_harpe_c" />
+
+
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

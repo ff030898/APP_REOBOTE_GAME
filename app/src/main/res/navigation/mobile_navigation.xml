@@ -3,37 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.reobotetechnology.reobotegame.ui.home.ui.home.HomeFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_home"/>
+        android:id="@+id/navigation_home"
+        android:name="com.reobotetechnology.reobotegame.ui.home.fragments.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_biblia"
-        android:name="com.reobotetechnology.reobotegame.ui.home.ui.biblia.BibliaFragment"
-        android:label="Biblia"
-        tools:layout="@layout/fragment_biblia"/>
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.reobotetechnology.reobotegame.ui.home.ui.blog.BlogFragment"
-        android:label="Vídeos"
+        android:id="@+id/navigation_feed"
+        android:name="com.reobotetechnology.reobotegame.ui.home.fragments.blog.BlogFragment"
+        android:label="@string/feed"
         tools:layout="@layout/fragment_blog" />
 
+
     <fragment
-        android:id="@+id/nav_ranking"
-        android:name="com.reobotetechnology.reobotegame.ui.home.ui.ranking.RankingFragment"
-        android:label="Ranking"
+        android:id="@+id/navigation_graphics"
+        android:name="com.reobotetechnology.reobotegame.ui.home.fragments.search.SearchFragment"
+        android:label="@string/graphics"
         tools:layout="@layout/fragment_ranking" />
 
     <fragment
-        android:id="@+id/nav_mensagens"
-        android:name="com.reobotetechnology.reobotegame.ui.home.ui.mensagens.MensagensFragment"
-        android:label="Mensagens"
-        tools:layout="@layout/fragment_mensagens" />
+        android:id="@+id/navigation_ranking"
+        android:name="com.reobotetechnology.reobotegame.ui.home.fragments.ranking.RankingFragment"
+        android:label="@string/ranking"
+        tools:layout="@layout/fragment_ranking" />
 
-
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.reobotetechnology.reobotegame.ui.home.fragments.profile.ProfileFragment"
+        android:label="@string/perfil"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -3,7 +3,7 @@ package com.reobotetechnology.reobotegame.model;
 public class Message {
 
     private String text;
-    private long timestamp;
+    private String timestamp;
     private String fromId;
     private String toId;
     private boolean view;
@@ -17,11 +17,11 @@ public class Message {
         this.text = text;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

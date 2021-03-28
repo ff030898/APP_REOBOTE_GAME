@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -40,28 +44,37 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
         Notification notification = notifications.get(position);
 
-        String[] linhas = notification.getFromName().split(" ");
-        holder.txtDescNotification.setText(linhas[0]+" convidou você para uma partida online");
+        holder.txtDescNotification.setText(notification.getFromName());
         try{
 
-            if(notification.getFromImage().isEmpty()){
-                holder.imagemPerfil.setImageResource(R.drawable.user);
+            if(notification.getFromName().equals("Reobote IA")){
+                holder.imagemPerfil.setImageResource(R.drawable.reobote);
+            }
+            else if(notification.getFromImage().isEmpty()){
+                holder.imagemPerfil.setImageResource(R.drawable.profile);
             }else {
 
                 Glide
                         .with(context)
                         .load(notification.getFromImage())
                         .centerCrop()
-                        .placeholder(R.drawable.user)
+                        .placeholder(R.drawable.profile)
                         .into(holder.imagemPerfil);
             }
         }catch (Exception e){
 
-            holder.imagemPerfil.setImageResource(R.drawable.user);
+            holder.imagemPerfil.setImageResource(R.drawable.profile);
         }
 
-        holder.txtTimeNotification.setText("Agora");
-        holder.btnNotification.setText("NOVO");
+        if(!notification.getTipo().equals("blog")){
+            holder.cardViewBlog.setVisibility(View.GONE);
+        }
+
+        if(notification.isView()){
+            holder.view.setVisibility(View.GONE);
+        }
+
+        holder.txtTimeNotification.setText(notification.getText());
 
     }
 
@@ -74,7 +87,8 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
 
         CircleImageView imagemPerfil;
         TextView txtDescNotification, txtTimeNotification;
-        Button btnNotification;
+        CardView cardViewBlog;
+        ImageView view;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,7 +96,9 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
             imagemPerfil = itemView.findViewById(R.id.imagemPerfil);
             txtDescNotification = itemView.findViewById(R.id.txtDescNotification);
             txtTimeNotification = itemView.findViewById(R.id.txtTimeNotification);
-            btnNotification = itemView.findViewById(R.id.btnNotification);
+            cardViewBlog = itemView.findViewById(R.id.cardViewBlog);
+            view = itemView.findViewById(R.id.imageView3);
+
         }
     }
 }

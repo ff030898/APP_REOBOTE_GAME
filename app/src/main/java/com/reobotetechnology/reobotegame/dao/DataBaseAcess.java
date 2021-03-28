@@ -11,6 +11,7 @@ import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
 import com.reobotetechnology.reobotegame.model.MensagensIAModel;
 import com.reobotetechnology.reobotegame.model.PerguntasModel;
 import com.reobotetechnology.reobotegame.model.BibliaModel;
+import com.reobotetechnology.reobotegame.model.ThemeslistModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,7 @@ public class DataBaseAcess {
     private SQLiteDatabase db;
     private static DataBaseAcess instance;
     private static String TABELA_PERGUNTAS = "perguntas";
-    private static String TABELA_USUARIOS = "usuarios";
-    private static String TABELA_MENSAGENS = "mensagens";
+    private static String TABELA_TEMAS = "temas";
     private Cursor cursor = null;
     private int id = 0;
 
@@ -74,18 +74,22 @@ public class DataBaseAcess {
                     "questaoDica VARCHAR(100) " +
                     "); ";
 
-            String sql3 = "CREATE TABLE IF NOT EXISTS " + TABELA_MENSAGENS
+            String sqlThemes = "CREATE TABLE IF NOT EXISTS " + TABELA_TEMAS
                     + " (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "mensagem VARCHAR(150) NOT NULL " +
+                    "book_id INTEGER NOT NULL, " +
+                    "chapter_id INTEGER NOT NULL," +
+                    "verse_id INTEGER NOT NULL," +
+                    "theme_name VARCHAR(50) NOT NULL" +
                     "); ";
+
 
             try {
                 db.execSQL(sql);
-                db.execSQL(sql3);
+                db.execSQL(sqlThemes);
 
                 this.inserirPerguntas();
-                this.inserirMensagens();
+                this.insertThemes();
 
                 Log.i("INFO DB", "Sucesso ao criar as tabelas");
 
@@ -107,7 +111,8 @@ public class DataBaseAcess {
         open();
 
         String sql = "DROP TABLE IF EXISTS perguntas"  ;
-        String sql2 = "DROP TABLE IF EXISTS mensagens" ;
+        String sql2 = "DROP TABLE IF EXISTS temas"  ;
+
 
         try {
             db.execSQL( sql );
@@ -254,26 +259,56 @@ public class DataBaseAcess {
 
     }
 
-    private void inserirMensagens() {
+    private void insertThemes(){
 
-        List<MensagensIAModel> list = new ArrayList<>();
-        list.add(new MensagensIAModel(1, "Você é uma pessoa incrivel. Sabia? Deus vai honrar a tua fé.\uD83D\uDE0D"));
-        list.add(new MensagensIAModel(2, "Palavra do céu para você.\n\nResponderam eles: Crê no Senhor Jesus e serás salvo, tu e tua casa. \n" +
-                "\n" +
-                "Atos 16:31"));
-        list.add(new MensagensIAModel(3, "Se acalma. Se você ainda está solteiro(a) vai casar antes da volta do Filho do Homem. \uD83D\uDE0D\n\n #Creia no Milagre"));
-        list.add(new MensagensIAModel(4, "Você ainda vai cantar, pregar e evangelizar muito pelo mundo inteiro.\n\n#O tempo de Deus é perfeito"));
-        list.add(new MensagensIAModel(5, "Nós somos os Profetas da última hora\n\nMuitas pessoas vão se converter atráves da sua oração, adoração e pregação."));
-        list.add(new MensagensIAModel(6, "A Bíblia diz em Atos 28. Que Paulo foi picado por uma víbora.\n\nPorém ele não morreu. Mas, a Bíblia não diz se doeu ou não.\n\nAs lutas dentro da sua casa, igreja ou do mundo podem até doer e te entristecer. Mas, assim como Paulo você também não vai morrer por causa das víboras"));
-        list.add(new MensagensIAModel(7, "Palavra do céu para você.\n\nSe ouvires atentamente a voz do Senhor teu Deus, tendo cuidado de guardar todos os seus mandamentos que eu hoje te ordeno, o Senhor teu Deus te exaltará sobre todas as nações da terra; \n" +
-                "\n" +
-                "Deuteronômio 28:1"));
-        list.add(new MensagensIAModel(8, "Fica em paz! Todos aqueles que duvidaram do seu ministério vão ter que sentar para ouvir você cantar e pregar.\n\n#O tempo de Deus é perfeito"));
-        list.add(new MensagensIAModel(9, "Não há erros nos planos de Deus! Senão deu certo é porque Ele tem algo melhor preparado para ti.\n\n#Nem olhos viram nem ouvidos ouviram"));
-        list.add(new MensagensIAModel(10, "Mas o Senhor disse a Samuel: Não atentes para a sua aparência, nem para a grandeza da sua estatura, porque eu o rejeitei; porque o Senhor não vê como vê o homem, pois o homem olha para o que está diante dos olhos, porém o Senhor olha para o coraçao. \n" +
-               "\n" +
-               "1 Samuel 16:7"));
-        this.cadastrarMensagens(list);
+        List<ThemeslistModel> listTheme = new ArrayList<>();
+
+        //Amor
+        listTheme.add(new ThemeslistModel(43,3,16, "Amor"));
+        listTheme.add(new ThemeslistModel(40,22,37, "Amor"));
+        listTheme.add(new ThemeslistModel(40,22,39, "Amor"));
+        listTheme.add(new ThemeslistModel(46,13,1, "Amor"));
+        listTheme.add(new ThemeslistModel(46,13,2, "Amor"));
+        listTheme.add(new ThemeslistModel(46,13,13, "Amor"));
+        listTheme.add(new ThemeslistModel(51,3,14, "Amor"));
+
+        //Amizade
+        listTheme.add(new ThemeslistModel(59,4,4, "Amizade"));
+        listTheme.add(new ThemeslistModel(21,4,10, "Amizade"));
+        listTheme.add(new ThemeslistModel(45,12,10, "Amizade"));
+        listTheme.add(new ThemeslistModel(20,17,17, "Amizade"));
+
+        //Ansiedade
+        listTheme.add(new ThemeslistModel(60,5,7, "Ansiedade"));
+        listTheme.add(new ThemeslistModel(40,6,31, "Ansiedade"));
+        listTheme.add(new ThemeslistModel(40,6,32, "Ansiedade"));
+        listTheme.add(new ThemeslistModel(40,6,33, "Ansiedade"));
+        listTheme.add(new ThemeslistModel(40,6,34, "Ansiedade"));
+        listTheme.add(new ThemeslistModel(19,56,3, "Ansiedade"));
+
+        //Namoro
+        listTheme.add(new ThemeslistModel(22,8,4, "Namoro"));
+        listTheme.add(new ThemeslistModel(30,3,3, "Namoro"));
+        listTheme.add(new ThemeslistModel(20,4,23, "Namoro"));
+        listTheme.add(new ThemeslistModel(20,19,14, "Namoro"));
+        listTheme.add(new ThemeslistModel(1,2,18, "Namoro"));
+        listTheme.add(new ThemeslistModel(47,6,14, "Namoro"));
+        listTheme.add(new ThemeslistModel(47,6,15, "Namoro"));
+        listTheme.add(new ThemeslistModel(46,6,18, "Namoro"));
+        listTheme.add(new ThemeslistModel(46,6,19, "Namoro"));
+        listTheme.add(new ThemeslistModel(46,6,20, "Namoro"));
+        listTheme.add(new ThemeslistModel(46,15,33, "Namoro"));
+
+        //Casamento
+        listTheme.add(new ThemeslistModel(54,5,14, "Casamento"));
+        listTheme.add(new ThemeslistModel(51,3,18, "Casamento"));
+        listTheme.add(new ThemeslistModel(51,3,19, "Casamento"));
+        listTheme.add(new ThemeslistModel(20,19,14, "Casamento"));
+        listTheme.add(new ThemeslistModel(1,2,18, "Casamento"));
+
+
+        this.createVerseTheme(listTheme);
+
     }
 
     public List<LivrosBibliaModel> listarLivros(){
@@ -357,34 +392,7 @@ public class DataBaseAcess {
 
     }
 
-    public List<LivrosBibliaModel> listarPentateuco(){
-
-        open();
-
-        List<LivrosBibliaModel> lista = new ArrayList<>();
-
-        String sql = "SELECT * FROM book where id<=5";
-        cursor = db.rawQuery(sql,null);
-        if (cursor.getCount()>0){
-            if (cursor.moveToFirst()){
-                do{
-
-                    int id = cursor.getInt(1);
-                    int testamento = cursor.getInt(2);
-                    String nome = cursor.getString(3);
-                    LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
-                    lista.add(b);
-
-                }while(cursor.moveToNext());
-            }
-        }
-        cursor.close();
-        close();
-        return lista;
-
-    }
-
-    //Listar Livros Pelo Nome like%
+    //Listar Livros Pelo Nome like% WHERE text LIKE '"+theme+"%'
     public List<LivrosBibliaModel> listarLivrosPesquisa(String texto){
 
         open();
@@ -428,6 +436,35 @@ public class DataBaseAcess {
                     String nome = cursor.getString(3);
                     LivrosBibliaModel b = new LivrosBibliaModel(id, testamento, nome);
                     lista.add(b.getNome());
+
+                }while(cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        close();
+        return lista;
+    }
+
+
+    public List<BibliaModel> findThemes(int book_id, int chapter_id, int verse_id){
+
+
+        open();
+        List<BibliaModel> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM verse where book_id="+book_id+" and chapter="+chapter_id+" and verse="+verse_id+"";
+        cursor = db.rawQuery(sql,null);
+        if (cursor.getCount()>0){
+            if (cursor.moveToFirst()){
+                do{
+
+                    int id = cursor.getInt(0);
+                    int livro = cursor.getInt(1);
+                    int cap = cursor.getInt(2);
+                    int verso = cursor.getInt(3);
+                    String nome = cursor.getString(4);
+                    BibliaModel v = new BibliaModel(id, livro, cap, verso, nome, false);
+                    lista.add(v);
 
                 }while(cursor.moveToNext());
             }
@@ -492,6 +529,30 @@ public class DataBaseAcess {
         cursor.close();
         close();
         return num;
+
+    }
+
+    //PESQUSIAR PELO NUM DO LIVRO
+    public String findBook(int livro){
+
+        String name = "";
+        open();
+
+        String sql = "SELECT * FROM book where id="+livro;
+        cursor = db.rawQuery(sql,null);
+        if (cursor.getCount()>0){
+            if (cursor.moveToFirst()){
+                do{
+
+                    name = cursor.getString(3);
+
+
+                }while(cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        close();
+        return name;
 
     }
 
@@ -690,64 +751,100 @@ public class DataBaseAcess {
     }
 
 
-    //IA MENSAGENS
-    private void cadastrarMensagens(List<MensagensIAModel> lista){
+    //Themes
+
+    private void createVerseTheme(List<ThemeslistModel> lista) {
 
         open();
-
 
         ContentValues valores = new ContentValues();
 
         for (int i = 0; i < lista.size(); i++) {
 
-            int id = lista.get(i).getId();
-            String mensagem = lista.get(i).getMensagem();
+            int book = lista.get(i).getBook_id();
+            int chapter = lista.get(i).getChapter_id();
+            int verse = lista.get(i).getVerse_id();
+            String theme = lista.get(i).getThemeName();
 
-            valores.put("id", id);
-            valores.put("mensagem", mensagem);
 
-            long resultado = db.insert(TABELA_MENSAGENS, null, valores);
+            valores.put("book_id", book);
+            valores.put("chapter_id", chapter);
+            valores.put("verse_id", verse);
+            valores.put("theme_name", theme);
+
+            long resultado = db.insert(TABELA_TEMAS, null, valores);
+
 
             if (resultado ==-1) {
 
-                Log.i("Reobote Technology", "Erro ao cadastrar todas as IA");
+                Log.i("Temas", "Erro ao cadastrar todos os temas");
             }
             else {
-                Log.i("Reobote Technology", "Sucesso ao cadastrar todas as IA");
+                Log.i("Temas", "Sucesso ao cadastrar todos os temas");
             }
 
         }
 
         close();
+
     }
 
-    public List<MensagensIAModel> listarMensagens(int num){
+    public List<ThemeslistModel> listThemesVerses(String theme){
 
-        List<MensagensIAModel> lista = new ArrayList<>();
+        List<ThemeslistModel> lista = new ArrayList<>();
 
         open();
 
-        String sql = "SELECT * FROM mensagens where id !="+num+" ORDER BY RANDOM() LIMIT 1";
+        String sql = "SELECT * FROM temas where theme_name='"+theme+"'";
         cursor = db.rawQuery(sql,null);
         if (cursor.getCount()>0){
             if (cursor.moveToFirst()){
                 do{
 
-                    int id = cursor.getInt(0);
-                    String mensagem = cursor.getString(1);
+                    //int id = cursor.getInt(0);
+                    int book_id = cursor.getInt(1);
+                    int chapter_id = cursor.getInt(2);
+                    int verse_id = cursor.getInt(3);
+                    String theme_name = cursor.getString(4);
 
-                    MensagensIAModel v = new MensagensIAModel(id, mensagem);
+                    ThemeslistModel v = new ThemeslistModel(book_id, chapter_id, verse_id, theme_name);
                     lista.add(v);
 
 
                 }while(cursor.moveToNext());
             }
+
+
         }
         cursor.close();
         close();
         return lista;
 
+
+
     }
+
+      /*private void inserirMensagens() {
+
+        List<MensagensIAModel> list = new ArrayList<>();
+        list.add(new MensagensIAModel(1, "Você é uma pessoa incrivel. Sabia? Deus vai honrar a tua fé.\uD83D\uDE0D"));
+        list.add(new MensagensIAModel(2, "Palavra do céu para você.\n\nResponderam eles: Crê no Senhor Jesus e serás salvo, tu e tua casa. \n" +
+                "\n" +
+                "Atos 16:31"));
+        list.add(new MensagensIAModel(3, "Se acalma. Se você ainda está solteiro(a) vai casar antes da volta do Filho do Homem. \uD83D\uDE0D\n\n #Creia no Milagre"));
+        list.add(new MensagensIAModel(4, "Você ainda vai cantar, pregar e evangelizar muito pelo mundo inteiro.\n\n#O tempo de Deus é perfeito"));
+        list.add(new MensagensIAModel(5, "Nós somos os Profetas da última hora\n\nMuitas pessoas vão se converter atráves da sua oração, adoração e pregação."));
+        list.add(new MensagensIAModel(6, "A Bíblia diz em Atos 28. Que Paulo foi picado por uma víbora.\n\nPorém ele não morreu. Mas, a Bíblia não diz se doeu ou não.\n\nAs lutas dentro da sua casa, igreja ou do mundo podem até doer e te entristecer. Mas, assim como Paulo você também não vai morrer por causa das víboras"));
+        list.add(new MensagensIAModel(7, "Palavra do céu para você.\n\nSe ouvires atentamente a voz do Senhor teu Deus, tendo cuidado de guardar todos os seus mandamentos que eu hoje te ordeno, o Senhor teu Deus te exaltará sobre todas as nações da terra; \n" +
+                "\n" +
+                "Deuteronômio 28:1"));
+        list.add(new MensagensIAModel(8, "Fica em paz! Todos aqueles que duvidaram do seu ministério vão ter que sentar para ouvir você cantar e pregar.\n\n#O tempo de Deus é perfeito"));
+        list.add(new MensagensIAModel(9, "Não há erros nos planos de Deus! Senão deu certo é porque Ele tem algo melhor preparado para ti.\n\n#Nem olhos viram nem ouvidos ouviram"));
+        list.add(new MensagensIAModel(10, "Mas o Senhor disse a Samuel: Não atentes para a sua aparência, nem para a grandeza da sua estatura, porque eu o rejeitei; porque o Senhor não vê como vê o homem, pois o homem olha para o que está diante dos olhos, porém o Senhor olha para o coraçao. \n" +
+               "\n" +
+               "1 Samuel 16:7"));
+        this.cadastrarMensagens(list);
+    }*/
 
 
 }

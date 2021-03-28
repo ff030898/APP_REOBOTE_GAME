@@ -9,12 +9,12 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,9 +44,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
+import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
-import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
+import com.reobotetechnology.reobotegame.ui.main.find_friends.FindFriendsActivity;
 import com.tapadoo.alerter.Alerter;
 import com.yalantis.ucrop.UCrop;
 
@@ -56,12 +56,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private DatabaseReference firebaseRef = ConfiguracaoFireBase.getFirebaseDataBase();
+    private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseAuth autenticacao;
 
     private static final int PERMISSION_CODE = 1000;
@@ -75,13 +76,13 @@ public class ProfileActivity extends AppCompatActivity {
     Button btnFinalizar;
 
     private BottomSheetDialog bottomSheetDialog;
-    private ProgressDialog progressDialog;
+    private SweetAlertDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
+        setContentView(R.layout.activity_selected_image);
+        autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
 
         img_perfil = findViewById(R.id.img_perfil);
         btn_camera = findViewById(R.id.btn_camera);
@@ -98,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtPular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                startActivity(new Intent(getApplicationContext(), FindFriendsActivity.class));
                 finish();
             }
         });
@@ -116,13 +117,15 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Aguarde....");
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#0066cc"));
+        pDialog.setTitleText("Carregando");
+        pDialog.setCancelable(false);
 
     }
 
     private void showBottomSheetPickPhoto() {
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.bottom_sheet_photo, null);
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_photo_profile, null);
 
         view.findViewById(R.id.ln_gallery).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,7 +233,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .with(getApplicationContext())
                         .load(imageUriResultCrop)
                         .centerCrop()
-                        .placeholder(R.drawable.user)
+                        .placeholder(R.drawable.profile)
                         .into(img_perfil);
             }else{
                 Alerter.create(ProfileActivity.this)
@@ -246,22 +249,11 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         })
                         .show();
+                btnFinalizar.setVisibility(View.GONE);
             }
 
         }else{
-            Alerter.create(ProfileActivity.this)
-                    .setTitle("Oops...")
-                    .setText("Erro ao carregar imagem")
-                    .setIcon(R.drawable.ic_warning)
-                    .setDuration(5000)
-                    .setBackgroundColorRes(R.color.colorWarning)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Alerter.hide();
-                        }
-                    })
-                    .show();
+            btnFinalizar.setVisibility(View.GONE);
         }
     }
 
@@ -303,7 +295,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (pickedImgUri != null) {
 
-            progressDialog.show();
+            pDialog.show();
 
             StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("usuarios_photos");
             final String user_id = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -371,7 +363,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                                                  if (task.isSuccessful()) {
 
-                                                     progressDialog.dismiss();
+                                                     pDialog.dismiss();
                                                      Alerter.create(ProfileActivity.this)
                                                              .setTitle("Obaa...")
                                                              .setText("IMAGEM CADASTRADA COM SUCESSO!")
@@ -386,11 +378,17 @@ public class ProfileActivity extends AppCompatActivity {
                                                              })
                                                              .show();
 
+                                                     btnFinalizar.setClickable(false);
+                                                     btnFinalizar.setAlpha(0.7f);
+                                                     txtPular.setClickable(false);
+                                                     btn_camera.setClickable(false);
+                                                     btn_camera.setAlpha(0.7f);
+
                                                      new Handler().postDelayed(new Runnable() {
                                                          @Override
                                                          public void run() {
 
-                                                             progressDialog.show();
+                                                             pDialog.show();
                                                              updateUI();
 
 
@@ -401,7 +399,7 @@ public class ProfileActivity extends AppCompatActivity {
                                              }
                                          });
                              }else{
-                                 progressDialog.dismiss();
+                                 pDialog.dismiss();
                              }
                         }
                     });
@@ -426,9 +424,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        startActivity(new Intent(getApplicationContext(), FindFriendsActivity.class));
         finish();
-        progressDialog.dismiss();
+        pDialog.dismiss();
     }
 
 

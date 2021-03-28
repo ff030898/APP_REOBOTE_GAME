@@ -2,10 +2,12 @@ package com.reobotetechnology.reobotegame.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,11 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
+import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
 
@@ -32,21 +32,19 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
 
     private List<UsuarioModel> usuario;
     private Context context;
-    private int tipo;
-    private FirebaseAuth autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
-    private FirebaseUser user = autenticacao.getCurrentUser();
 
-    public RankingAdapters(List<UsuarioModel> listaUsuario, Context c, int tipo) {
+
+    public RankingAdapters(List<UsuarioModel> listaUsuario, Context c) {
         this.usuario = listaUsuario;
         this.context = c;
-        this.tipo = tipo;
+
     }
 
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking, parent, false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_ranking_list, parent, false);
         return new myViewHolder(itemLista);
     }
 
@@ -58,45 +56,73 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
 
         int pos = (position + 1);
 
-        DatabaseReference firebaseRef = ConfiguracaoFireBase.getFirebaseDataBase();
+        DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
 
         holder.nome.setText(usuarioModel.getNome());
+
 
         try {
             if (usuarioModel.getImagem().isEmpty()) {
 
                 Glide
                         .with(context)
-                        .load(R.drawable.user)
+                        .load(R.drawable.profile)
                         .centerCrop()
-                        .placeholder(R.drawable.user)
+                        .placeholder(R.drawable.profile)
                         .into(holder.img);
             } else {
                 Glide
                         .with(context)
                         .load(usuarioModel.getImagem())
                         .centerCrop()
-                        .placeholder(R.drawable.user)
+                        .placeholder(R.drawable.profile)
                         .into(holder.img);
             }
         } catch (Exception e) {
             Glide
                     .with(context)
-                    .load(R.drawable.user)
+                    .load(R.drawable.profile)
                     .centerCrop()
-                    .placeholder(R.drawable.user)
+                    .placeholder(R.drawable.profile)
                     .into(holder.img);
         }
 
-        if (tipo == 0) {
-            holder.pontos.setText("" + usuarioModel.getPontosG());
+
+            holder.pontos.setText(""+usuarioModel.getPontosG());
             String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(usuarioModel.getEmail())));
             DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
             usuarioRef.child("ranking").setValue(pos);
-        } else if (tipo == 1) {
-            holder.pontos.setText("" + usuarioModel.getPontosD());
+
+           holder.ranking.setText(usuarioModel.getRanking() + "º");
+
+           /*if(holder.ranking.getText().equals("1º")){
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   holder.ranking.setBackgroundTintList(ColorStateList.valueOf(0xffAE841A));
+                   holder.ranking.setTextColor(ColorStateList.valueOf(0xffffffff));
+               }
+
+
+           }else if(usuarioModel.getRanking() == 2) {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   holder.ranking.setBackgroundTintList(ColorStateList.valueOf(0xffC0C0C0));
+                   holder.ranking.setTextColor(ColorStateList.valueOf(0xff000000));
+               }
+           }else if(usuarioModel.getRanking() == 3) {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   holder.ranking.setBackgroundTintList(ColorStateList.valueOf(0xffCD7F32));
+                   holder.ranking.setTextColor(ColorStateList.valueOf(0xffffffff));
+               }
+           }else{
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   holder.ranking.setBackground(context.getResources().getDrawable(R.drawable.bg_ranking_position));
+                   holder.ranking.setTextColor(ColorStateList.valueOf(0xff000000));
+               }
+           }*/
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.ranking.setBackground(context.getResources().getDrawable(R.drawable.bg_ranking_position));
+            holder.ranking.setTextColor(ColorStateList.valueOf(0xff000000));
         }
-        holder.ranking.setText(pos + "º");
 
     }
 
@@ -109,8 +135,8 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
     static class myViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView img;
-        TextView nome, pontos, ranking;
-        View guideline2;
+        TextView nome, pontos;
+        Button ranking;
         ConstraintLayout Principal;
 
         myViewHolder(@NonNull View itemView) {
@@ -119,9 +145,9 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
             img = itemView.findViewById(R.id.img_user);
             nome = itemView.findViewById(R.id.txtNome);
             pontos = itemView.findViewById(R.id.txtPontos);
-            ranking = itemView.findViewById(R.id.txtRanking);
-            guideline2 = itemView.findViewById(R.id.guideline2);
+            ranking = itemView.findViewById(R.id.btnRanking);
             Principal = itemView.findViewById(R.id.Principal);
+
 
         }
     }

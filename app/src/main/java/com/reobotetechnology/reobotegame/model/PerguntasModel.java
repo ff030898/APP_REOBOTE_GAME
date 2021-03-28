@@ -1,8 +1,7 @@
 package com.reobotetechnology.reobotegame.model;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
-import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
+import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 
 public class PerguntasModel {
     private int id;
@@ -89,7 +88,7 @@ public class PerguntasModel {
     }
 
     public void salvar(String partida){
-        DatabaseReference firebase = ConfiguracaoFireBase.getFirebaseDataBase();
+        DatabaseReference firebase = ConfigurationFireBase.getFirebaseDataBase();
         firebase.child("partidas")
                 .child(partida)
                 .child("perguntas")

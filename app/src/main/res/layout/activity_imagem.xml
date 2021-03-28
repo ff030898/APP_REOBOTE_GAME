@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPreto"
-    tools:context=".ui.visualizar_imagens.VisualizarImagemActivity">
+    tools:context=".ui.view_images_screen.VisualizarImagemActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imagemUsuario"
@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNomeImg"
-        app:srcCompat="@drawable/user" />
+        app:srcCompat="@drawable/profile" />
 
     <TextView
         android:id="@+id/txtNomeImg"
@@ -28,7 +28,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="Fabrício"
+        tools:text="Fabrício"
         android:textColor="@color/colorBranco"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toEndOf="@+id/imgVoltarImagem"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgVoltarImagem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_voltar"
+        app:srcCompat="@drawable/ic_voltar_white"
         tools:ignore="VectorDrawableCompat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

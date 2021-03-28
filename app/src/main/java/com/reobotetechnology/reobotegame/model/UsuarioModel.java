@@ -2,24 +2,26 @@ package com.reobotetechnology.reobotegame.model;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
-import com.reobotetechnology.reobotegame.config.ConfiguracaoFireBase;
+import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 
 public class UsuarioModel {
 
-    private String id, nome, email, senha, imagem, token;
-    private int ranking, pontosG, pontosM, pontosS, pontosD, seguidores, seguindo, nivel, partidas, vitorias, derrotas, empates;
-    private boolean online, jogando;
+    private String id, nome, email, senha, imagem, token, description, lastAcessed;
+    private int ranking, pontosG, pontosM, pontosS, pontosD, seguidores, seguindo, nivel, partidas, vitorias, derrotas, empates, backPosition;
+    private boolean online, jogando, verseDay, firstAcessed, notificationsAuthorize, dayMessageIA, availabled;
 
     public UsuarioModel() {
     }
 
-    public UsuarioModel(String id, String nome, String email, String senha, String imagem, String token, int ranking, int pontosG, int pontosM, int pontosS, int pontosD, int seguidores, int seguindo, int nivel, int partidas, int vitorias, int derrotas, int empates, boolean online, boolean jogando) {
+    public UsuarioModel(String id, String nome, String email, String senha, String imagem, String token, String description, String lastAcessed, int ranking, int pontosG, int pontosM, int pontosS, int pontosD, int seguidores, int seguindo, int nivel, int partidas, int vitorias, int derrotas, int empates, int backPosition, boolean online, boolean jogando, boolean verseDay, boolean firstAcessed, boolean notificationsAuthorize, boolean dayMessageIA, boolean availabled) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.imagem = imagem;
         this.token = token;
+        this.description = description;
+        this.lastAcessed = lastAcessed;
         this.ranking = ranking;
         this.pontosG = pontosG;
         this.pontosM = pontosM;
@@ -32,8 +34,78 @@ public class UsuarioModel {
         this.vitorias = vitorias;
         this.derrotas = derrotas;
         this.empates = empates;
+        this.backPosition = backPosition;
         this.online = online;
         this.jogando = jogando;
+        this.verseDay = verseDay;
+        this.firstAcessed = firstAcessed;
+        this.notificationsAuthorize = notificationsAuthorize;
+        this.dayMessageIA = dayMessageIA;
+        this.availabled = availabled;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLastAcessed() {
+        return lastAcessed;
+    }
+
+    public void setLastAcessed(String lastAcessed) {
+        this.lastAcessed = lastAcessed;
+    }
+
+    public int getBackPosition() {
+        return backPosition;
+    }
+
+    public void setBackPosition(int backPosition) {
+        this.backPosition = backPosition;
+    }
+
+    public boolean isVerseDay() {
+        return verseDay;
+    }
+
+    public void setVerseDay(boolean verseDay) {
+        this.verseDay = verseDay;
+    }
+
+    public boolean isFirstAcessed() {
+        return firstAcessed;
+    }
+
+    public void setFirstAcessed(boolean firstAcessed) {
+        this.firstAcessed = firstAcessed;
+    }
+
+    public boolean isNotificationsAuthorize() {
+        return notificationsAuthorize;
+    }
+
+    public void setNotificationsAuthorize(boolean notificationsAuthorize) {
+        this.notificationsAuthorize = notificationsAuthorize;
+    }
+
+    public boolean isDayMessageIA() {
+        return dayMessageIA;
+    }
+
+    public void setDayMessageIA(boolean dayMessageIA) {
+        this.dayMessageIA = dayMessageIA;
+    }
+
+    public boolean isAvailabled() {
+        return availabled;
+    }
+
+    public void setAvailabled(boolean availabled) {
+        this.availabled = availabled;
     }
 
     @Exclude
@@ -199,7 +271,7 @@ public class UsuarioModel {
     }
 
     public void salvar(){
-        DatabaseReference firebase = ConfiguracaoFireBase.getFirebaseDataBase();
+        DatabaseReference firebase = ConfigurationFireBase.getFirebaseDataBase();
         firebase.child("usuarios")
                 .child( this.id )
                 .setValue( this );
