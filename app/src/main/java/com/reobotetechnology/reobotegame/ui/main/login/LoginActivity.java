@@ -357,9 +357,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                 UsuarioModel usuario2Model = new UsuarioModel(idUsuario, user.getDisplayName(), email, "", imagem,
                                         "", "", "", 0, 0, 0, 0,
-                                        0, 0, 0, 0, 0, 0, 0, 0,
-                                        0, false, false, false, false, false,
-                                        false, false);
+                                        0, 0, 0, 0, 0, 0,  false, false, false, false, false,
+                                        false, false, false, false);
 
                                 usuario2Model.salvar();
                                 atualizarToken(email);

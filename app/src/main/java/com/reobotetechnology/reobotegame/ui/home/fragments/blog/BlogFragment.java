@@ -207,52 +207,6 @@ public class BlogFragment extends Fragment {
         recyclerStory7.setAdapter(adapterStory);
 
 
-
-        //Recycler BlogStory
-
-        /*
-        recyclerStory.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        getActivity(),
-                        recyclerStory,
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-
-                                int tamanho = listStory.size();
-
-                                if (tamanho > 0) {
-
-                                    BlogPostModel post  = listStory.get(position);
-                                    Intent i = new Intent(getActivity(), BlogDetails.class);
-                                    i.putExtra("id_post", post.getId());
-                                    i.putExtra("title", post.getTitle());
-                                    i.putExtra("date", post.getTime());
-                                    startActivity(i);
-
-                                }
-
-
-                            }
-
-                            @Override
-                            public void onLongItemClick(View view, int position) {
-
-                            }
-
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            }
-                        }
-                )
-        );
-
-        */
-
-
-
-
         return root;
     }
 

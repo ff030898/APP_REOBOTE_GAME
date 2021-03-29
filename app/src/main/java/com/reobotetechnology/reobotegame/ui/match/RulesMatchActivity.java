@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,12 +20,12 @@ import com.reobotetechnology.reobotegame.R;
 
 public class RulesMatchActivity extends AppCompatActivity {
 
-    ProgressBar progressoIniciar;
-    Button btnOnline, btnOffline;
-    LinearLayout linearRegras;
-    TextView txtLerMais;
+    private ProgressBar progressBar;
+    private LinearLayout linearTermes;
+    private ImageButton btn_back;
+
     //Animation
-    Animation topAnim, bottomAnim;
+    private Animation topAnim;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -31,58 +33,40 @@ public class RulesMatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules_match);
 
+        progressBar = findViewById(R.id.progressBar);
+        linearTermes = findViewById(R.id.linearTermes);
 
+        //TOOLBAR
+        TextView txt_title = findViewById(R.id.txt_title);
+        TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
-        progressoIniciar = findViewById(R.id.progressoIniciar);
-        linearRegras = findViewById(R.id.linearRegras);
-        btnOnline = findViewById(R.id.btnOnline);
-        btnOffline = findViewById(R.id.btnOffline);
-        txtLerMais = findViewById(R.id.txtLerMais);
+        txt_title.setText(getString(R.string.regras_do_jogo));
+        txt_subtitle.setText(getString(R.string.leia_com_aten_o));
 
-        progressoIniciar.setVisibility(View.VISIBLE);
-        linearRegras.setVisibility(View.GONE);
-        btnOffline.setVisibility(View.GONE);
-        btnOnline.setVisibility(View.GONE);
+        btn_back = findViewById(R.id.btn_back);
 
+        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
 
-        txtLerMais.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ConfirmationMatchActivity.class));
-            }
-        });
-
-        btnOffline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), MatchActivity.class);
-                i.putExtra("nome", "Reobote");
-                i.putExtra("imagem", "");
-                startActivity( i );
-                finish();
-
-            }
-        });
-
-        btnOnline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), FriendsOnlineActivity.class));
-            }
-        });
+        linearTermes.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                progressoIniciar.setVisibility(View.GONE);
-                linearRegras.setVisibility(View.VISIBLE);
-                btnOffline.setVisibility(View.VISIBLE);
-                btnOnline.setVisibility(View.VISIBLE);
-
+                progressBar.setVisibility(View.GONE);
+                linearTermes.setVisibility(View.VISIBLE);
+                btn_back.setAnimation(topAnim);
 
             }
         }, 2000);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
     }

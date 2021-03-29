@@ -187,9 +187,8 @@ public class MessagesListActivity extends AppCompatActivity {
 
         UsuarioModel amigo = new UsuarioModel("1", getString(R.string.name_robot), "reobote@gmail.com", "", "",
                 "", "", "", 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0,
-                0, false, false, false, false, false,
-                false, false);
+                0, 0, 0, 0, 0, 0, false, false, false, false, false,
+                false, false, false, false);
 
         MensagensModel m = new MensagensModel(1, amigo, amigo, data, hora_atual,
                 "Olá, "+user.getDisplayName()+" Tudo bem? Eu sou a inteligência artifical do Reobote Game. É um prazer te conhecer.\n\nVocê é uma Bênção", 0, "", 1, false);

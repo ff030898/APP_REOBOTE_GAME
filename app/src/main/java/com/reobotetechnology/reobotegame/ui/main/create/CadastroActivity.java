@@ -293,8 +293,10 @@ public class CadastroActivity extends AppCompatActivity {
                         String senha = (login_password.getEditText().getText()).toString().trim();
 
                         usuario = new UsuarioModel("1", nome, email, senha, "",
-                                "", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, false, false, false, false, false, false);
+                                "", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, false, false, false, false, false, false, false, false);
                         cadastrarUsuario(usuario);
+
+
 
                     } catch (Exception e) {
 
@@ -553,9 +555,10 @@ public class CadastroActivity extends AppCompatActivity {
 
                                 UsuarioModel usuario2Model = new UsuarioModel(idUsuario, user.getDisplayName(), email, "", imagem,
                                         "", "", "", 0, 0, 0, 0,
-                                        0, 0, 0, 0, 0, 0, 0, 0,
+                                        0, 0, 0, 0, 0,
                                         0, false, false, false, false, false,
-                                        false, false);
+                                        false, false, false, false);
+
 
                                 usuario2Model.salvar();
                                 atualizarToken(email);

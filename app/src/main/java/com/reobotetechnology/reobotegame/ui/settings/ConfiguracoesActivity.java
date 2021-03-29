@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.ui.main.WelcomeActivity;
+import com.reobotetechnology.reobotegame.ui.match.RulesMatchActivity;
 
 public class ConfiguracoesActivity extends AppCompatActivity {
 
@@ -26,7 +27,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_configuracoes);
+        setContentView(R.layout.activity_settings);
 
         Button btnLogoff = findViewById(R.id.btnLogoff);
 
@@ -34,6 +35,15 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logoff();
+            }
+        });
+
+        Button btnRules = findViewById(R.id.btnRules);
+
+        btnRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewRules();
             }
         });
 
@@ -47,5 +57,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
         startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
         finish();
+    }
+
+    private void viewRules(){
+        startActivity(new Intent(getApplicationContext(), RulesMatchActivity.class));
     }
 }

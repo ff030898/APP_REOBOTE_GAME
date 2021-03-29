@@ -157,9 +157,8 @@ public class ChatActivity extends AppCompatActivity {
 
             UsuarioModel amigo = new UsuarioModel("1", "", "", "", imagem,
                     "", "", "", 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0,
-                    0, false, false, false, false, false,
-                    false, false);
+                    0, 0, 0, 0, 0, 0, false, false, false, false, false,
+                    false, false, false, false);
 
             try {
 
@@ -227,9 +226,8 @@ public class ChatActivity extends AppCompatActivity {
 
             UsuarioModel amigo = new UsuarioModel("1", "", "", "", imagem,
                     "", "", "", 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0,
-                    0, false, false, false, false, false,
-                    false, false);
+                    0, 0, 0, 0, 0, 0, false, false, false, false, false,
+                    false, false, false, false);
 
             MensagensModel m = new MensagensModel(2, amigo, amigo, data, hora_atual,
                     texto, 0, "", 0, false);
@@ -259,9 +257,8 @@ public class ChatActivity extends AppCompatActivity {
 
                     UsuarioModel amigo = new UsuarioModel("1", "", "", "", imagem,
                             "", "", "", 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0,
-                            0, false, false, false, false, false,
-                            false, false);
+                            0, 0, 0, 0, 0, 0, false, false, false, false, false,
+                            false, false, false, false);
 
                     if (nome.equals("Reobote IA")) {
 

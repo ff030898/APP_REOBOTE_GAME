@@ -41,7 +41,7 @@
     <string name="_3">3º</string>
     <string name="modo_offline">MODO SINGLE PLAYER VS ANDROID</string>
     <string name="multiplayer_1_vs_1">MODO MULTIPLAYER 1 VS 1</string>
-    <string name="regras_do_jogo">REGRAS DO JOGO:</string>
+    <string name="regras_do_jogo">Regras</string>
     <string name="regras">
     Cada partida vale 10 pontos\n\nCada jogador tem 15 segundos para responder cada pergunta\n\nQuem acertar mais perguntas vence e ganha +10 pontos no ranking.\n\nSe o número de acertos for igual é empate e cada um ganha +5 pontos\n\nO Perdedor da partida perde -3 pontos\n\nEm caso de vitória o jogador vencedor poderá dobrar os pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de empate os dois jogadores poderão dobrar os seus pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de derrota o jogador perdedor poderá recuperar os 3 pontos perdidos da partida assistindo uma propaganda de 30 segundos
     </string>
@@ -147,7 +147,7 @@
     <string name="seguirM">SEGUIR</string>
     <string name="app_nameM">REOBOTE GAME</string>
     <string name="ajuda">Ajuda</string>
-    <string name="convide_um_amigo_para_jogar">DESAFIE UM AMIGO</string>
+    <string name="convide_um_amigo_para_jogar">DESAFIE UM AMIGO PARA JOGAR</string>
     <string name="autor">Autor:</string>
     <string name="voc_est_lendo">VOCÊ ESTÁ LENDO</string>
     <string name="pesquisar2">Pesquisar</string>
@@ -204,12 +204,13 @@
     <string name="derrotas">Derrotas</string>
     <string name="view">visualizado</string>
     <string name="fechar">Fechar</string>
-    <string name="descriptionWelcome">Bem vindo, você ganhou \n +50 pontos</string>
+    <string name="descriptionWelcome">Bem vindo(a), você ganhou \n +20 pontos</string>
     <string name="Ontem">Ontem</string>
     <string name="Hoje">Hoje</string>
     <string name="Todas">Todas</string>
     <string name="detalhes">Detalhes</string>
     <string name="Audio">Audio</string>
+    <string name="recente">Recente</string>
 
 
 </resources>

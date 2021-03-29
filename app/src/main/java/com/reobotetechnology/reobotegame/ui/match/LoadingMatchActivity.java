@@ -74,19 +74,15 @@ public class LoadingMatchActivity extends AppCompatActivity {
     boolean internet = true;
     int cont = 0;
 
-    private List<PerguntasModel> list = new ArrayList<>();
 
     private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
     String idPartida;
-    String token;
+
 
     //Pontos Usuario 1
-    int pontosD;
-    int pontosS;
-    int pontosM;
     int pontosG;
     int vitorias;
     int derrotas;
@@ -266,7 +262,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
                             internet = false;
                         }
 
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
 
 
                     }
@@ -280,7 +276,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
                 }
             });
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
 
         }
@@ -325,7 +321,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void carregaUser() {
 
-        String[] linhas = user.getDisplayName().split(" ");
+        String[] linhas = Objects.requireNonNull(user.getDisplayName()).split(" ");
         txtUsuario1.setText(linhas[0]);
 
         try {
@@ -576,9 +572,9 @@ public class LoadingMatchActivity extends AppCompatActivity {
                         DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
                         usuarioRef.child("desconectado").setValue(true);
                         jogando(false);
-
-                        sDialog.hide();
                         finish();
+                        sDialog.hide();
+
                     }
                 }).setCancelText("Não")
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -595,7 +591,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
 
     private void desistirP() {
 
-        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+        new SweetAlertDialog(LoadingMatchActivity.this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Desistir da Partida")
                 .setContentText("Atenção o Jogador(a): " + nome + " já aceitou o convite. Se você desistir da partida vai perder -3 pontos. Tem certeza que deseja desistir ?")
                 .setConfirmText("Sim")
@@ -642,17 +638,11 @@ public class LoadingMatchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                String pontosDia = Objects.requireNonNull(dataSnapshot.child("pontosD").getValue()).toString();
-                String pontosSemana = Objects.requireNonNull(dataSnapshot.child("pontosS").getValue()).toString();
-                String pontosMes = Objects.requireNonNull(dataSnapshot.child("pontosM").getValue()).toString();
                 String pontosGeral = Objects.requireNonNull(dataSnapshot.child("pontosG").getValue()).toString();
                 String vitoriasText = Objects.requireNonNull(dataSnapshot.child("vitorias").getValue()).toString();
                 String derrotasText = Objects.requireNonNull(dataSnapshot.child("derrotas").getValue()).toString();
                 String empatesText = Objects.requireNonNull(dataSnapshot.child("empates").getValue()).toString();
 
-                pontosD = Integer.parseInt(pontosDia);
-                pontosS = Integer.parseInt(pontosSemana);
-                pontosM = Integer.parseInt(pontosMes);
                 pontosG = Integer.parseInt(pontosGeral);
                 vitorias = Integer.parseInt(vitoriasText);
                 derrotas = Integer.parseInt(derrotasText);
@@ -674,14 +664,9 @@ public class LoadingMatchActivity extends AppCompatActivity {
         assert emailUsuario != null;
         String idUsuario = Base64Custom.codificarBase64(emailUsuario);
         DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
-        int pontosDia = pontosD + pontos;
-        int pontosSemana = pontosS + pontos;
-        int pontosMes = pontosM + pontos;
         int pontosGeral = pontosG + pontos;
 
-        usuarioRef.child("pontosD").setValue(pontosDia);
-        usuarioRef.child("pontosS").setValue(pontosSemana);
-        usuarioRef.child("pontosM").setValue(pontosMes);
+
         usuarioRef.child("pontosG").setValue(pontosGeral);
 
         if (pontos == 10) {
@@ -727,6 +712,17 @@ public class LoadingMatchActivity extends AppCompatActivity {
 
         if (!message.getText().isEmpty() && convidado.equals("nao")) {
 
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+            Calendar cal = Calendar.getInstance();
+            Date data = new Date();
+            cal.setTime(data);
+            Date data_atual = cal.getTime();
+
+            String dateNotification = dateFormatNotification.format(data);
+            String time = timeFormat.format(data_atual);
+
             Notification notification = new Notification();
             notification.setFromId(message.getFromId());
             notification.setToId(message.getToId());
@@ -734,7 +730,9 @@ public class LoadingMatchActivity extends AppCompatActivity {
             notification.setText(message.getText());
             notification.setTipo("partida");
             notification.setFromName(user.getDisplayName());
-            notification.setIdPartida(idPartida);
+            notification.setId(idPartida);
+            notification.setDate(dateNotification);
+            notification.setTime(time);
             if (user.getPhotoUrl() != null) {
                 notification.setFromImage(user.getPhotoUrl().toString());
             } else {
@@ -743,6 +741,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
             notification.setView(false);
             DatabaseReference usuarioRef = firebaseRef.child("notifications");
             usuarioRef.child(idUsuario2).child("" + timestamp).setValue(notification);
+
 
         }
     }

@@ -7,13 +7,13 @@ import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 public class UsuarioModel {
 
     private String id, nome, email, senha, imagem, token, description, lastAcessed;
-    private int ranking, pontosG, pontosM, pontosS, pontosD, seguidores, seguindo, nivel, partidas, vitorias, derrotas, empates, backPosition;
-    private boolean online, jogando, verseDay, firstAcessed, notificationsAuthorize, dayMessageIA, availabled;
+    private int ranking, pontosG, seguidores, seguindo, nivel, partidas, vitorias, derrotas, empates, backPosition;
+    private boolean online, jogando, verseDay, firstAcessed, notificationsAuthorize, dayMessageIA, availabled, permission, learnRules;
 
     public UsuarioModel() {
     }
 
-    public UsuarioModel(String id, String nome, String email, String senha, String imagem, String token, String description, String lastAcessed, int ranking, int pontosG, int pontosM, int pontosS, int pontosD, int seguidores, int seguindo, int nivel, int partidas, int vitorias, int derrotas, int empates, int backPosition, boolean online, boolean jogando, boolean verseDay, boolean firstAcessed, boolean notificationsAuthorize, boolean dayMessageIA, boolean availabled) {
+    public UsuarioModel(String id, String nome, String email, String senha, String imagem, String token, String description, String lastAcessed, int ranking, int pontosG, int seguidores, int seguindo, int nivel, int partidas, int vitorias, int derrotas, int empates, int backPosition, boolean online, boolean jogando, boolean verseDay, boolean firstAcessed, boolean notificationsAuthorize, boolean dayMessageIA, boolean availabled, boolean permission, boolean learnRules) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -24,9 +24,6 @@ public class UsuarioModel {
         this.lastAcessed = lastAcessed;
         this.ranking = ranking;
         this.pontosG = pontosG;
-        this.pontosM = pontosM;
-        this.pontosS = pontosS;
-        this.pontosD = pontosD;
         this.seguidores = seguidores;
         this.seguindo = seguindo;
         this.nivel = nivel;
@@ -42,6 +39,8 @@ public class UsuarioModel {
         this.notificationsAuthorize = notificationsAuthorize;
         this.dayMessageIA = dayMessageIA;
         this.availabled = availabled;
+        this.permission = permission;
+        this.learnRules = learnRules;
     }
 
     public String getDescription() {
@@ -166,30 +165,6 @@ public class UsuarioModel {
         this.pontosG = pontosG;
     }
 
-    public int getPontosM() {
-        return pontosM;
-    }
-
-    public void setPontosM(int pontosM) {
-        this.pontosM = pontosM;
-    }
-
-    public int getPontosS() {
-        return pontosS;
-    }
-
-    public void setPontosS(int pontosS) {
-        this.pontosS = pontosS;
-    }
-
-    public int getPontosD() {
-        return pontosD;
-    }
-
-    public void setPontosD(int pontosD) {
-        this.pontosD = pontosD;
-    }
-
     public int getSeguidores() {
         return seguidores;
     }
@@ -268,6 +243,22 @@ public class UsuarioModel {
 
     public void setEmpates(int empates) {
         this.empates = empates;
+    }
+
+    public boolean isPermission() {
+        return permission;
+    }
+
+    public void setPermission(boolean permission) {
+        this.permission = permission;
+    }
+
+    public boolean isLearnRules() {
+        return learnRules;
+    }
+
+    public void setLearnRules(boolean learnRules) {
+        this.learnRules = learnRules;
     }
 
     public void salvar(){

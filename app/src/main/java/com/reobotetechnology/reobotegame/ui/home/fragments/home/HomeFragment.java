@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -72,6 +74,7 @@ import com.reobotetechnology.reobotegame.ui.friends.friends_profile.FriendProfil
 import com.reobotetechnology.reobotegame.ui.harp.HarpeActivity;
 import com.reobotetechnology.reobotegame.ui.harp.HarpeListActivity;
 import com.reobotetechnology.reobotegame.ui.match.ConfirmationMatchActivity;
+import com.reobotetechnology.reobotegame.ui.match.RulesMatchActivity;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificacoesActivity;
 import com.reobotetechnology.reobotegame.ui.match.LoadingMatchActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
@@ -86,6 +89,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -93,6 +97,8 @@ public class HomeFragment extends Fragment {
 
     //SwipeRefresh
     private SwipeRefreshLayout swipeRefresh;
+    private Date data;
+    private String data_completa, hora_atual;
 
 
     //Toolbar
@@ -143,8 +149,6 @@ public class HomeFragment extends Fragment {
 
 
     //Vem da Modal Welcome
-    private Dialog welcomeModal;
-    //private Button btn_close;
     private Animation modal_animate;
 
 
@@ -217,7 +221,6 @@ public class HomeFragment extends Fragment {
         //Ler na Biblia
         txtPalavra = root.findViewById(R.id.txtPalavra);
         txtVerso = root.findViewById(R.id.txtVerso);
-        CardView cardVerse = root.findViewById(R.id.cardVerse);
 
         //Refresh
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -417,9 +420,31 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                UsuarioModel usuarioSelecionado = lista.get(position);
-                                String nome = usuarioSelecionado.getNome();
-                                if (nome.equals("Amigo")) {
+                                final UsuarioModel usuarioSelecionado = lista.get(position);
+
+                                String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+                                firebaseRef.child("usuarios").child(idUsuario).addValueEventListener(new ValueEventListener() {
+                                    @SuppressLint("SetTextI18n")
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                                        if (user != null) {
+                                            if(!user.isLearnRules()){
+                                                getRules();
+                                            }
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                                if (usuarioSelecionado.getNome().equals("Amigo")) {
                                     startActivity(new Intent(getActivity(), FriendsAllActivity.class));
                                 } else {
                                     showBottomSheetPickPhoto(usuarioSelecionado);
@@ -644,6 +669,7 @@ public class HomeFragment extends Fragment {
                                     modalWelcome(msg);
                                     DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
                                     usuarioRef.child("firstAcessed").setValue(true);
+                                    usuarioRef.child("pontosG").setValue(20);
                                 }
 
                             } catch (ExecutionException e) {
@@ -671,7 +697,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void modalWelcome(String msg) {
-        welcomeModal = new Dialog(requireActivity());
+
+        final Dialog welcomeModal = new Dialog(HomeFragment.this.requireActivity());
+        welcomeModal.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        welcomeModal.setCancelable(false);
         welcomeModal.setContentView(R.layout.include_modal);
 
         CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
@@ -689,6 +718,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 welcomeModal.dismiss();
+                welcomeModal.dismiss();
+                welcomeModal.hide();
 
             }
         });
@@ -699,7 +730,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 welcomeModal.dismiss();
-
+                welcomeModal.dismiss();
+                welcomeModal.hide();
             }
         });
 
@@ -831,7 +863,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     //ListasRecycler
     private void listarAmigos() {
 
@@ -845,12 +876,13 @@ public class HomeFragment extends Fragment {
                 usuarioModel.setNome("Amigo");
                 usuarioModel.setJogando(false);
                 usuarioModel.setOnline(false);
+                lista.add(usuarioModel);
+
                 UsuarioModel usuarioModel2 = new UsuarioModel();
-                usuarioModel2.setNome(getString(R.string.name_robot));
+                usuarioModel2.setNome("Reobote IA");
                 usuarioModel2.setJogando(false);
                 usuarioModel2.setOnline(false);
-                usuarioModel2.setImagem("" + R.drawable.reobote);
-                lista.add(usuarioModel);
+
                 lista.add(usuarioModel2);
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
@@ -884,6 +916,8 @@ public class HomeFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void showBottomSheetPickPhoto(final UsuarioModel userInvite) {
+
+
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_invite_friend, null);
 
         TextView user1 = view.findViewById(R.id.textView20);
@@ -891,6 +925,7 @@ public class HomeFragment extends Fragment {
         user1.setText(nome[0]);
 
         final TextView rankingUser = view.findViewById(R.id.textView26);
+
 
         String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
 
@@ -902,6 +937,7 @@ public class HomeFragment extends Fragment {
                 UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
                 if (user != null) {
                     rankingUser.setText(user.getRanking() + "º");
+
                 }
             }
 
@@ -1158,11 +1194,16 @@ public class HomeFragment extends Fragment {
 
                         long timestamp = System.currentTimeMillis();
                         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
                         Calendar cal = Calendar.getInstance();
                         Date data = new Date();
                         cal.setTime(data);
                         Date data_atual = cal.getTime();
+
+                        String dateNotification = dateFormatNotification.format(data);
+                        String time = timeFormat.format(data_atual);
 
                         //Cria uma partida
                         String idMessage = dateFormat.format(data_atual);
@@ -1181,9 +1222,11 @@ public class HomeFragment extends Fragment {
                         notification.setText(message.getText());
                         notification.setTipo("chat");
                         notification.setFromName(getString(R.string.name_robot));
-                        notification.setIdPartida(idMessage);
-
+                        notification.setId(idMessage);
                         notification.setFromImage("");
+
+                        notification.setDate(dateNotification);
+                        notification.setTime(time);
 
                         notification.setView(false);
                         DatabaseReference usuarioRef = firebaseRef.child("notifications");
@@ -1210,6 +1253,43 @@ public class HomeFragment extends Fragment {
 
     private void alert(String s) {
         Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+    }
+
+    private void getRules(){
+        new SweetAlertDialog(this.requireActivity(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Regras")
+                .setContentText("Deseja ler as regras do jogo antes de enviar o convite ?")
+                .setConfirmText("Sim")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        startActivity(new Intent(getActivity(), RulesMatchActivity.class));
+                        try {
+                            String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(user.getEmail())));
+                            DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+                            usuarioRef.child("learnRules").setValue(true);
+                        }catch (Exception ignored){
+
+                        }
+                        sDialog.hide();
+                    }
+                }).setCancelText("Não")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        try {
+                            String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(user.getEmail())));
+                            DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+                            usuarioRef.child("learnRules").setValue(true);
+                        }catch (Exception ignored){
+
+                        }
+                        sweetAlertDialog.hide();
+                    }
+                })
+                .show();
     }
 
 

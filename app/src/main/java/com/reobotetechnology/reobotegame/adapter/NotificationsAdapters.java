@@ -47,7 +47,7 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
         holder.txtDescNotification.setText(notification.getFromName());
         try{
 
-            if(notification.getFromName().equals("Reobote IA")){
+            if(notification.getFromName().equals(context.getString(R.string.name_robot))){
                 holder.imagemPerfil.setImageResource(R.drawable.reobote);
             }
             else if(notification.getFromImage().isEmpty()){
@@ -74,7 +74,7 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
             holder.view.setVisibility(View.GONE);
         }
 
-        holder.txtTimeNotification.setText(notification.getText());
+        holder.txtTimeNotification.setText(notification.getText()+" - "+notification.getTime());
 
     }
 

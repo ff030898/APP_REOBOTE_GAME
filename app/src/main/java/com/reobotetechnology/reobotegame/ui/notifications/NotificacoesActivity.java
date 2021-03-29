@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -54,9 +55,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificacoesActivity extends AppCompatActivity {
 
-    CoordinatorLayout constraintMain;
+    //SwipeRefresh
+    private SwipeRefreshLayout swipeRefresh;
+    ConstraintLayout constraintMain;
     ConstraintLayout constraintNotifications;
-    RecyclerView recyclerNotifications;
+    RecyclerView recyclerNotifications, recyclerNotificationsRecent, recyclerNotificationsYesterday, recyclerNotificationsDay;
+    ConstraintLayout constraintNotificationsAll, constraintNotificationsRecent, constraintNotificationsDay, constraintNotificationsYesterday;
     NotificationsAdapters adapter;
     List<Notification> lista = new ArrayList<>();
 
@@ -87,14 +91,40 @@ public class NotificacoesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notificacoes);
 
 
-        constraintMain = findViewById(R.id.constraintMain);
+        swipeRefresh = findViewById(R.id.swipe);
+        //Refresh
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void run() {
+                        onStart();
+                        swipeRefresh.setRefreshing(false);
+                    }
+                }, 2000);
+
+            }
+        });
+        constraintMain = findViewById(R.id.constraintPrincipal);
         constraintNotifications = findViewById(R.id.constraintNotifications);
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar3);
         recyclerNotifications = findViewById(R.id.recyclerNotifications);
+        recyclerNotificationsRecent = findViewById(R.id.recyclerNotificationsRecent);
+        recyclerNotificationsDay = findViewById(R.id.recyclerNotificationsDay);
+        recyclerNotificationsYesterday = findViewById(R.id.recyclerNotificationsYesterday);
+
+        constraintNotificationsAll = findViewById(R.id.constraintNotificationsAll);
+        constraintNotificationsRecent = findViewById(R.id.constraintNotificationsRecent);
+        constraintNotificationsDay = findViewById(R.id.constraintNotificationsDay);
+        constraintNotificationsYesterday = findViewById(R.id.constraintNotificationsYesterday);
+
+
         img_not = findViewById(R.id.img_not);
         txt_not = findViewById(R.id.txt_not);
         progressBar.setVisibility(View.VISIBLE);
-        recyclerNotifications.setVisibility(View.GONE);
         constraintMain.setVisibility(View.GONE);
         constraintNotifications.setVisibility(View.GONE);
 
@@ -153,7 +183,7 @@ public class NotificacoesActivity extends AppCompatActivity {
                                 String type = notification.getTipo();
 
                                 if (type.equals("partida")) {
-                                    showInviteFriend(notification.getFromName(), notification.getIdPartida(), idUsuario, idUpdate, notification.getFromImage());
+                                    showInviteFriend(notification.getFromName(), notification.getId(), idUsuario, idUpdate, notification.getFromImage());
                                 } else if (type.equals("chat")) {
                                     showMessageChat(idUpdate);
 
@@ -198,12 +228,14 @@ public class NotificacoesActivity extends AppCompatActivity {
                             String fromName = dados.child("fromName").getValue().toString();
                             String fromImage = dados.child("fromImage").getValue().toString();
                             String tipo = dados.child("tipo").getValue().toString();
-                            String idPartida = dados.child("idPartida").getValue().toString();
+                            String id = dados.child("id").getValue().toString();
                             String fromId = dados.child("fromId").getValue().toString();
                             String toId = dados.child("toId").getValue().toString();
                             String timestamp = dados.child("timestamp").getValue().toString();
                             String text = dados.child("text").getValue().toString();
                             String view = dados.child("view").getValue().toString();
+                            String date = dados.child("date").getValue().toString();
+                            String time = dados.child("time").getValue().toString();
 
                             notification.setFromId(fromId);
                             notification.setToId(toId);
@@ -213,8 +245,10 @@ public class NotificacoesActivity extends AppCompatActivity {
 
                             notification.setTipo(tipo);
                             notification.setFromName(fromName);
-                            notification.setIdPartida(idPartida);
+                            notification.setId(id);
                             notification.setView(Boolean.parseBoolean(view));
+                            notification.setDate(date);
+                            notification.setTime(time);
 
                             lista.add(notification);
 
@@ -241,16 +275,23 @@ public class NotificacoesActivity extends AppCompatActivity {
 
                             if (lista.size() == 0) {
                                 constraintNotifications.setVisibility(View.VISIBLE);
-                                recyclerNotifications.setVisibility(View.GONE);
+                                constraintNotificationsAll.setVisibility(View.GONE);
+                                constraintNotificationsRecent.setVisibility(View.GONE);
+                                constraintNotificationsDay.setVisibility(View.GONE);
+                                constraintNotificationsYesterday.setVisibility(View.GONE);
+
                                 txt_subtitle.setText(getString(R.string.notifications_404));
                             } else {
                                 constraintNotifications.setVisibility(View.GONE);
-                                recyclerNotifications.setVisibility(View.VISIBLE);
+                                //PROVISÓRIO
+                                constraintNotificationsAll.setVisibility(View.VISIBLE);
+                                constraintNotificationsRecent.setVisibility(View.GONE);
+                                constraintNotificationsDay.setVisibility(View.GONE);
+                                constraintNotificationsYesterday.setVisibility(View.GONE);
 
                             }
 
                             progressBar.setVisibility(View.GONE);
-
                             constraintMain.setVisibility(View.VISIBLE);
                             btn_back.setAnimation(topAnim);
 

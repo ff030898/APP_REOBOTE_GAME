@@ -379,10 +379,9 @@ public class ProfileActivity extends AppCompatActivity {
                                                              .show();
 
                                                      btnFinalizar.setClickable(false);
-                                                     btnFinalizar.setAlpha(0.7f);
+                                                     btnFinalizar.setAlpha(0.8f);
                                                      txtPular.setClickable(false);
                                                      btn_camera.setClickable(false);
-                                                     btn_camera.setAlpha(0.7f);
 
                                                      new Handler().postDelayed(new Runnable() {
                                                          @Override

@@ -108,9 +108,6 @@ public class MatchActivity extends AppCompatActivity {
     private boolean clicado;
 
     //Pontos Jogador1
-    int pontosD;
-    int pontosS;
-    int pontosM;
     int pontosG;
     int vitorias;
     int derrotas;
@@ -885,18 +882,14 @@ public class MatchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                String pontosDia = Objects.requireNonNull(dataSnapshot.child("pontosD").getValue()).toString();
-                String pontosSemana = Objects.requireNonNull(dataSnapshot.child("pontosS").getValue()).toString();
-                String pontosMes = Objects.requireNonNull(dataSnapshot.child("pontosM").getValue()).toString();
+
                 String pontosGeral = Objects.requireNonNull(dataSnapshot.child("pontosG").getValue()).toString();
                 String vitoriasText = Objects.requireNonNull(dataSnapshot.child("vitorias").getValue()).toString();
                 String derrotasText = Objects.requireNonNull(dataSnapshot.child("derrotas").getValue()).toString();
                 String empatesText = Objects.requireNonNull(dataSnapshot.child("empates").getValue()).toString();
                 String partidasText = Objects.requireNonNull(dataSnapshot.child("partidas").getValue()).toString();
 
-                pontosD = Integer.parseInt(pontosDia);
-                pontosS = Integer.parseInt(pontosSemana);
-                pontosM = Integer.parseInt(pontosMes);
+
                 pontosG = Integer.parseInt(pontosGeral);
                 vitorias = Integer.parseInt(vitoriasText);
                 derrotas = Integer.parseInt(derrotasText);
@@ -920,16 +913,11 @@ public class MatchActivity extends AppCompatActivity {
         assert emailUsuario != null;
         String idUsuario = Base64Custom.codificarBase64(emailUsuario);
         DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
-        int pontosDia = pontosD + pontos;
-        int pontosSemana = pontosS + pontos;
-        int pontosMes = pontosM + pontos;
+
         int pontosGeral = pontosG + pontos;
         int partidasTotal = partidas + 1;
 
         usuarioRef.child("partidas").setValue(partidasTotal);
-        usuarioRef.child("pontosD").setValue(pontosDia);
-        usuarioRef.child("pontosS").setValue(pontosSemana);
-        usuarioRef.child("pontosM").setValue(pontosMes);
         usuarioRef.child("pontosG").setValue(pontosGeral);
 
         if (pontos == 10) {

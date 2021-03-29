@@ -33,6 +33,7 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
 
     private int cont;
     private Timer time;
+    private boolean exit = false;
 
     private ProgressBar progressBar;
     private LinearLayout linearConfirmation;
@@ -144,9 +145,10 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
                         } else {
 
                             try {
+
                                 time.cancel();
                                 boolean foregroud = new ChecarSegundoPlano().execute(getApplicationContext()).get();
-                                if (foregroud) {
+                                if (foregroud && !exit) {
                                       initalMatch(name);
                                 }
 
@@ -159,7 +161,6 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
                         }
 
 
-
                 }
 
 
@@ -170,25 +171,12 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
 
     private void abortMatch() {
 
-        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Desistir da Partida")
-                .setContentText("Você tem certeza que deseja desistir da partida ?")
-                .setConfirmText("Sim")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        time.cancel();
-                        sDialog.hide();
-                        finish();
-                    }
-                }).setCancelText("Não")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.hide();
-                    }
-                })
-                .show();
+        try {
+            exit = true;
+            finish();
+        }catch(Exception ignored){
+
+        }
 
     }
 
@@ -205,10 +193,10 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(cont >= 0) {
+        if(cont > 0) {
             abortMatch();
         }else {
-            time.cancel();
+            exit = true;
             super.onBackPressed();
         }
 
