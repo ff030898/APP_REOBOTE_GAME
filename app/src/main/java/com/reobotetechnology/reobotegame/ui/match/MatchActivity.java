@@ -213,7 +213,7 @@ public class MatchActivity extends AppCompatActivity {
                                 .setTitle("Dica")
                                 .setText("Ainda não cadastrei dica para essa pergunta. Tente na próxima pergunta")
                                 .setDuration(5000)
-                                .setBackgroundColorRes(R.color.colorPrimary)
+                                .setBackgroundColorRes(R.color.colorBlue)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -227,7 +227,7 @@ public class MatchActivity extends AppCompatActivity {
                                 .setTitle("Dica")
                                 .setText(list.get(position).getQuestaoDica())
                                 .setDuration(5000)
-                                .setBackgroundColorRes(R.color.colorPrimary)
+                                .setBackgroundColorRes(R.color.colorBlue)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {

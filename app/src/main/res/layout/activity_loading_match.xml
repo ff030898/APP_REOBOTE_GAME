@@ -7,25 +7,139 @@
     android:background="@color/colorBranco"
     tools:context=".ui.match.LoadingMatchActivity">
 
-    <Button
-        android:id="@+id/btnDesistir"
+    <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/btn_profile"
-        android:drawableStart="@drawable/ic_exit"
-        android:drawableLeft="@drawable/ic_exit"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:text="@string/desistir_da_partida"
-        android:textColor="@color/colorBranco"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/include_toolbar_activites" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="56dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar6"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout6"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+        tools:ignore="DisableBaselineAlignment,UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imagemPerfil"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:gravity="center"
+                android:src="@drawable/profile"
+                android:visibility="visible"
+                app:civ_border_color="@color/colorActive"
+                app:civ_border_width="1dp" />
+
+            <TextView
+                android:id="@+id/txtUsuario1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorPreto"
+                android:textStyle="bold"
+                tools:text="Usuário 1" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/vs"
+                android:textColor="@color/colorPreto"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imagemPerfil2"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:gravity="center"
+                android:src="@drawable/profile"
+                android:visibility="visible"
+                app:civ_border_color="@color/colorActive"
+                app:civ_border_width="1dp" />
+
+            <TextView
+                android:id="@+id/txtUsuario2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorPreto"
+                android:textStyle="bold"
+                tools:text="Usuário 2" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar6"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="32dp"
+        android:indeterminateTint="@color/colorBlue"
+        app:layout_constraintBottom_toTopOf="@+id/txtPartida"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/txtPartida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="85dp"
+        android:text="@string/aguardando_confirma_o"
+        android:textColor="@color/colorPreto"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnDesistir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -33,7 +147,6 @@
         android:id="@+id/linearLayout3"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
         android:background="@drawable/btn_quiz_timer_red"
         android:gravity="center"
         android:orientation="vertical"
@@ -42,7 +155,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <TextView
             android:id="@+id/txtCronometro"
@@ -56,137 +169,28 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtPartida"
-        android:layout_width="wrap_content"
+
+    <Button
+        android:id="@+id/btnDesistir"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/aguardando_confirma_o"
-        android:textColor="@color/colorPreto"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/btn_profile"
+        android:backgroundTint="@color/colorRed1"
+        android:drawableStart="@drawable/ic_exit"
+        android:drawableLeft="@drawable/ic_exit"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="@string/desistir_da_partida"
+        android:textColor="@color/colorBranco"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            tools:ignore="DisableBaselineAlignment,UselessParent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imagemPerfil"
-                    android:layout_width="76dp"
-                    android:layout_height="76dp"
-                    android:gravity="center"
-                    android:src="@drawable/profile"
-                    android:visibility="visible"
-                    app:civ_border_color="@color/colorPreto"
-                    app:civ_border_width="3dp" />
-
-                <TextView
-                    android:id="@+id/txtUsuario1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"
-                    tools:text="Usuário 1" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/vs"
-                    android:textColor="@color/colorPreto"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imagemPerfil2"
-                    android:layout_width="76dp"
-                    android:layout_height="76dp"
-                    android:gravity="center"
-                    android:src="@drawable/profile"
-                    android:visibility="visible"
-                    app:civ_border_color="@color/colorPreto"
-                    app:civ_border_width="3dp" />
-
-                <TextView
-                    android:id="@+id/txtUsuario2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"
-                    tools:text="Usuário 2" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar6"
-        style="?android:attr/progressBarStyle"
-        android:indeterminateTint="@color/colorBlue"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtPartida"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="UnusedAttribute" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

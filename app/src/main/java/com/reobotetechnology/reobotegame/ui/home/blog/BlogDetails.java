@@ -9,19 +9,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +37,8 @@ import com.reobotetechnology.reobotegame.adapter.CommentsAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.model.CommentModel;
 import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.ui.bible.biblia_toda.BibliaActivity;
+import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +65,7 @@ public class BlogDetails extends AppCompatActivity {
 
     //ImageBlog
     private ImageView image;
+    private Button btnComment;
 
     //ProfileFriendsVizualizations
 
@@ -70,6 +77,8 @@ public class BlogDetails extends AppCompatActivity {
     private List<CommentModel> list = new ArrayList<>();
     private CircleImageView imageProfile;
     private TextView txtCountComment;
+
+    private BottomSheetDialog bottomSheetDialog;
 
 
     @SuppressLint("SetTextI18n")
@@ -107,6 +116,7 @@ public class BlogDetails extends AppCompatActivity {
         TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
         image = findViewById(R.id.image);
+        btnComment = findViewById(R.id.button6);
 
         //Vem da Activity Principal
         Bundle extras = getIntent().getExtras();
@@ -180,6 +190,12 @@ public class BlogDetails extends AppCompatActivity {
         recyclerComments.setAdapter(adapter);
 
         imageProfile = findViewById(R.id.imageProfile);
+        btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAnotattion();
+            }
+        });
 
     }
 
@@ -369,6 +385,52 @@ public class BlogDetails extends AppCompatActivity {
         txtCountComment.setText("("+list.size()+")");
 
         adapter.notifyDataSetChanged();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void openAnotattion(){
+
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_anotation, null);
+
+        Button comment = view.findViewById(R.id.button8);
+        comment.setText(getString(R.string.comentar));
+
+        comment.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+                Alerter.create(BlogDetails.this)
+                        .setTitle("Obaa...")
+                        .setText("Comentário adicionado com sucesso!")
+                        .setIcon(R.drawable.ic_success)
+                        .setDuration(2000)
+                        .setBackgroundColorRes(R.color.colorGreen1)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Alerter.hide();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog = null;
+            }
+        });
+
+        bottomSheetDialog.show();
     }
 
     @Override

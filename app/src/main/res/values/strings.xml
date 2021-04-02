@@ -211,6 +211,8 @@
     <string name="detalhes">Detalhes</string>
     <string name="Audio">Audio</string>
     <string name="recente">Recente</string>
+    <string name="o_jogador_desistiu_da_partida">O jogador desistiu da partida</string>
+    <string name="fonte">Fonte</string>
 
 
 </resources>

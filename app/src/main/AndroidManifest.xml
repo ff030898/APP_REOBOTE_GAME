@@ -28,8 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.bible.bible_themes.listAll.BibleThemesListActivity"/>
-
+        <activity android:name=".ui.bible.DetailsBookActivity"/>
+        <activity android:name=".ui.bible.bible_song.SongBibleActivity" />
+        <activity android:name=".ui.bible.bible_themes.listAll.BibleThemesListActivity" />
         <activity android:name=".ui.bible.bible_themes.listVerses.ThemesActivity" />
         <activity
             android:name=".ui.harp.HarpeListActivity"
@@ -43,8 +44,7 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_main" />
-        <activity
-            android:name=".ui.bible.biblia_livros.ListBibliaGrid" />
+        <activity android:name=".ui.bible.biblia_livros.ListBibliaGrid" />
         <activity android:name=".ui.main.selected_image.ProfileActivity" />
         <activity android:name=".ui.match.ConfirmationMatchActivity" />
 
@@ -71,7 +71,6 @@
         <activity
             android:name=".ui.profile.editar_perfil.EditarPerfilActivity"
             tools:ignore="LockedOrientationActivity" />
-
         <activity
             android:name=".ui.view_images_screen.VisualizarImagemActivity"
             android:screenOrientation="portrait"

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -97,6 +99,13 @@ public class LoadingMatchActivity extends AppCompatActivity {
     TextView txtdesistir;
     Animation modal_anima;
 
+    //Animation
+    private Animation topAnim;
+    private ImageButton btn_back;
+
+    //Toolbar
+    TextView txt_title, txt_subtitle;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +128,33 @@ public class LoadingMatchActivity extends AppCompatActivity {
         email = extras.getString("email");
         convidado = extras.getString("convidado");
         idPartida = extras.getString("idPartida");
+
+        //TOOLBAR
+        txt_title = findViewById(R.id.txt_title);
+        txt_subtitle = findViewById(R.id.txt_subtitle);
+
+
+
+        btn_back = findViewById(R.id.btn_back);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                btn_back.setAnimation(topAnim);
+
+            }
+        }, 2000);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
 
         //Animação da Modal de Tempo Esgotado
         modal_anima = AnimationUtils.loadAnimation(this, R.anim.modal_animation);
@@ -362,6 +398,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
 
         String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(email));
         firebaseRef.child("usuarios").child(idUsuario).addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -369,8 +406,13 @@ public class LoadingMatchActivity extends AppCompatActivity {
 
                 assert usuarioModel != null;
                 nome = usuarioModel.getNome();
-                String[] linhas2 = nome.split(" ");
-                txtUsuario2.setText(linhas2[0]);
+                String[] nameInvite = nome.split(" ");
+                txtUsuario2.setText(nameInvite[0]);
+
+                String[] userMatch = user.getDisplayName().split(" ");
+
+                txt_title.setText(userMatch[0] +" vs "+nameInvite[0]);
+                txt_subtitle.setText("Aguardando confirmação de "+nome);
 
                 try {
 
@@ -549,12 +591,11 @@ public class LoadingMatchActivity extends AppCompatActivity {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 sweetAlertDialog.hide();
-                                finish();
                             }
                         })
                         .show();
             } catch (
-                    Exception e) {
+                    Exception ignored) {
 
             }
         }

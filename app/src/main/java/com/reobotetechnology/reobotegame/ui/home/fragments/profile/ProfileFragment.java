@@ -1,6 +1,7 @@
 package com.reobotetechnology.reobotegame.ui.home.fragments.profile;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,6 +54,7 @@ import com.reobotetechnology.reobotegame.ui.bible.biblia_livros.ListBibliaGrid;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificacoesActivity;
 import com.reobotetechnology.reobotegame.ui.profile.editar_perfil.EditarPerfilActivity;
 import com.reobotetechnology.reobotegame.ui.view_images_screen.VisualizarImagemActivity;
+import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +88,7 @@ public class ProfileFragment extends Fragment {
     private CircleImageView profile_main;
     private TextView txt_username, txt_email, txtSeguindoUsuarioPerfil, txtSeguidoresUsuarioPerfil;
 
+
     //Status
     private TextView txtRankingUsuarioPerfil;
     private TextView bioDescription;
@@ -110,6 +115,8 @@ public class ProfileFragment extends Fragment {
     // list Matches
     private ProfileMatchesAdapters adapterMatches;
     private List<PartidaModel> listMatches = new ArrayList<>();
+
+    private BottomSheetDialog bottomSheetDialog;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -203,13 +210,14 @@ public class ProfileFragment extends Fragment {
         txtSeguidoresUsuarioPerfil = root.findViewById(R.id.txtSeguidoresUsuarioPerfil);
         bioDescription = root.findViewById(R.id.textView13);
 
+
         TextView editar = root.findViewById(R.id.editar);
         editar.setText(Html.fromHtml("<u>"+getString(R.string.editar)+"</u>"));
 
         editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ///bio
+                openAnotattion();
             }
         });
 
@@ -459,6 +467,51 @@ public class ProfileFragment extends Fragment {
 
 
     }
+
+    @SuppressLint("SetTextI18n")
+    private void openAnotattion(){
+
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_anotation, null);
+
+        view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+                Alerter.create(requireActivity())
+                        .setTitle("Obaa...")
+                        .setText("Status atualizado com sucesso!")
+                        .setIcon(R.drawable.ic_success)
+                        .setDuration(2000)
+                        .setBackgroundColorRes(R.color.colorGreen1)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Alerter.hide();
+                            }
+                        })
+                        .show();
+
+            }
+        });
+
+        bottomSheetDialog = new BottomSheetDialog(requireActivity());
+        bottomSheetDialog.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog = null;
+            }
+        });
+
+        bottomSheetDialog.show();
+    }
+
 
     private void listConquist(){
 

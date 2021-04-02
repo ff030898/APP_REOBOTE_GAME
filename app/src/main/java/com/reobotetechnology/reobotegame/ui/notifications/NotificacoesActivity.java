@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -43,6 +44,7 @@ import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.Notification;
+import com.reobotetechnology.reobotegame.model.UsuarioModel;
 import com.reobotetechnology.reobotegame.ui.match.LoadingMatchActivity;
 import com.reobotetechnology.reobotegame.ui.messages.MessagesListActivity;
 import com.reobotetechnology.reobotegame.ui.settings.ConfiguracoesActivity;
@@ -81,6 +83,10 @@ public class NotificacoesActivity extends AppCompatActivity {
     private ImageView img_not;
     private TextView txt_not;
     private TextView txt_subtitle;
+
+    //FollowUser
+    private int seguidores = 0;
+    private int seguindoFollow = 0;
 
     private BottomSheetDialog bottomSheetDialog;
 
@@ -186,7 +192,8 @@ public class NotificacoesActivity extends AppCompatActivity {
                                     showInviteFriend(notification.getFromName(), notification.getId(), idUsuario, idUpdate, notification.getFromImage());
                                 } else if (type.equals("chat")) {
                                     showMessageChat(idUpdate);
-
+                                } else if (type.equals("follow")) {
+                                    showFollowFriend(notification.getFromName(), notification.getId(), idUsuario, idUpdate, notification.getFromImage());
                                 }
                             }
 
@@ -313,7 +320,6 @@ public class NotificacoesActivity extends AppCompatActivity {
             btn_back.setAnimation(topAnim);
         }
     }
-
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -468,6 +474,151 @@ public class NotificacoesActivity extends AppCompatActivity {
         } catch (Exception ignored) {
 
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void showFollowFriend(final String nome, final String idPartida, final String email, final String idUpdate, final String imagem) {
+
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_invite_open_friend, null);
+
+        final String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+        DatabaseReference usuarioRef2 = firebaseRef.child("notifications").child(idUsuario).child(idUpdate);
+        usuarioRef2.child("view").setValue(true);
+
+        TextView title = view.findViewById(R.id.textView20);
+        title.setText(nome);
+
+        TextView descriptionInvite = view.findViewById(R.id.textView26);
+
+
+        descriptionInvite.setText("Começou a seguir você");
+
+        CircleImageView profile = view.findViewById(R.id.profile);
+
+        Glide
+                .with(view)
+                .load(imagem)
+                .centerCrop()
+                .placeholder(R.drawable.profile)
+                .into(profile);
+
+
+        view.findViewById(R.id.btnClose).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        Button btnFollow = view.findViewById(R.id.button8);
+        btnFollow.setText("Seguir de volta");
+
+        /*btnFollow.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                try {
+
+                    firebaseRef.child("usuarios").child(idUsuario).addValueEventListener(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+
+                            assert user != null;
+
+                            seguindoFollow = user.getSeguindo();
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                } catch (Exception ignored) {
+
+                }
+
+                int updateFollow = (seguindoFollow + 1);
+                DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+                usuarioRef.child("seguindo").setValue(updateFollow);
+
+
+                //userFollow
+
+                final String idUserFollow = Base64Custom.codificarBase64(Objects.requireNonNull(email));
+                try {
+
+                    firebaseRef.child("usuarios").child(idUserFollow).addValueEventListener(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            UsuarioModel userFollow = dataSnapshot.getValue(UsuarioModel.class);
+
+                            assert userFollow != null;
+
+
+                            seguidores = userFollow.getSeguidores();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                } catch (Exception ignored) {
+
+                }
+
+                int updateFollow2 = (seguidores + 1);
+
+                DatabaseReference usuarioRef2 = firebaseRef.child("usuarios").child(idUserFollow);
+                usuarioRef2.child("seguidores").setValue(updateFollow2);
+
+                bottomSheetDialog.dismiss();
+            }
+
+        });*/
+
+        view.findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                //OpenProfileFriend
+
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog = null;
+            }
+        });
+
+        bottomSheetDialog.show();
+
+
     }
 
 

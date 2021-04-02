@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -19,13 +23,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.model.BibliaModel;
 
+import com.reobotetechnology.reobotegame.ui.bible.DetailsBookActivity;
+import com.reobotetechnology.reobotegame.ui.bible.bible_song.SongBibleActivity;
+import com.reobotetechnology.reobotegame.ui.bible.biblia_versiculos.VersiculosActivity;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.LinearLayoutManagerWithSmoothScroller;
+import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +75,7 @@ public class BibliaActivity extends AppCompatActivity {
 
     private ActionMode actionMode;
 
-
+    private BottomSheetDialog bottomSheetDialog;
 
 
     @SuppressLint({"WrongConstant", "ResourceType"})
@@ -105,7 +114,7 @@ public class BibliaActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        
+
 
         recyclerVersos = findViewById(R.id.recyclerVersiculos);
         imgVoltar = findViewById(R.id.imgVoltar);
@@ -446,11 +455,109 @@ public class BibliaActivity extends AppCompatActivity {
 
     }
 
-    public void confirmation(){
+    public void confirmation() {
         new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Prontoooo!")
                 .setContentText("Este capítulo foi marcado como lido!")
                 .show();
+    }
+
+    private void songBible() {
+        Intent i = new Intent(getApplicationContext(), SongBibleActivity.class);
+        i.putExtra("nm_book", nm_livro);
+        i.putExtra("cap_book", c);
+        startActivity(i);
+    }
+
+    private void deatils(){
+        Intent i = new Intent(getApplicationContext(), DetailsBookActivity.class);
+        i.putExtra("nm_book", nm_livro);
+        startActivity(i);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void openAnotattion(){
+
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_anotation, null);
+
+
+        view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+                Alerter.create(BibliaActivity.this)
+                        .setTitle("Obaa...")
+                        .setText("Anotações salvas com sucesso!")
+                        .setIcon(R.drawable.ic_success)
+                        .setDuration(2000)
+                        .setBackgroundColorRes(R.color.colorGreen1)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Alerter.hide();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog = null;
+            }
+        });
+
+        bottomSheetDialog.show();
+    }
+
+    private void openFontSettings(){
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_bible_font, null);
+
+        view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+                Alerter.create(BibliaActivity.this)
+                        .setTitle("Obaa...")
+                        .setText("Alterações realizadas com sucesso!")
+                        .setIcon(R.drawable.ic_success)
+                        .setDuration(2000)
+                        .setBackgroundColorRes(R.color.colorGreen1)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Alerter.hide();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog = null;
+            }
+        });
+
+        bottomSheetDialog.show();
     }
 
 
@@ -468,18 +575,25 @@ public class BibliaActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish(); // Finaliza a Activity atual e assim volta para a tela anterior
                 break;
+            case R.id.menu_song:
+                //open modal or other activity
+                songBible();
+                break;
             case R.id.menu_text:
                 //open modal or other activity
-                confirmation();
+                openFontSettings();
                 break;
             case R.id.menu_edit:
                 //open modal or other activity
-                confirmation();
+                openAnotattion();
                 break;
             case R.id.menu_check:
                 confirmation();
                 break;
-           case R.id.menu_sair:
+            case R.id.menu_details:
+                deatils();
+                break;
+            case R.id.menu_sair:
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 finish();
                 break;
@@ -489,7 +603,6 @@ public class BibliaActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
 
 }
