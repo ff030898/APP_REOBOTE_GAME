@@ -4,16 +4,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 
-public class UsuarioModel {
+public class UserModel {
 
     private String id, nome, email, senha, imagem, token, description, lastAcessed;
     private int ranking, pontosG, seguidores, seguindo, nivel, partidas, vitorias, derrotas, empates, backPosition;
     private boolean online, jogando, verseDay, firstAcessed, notificationsAuthorize, dayMessageIA, availabled, permission, learnRules;
 
-    public UsuarioModel() {
+    public UserModel() {
     }
 
-    public UsuarioModel(String id, String nome, String email, String senha, String imagem, String token, String description, String lastAcessed, int ranking, int pontosG, int seguidores, int seguindo, int nivel, int partidas, int vitorias, int derrotas, int empates, int backPosition, boolean online, boolean jogando, boolean verseDay, boolean firstAcessed, boolean notificationsAuthorize, boolean dayMessageIA, boolean availabled, boolean permission, boolean learnRules) {
+    public UserModel(String id, String nome, String email, String senha, String imagem, String token, String description, String lastAcessed, int ranking, int pontosG, int seguidores, int seguindo, int nivel, int partidas, int vitorias, int derrotas, int empates, int backPosition, boolean online, boolean jogando, boolean verseDay, boolean firstAcessed, boolean notificationsAuthorize, boolean dayMessageIA, boolean availabled, boolean permission, boolean learnRules) {
         this.id = id;
         this.nome = nome;
         this.email = email;

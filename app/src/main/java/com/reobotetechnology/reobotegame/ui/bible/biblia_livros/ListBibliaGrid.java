@@ -22,7 +22,7 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BooksOfBibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
-import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
+import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.ui.bible.biblia_capitulos.CapitulosActivity;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class ListBibliaGrid extends AppCompatActivity {
 
     //BIBLIA
     private BooksOfBibleAdapters adapter;
-    private List<LivrosBibliaModel> lista = new ArrayList<>();
+    private List<BooksOfBibleModel> lista = new ArrayList<>();
 
     private ProgressBar progressBar;
 
@@ -122,7 +122,7 @@ public class ListBibliaGrid extends AppCompatActivity {
 
                                 if (tamanho > 2) {
 
-                                    LivrosBibliaModel livroSelecionado = lista.get(position);
+                                    BooksOfBibleModel livroSelecionado = lista.get(position);
                                     Intent i = new Intent(getApplicationContext(), CapitulosActivity.class);
                                     i.putExtra("nm_livro", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
@@ -156,7 +156,7 @@ public class ListBibliaGrid extends AppCompatActivity {
         lista.clear();
 
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
-        List<LivrosBibliaModel> lista2;
+        List<BooksOfBibleModel> lista2;
 
         if(cd_testamento == 0) {
             lista2 = dataBaseAcess.listarAntigoTestamento();

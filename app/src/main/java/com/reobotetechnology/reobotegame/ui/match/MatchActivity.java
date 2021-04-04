@@ -3,7 +3,6 @@ package com.reobotetechnology.reobotegame.ui.match;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -38,10 +37,12 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,8 +50,8 @@ import android.widget.TextView;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
-import com.reobotetechnology.reobotegame.model.PerguntasModel;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.QuestionModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 import com.tapadoo.alerter.Alerter;
@@ -81,10 +82,6 @@ public class MatchActivity extends AppCompatActivity {
     //Seleciona uma alternativa até ocabar as 15 pode mudar
     Button alternativaSelecionada;
 
-    //Vem da Modal Timer
-    Dialog timerDIalog;
-    Button btnModal;
-    CardView cardTimer;
     Animation modal_anima;
 
     //Vem da Modal Desistir
@@ -93,15 +90,10 @@ public class MatchActivity extends AppCompatActivity {
     CardView desistirTimer;
     TextView txtdesistir;
 
-    //Vem da modal_vitoria
-    Dialog pontosDIalog;
-    Button btnFinalizar;
-    CardView cardPontos;
-    TextView txtTextoPontos, txtPontos;
 
     //Variaveis Globais
     private int count = 0;
-    List<PerguntasModel> list = new ArrayList<>();
+    List<QuestionModel> list = new ArrayList<>();
     private int position = 0;
     private int score = 0, scoreJogador2 = 0;
     private int cronometro = 15;
@@ -135,14 +127,13 @@ public class MatchActivity extends AppCompatActivity {
     Timer tempo;
     int cont = 0;
 
-    ProgressDialog progressDialog;
 
     @SuppressLint("SetTextI18n")
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_partida);
+        setContentView(R.layout.activity_match);
 
         //Vem da Activity CarregarPartida
         Bundle extras = getIntent().getExtras();
@@ -251,7 +242,7 @@ public class MatchActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                UsuarioModel usuario2Model = dataSnapshot.getValue(UsuarioModel.class);
+                UserModel usuario2Model = dataSnapshot.getValue(UserModel.class);
 
                 assert usuario2Model != null;
                 String[] linhas = usuario2Model.getNome().split(" ");
@@ -361,6 +352,7 @@ public class MatchActivity extends AppCompatActivity {
     }
 
     //Método responsável por verificar a conexão do usuário com a internet e com a partida
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void verificarConexao() {
         if (!nomeJogador2.equals(getString(R.string.name_robot))) {
             if (!desistir) {
@@ -395,7 +387,7 @@ public class MatchActivity extends AppCompatActivity {
 
                                 } catch (Exception e) {
 
-                                    Log.i("Erro", e.getMessage());
+                                    Log.i("Erro", Objects.requireNonNull(e.getMessage()));
                                 }
 
 
@@ -410,7 +402,7 @@ public class MatchActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
-                    Log.i("Erro", e.getMessage());
+                    Log.i("Erro", Objects.requireNonNull(e.getMessage()));
                 }
             }
         }
@@ -523,7 +515,7 @@ public class MatchActivity extends AppCompatActivity {
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
 
         if (nomeJogador2.equals(getString(R.string.name_robot))) {
-            List<PerguntasModel> lista;
+            List<QuestionModel> lista;
             lista = dataBaseAcess.listarPerguntas();
             list.addAll(lista);
 
@@ -537,7 +529,7 @@ public class MatchActivity extends AppCompatActivity {
                             //Isso faz com que o ArrayList seja limpa e não aparareça
                             list = new ArrayList<>();
                             for (DataSnapshot dados : dataSnapshot.getChildren()) {
-                                PerguntasModel p = dados.getValue(PerguntasModel.class);
+                                QuestionModel p = dados.getValue(QuestionModel.class);
                                 list.add(p);
                             }
 
@@ -550,7 +542,7 @@ public class MatchActivity extends AppCompatActivity {
                     });
 
             //Sem isso não funciona. O Pq só Deus sabe. Tentar achar solução dps
-            list.add(new PerguntasModel(0, "Teste", "teste", "teste", "teste", "teste", "teste", ""));
+            list.add(new QuestionModel(0, "Teste", "teste", "teste", "teste", "teste", "teste", ""));
 
         }
 
@@ -595,11 +587,36 @@ public class MatchActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void nextPergunta() {
         enabledOption(true);
+
         btn01.setTextColor(ColorStateList.valueOf(0xff000000));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btn01.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+            btn01.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
+        }
+
+
         btn02.setTextColor(ColorStateList.valueOf(0xff000000));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btn02.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+            btn02.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
+        }
+
+
         btn03.setTextColor(ColorStateList.valueOf(0xff000000));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btn03.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+            btn03.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
+        }
+
+
         btn04.setTextColor(ColorStateList.valueOf(0xff000000));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btn04.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+            btn04.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
+        }
+
         position++;
+
         if (position == 10) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 this.finalizarPartida();
@@ -608,6 +625,7 @@ public class MatchActivity extends AppCompatActivity {
             count = 0;
             playAnim(linearPergunta, 0, list.get(position).getPergunta());
             Timer();
+
         }
     }
 
@@ -618,15 +636,24 @@ public class MatchActivity extends AppCompatActivity {
         clicado = true;
 
         btn01.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn01.setBackgroundTintList(ColorStateList.valueOf(0xff989898));
+        btn01.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+        btn01.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+
         btn02.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn02.setBackgroundTintList(ColorStateList.valueOf(0xff989898));
+        btn02.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+        btn02.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+
         btn03.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn03.setBackgroundTintList(ColorStateList.valueOf(0xff989898));
+        btn03.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+        btn03.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+
         btn04.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn04.setBackgroundTintList(ColorStateList.valueOf(0xff989898));
+        btn04.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
+        btn04.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+
+        selectedOption.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
         selectedOption.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
-        selectedOption.setTextColor(ColorStateList.valueOf(0xff000000));
+        selectedOption.setTextColor(ColorStateList.valueOf(0xffffffff));
     }
 
     //Método responsável por checar qual é aresposta certa da pergunta e atribuir acertos ou erros
@@ -636,7 +663,7 @@ public class MatchActivity extends AppCompatActivity {
         enabledOption(false);
         clicado = true;
 
-        selectedOption.setTextColor(ColorStateList.valueOf(0xff989898));
+        selectedOption.setTextColor(ColorStateList.valueOf(0xffffffff));
 
         btnProximo.setAlpha(1);
         if (selectedOption.getText().toString().equals(list.get(position).getQuestaoCorreta())) {
@@ -647,8 +674,8 @@ public class MatchActivity extends AppCompatActivity {
             btn02.setTextColor(ColorStateList.valueOf(0xff989898));
             btn03.setTextColor(ColorStateList.valueOf(0xff989898));
             btn04.setTextColor(ColorStateList.valueOf(0xff989898));
-            selectedOption.setBackgroundTintList(ColorStateList.valueOf(0xFF4CAF50));
-            selectedOption.setTextColor(ColorStateList.valueOf(0xff000000));
+            selectedOption.setBackgroundTintList(ColorStateList.valueOf(0xFF247b37));
+            selectedOption.setTextColor(ColorStateList.valueOf(0xffffffff));
             acertos.setText("" + score);
             Alerter.create(MatchActivity.this)
                     .setTitle("Obaa...")
@@ -672,9 +699,10 @@ public class MatchActivity extends AppCompatActivity {
             btn03.setTextColor(ColorStateList.valueOf(0xff989898));
             btn04.setTextColor(ColorStateList.valueOf(0xff989898));
             selectedOption.setBackgroundTintList(ColorStateList.valueOf(0xfffb0017));
+            selectedOption.setTextColor(ColorStateList.valueOf(0xffffffff));
             Button corretaOption = linearAlternativas.findViewWithTag(list.get(position).getQuestaoCorreta());
             corretaOption.setBackgroundTintList(ColorStateList.valueOf(0xFF4CAF50));
-            corretaOption.setTextColor(ColorStateList.valueOf(0xff000000));
+            corretaOption.setTextColor(ColorStateList.valueOf(0xffffffff));
 
             Alerter.create(MatchActivity.this)
                     .setTitle("Oops...")
@@ -726,7 +754,9 @@ public class MatchActivity extends AppCompatActivity {
         for (int i = 0; i < 4; i++) {
             linearAlternativas.getChildAt(i).setEnabled(enabled);
             if (enabled) {
-                linearAlternativas.getChildAt(i).setBackgroundTintList(ColorStateList.valueOf(0xff989898));
+                linearAlternativas.getChildAt(i).setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+            }else{
+                linearAlternativas.getChildAt(i).setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
             }
         }
     }
@@ -958,31 +988,113 @@ public class MatchActivity extends AppCompatActivity {
             atualizarPontosJogador1(5);
             atualizarResultadoPartida("empate");
             resultado = "empate";
+            openModal(resultado);
 
         } else if (score < scoreJogador2) {
             //chama Modal de derrota
             atualizarPontosJogador1(-3);
             atualizarResultadoPartida(emailJogador2);
             resultado = "derrota";
+            openModal(resultado);
 
 
         } else {
-            //chama Modal de Vitória
+
             atualizarPontosJogador1(10);
             atualizarResultadoPartida(userF.getEmail());
             resultado = "vitoria";
+            openModal(resultado);
 
 
         }
         jogando(false);
-        Intent i = new Intent(getApplicationContext(), FinishMatchActivity.class);
-        i.putExtra("resultado", resultado);
-        i.putExtra("pontos", score);
-        i.putExtra("jogador2", nomeJogador2);
-        i.putExtra("imagem", imagem);
-        i.putExtra("pontos2", scoreJogador2);
-        startActivity( i );
-        finish();
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @SuppressLint("SetTextI18n")
+    private void openModal(final String resultado){
+        final Dialog welcomeModal = new Dialog(this);
+        welcomeModal.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        welcomeModal.setCancelable(false);
+        welcomeModal.setContentView(R.layout.include_modal);
+
+        CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
+        cardModal.startAnimation(modal_anima);
+        ImageView imageIcon = welcomeModal.findViewById(R.id.imageIcon);
+        Button btnAction = welcomeModal.findViewById(R.id.btnAction);
+        TextView txt_title = welcomeModal.findViewById(R.id.txt_title);
+        TextView txtDescription = welcomeModal.findViewById(R.id.txtDescription);
+
+        String [] name = Objects.requireNonNull(userF.getDisplayName()).split(" ");
+
+        if(resultado.equals("vitoria")){
+            imageIcon.setImageResource(R.drawable.ic_emogi_happy);
+            txt_title.setText("Parabéns, "+name[0]+"!");
+            txtDescription.setText("Você venceu e ganhou\n +10 pontos");
+            btnAction.setText("GANHAR +10");
+        }
+
+        else if(resultado.equals("derrota")){
+            imageIcon.setImageResource(R.drawable.ic_emogi_sad);
+            txt_title.setText("Oh não, "+name[0]+"!");
+            txtDescription.setText("Você perdeu a partida\n -3 pontos");
+            btnAction.setText("GANHAR +3");
+        }else {
+            imageIcon.setImageResource(R.drawable.ic_emogi_cry);
+            txt_title.setText("Faltou pouco, "+name[0]+"!");
+            txtDescription.setText("Você empatou e ganhou\n +5 pontos");
+            btnAction.setText("GANHAR +5");
+        }
+
+
+        cardModal.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+                welcomeModal.dismiss();
+                welcomeModal.hide();
+
+                Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
+                i.putExtra("resultado", resultado);
+                i.putExtra("pontos", score);
+                i.putExtra("jogador2", nomeJogador2);
+                i.putExtra("imagem", imagem);
+                i.putExtra("pontos2", scoreJogador2);
+                startActivity( i );
+                finish();
+
+            }
+        });
+
+        btnAction.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+                welcomeModal.dismiss();
+                welcomeModal.hide();
+
+                Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
+                i.putExtra("resultado", resultado);
+                i.putExtra("pontos", score);
+                i.putExtra("jogador2", nomeJogador2);
+                i.putExtra("imagem", imagem);
+                i.putExtra("pontos2", scoreJogador2);
+                startActivity( i );
+                finish();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(welcomeModal.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        welcomeModal.setCancelable(false);
+
+        welcomeModal.show();
+
 
     }
 
@@ -996,8 +1108,6 @@ public class MatchActivity extends AppCompatActivity {
         }
 
     }
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

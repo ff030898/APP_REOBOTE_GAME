@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.ui.match.RulesMatchActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchRulesActivity;
 
 
 public class SearchFragment extends Fragment {
@@ -32,7 +32,7 @@ public class SearchFragment extends Fragment {
         button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), RulesMatchActivity.class));
+                startActivity(new Intent(getActivity(), MatchRulesActivity.class));
             }
         });
 

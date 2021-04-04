@@ -45,10 +45,10 @@ import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.ConquistesModel;
-import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
+import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.PartidaModel;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.MatchModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.bible.biblia_capitulos.CapitulosActivity;
 import com.reobotetechnology.reobotegame.ui.bible.biblia_livros.ListBibliaGrid;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificacoesActivity;
@@ -109,12 +109,12 @@ public class ProfileFragment extends Fragment {
 
     // List book favorite
     private BooksOfBibleAdapters adapterFavorites;
-    private List<LivrosBibliaModel> listFavorites = new ArrayList<>();
+    private List<BooksOfBibleModel> listFavorites = new ArrayList<>();
     private int tamanho = 0;
 
     // list Matches
     private ProfileMatchesAdapters adapterMatches;
-    private List<PartidaModel> listMatches = new ArrayList<>();
+    private List<MatchModel> listMatches = new ArrayList<>();
 
     private BottomSheetDialog bottomSheetDialog;
 
@@ -276,7 +276,7 @@ public class ProfileFragment extends Fragment {
 
                                 if (tamanho > 2) {
 
-                                    LivrosBibliaModel livroSelecionado = listFavorites.get(position);
+                                    BooksOfBibleModel livroSelecionado = listFavorites.get(position);
                                     Intent i = new Intent(getActivity(), CapitulosActivity.class);
                                     i.putExtra("nm_livro", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
@@ -369,7 +369,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                        UserModel user = dataSnapshot.getValue(UserModel.class);
                         if (user != null) {
                             //STATUS
                             txt_username.setText(user.getNome());
@@ -536,7 +536,7 @@ public class ProfileFragment extends Fragment {
 
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
 
-        List<LivrosBibliaModel> lista3;
+        List<BooksOfBibleModel> lista3;
         lista3 = dataBaseAcess.listarNovoTestamento();
 
         if (lista3.size() != 0) {
@@ -590,12 +590,12 @@ public class ProfileFragment extends Fragment {
 
         }*/
 
-        listMatches.add(new PartidaModel("27/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new PartidaModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new PartidaModel("22/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new PartidaModel("23/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new PartidaModel("21/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new PartidaModel("20/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("23/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("21/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("20/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
 
         adapterMatches.notifyDataSetChanged();
 

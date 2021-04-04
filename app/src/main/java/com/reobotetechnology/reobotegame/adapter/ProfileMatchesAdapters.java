@@ -7,7 +7,6 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,8 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
-import com.reobotetechnology.reobotegame.model.ConquistesModel;
-import com.reobotetechnology.reobotegame.model.PartidaModel;
+import com.reobotetechnology.reobotegame.model.MatchModel;
 
 import java.util.List;
 
@@ -36,10 +34,10 @@ public class ProfileMatchesAdapters extends RecyclerView.Adapter<ProfileMatchesA
     private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
-    private List<PartidaModel> listMatch;
+    private List<MatchModel> listMatch;
     private Context context;
 
-    public ProfileMatchesAdapters(List<PartidaModel> listMatch, Context c) {
+    public ProfileMatchesAdapters(List<MatchModel> listMatch, Context c) {
         this.listMatch = listMatch;
         this.context = c;
     }
@@ -61,7 +59,7 @@ public class ProfileMatchesAdapters extends RecyclerView.Adapter<ProfileMatchesA
         user = autenticacao.getCurrentUser();
 
 
-        PartidaModel match = listMatch.get(position);
+        MatchModel match = listMatch.get(position);
 
         holder.txt_datetime.setText(match.getId());
         String username[] = user.getDisplayName().split(" ");

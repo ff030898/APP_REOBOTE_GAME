@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,14 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.adapter.FriendsRectangleAdapters;
 import com.reobotetechnology.reobotegame.adapter.MessagesAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
-import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.MensagensModel;
-import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.messages.chat.ChatActivity;
 
 import java.text.SimpleDateFormat;
@@ -40,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -185,7 +180,7 @@ public class MessagesListActivity extends AppCompatActivity {
 
         listMessages.clear();
 
-        UsuarioModel amigo = new UsuarioModel("1", getString(R.string.name_robot), "reobote@gmail.com", "", "",
+        UserModel amigo = new UserModel("1", getString(R.string.name_robot), "reobote@gmail.com", "", "",
                 "", "", "", 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, false, false, false, false, false,
                 false, false, false, false);

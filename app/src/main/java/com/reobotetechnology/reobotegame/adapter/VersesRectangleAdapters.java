@@ -11,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.model.CapVersosModel;
+import com.reobotetechnology.reobotegame.model.CaptherOfVersesNBibleModel;
 
 import java.util.List;
 
 public class VersesRectangleAdapters extends RecyclerView.Adapter<VersesRectangleAdapters.myViewHolder> {
 
-    List<CapVersosModel> lista;
+    List<CaptherOfVersesNBibleModel> lista;
     Context context;
 
-    public VersesRectangleAdapters(List<CapVersosModel> lista, Context context) {
+    public VersesRectangleAdapters(List<CaptherOfVersesNBibleModel> lista, Context context) {
         this.lista = lista;
         this.context = context;
     }
@@ -36,7 +36,7 @@ public class VersesRectangleAdapters extends RecyclerView.Adapter<VersesRectangl
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
-        CapVersosModel c = lista.get(position);
+        CaptherOfVersesNBibleModel c = lista.get(position);
         holder.btnCapVersos.setText(""+c.getCapVerso());
 
     }

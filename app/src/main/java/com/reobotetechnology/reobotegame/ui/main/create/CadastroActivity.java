@@ -49,7 +49,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 
 import com.reobotetechnology.reobotegame.ui.main.login.LoginActivity;
@@ -75,7 +75,7 @@ public class CadastroActivity extends AppCompatActivity {
     TextView txtLogin;
 
 
-    private UsuarioModel usuario;
+    private UserModel usuario;
 
     private FirebaseAuth mAuth;
     private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
@@ -292,7 +292,7 @@ public class CadastroActivity extends AppCompatActivity {
                         String email = (login_email.getEditText().getText()).toString().trim();
                         String senha = (login_password.getEditText().getText()).toString().trim();
 
-                        usuario = new UsuarioModel("1", nome, email, senha, "",
+                        usuario = new UserModel("1", nome, email, senha, "",
                                 "", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, false, false, false, false, false, false, false, false);
                         cadastrarUsuario(usuario);
 
@@ -386,7 +386,7 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
-    public void cadastrarUsuario(final UsuarioModel usuario) {
+    public void cadastrarUsuario(final UserModel usuario) {
 
         mAuth = ConfigurationFireBase.getFirebaseAutenticacao();
 
@@ -553,7 +553,7 @@ public class CadastroActivity extends AppCompatActivity {
                                 String imagem = Objects.requireNonNull(user.getPhotoUrl()).toString().replace("s96-c", "s384-c");
 
 
-                                UsuarioModel usuario2Model = new UsuarioModel(idUsuario, user.getDisplayName(), email, "", imagem,
+                                UserModel usuario2Model = new UserModel(idUsuario, user.getDisplayName(), email, "", imagem,
                                         "", "", "", 0, 0, 0, 0,
                                         0, 0, 0, 0, 0,
                                         0, false, false, false, false, false,

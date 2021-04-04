@@ -215,13 +215,23 @@
 
             <Button
                 android:id="@+id/btn01"
+                android:textAlignment="center"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:paddingHorizontal="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:background="@drawable/btn_perguntas" />
 
             <Button
                 android:id="@+id/btn02"
+                android:paddingHorizontal="8dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -229,6 +239,11 @@
 
             <Button
                 android:id="@+id/btn03"
+                android:paddingHorizontal="8dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -236,6 +251,11 @@
 
             <Button
                 android:id="@+id/btn04"
+                android:paddingHorizontal="8dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -254,7 +274,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_splash"
+                    android:background="@drawable/btn_screen"
                     android:backgroundTint="@android:color/holo_red_dark"
                     android:drawableStart="@drawable/ic_exit"
                     android:drawableLeft="@drawable/ic_exit"

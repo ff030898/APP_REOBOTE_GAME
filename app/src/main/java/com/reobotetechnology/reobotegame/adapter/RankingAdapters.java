@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 
 
 import java.util.List;
@@ -30,11 +30,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myViewHolder> {
 
-    private List<UsuarioModel> usuario;
+    private List<UserModel> usuario;
     private Context context;
 
 
-    public RankingAdapters(List<UsuarioModel> listaUsuario, Context c) {
+    public RankingAdapters(List<UserModel> listaUsuario, Context c) {
         this.usuario = listaUsuario;
         this.context = c;
 
@@ -52,7 +52,7 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        UsuarioModel usuarioModel = usuario.get(getItemCount() - position - 1);
+        UserModel usuarioModel = usuario.get(getItemCount() - position - 1);
 
         int pos = (position + 1);
 

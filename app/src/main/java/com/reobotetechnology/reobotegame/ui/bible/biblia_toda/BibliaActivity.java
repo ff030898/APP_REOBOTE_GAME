@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,11 +25,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
-import com.reobotetechnology.reobotegame.model.BibliaModel;
+import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 
 import com.reobotetechnology.reobotegame.ui.bible.DetailsBookActivity;
+import com.reobotetechnology.reobotegame.ui.bible.SearchVersesAllActivity;
 import com.reobotetechnology.reobotegame.ui.bible.bible_song.SongBibleActivity;
-import com.reobotetechnology.reobotegame.ui.bible.biblia_versiculos.VersiculosActivity;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.LinearLayoutManagerWithSmoothScroller;
 import com.tapadoo.alerter.Alerter;
@@ -47,7 +45,7 @@ public class BibliaActivity extends AppCompatActivity {
     private long backPressedTime;
     private Toast backToast;
     private RecyclerView recyclerVersos;
-    private List<BibliaModel> lista = new ArrayList<>();
+    private List<VersesBibleModel> lista = new ArrayList<>();
     private BibleAdapters adapter;
     private BibleAdapters adapter2;
     int livro = 0;
@@ -283,8 +281,8 @@ public class BibliaActivity extends AppCompatActivity {
                 @Override
                 public void onDestroyActionMode(androidx.appcompat.view.ActionMode mode) {
                     adapter.selectedItems.clear();
-                    List<BibliaModel> biblia = adapter.getBiblia();
-                    for (BibliaModel bibliaModel : biblia) {
+                    List<VersesBibleModel> biblia = adapter.getBiblia();
+                    for (VersesBibleModel bibliaModel : biblia) {
                         if (bibliaModel.isSelected())
                             bibliaModel.setSelected(false);
                     }
@@ -330,7 +328,7 @@ public class BibliaActivity extends AppCompatActivity {
 
         lista.clear();
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
-        List<BibliaModel> lista2 = new ArrayList<>();
+        List<VersesBibleModel> lista2 = new ArrayList<>();
         lista2 = dataBaseAcess.listarVersos(livro2, capitulo);
         lista.addAll(lista2);
         imgVoltar.setVisibility(View.GONE);
@@ -384,7 +382,7 @@ public class BibliaActivity extends AppCompatActivity {
         c = c + 1;
         assert nm_livro != null;
         txtCapitulo.setText(nm_livro + " " + c);
-        List<BibliaModel> lista3 = new ArrayList<>();
+        List<VersesBibleModel> lista3 = new ArrayList<>();
         lista3 = dataBaseAcess.listarVersos(livroS, "" + c);
         lista.addAll(lista3);
         adapter.notifyDataSetChanged();
@@ -426,7 +424,7 @@ public class BibliaActivity extends AppCompatActivity {
 
         txtCapitulo.setText(nm_livro + " " + c);
 
-        List<BibliaModel> lista4 = new ArrayList<>();
+        List<VersesBibleModel> lista4 = new ArrayList<>();
         lista4 = dataBaseAcess.listarVersos(livroS, "" + c);
         lista.addAll(lista4);
         adapter.notifyDataSetChanged();
@@ -469,14 +467,18 @@ public class BibliaActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void deatils(){
+    private void deatils() {
         Intent i = new Intent(getApplicationContext(), DetailsBookActivity.class);
         i.putExtra("nm_book", nm_livro);
         startActivity(i);
     }
 
+    private void search(){
+        startActivity(new Intent(getApplicationContext(), SearchVersesAllActivity.class));
+    }
+
     @SuppressLint("SetTextI18n")
-    private void openAnotattion(){
+    private void openAnotattion() {
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_anotation, null);
 
@@ -519,7 +521,7 @@ public class BibliaActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
-    private void openFontSettings(){
+    private void openFontSettings() {
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_bible_font, null);
 
         view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
@@ -592,6 +594,9 @@ public class BibliaActivity extends AppCompatActivity {
                 break;
             case R.id.menu_details:
                 deatils();
+                break;
+            case R.id.menu_search:
+                search();
                 break;
             case R.id.menu_sair:
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));

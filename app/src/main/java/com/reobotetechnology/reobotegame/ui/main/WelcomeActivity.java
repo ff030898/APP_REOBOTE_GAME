@@ -45,7 +45,7 @@ import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.dao.DataBaseHCAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.main.create.CadastroActivity;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.ui.politices.PoliticesActivity;
@@ -262,7 +262,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                 String imagem = Objects.requireNonNull(user.getPhotoUrl()).toString().replace("s96-c", "s384-c");
                                 Log.i("EXECUTADO", "FUI EXECUTADO TOKEN");
 
-                                UsuarioModel usuario2Model = new UsuarioModel(idUsuario, user.getDisplayName(), email, "", imagem,
+                                UserModel usuario2Model = new UserModel(idUsuario, user.getDisplayName(), email, "", imagem,
                                         "", "", "", 0, 0, 0, 0,
                                         0, 0, 0, 0, 0, 0, false, false, false, false, false,
                                         false, false, false, false);

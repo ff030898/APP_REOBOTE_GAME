@@ -36,8 +36,7 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.CommentsAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.model.CommentModel;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.reobotetechnology.reobotegame.ui.bible.biblia_toda.BibliaActivity;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class BlogDetails extends AppCompatActivity {
     //ProfileFriendsVizualizations
 
     private CircleImageView v1, v2,v3,v4;
-    private List<UsuarioModel> listView = new ArrayList<>();
+    private List<UserModel> listView = new ArrayList<>();
 
     //Comments
     private CommentsAdapters adapter;
@@ -258,7 +257,7 @@ public class BlogDetails extends AppCompatActivity {
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
                     try {
-                        UsuarioModel usuario2Model = dados.getValue(UsuarioModel.class);
+                        UserModel usuario2Model = dados.getValue(UserModel.class);
 
                         assert usuario2Model != null;
                         if (!usuario2Model.getEmail().equals(user.getEmail())) {

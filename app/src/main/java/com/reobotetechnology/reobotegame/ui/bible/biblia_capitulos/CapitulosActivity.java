@@ -23,7 +23,7 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.VersesRectangleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
-import com.reobotetechnology.reobotegame.model.CapVersosModel;
+import com.reobotetechnology.reobotegame.model.CaptherOfVersesNBibleModel;
 import com.reobotetechnology.reobotegame.ui.bible.biblia_versiculos.VersiculosActivity;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class CapitulosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerCapitulos;
     private VersesRectangleAdapters adapter;
-    private List<CapVersosModel> lista;
+    private List<CaptherOfVersesNBibleModel> lista;
 
     private ProgressBar progressBar;
 
@@ -122,7 +122,7 @@ public class CapitulosActivity extends AppCompatActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                CapVersosModel livroSelecionado = lista.get(position);
+                                CaptherOfVersesNBibleModel livroSelecionado = lista.get(position);
                                 Intent i = new Intent(getApplicationContext(), VersiculosActivity.class);
                                 i.putExtra("nm_livro", nm_livro);
                                 i.putExtra("livroSelecionado", livro);
@@ -156,7 +156,7 @@ public class CapitulosActivity extends AppCompatActivity {
 
         for (int i = 0; i < capitulos; i++) {
 
-            CapVersosModel c = new CapVersosModel(i + 1, i + 1);
+            CaptherOfVersesNBibleModel c = new CaptherOfVersesNBibleModel(i + 1, i + 1);
             lista.add(c);
         }
 

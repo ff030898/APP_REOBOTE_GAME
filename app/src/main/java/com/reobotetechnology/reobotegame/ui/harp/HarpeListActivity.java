@@ -19,7 +19,7 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.ListHarpeCAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseHCAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
-import com.reobotetechnology.reobotegame.model.HCModel;
+import com.reobotetechnology.reobotegame.model.HarpeCModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.Objects;
 public class HarpeListActivity extends AppCompatActivity {
 
     ListHarpeCAdapters adapter;
-    List<HCModel> listHarpe = new ArrayList<>();
+    List<HarpeCModel> listHarpe = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -83,7 +83,7 @@ public class HarpeListActivity extends AppCompatActivity {
                             public void onItemClick(View view, int position) {
 
                                 //clicar
-                                HCModel selected = listHarpe.get(position);
+                                HarpeCModel selected = listHarpe.get(position);
                                 Intent i = new Intent(getApplicationContext(), HarpeActivity.class);
                                 i.putExtra("id", selected.getId());
                                 i.putExtra("title", selected.getTitle());
@@ -111,7 +111,7 @@ public class HarpeListActivity extends AppCompatActivity {
         listHarpe.clear();
 
         DataBaseHCAcess dataBaseHCAcess = DataBaseHCAcess.getInstance(getApplicationContext());
-            List<HCModel> harpeList = dataBaseHCAcess.listHC();
+            List<HarpeCModel> harpeList = dataBaseHCAcess.listHC();
         if (harpeList.size() != 0) {
             listHarpe.addAll(harpeList);
         }

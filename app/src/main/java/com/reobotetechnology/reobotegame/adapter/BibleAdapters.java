@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
-import com.reobotetechnology.reobotegame.model.BibliaModel;
+import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +30,17 @@ public class BibleAdapters extends RecyclerView.Adapter<BibleAdapters.myViewHold
     private BibliaAdapterListener listener;
     public final SparseBooleanArray selectedItems = new SparseBooleanArray();
     private int currentSelectedPos;
-    private List<BibliaModel> lista;
+    private List<VersesBibleModel> lista;
     private Context context;
     private int type;
 
-    public BibleAdapters(List<BibliaModel> lista, Context context, int type) {
+    public BibleAdapters(List<VersesBibleModel> lista, Context context, int type) {
         this.lista = lista;
         this.context = context;
         this.type = type;
     }
 
-    public List<BibliaModel> getBiblia() {
+    public List<VersesBibleModel> getBiblia() {
         return lista;
     }
 
@@ -58,7 +58,7 @@ public class BibleAdapters extends RecyclerView.Adapter<BibleAdapters.myViewHold
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, final int position) {
-        BibliaModel v = lista.get(position);
+        VersesBibleModel v = lista.get(position);
         holder.txtTexto.setText(Html.fromHtml("<b>"+v.getVerso()+"</b>. " + v.getText()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -109,9 +109,9 @@ public class BibleAdapters extends RecyclerView.Adapter<BibleAdapters.myViewHold
     }
 
     public void copyVerses(String lc, boolean compartilhar) {
-        List<BibliaModel> versosSelecionados = new ArrayList<>();
+        List<VersesBibleModel> versosSelecionados = new ArrayList<>();
 
-        for (BibliaModel bibliaModel : this.lista) {
+        for (VersesBibleModel bibliaModel : this.lista) {
             if (bibliaModel.isSelected())
                 versosSelecionados.add(bibliaModel);
         }

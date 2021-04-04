@@ -1,16 +1,11 @@
 package com.reobotetechnology.reobotegame.dao;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.reobotetechnology.reobotegame.model.BibliaModel;
-import com.reobotetechnology.reobotegame.model.HCModel;
-import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
-import com.reobotetechnology.reobotegame.model.PerguntasModel;
+import com.reobotetechnology.reobotegame.model.HarpeCModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +48,11 @@ public class DataBaseHCAcess {
         close();
     }
 
-    public List<HCModel> listHC(){
+    public List<HarpeCModel> listHC(){
 
         open();
 
-        List<HCModel> lista = new ArrayList<>();
+        List<HarpeCModel> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM songs";
         Cursor cursor = db.rawQuery(sql, null);
@@ -68,7 +63,7 @@ public class DataBaseHCAcess {
                     int id = cursor.getInt(0);
                     String title = cursor.getString(1);
                     String lyrics = cursor.getString(3);
-                    HCModel b = new HCModel(id, title, lyrics);
+                    HarpeCModel b = new HarpeCModel(id, title, lyrics);
                     lista.add(b);
 
                 }while(cursor.moveToNext());
@@ -80,11 +75,11 @@ public class DataBaseHCAcess {
 
     }
 
-    public List<HCModel> listHCID(int num){
+    public List<HarpeCModel> listHCID(int num){
 
         open();
 
-        List<HCModel> lista = new ArrayList<>();
+        List<HarpeCModel> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM songs where id="+num;
         Cursor cursor = db.rawQuery(sql, null);
@@ -95,7 +90,7 @@ public class DataBaseHCAcess {
                     int id = cursor.getInt(0);
                     String title = cursor.getString(1);
                     String lyrics = cursor.getString(3);
-                    HCModel b = new HCModel(id, title, lyrics);
+                    HarpeCModel b = new HarpeCModel(id, title, lyrics);
                     lista.add(b);
 
                 }while(cursor.moveToNext());

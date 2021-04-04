@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -27,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.FriendsRectangleAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class FriendsAllActivity extends AppCompatActivity {
     //private SwipeRefreshLayout swipeRefresh;
 
     private FriendsRectangleAdapters adapter;
-    private List<UsuarioModel> listFriends = new ArrayList<>();
+    private List<UserModel> listFriends = new ArrayList<>();
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseUser user = autenticacao.getCurrentUser();
@@ -123,7 +122,7 @@ public class FriendsAllActivity extends AppCompatActivity {
                 listFriends.clear();
                 for (DataSnapshot dados: dataSnapshot.getChildren() ){
 
-                    UsuarioModel usuario2Model = dados.getValue( UsuarioModel.class );
+                    UserModel usuario2Model = dados.getValue( UserModel.class );
 
                     assert usuario2Model != null;
                     if (!usuario2Model.getEmail().equals(user.getEmail())) {

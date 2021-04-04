@@ -1,11 +1,11 @@
 package com.reobotetechnology.reobotegame.model;
 
-public class HCModel {
+public class HarpeCModel {
     private int id;
     private String title;
     private String lyrics;
 
-    public HCModel(int id, String title, String lyrics) {
+    public HarpeCModel(int id, String title, String lyrics) {
         this.id = id;
         this.title = title;
         this.lyrics = lyrics;

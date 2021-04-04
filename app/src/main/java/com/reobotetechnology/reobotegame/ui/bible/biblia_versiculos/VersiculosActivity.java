@@ -22,7 +22,7 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.VersesRectangleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
-import com.reobotetechnology.reobotegame.model.CapVersosModel;
+import com.reobotetechnology.reobotegame.model.CaptherOfVersesNBibleModel;
 import com.reobotetechnology.reobotegame.ui.bible.biblia_toda.BibliaActivity;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class VersiculosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerVersiculos;
     private VersesRectangleAdapters adapter;
-    private List<CapVersosModel> lista;
+    private List<CaptherOfVersesNBibleModel> lista;
 
     private CoordinatorLayout constraintPrincipal;
     private ProgressBar progressBar;
@@ -161,7 +161,7 @@ public class VersiculosActivity extends AppCompatActivity {
 
         for (int i=0; i<versiculos; i++){
 
-            CapVersosModel c = new CapVersosModel(i+1,i+1);
+            CaptherOfVersesNBibleModel c = new CaptherOfVersesNBibleModel(i+1,i+1);
             lista.add(c);
         }
 

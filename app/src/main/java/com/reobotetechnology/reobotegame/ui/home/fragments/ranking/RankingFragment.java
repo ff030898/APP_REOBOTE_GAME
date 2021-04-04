@@ -36,9 +36,8 @@ import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.friends.friends_profile.FriendProfileActivity;
-import com.reobotetechnology.reobotegame.ui.home.fragments.profile.ProfileFragment;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificacoesActivity;
 
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class RankingFragment extends Fragment {
 
     //Top 5
     private RankingAdapters adapterRanking;
-    private ArrayList<UsuarioModel> listaRanking = new ArrayList<>();
+    private ArrayList<UserModel> listaRanking = new ArrayList<>();
 
     private ProgressBar progressBar;
     private CoordinatorLayout constraintPrincipal;
@@ -166,7 +165,7 @@ public class RankingFragment extends Fragment {
                             public void onItemClick(View view, int position) {
 
                                 int tamanho = listaRanking.size();
-                                UsuarioModel usuarioSelecionado = listaRanking.get((tamanho - position - 1));
+                                UserModel usuarioSelecionado = listaRanking.get((tamanho - position - 1));
                                 if (!usuarioSelecionado.getEmail().equals(user.getEmail())) {
                                     Intent i = new Intent(getActivity(), FriendProfileActivity.class);
                                     i.putExtra("id", usuarioSelecionado.getEmail());
@@ -229,7 +228,7 @@ public class RankingFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                        UserModel user = dataSnapshot.getValue(UserModel.class);
                         if (user != null) {
                             textDescriptionNotifications.setText("Você está em "+user.getRanking()+"º no ranking");
                         }
@@ -311,7 +310,7 @@ public class RankingFragment extends Fragment {
                     listaRanking.clear();
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-                        UsuarioModel usuario2Model = dados.getValue(UsuarioModel.class);
+                        UserModel usuario2Model = dados.getValue(UserModel.class);
 
                         listaRanking.add(usuario2Model);
 

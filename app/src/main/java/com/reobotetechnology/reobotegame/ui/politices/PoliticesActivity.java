@@ -27,10 +27,11 @@ public class PoliticesActivity extends AppCompatActivity {
 
     //Animation
     private Animation topAnim;
+    private ImageButton btn_back;
 
     private ProgressBar progressBar;
     private LinearLayout linearTermes;
-    private ImageButton btn_back;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

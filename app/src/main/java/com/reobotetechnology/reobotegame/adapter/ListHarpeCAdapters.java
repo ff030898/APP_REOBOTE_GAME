@@ -14,16 +14,16 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.model.HCModel;
+import com.reobotetechnology.reobotegame.model.HarpeCModel;
 
 import java.util.List;
 
 public class ListHarpeCAdapters extends RecyclerView.Adapter<ListHarpeCAdapters.myViewHolder> {
 
-    private List<HCModel> listHC;
+    private List<HarpeCModel> listHC;
     private Context context;
 
-    public ListHarpeCAdapters(List<HCModel> listHC, Context context) {
+    public ListHarpeCAdapters(List<HarpeCModel> listHC, Context context) {
         this.listHC = listHC;
         this.context = context;
     }
@@ -39,7 +39,7 @@ public class ListHarpeCAdapters extends RecyclerView.Adapter<ListHarpeCAdapters.
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
-        HCModel b = listHC.get(position);
+        HarpeCModel b = listHC.get(position);
 
         if(b.getId() < 10) {
             holder.txtSigla.setText("00" + b.getId());

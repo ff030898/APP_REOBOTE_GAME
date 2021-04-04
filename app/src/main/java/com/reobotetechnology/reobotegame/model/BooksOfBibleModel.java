@@ -1,11 +1,11 @@
 package com.reobotetechnology.reobotegame.model;
 
-public class LivrosBibliaModel {
+public class BooksOfBibleModel {
 
     private int id, testamento;
     private String nome;
 
-    public LivrosBibliaModel(int id, int testamento, String nome) {
+    public BooksOfBibleModel(int id, int testamento, String nome) {
         this.id = id;
         this.testamento = testamento;
         this.nome = nome;

@@ -4,15 +4,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 
-public class PartidaModel {
+public class MatchModel {
 
     private String id;
     private boolean desconectado, aceito, recusado, internet;
     private String resultado;
     private String datetime;
-    private UsuarioModel user1, user2;
+    private UserModel user1, user2;
 
-    public PartidaModel(String id, boolean desconectado, boolean aceito, boolean recusado, boolean internet, String resultado, String datetime) {
+    public MatchModel(String id, boolean desconectado, boolean aceito, boolean recusado, boolean internet, String resultado, String datetime) {
         this.id = id;
         this.desconectado = desconectado;
         this.aceito = aceito;

@@ -11,11 +11,13 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -27,9 +29,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ConfirmationMatchActivity extends AppCompatActivity {
+public class MatchLoadingIAActivity extends AppCompatActivity {
 
     private int cont;
     private Timer time;
@@ -38,6 +40,7 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private LinearLayout linearConfirmation;
     private TextView textTime, textDescription;
+    private Button btnDesistir;
 
     private String name;
 
@@ -49,17 +52,25 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
+    CircleImageView imagemPerfil, imagemPerfil2;
+    TextView txtUsuario1, txtUsuario2;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirmation_match);
+        setContentView(R.layout.activity_loading_ia_match);
 
         progressBar = findViewById(R.id.progressBar);
         linearConfirmation = findViewById(R.id.linearConfirmation);
         textTime = findViewById(R.id.textTime);
-        textDescription = findViewById(R.id.textDescription);
+        textDescription = findViewById(R.id.txtDescription);
+        imagemPerfil = findViewById(R.id.imagemPerfil);
+        imagemPerfil2 = findViewById(R.id.imagemPerfil2);
+        btnDesistir = findViewById(R.id.btnDesistir);
+        txtUsuario1 = findViewById(R.id.txtUsuario1);
+        txtUsuario2 = findViewById(R.id.txtUsuario2);
 
         Bundle extras = getIntent().getExtras();
         assert extras != null;
@@ -69,15 +80,20 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
         TextView txt_title = findViewById(R.id.txt_title);
         TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
-        String title = getString(R.string.partidasM);
-        String description = "Você vs "+name;
+        String title = ("Você vs "+getString(R.string.name_robot));
+        String description = "Aguardando confirmação";
 
         txt_title.setText(title);
         txt_subtitle.setText(description);
+        String [] name = user.getDisplayName().split(" ");
+        txtUsuario1.setText(name[0]);
+        txtUsuario2.setText(getString(R.string.name_robot));
 
         btn_back = findViewById(R.id.btn_back);
 
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+
+        loadUser();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -95,7 +111,53 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        btnDesistir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
+    }
+
+    private void loadUser(){
+        try {
+
+            if (user.getPhotoUrl() == null) {
+
+                Glide
+                        .with(getApplicationContext())
+                        .load(R.drawable.profile)
+                        .centerCrop()
+                        .placeholder(R.drawable.profile)
+                        .into(imagemPerfil);
+            } else {
+
+                Glide
+                        .with(getApplicationContext())
+                        .load(user.getPhotoUrl())
+                        .centerCrop()
+                        .placeholder(R.drawable.profile)
+                        .into(imagemPerfil);
+            }
+
+        } catch (Exception e) {
+            Glide
+                    .with(getApplicationContext())
+                    .load(R.drawable.profile)
+                    .centerCrop()
+                    .placeholder(R.drawable.profile)
+                    .into(imagemPerfil);
+
+
+        }
+
+        Glide
+                .with(getApplicationContext())
+                .load(R.drawable.reobote)
+                .centerCrop()
+                .placeholder(R.drawable.profile)
+                .into(imagemPerfil2);
     }
 
 
@@ -111,7 +173,7 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
             time = null;
         }
         time = new Timer();
-        ConfirmationMatchActivity.Task task = new ConfirmationMatchActivity.Task();
+        MatchLoadingIAActivity.Task task = new MatchLoadingIAActivity.Task();
         time.schedule(task, 1000, 1000);
 
     }
@@ -129,7 +191,7 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
 
                     progressBar.setVisibility(View.GONE);
                     linearConfirmation.setVisibility(View.VISIBLE);
-                    String description = name+" aceitou o seu convite";
+                    String description = "O seu convite foi aceito";
                     TextView txt_subtitle = findViewById(R.id.txt_subtitle);
                     txt_subtitle.setText(description);
 
@@ -187,6 +249,8 @@ public class ConfirmationMatchActivity extends AppCompatActivity {
             i.putExtra("nome", name);
             i.putExtra("imagem", "");
             startActivity(i);
+            exit = true;
+            finish();
         }
 
     }

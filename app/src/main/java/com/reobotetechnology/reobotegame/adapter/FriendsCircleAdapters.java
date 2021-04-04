@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsCircleAdapters extends RecyclerView.Adapter<FriendsCircleAdapters.myViewHolder> {
 
-    private List<UsuarioModel> usuario;
+    private List<UserModel> usuario;
     private Context context;
 
-    public FriendsCircleAdapters(List<UsuarioModel> listaUsuario, Context c) {
+    public FriendsCircleAdapters(List<UserModel> listaUsuario, Context c) {
         this.usuario = listaUsuario;
         this.context = c;
     }
@@ -38,7 +38,7 @@ public class FriendsCircleAdapters extends RecyclerView.Adapter<FriendsCircleAda
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
-        UsuarioModel usuarioModel = usuario.get(position);
+        UserModel usuarioModel = usuario.get(position);
         String[] linhas = usuarioModel.getNome().split(" ");
         holder.nome.setText(linhas[0]);
         try {

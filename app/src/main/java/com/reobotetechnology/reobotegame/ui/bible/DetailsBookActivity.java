@@ -20,9 +20,8 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BooksOfBibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
-import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
+import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.ui.bible.biblia_capitulos.CapitulosActivity;
-import com.reobotetechnology.reobotegame.ui.bible.biblia_livros.ListBibliaGrid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class DetailsBookActivity extends AppCompatActivity {
 
     // List book favorite
     private BooksOfBibleAdapters adapterFavorites;
-    private List<LivrosBibliaModel> listFavorites = new ArrayList<>();
+    private List<BooksOfBibleModel> listFavorites = new ArrayList<>();
     private int tamanho = 0;
 
     @Override
@@ -114,7 +113,7 @@ public class DetailsBookActivity extends AppCompatActivity {
 
                                 if (tamanho > 2) {
 
-                                    LivrosBibliaModel livroSelecionado = listFavorites.get(position);
+                                    BooksOfBibleModel livroSelecionado = listFavorites.get(position);
                                     Intent i = new Intent(getApplicationContext(), CapitulosActivity.class);
                                     i.putExtra("nm_livro", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
@@ -144,7 +143,7 @@ public class DetailsBookActivity extends AppCompatActivity {
 
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
 
-        List<LivrosBibliaModel> lista3;
+        List<BooksOfBibleModel> lista3;
         lista3 = dataBaseAcess.listarNovoTestamento();
 
         if (lista3.size() != 0) {

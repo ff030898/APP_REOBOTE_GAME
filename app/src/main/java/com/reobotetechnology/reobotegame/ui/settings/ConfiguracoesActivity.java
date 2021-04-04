@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.ui.main.WelcomeActivity;
-import com.reobotetechnology.reobotegame.ui.match.RulesMatchActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchRulesActivity;
 
 public class ConfiguracoesActivity extends AppCompatActivity {
 
@@ -60,6 +60,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     }
 
     private void viewRules(){
-        startActivity(new Intent(getApplicationContext(), RulesMatchActivity.class));
+        startActivity(new Intent(getApplicationContext(), MatchRulesActivity.class));
     }
 }

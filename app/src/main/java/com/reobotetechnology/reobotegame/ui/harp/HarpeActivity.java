@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.HarpeCAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseHCAcess;
-import com.reobotetechnology.reobotegame.model.HCModel;
+import com.reobotetechnology.reobotegame.model.HarpeCModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class HarpeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerHarpe;
     private TextView titleHarpe;
-    private List<HCModel> listHarpe = new ArrayList<>();
+    private List<HarpeCModel> listHarpe = new ArrayList<>();
     private HarpeCAdapters adapter;
 
     String title;
@@ -69,7 +69,7 @@ public class HarpeActivity extends AppCompatActivity {
         listHarpe.clear();
 
         DataBaseHCAcess dataBaseHCAcess = DataBaseHCAcess.getInstance(getApplicationContext());
-        List<HCModel> list = new ArrayList<>();
+        List<HarpeCModel> list = new ArrayList<>();
         list = dataBaseHCAcess.listHCID(num);
         listHarpe.addAll(list);
         adapter.notifyDataSetChanged();

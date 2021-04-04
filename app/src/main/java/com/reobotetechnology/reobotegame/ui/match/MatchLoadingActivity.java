@@ -35,16 +35,14 @@ import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.Message;
 import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.PartidaModel;
-import com.reobotetechnology.reobotegame.model.PerguntasModel;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.MatchModel;
+import com.reobotetechnology.reobotegame.model.QuestionModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +54,7 @@ import java.util.concurrent.ExecutionException;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LoadingMatchActivity extends AppCompatActivity {
+public class MatchLoadingActivity extends AppCompatActivity {
 
 
     private int cronometro;
@@ -118,9 +116,9 @@ public class LoadingMatchActivity extends AppCompatActivity {
         txtUsuario2 = findViewById(R.id.txtUsuario2);
         txtPartida = findViewById(R.id.txtPartida);
         btnDesistir = findViewById(R.id.btnDesistir);
-        txtCronometro = findViewById(R.id.txtCronometro);
+        txtCronometro = findViewById(R.id.textTime);
         progressBar6 = findViewById(R.id.progressBar6);
-        linearLayout3 = findViewById(R.id.linearLayout3);
+        linearLayout3 = findViewById(R.id.linearConfirmation);
 
         Bundle extras = getIntent().getExtras();
         assert extras != null;
@@ -164,6 +162,11 @@ public class LoadingMatchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 desistir();
             }
+        });btnDesistir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                desistir();
+            }
         });
     }
 
@@ -182,15 +185,15 @@ public class LoadingMatchActivity extends AppCompatActivity {
 
             //Cria uma partida
             idPartida = dateFormat.format(data_atual);
-            PartidaModel partida = new PartidaModel(idPartida, false, false, false, true, "", idPartida);
+            MatchModel partida = new MatchModel(idPartida, false, false, false, true, "", idPartida);
             partida.salvar();
 
-            List<PerguntasModel> lista2;
+            List<QuestionModel> lista2;
             DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
             lista2 = dataBaseAcess.listarPerguntas();
             for (int i = 0; i < lista2.size(); i++) {
 
-                PerguntasModel p = new PerguntasModel(
+                QuestionModel p = new QuestionModel(
                         i + 1,
                         lista2.get(i).getPergunta(),
                         lista2.get(i).getQuestaoA(),
@@ -402,7 +405,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                UsuarioModel usuarioModel = dataSnapshot.getValue(UsuarioModel.class);
+                UserModel usuarioModel = dataSnapshot.getValue(UserModel.class);
 
                 assert usuarioModel != null;
                 nome = usuarioModel.getNome();
@@ -466,7 +469,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
             tempo = null;
         }
         tempo = new Timer();
-        LoadingMatchActivity.Task task = new LoadingMatchActivity.Task();
+        MatchLoadingActivity.Task task = new MatchLoadingActivity.Task();
         tempo.schedule(task, 1000, 1000);
 
     }
@@ -574,7 +577,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
         if (cont == 0) {
             try {
 
-                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                new SweetAlertDialog(MatchLoadingActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Sem resposta")
                         .setContentText("Seu convite ainda não foi aceito. Deseja desistir da partida? ")
                         .setConfirmText("Sim")
@@ -603,7 +606,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
 
     private void desistir() {
 
-        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+        new SweetAlertDialog(MatchLoadingActivity.this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Desistir da Partida")
                 .setContentText("Você tem certeza que deseja desistir da partida ?")
                 .setConfirmText("Sim")
@@ -632,7 +635,7 @@ public class LoadingMatchActivity extends AppCompatActivity {
 
     private void desistirP() {
 
-        new SweetAlertDialog(LoadingMatchActivity.this, SweetAlertDialog.WARNING_TYPE)
+        new SweetAlertDialog(MatchLoadingActivity.this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Desistir da Partida")
                 .setContentText("Atenção o Jogador(a): " + nome + " já aceitou o convite. Se você desistir da partida vai perder -3 pontos. Tem certeza que deseja desistir ?")
                 .setConfirmText("Sim")

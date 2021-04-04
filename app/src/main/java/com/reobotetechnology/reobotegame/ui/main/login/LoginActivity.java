@@ -48,7 +48,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.ui.main.WelcomeActivity;
 import com.reobotetechnology.reobotegame.ui.forgot_password.EsqueceuSenhaActivity;
@@ -355,7 +355,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String idUsuario = Base64Custom.codificarBase64(email);
                                 String imagem = Objects.requireNonNull(user.getPhotoUrl()).toString().replace("s96-c", "s384-c");
 
-                                UsuarioModel usuario2Model = new UsuarioModel(idUsuario, user.getDisplayName(), email, "", imagem,
+                                UserModel usuario2Model = new UserModel(idUsuario, user.getDisplayName(), email, "", imagem,
                                         "", "", "", 0, 0, 0, 0,
                                         0, 0, 0, 0, 0, 0,  false, false, false, false, false,
                                         false, false, false, false);

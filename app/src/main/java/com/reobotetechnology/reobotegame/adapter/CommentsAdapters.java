@@ -7,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,11 +22,9 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.CommentModel;
-import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 
 import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -70,7 +66,7 @@ public class CommentsAdapters extends RecyclerView.Adapter<CommentsAdapters.myVi
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                    UserModel user = dataSnapshot.getValue(UserModel.class);
                     if (user != null) {
                         holder.txtNameUser.setText(user.getNome());
 

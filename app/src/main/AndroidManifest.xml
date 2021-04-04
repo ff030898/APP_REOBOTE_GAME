@@ -28,7 +28,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.bible.DetailsBookActivity"/>
+        <activity android:name=".ui.match.MatchWinnerAnimationActivity"/>
+        <activity android:name=".ui.match.MatchAdMobActivity" />
+        <activity android:name=".ui.bible.SearchVersesAllActivity" />
+        <activity android:name=".ui.bible.DetailsBookActivity" />
         <activity android:name=".ui.bible.bible_song.SongBibleActivity" />
         <activity android:name=".ui.bible.bible_themes.listAll.BibleThemesListActivity" />
         <activity android:name=".ui.bible.bible_themes.listVerses.ThemesActivity" />
@@ -46,7 +49,7 @@
             android:label="@string/title_activity_main" />
         <activity android:name=".ui.bible.biblia_livros.ListBibliaGrid" />
         <activity android:name=".ui.main.selected_image.ProfileActivity" />
-        <activity android:name=".ui.match.ConfirmationMatchActivity" />
+        <activity android:name=".ui.match.MatchLoadingIAActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -57,15 +60,12 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.match.LoadingMatchActivity"
+            android:name=".ui.match.MatchLoadingActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+
         <activity
-            android:name=".ui.match.FriendsOnlineActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.match.FinishMatchActivity"
+            android:name=".ui.match.MatchFinishDetailsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -114,10 +114,7 @@
         <activity
             android:name=".ui.notifications.NotificacoesActivity"
             tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.avaliable.AvaliarActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".ui.main.tela_splash.SplashActivity"
             android:theme="@style/AppThemeSplash">
@@ -135,7 +132,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.match.RulesMatchActivity"
+            android:name=".ui.match.MatchRulesActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -155,7 +152,7 @@
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_partida" />
+            android:resource="@drawable/biblia" />
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.

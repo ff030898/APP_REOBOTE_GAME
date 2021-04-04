@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.reobotetechnology.reobotegame.R;
 
-public class RulesMatchActivity extends AppCompatActivity {
+public class MatchRulesActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private LinearLayout linearTermes;

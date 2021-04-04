@@ -14,7 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
+import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 
 import java.util.List;
 import java.util.Random;
@@ -22,10 +22,10 @@ import java.util.Random;
 public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapters.myViewHolder> {
 
 
-    private List<LivrosBibliaModel> biblia;
+    private List<BooksOfBibleModel> biblia;
     private Context context;
 
-    public BooksOfBibleAdapters(List<LivrosBibliaModel> listaBiblia, Context c) {
+    public BooksOfBibleAdapters(List<BooksOfBibleModel> listaBiblia, Context c) {
         this.biblia = listaBiblia;
         this.context = c;
     }
@@ -41,8 +41,8 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        LivrosBibliaModel b = biblia.get(position);
-        LivrosBibliaModel b1 = biblia.get(0);
+        BooksOfBibleModel b = biblia.get(position);
+        BooksOfBibleModel b1 = biblia.get(0);
         holder.livro.setText(b.getNome());
 
         String[] siglaLivros = {"Gn", "Êx", "Lv", "Nm", "Dt",

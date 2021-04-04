@@ -6,7 +6,7 @@ import java.util.Date;
 public class MensagensModel {
 
     private int id;
-    private UsuarioModel envia, recebe;
+    private UserModel envia, recebe;
     private Date data;
     private String hora;
     private String texto;
@@ -15,7 +15,7 @@ public class MensagensModel {
     private int tipo;
     private boolean visualizado;
 
-    public MensagensModel(int id, UsuarioModel envia, UsuarioModel recebe, Date data, String hora, String texto, int imagem, String desc, int tipo, boolean visualizado) {
+    public MensagensModel(int id, UserModel envia, UserModel recebe, Date data, String hora, String texto, int imagem, String desc, int tipo, boolean visualizado) {
         this.id = id;
         this.envia = envia;
         this.recebe = recebe;
@@ -36,19 +36,19 @@ public class MensagensModel {
         this.id = id;
     }
 
-    public UsuarioModel getEnvia() {
+    public UserModel getEnvia() {
         return envia;
     }
 
-    public void setEnvia(UsuarioModel envia) {
+    public void setEnvia(UserModel envia) {
         this.envia = envia;
     }
 
-    public UsuarioModel getRecebe() {
+    public UserModel getRecebe() {
         return recebe;
     }
 
-    public void setRecebe(UsuarioModel recebe) {
+    public void setRecebe(UserModel recebe) {
         this.recebe = recebe;
     }
 

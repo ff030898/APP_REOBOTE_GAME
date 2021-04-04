@@ -13,16 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.model.HCModel;
+import com.reobotetechnology.reobotegame.model.HarpeCModel;
 
 import java.util.List;
 
 public class HarpeCAdapters extends RecyclerView.Adapter<HarpeCAdapters.myViewHolder> {
 
-    private List<HCModel> listHC;
+    private List<HarpeCModel> listHC;
     private Context context;
 
-    public HarpeCAdapters(List<HCModel> listHC, Context context) {
+    public HarpeCAdapters(List<HarpeCModel> listHC, Context context) {
         this.listHC = listHC;
         this.context = context;
     }
@@ -38,7 +38,7 @@ public class HarpeCAdapters extends RecyclerView.Adapter<HarpeCAdapters.myViewHo
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
-        HCModel b = listHC.get(position);
+        HarpeCModel b = listHC.get(position);
 
         String texto = Html.fromHtml(b.getLyrics()).toString().trim();
 

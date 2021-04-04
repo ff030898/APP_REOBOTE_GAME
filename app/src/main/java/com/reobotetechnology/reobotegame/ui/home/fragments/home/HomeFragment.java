@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -57,13 +56,13 @@ import com.reobotetechnology.reobotegame.dao.DataBaseHCAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
-import com.reobotetechnology.reobotegame.model.BibliaModel;
-import com.reobotetechnology.reobotegame.model.HCModel;
-import com.reobotetechnology.reobotegame.model.LivrosBibliaModel;
+import com.reobotetechnology.reobotegame.model.VersesBibleModel;
+import com.reobotetechnology.reobotegame.model.HarpeCModel;
+import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.model.Message;
 import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.model.ThemesModel;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.friends.friends_list.FriendsAllActivity;
 import com.reobotetechnology.reobotegame.ui.bible.bible_themes.listAll.BibleThemesListActivity;
 import com.reobotetechnology.reobotegame.ui.bible.bible_themes.listVerses.ThemesActivity;
@@ -73,10 +72,10 @@ import com.reobotetechnology.reobotegame.ui.bible.biblia_capitulos.CapitulosActi
 import com.reobotetechnology.reobotegame.ui.friends.friends_profile.FriendProfileActivity;
 import com.reobotetechnology.reobotegame.ui.harp.HarpeActivity;
 import com.reobotetechnology.reobotegame.ui.harp.HarpeListActivity;
-import com.reobotetechnology.reobotegame.ui.match.ConfirmationMatchActivity;
-import com.reobotetechnology.reobotegame.ui.match.RulesMatchActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchLoadingIAActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchRulesActivity;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificacoesActivity;
-import com.reobotetechnology.reobotegame.ui.match.LoadingMatchActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 import com.tapadoo.alerter.Alerter;
 
@@ -122,7 +121,7 @@ public class HomeFragment extends Fragment {
 
     //Amigos Jogar
     private FriendsCircleAdapters adapter;
-    private ArrayList<UsuarioModel> lista = new ArrayList<>();
+    private ArrayList<UserModel> lista = new ArrayList<>();
 
     private BottomSheetDialog bottomSheetDialog;
 
@@ -131,16 +130,16 @@ public class HomeFragment extends Fragment {
 
     //A.T
     private BooksOfBibleAdapters adapterAntigo;
-    private List<LivrosBibliaModel> listaAntigo = new ArrayList<>();
+    private List<BooksOfBibleModel> listaAntigo = new ArrayList<>();
 
     //N.T
     private BooksOfBibleAdapters adapterNovo;
-    private List<LivrosBibliaModel> listaNovo = new ArrayList<>();
+    private List<BooksOfBibleModel> listaNovo = new ArrayList<>();
     private int tamanho = 0;
 
     // HARPA CRISTÃ
     private ListHarpeCAdapters adapterHC;
-    private List<HCModel> listHC = new ArrayList<>();
+    private List<HarpeCModel> listHC = new ArrayList<>();
 
     //ic_theme
 
@@ -420,7 +419,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                final UsuarioModel usuarioSelecionado = lista.get(position);
+                                final UserModel usuarioSelecionado = lista.get(position);
 
                                 String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
                                 firebaseRef.child("usuarios").child(idUsuario).addValueEventListener(new ValueEventListener() {
@@ -428,7 +427,7 @@ public class HomeFragment extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                                        UserModel user = dataSnapshot.getValue(UserModel.class);
                                         if (user != null) {
                                             if(!user.isLearnRules()){
                                                 getRules();
@@ -509,7 +508,7 @@ public class HomeFragment extends Fragment {
 
                                 if (tamanho > 2) {
 
-                                    LivrosBibliaModel livroSelecionado = listaAntigo.get(position);
+                                    BooksOfBibleModel livroSelecionado = listaAntigo.get(position);
                                     Intent i = new Intent(getActivity(), CapitulosActivity.class);
                                     i.putExtra("nm_livro", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
@@ -546,7 +545,7 @@ public class HomeFragment extends Fragment {
 
                                 if (tamanho > 2) {
 
-                                    LivrosBibliaModel livroSelecionado = listaNovo.get(position);
+                                    BooksOfBibleModel livroSelecionado = listaNovo.get(position);
                                     Intent i = new Intent(getActivity(), CapitulosActivity.class);
                                     i.putExtra("nm_livro", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
@@ -580,7 +579,7 @@ public class HomeFragment extends Fragment {
                             public void onItemClick(View view, int position) {
 
                                 //clicar
-                                HCModel selected = listHC.get(position);
+                                HarpeCModel selected = listHC.get(position);
                                 Intent i = new Intent(getActivity(), HarpeActivity.class);
                                 i.putExtra("id", selected.getId());
                                 i.putExtra("title", selected.getTitle());
@@ -654,7 +653,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                        UserModel user = dataSnapshot.getValue(UserModel.class);
 
                         //Verificar se é a primeira vez do usuário acessando o jogo
 
@@ -795,8 +794,8 @@ public class HomeFragment extends Fragment {
 
         try {
             DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
-            List<LivrosBibliaModel> livroLista = dataBaseAcess.listarLivroPalavra();
-            LivrosBibliaModel p = livroLista.get(0);
+            List<BooksOfBibleModel> livroLista = dataBaseAcess.listarLivroPalavra();
+            BooksOfBibleModel p = livroLista.get(0);
             if (p.getId() != 0) {
                 livro = p.getId();
                 nm_livro = p.getNome();
@@ -834,8 +833,8 @@ public class HomeFragment extends Fragment {
 
             if (livro != 0) {
                 DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
-                List<BibliaModel> versiculoLista = dataBaseAcess.listarVersiculoPalavra(livro, capitulo);
-                BibliaModel v = versiculoLista.get(0);
+                List<VersesBibleModel> versiculoLista = dataBaseAcess.listarVersiculoPalavra(livro, capitulo);
+                VersesBibleModel v = versiculoLista.get(0);
                 versiculo = v.getVerso();
                 nm_versiculo = v.getText();
 
@@ -872,13 +871,13 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 lista.clear();
-                UsuarioModel usuarioModel = new UsuarioModel();
+                UserModel usuarioModel = new UserModel();
                 usuarioModel.setNome("Amigo");
                 usuarioModel.setJogando(false);
                 usuarioModel.setOnline(false);
                 lista.add(usuarioModel);
 
-                UsuarioModel usuarioModel2 = new UsuarioModel();
+                UserModel usuarioModel2 = new UserModel();
                 usuarioModel2.setNome("Reobote IA");
                 usuarioModel2.setJogando(false);
                 usuarioModel2.setOnline(false);
@@ -888,7 +887,7 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
                     try {
-                        UsuarioModel usuario2Model = dados.getValue(UsuarioModel.class);
+                        UserModel usuario2Model = dados.getValue(UserModel.class);
 
                         assert usuario2Model != null;
                         if (!usuario2Model.getEmail().equals(user.getEmail())) {
@@ -915,7 +914,7 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void showBottomSheetPickPhoto(final UsuarioModel userInvite) {
+    private void showBottomSheetPickPhoto(final UserModel userInvite) {
 
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_invite_friend, null);
@@ -934,7 +933,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                UserModel user = dataSnapshot.getValue(UserModel.class);
                 if (user != null) {
                     rankingUser.setText(user.getRanking() + "º");
 
@@ -983,7 +982,7 @@ public class HomeFragment extends Fragment {
             view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(getActivity(), ConfirmationMatchActivity.class);
+                    Intent i = new Intent(getActivity(), MatchLoadingIAActivity.class);
                     i.putExtra("name", getString(R.string.name_robot));
                     startActivity(i);
                     bottomSheetDialog.dismiss();
@@ -1017,7 +1016,7 @@ public class HomeFragment extends Fragment {
                         alert("Jogador(a): " + userInvite.getNome() + " está em uma partida no momento. Aguarde 5 minutos ou convide outro amigo");
                     } else {
 
-                        Intent i = new Intent(view.getContext(), LoadingMatchActivity.class);
+                        Intent i = new Intent(view.getContext(), MatchLoadingActivity.class);
                         i.putExtra("token", userInvite.getToken());
                         i.putExtra("email", userInvite.getEmail());
                         i.putExtra("convidado", "nao");
@@ -1091,7 +1090,7 @@ public class HomeFragment extends Fragment {
         listaNovo.clear();
 
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
-        List<LivrosBibliaModel> lista2;
+        List<BooksOfBibleModel> lista2;
         lista2 = dataBaseAcess.listarAntigoTestamento();
 
 
@@ -1099,7 +1098,7 @@ public class HomeFragment extends Fragment {
             listaAntigo.addAll(lista2);
         }
 
-        List<LivrosBibliaModel> lista3;
+        List<BooksOfBibleModel> lista3;
         lista3 = dataBaseAcess.listarNovoTestamento();
 
         if (lista3.size() != 0) {
@@ -1117,7 +1116,7 @@ public class HomeFragment extends Fragment {
         listHC.clear();
 
         DataBaseHCAcess dataBaseHCAcess = DataBaseHCAcess.getInstance(getActivity());
-        List<HCModel> livroLista = dataBaseHCAcess.listHC();
+        List<HarpeCModel> livroLista = dataBaseHCAcess.listHC();
         if (livroLista.size() != 0) {
             listHC.addAll(livroLista);
         }
@@ -1126,7 +1125,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void atualizarRanking() {
-        final List<UsuarioModel> listaRankingAll = new ArrayList<>();
+        final List<UserModel> listaRankingAll = new ArrayList<>();
 
 
         try {
@@ -1139,7 +1138,7 @@ public class HomeFragment extends Fragment {
                     listaRankingAll.clear();
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-                        UsuarioModel usuario2Model = dados.getValue(UsuarioModel.class);
+                        UserModel usuario2Model = dados.getValue(UserModel.class);
 
                         listaRankingAll.add(usuario2Model);
                     }
@@ -1148,7 +1147,7 @@ public class HomeFragment extends Fragment {
 
                     for (int i = 0; i < tamanho; i++) {
                         int pos = (i + 1);
-                        UsuarioModel usuarioSelecionado = listaRankingAll.get((tamanho - i - 1));
+                        UserModel usuarioSelecionado = listaRankingAll.get((tamanho - i - 1));
                         String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(usuarioSelecionado.getEmail())));
                         DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
                         usuarioRef.child("ranking").setValue(pos);
@@ -1182,7 +1181,7 @@ public class HomeFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                    UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
+                    UserModel user = dataSnapshot.getValue(UserModel.class);
 
                     assert user != null;
                     if (!user.isDayMessageIA()) {
@@ -1264,7 +1263,7 @@ public class HomeFragment extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        startActivity(new Intent(getActivity(), RulesMatchActivity.class));
+                        startActivity(new Intent(getActivity(), MatchRulesActivity.class));
                         try {
                             String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(user.getEmail())));
                             DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);

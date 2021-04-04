@@ -1,43 +1,28 @@
 package com.reobotetechnology.reobotegame.ui.messages.chat;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.MessagesChatAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
-import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.model.MensagensModel;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.view_images_screen.VisualizarImagemActivity;
 
 
@@ -45,9 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity {
@@ -155,7 +138,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (nome.equals("Reobote IA")) {
 
-            UsuarioModel amigo = new UsuarioModel("1", "", "", "", imagem,
+            UserModel amigo = new UserModel("1", "", "", "", imagem,
                     "", "", "", 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, false, false, false, false, false,
                     false, false, false, false);
@@ -224,7 +207,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (!texto.isEmpty()) {
 
-            UsuarioModel amigo = new UsuarioModel("1", "", "", "", imagem,
+            UserModel amigo = new UserModel("1", "", "", "", imagem,
                     "", "", "", 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, false, false, false, false, false,
                     false, false, false, false);
@@ -255,7 +238,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     data_completa = dateFormat.format(data_atual);
 
-                    UsuarioModel amigo = new UsuarioModel("1", "", "", "", imagem,
+                    UserModel amigo = new UserModel("1", "", "", "", imagem,
                             "", "", "", 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, false, false, false, false, false,
                             false, false, false, false);

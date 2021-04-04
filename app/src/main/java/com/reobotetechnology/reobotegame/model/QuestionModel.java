@@ -3,15 +3,15 @@ package com.reobotetechnology.reobotegame.model;
 import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 
-public class PerguntasModel {
+public class QuestionModel {
     private int id;
     private String pergunta,questaoA,questaoB,questaoC,questaoD,questaoCorreta, questaoDica;
 
-    public PerguntasModel() {
+    public QuestionModel() {
     }
 
 
-    public PerguntasModel(int id, String pergunta, String questaoA, String questaoB, String questaoC, String questaoD, String questaoCorreta, String questaoDica) {
+    public QuestionModel(int id, String pergunta, String questaoA, String questaoB, String questaoC, String questaoD, String questaoCorreta, String questaoDica) {
         this.id = id;
         this.pergunta = pergunta;
         this.questaoA = questaoA;

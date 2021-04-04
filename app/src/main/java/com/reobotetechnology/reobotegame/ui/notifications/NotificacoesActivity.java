@@ -44,8 +44,7 @@ import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
-import com.reobotetechnology.reobotegame.ui.match.LoadingMatchActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
 import com.reobotetechnology.reobotegame.ui.messages.MessagesListActivity;
 import com.reobotetechnology.reobotegame.ui.settings.ConfiguracoesActivity;
 
@@ -57,12 +56,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificacoesActivity extends AppCompatActivity {
 
-    //SwipeRefresh
-    private SwipeRefreshLayout swipeRefresh;
-    ConstraintLayout constraintMain;
+    CoordinatorLayout constraintMain;
     ConstraintLayout constraintNotifications;
     RecyclerView recyclerNotifications, recyclerNotificationsRecent, recyclerNotificationsYesterday, recyclerNotificationsDay;
-    ConstraintLayout constraintNotificationsAll, constraintNotificationsRecent, constraintNotificationsDay, constraintNotificationsYesterday;
+    ConstraintLayout constraintNotificationsRecent, constraintNotificationsDay, constraintNotificationsYesterday;
+    TextView txtAll;
     NotificationsAdapters adapter;
     List<Notification> lista = new ArrayList<>();
 
@@ -97,32 +95,15 @@ public class NotificacoesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notificacoes);
 
 
-        swipeRefresh = findViewById(R.id.swipe);
-        //Refresh
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                new Handler().postDelayed(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-                        onStart();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });
-        constraintMain = findViewById(R.id.constraintPrincipal);
+        constraintMain = findViewById(R.id.constraintMain);
         constraintNotifications = findViewById(R.id.constraintNotifications);
-        progressBar = findViewById(R.id.progressBar3);
+        progressBar = findViewById(R.id.progressBar);
         recyclerNotifications = findViewById(R.id.recyclerNotifications);
         recyclerNotificationsRecent = findViewById(R.id.recyclerNotificationsRecent);
         recyclerNotificationsDay = findViewById(R.id.recyclerNotificationsDay);
         recyclerNotificationsYesterday = findViewById(R.id.recyclerNotificationsYesterday);
 
-        constraintNotificationsAll = findViewById(R.id.constraintNotificationsAll);
+        txtAll = findViewById(R.id.textView45);
         constraintNotificationsRecent = findViewById(R.id.constraintNotificationsRecent);
         constraintNotificationsDay = findViewById(R.id.constraintNotificationsDay);
         constraintNotificationsYesterday = findViewById(R.id.constraintNotificationsYesterday);
@@ -282,7 +263,7 @@ public class NotificacoesActivity extends AppCompatActivity {
 
                             if (lista.size() == 0) {
                                 constraintNotifications.setVisibility(View.VISIBLE);
-                                constraintNotificationsAll.setVisibility(View.GONE);
+                                txtAll.setVisibility(View.GONE);
                                 constraintNotificationsRecent.setVisibility(View.GONE);
                                 constraintNotificationsDay.setVisibility(View.GONE);
                                 constraintNotificationsYesterday.setVisibility(View.GONE);
@@ -291,7 +272,7 @@ public class NotificacoesActivity extends AppCompatActivity {
                             } else {
                                 constraintNotifications.setVisibility(View.GONE);
                                 //PROVISÓRIO
-                                constraintNotificationsAll.setVisibility(View.VISIBLE);
+                                txtAll.setVisibility(View.VISIBLE);
                                 constraintNotificationsRecent.setVisibility(View.GONE);
                                 constraintNotificationsDay.setVisibility(View.GONE);
                                 constraintNotificationsYesterday.setVisibility(View.GONE);
@@ -392,7 +373,7 @@ public class NotificacoesActivity extends AppCompatActivity {
                                 } else {
 
 
-                                    Intent intent = new Intent(getApplicationContext(), LoadingMatchActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MatchLoadingActivity.class);
                                     intent.putExtra("token", "");
                                     intent.putExtra("email", email);
                                     intent.putExtra("convidado", "sim");

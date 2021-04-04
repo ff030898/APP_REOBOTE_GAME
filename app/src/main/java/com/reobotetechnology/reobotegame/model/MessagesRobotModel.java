@@ -1,11 +1,11 @@
 package com.reobotetechnology.reobotegame.model;
 
-public class MensagensIAModel {
+public class MessagesRobotModel {
 
     private int id;
     private String mensagem;
 
-    public MensagensIAModel(int id, String mensagem) {
+    public MessagesRobotModel(int id, String mensagem) {
         this.id = id;
         this.mensagem = mensagem;
     }

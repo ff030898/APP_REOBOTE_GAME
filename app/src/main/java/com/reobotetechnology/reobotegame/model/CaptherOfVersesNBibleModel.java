@@ -1,11 +1,11 @@
 package com.reobotetechnology.reobotegame.model;
 
-public class CapVersosModel {
+public class CaptherOfVersesNBibleModel {
 
     private int id, capVerso;
 
 
-    public CapVersosModel(int id, int capVerso) {
+    public CaptherOfVersesNBibleModel(int id, int capVerso) {
         this.id = id;
         this.capVerso = capVerso;
     }

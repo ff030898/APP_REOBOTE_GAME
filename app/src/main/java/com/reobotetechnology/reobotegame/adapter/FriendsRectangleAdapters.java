@@ -1,7 +1,6 @@
 package com.reobotetechnology.reobotegame.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -20,16 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.Message;
 import com.reobotetechnology.reobotegame.model.Notification;
-import com.reobotetechnology.reobotegame.model.UsuarioModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.friends.friends_profile.FriendProfileActivity;
 
 import java.text.SimpleDateFormat;
@@ -42,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectangleAdapters.myViewHolder> {
 
-    private List<UsuarioModel> usuario;
+    private List<UserModel> usuario;
     private Context context;
 
     private int seguidores = 0;
@@ -53,7 +49,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
     private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
-    public FriendsRectangleAdapters(List<UsuarioModel> listaUsuario, Context c) {
+    public FriendsRectangleAdapters(List<UserModel> listaUsuario, Context c) {
         this.usuario = listaUsuario;
         this.context = c;
     }
@@ -69,17 +65,20 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
     @Override
     public void onBindViewHolder(@NonNull final myViewHolder holder, final int position) {
 
-        final UsuarioModel usuarioModel = usuario.get(position);
-        String[] linhas = usuarioModel.getNome().split(" ");
-        holder.userName.setText(linhas[0]);
+        final UserModel userModel = usuario.get(position);
+        //String[] name = usuarioModel.getNome().split(" ");
+        //holder.userName.setText(name[0]);
+        holder.userName.setText(userModel.getNome());
+        holder.userPositionRanking.setText(userModel.getRanking()+"º lugar no ranking");
+
         try {
 
-            if (usuarioModel.getImagem().isEmpty()) {
+            if (userModel.getImagem().isEmpty()) {
                 holder.profileImage.setImageResource(R.drawable.profile);
             } else {
                 Glide
                         .with(context)
-                        .load(usuarioModel.getImagem())
+                        .load(userModel.getImagem())
                         .centerCrop()
                         .placeholder(R.drawable.profile)
                         .into(holder.profileImage);
@@ -93,8 +92,9 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(context.getApplicationContext(), FriendProfileActivity.class);
-                i.putExtra("id", usuarioModel.getEmail());
+                Intent i = new Intent(context, FriendProfileActivity.class);
+                i.putExtra("id", userModel.getEmail());
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
             }
         });
@@ -108,11 +108,11 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
                 //enviar notification
                 holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.badge_background));
                 holder.buttonMatch.setImageResource(R.drawable.ic_done);
-                Toast.makeText(context.getApplicationContext(), "Você começou a seguir " + usuarioModel.getNome(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context.getApplicationContext(), "Você começou a seguir " + userModel.getNome(), Toast.LENGTH_LONG).show();
                 String emailUsuario = Objects.requireNonNull(user.getEmail());
                 final String idUsuario = Base64Custom.codificarBase64(emailUsuario);
 
-                String emailUsuario2 = Objects.requireNonNull(usuarioModel.getEmail());
+                String emailUsuario2 = Objects.requireNonNull(userModel.getEmail());
                 final String idUsuario2 = Base64Custom.codificarBase64(emailUsuario2);
 
                 long timestamp = System.currentTimeMillis();
@@ -235,7 +235,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
     static class myViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView profileImage;
-        TextView userName;
+        TextView userName, userPositionRanking;
         ImageButton buttonMatch;
         ImageView online;
 
@@ -244,6 +244,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
 
             profileImage = itemView.findViewById(R.id.profileImage);
             userName = itemView.findViewById(R.id.userName);
+            userPositionRanking = itemView.findViewById(R.id.textView4);
             buttonMatch = itemView.findViewById(R.id.buttonMatch);
             online = itemView.findViewById(R.id.online);
 
