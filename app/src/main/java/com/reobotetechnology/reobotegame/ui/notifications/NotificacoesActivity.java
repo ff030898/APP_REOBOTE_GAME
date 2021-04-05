@@ -164,7 +164,8 @@ public class NotificacoesActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                Notification notification = lista.get(position);
+                                int tamanho = lista.size();
+                                Notification notification = lista.get((tamanho - position - 1));
                                 String idUsuario = Base64Custom.decodificarBase64(notification.getFromId());
                                 String idUpdate = "" + notification.getTimestamp();
                                 String type = notification.getTipo();
