@@ -38,6 +38,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -152,7 +154,7 @@ public class HomeFragment extends Fragment {
 
 
     //AdMob
-    //private AdView mAdView;
+    private AdView mAdView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -162,7 +164,7 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        //mAdView = root.findViewById(R.id.adView);
+        mAdView = root.findViewById(R.id.adView);
 
         progressBar = root.findViewById(R.id.progressBar3);
         constraintPrincipal = root.findViewById(R.id.constraintPrincipal);
@@ -1291,6 +1293,17 @@ public class HomeFragment extends Fragment {
                 .show();
     }
 
+    private void loadBannerAdMob(){
+        new Handler().postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void run() {
+                AdRequest adRequest = new AdRequest.Builder().build();
+                mAdView.loadAd(adRequest);
+            }
+        }, 2000);
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -1302,6 +1315,7 @@ public class HomeFragment extends Fragment {
         listarLivros();
         listHC();
         atualizarRanking();
+        loadBannerAdMob();
         super.onStart();
     }
 

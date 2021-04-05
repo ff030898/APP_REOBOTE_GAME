@@ -69,7 +69,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
         //String[] name = usuarioModel.getNome().split(" ");
         //holder.userName.setText(name[0]);
         holder.userName.setText(userModel.getNome());
-        holder.userPositionRanking.setText(userModel.getRanking()+"º lugar no ranking");
+        holder.userPositionRanking.setText(userModel.getRanking()+"º");
 
         try {
 

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBranco"
@@ -16,296 +14,25 @@
         android:background="@color/colorBranco"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.9"
-            android:background="@color/colorBranco"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toTopOf="parent">
+        <include layout="@layout/include_match_header" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp">
+        <include layout="@layout/include_match_question" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imagemPerfil"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/profile"
-                    app:civ_border_color="@color/colorActive"
-                    app:civ_border_width="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/txtUsuario1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="16dp"
-                    android:ellipsize="end"
-                    android:maxLength="12"
-                    android:textColor="@color/colorPreto"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/txtScorePlayer1"
-                    app:layout_constraintStart_toEndOf="@+id/imagemPerfil"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    tools:text="Usuário 1" />
-
-                <TextView
-                    android:id="@+id/txtScorePlayer1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="0"
-                    android:textColor="#707070"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imagemPerfil"
-                    app:layout_constraintTop_toBottomOf="@+id/txtUsuario1"
-                    tools:ignore="HardcodedText" />
-
-                <Button
-                    android:id="@+id/btnTimer"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/btn_quiz_timer"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="30" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imagemPerfil2"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/profile"
-                    app:civ_border_color="@color/colorActive"
-                    app:civ_border_width="3dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/txtUsuario2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:ellipsize="end"
-                    android:maxLength="12"
-                    android:maxLines="1"
-                    android:textColor="@color/colorPreto"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/txtScorePlayer2"
-                    app:layout_constraintEnd_toStartOf="@+id/imagemPerfil2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Usuario2" />
-
-                <TextView
-                    android:id="@+id/txtScorePlayer2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="0"
-                    android:textColor="#707070"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/imagemPerfil2"
-                    app:layout_constraintTop_toBottomOf="@+id/txtUsuario2"
-                    tools:ignore="HardcodedText" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </FrameLayout>
+        <include layout="@layout/include_match_alternatives" />
 
         <LinearLayout
-            android:id="@+id/linearPergunta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginRight="15dp"
+            android:gravity="bottom"
             android:orientation="vertical"
-            ads:layout_constraintBottom_toTopOf="@+id/linearAlternativas"
-            ads:layout_constraintEnd_toStartOf="@+id/frameLayout"
-            ads:layout_constraintHorizontal_bias="0.5"
-            ads:layout_constraintStart_toEndOf="@+id/frameLayout"
-            ads:layout_constraintTop_toBottomOf="@+id/frameLayout">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/txtPergunta"
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:background="@drawable/bg_pergunta"
-                android:gravity="center"
-                android:padding="20dp"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-20dp">
-
-                <TextView
-                    android:id="@+id/txtIndicador"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="1/10" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btnDica"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:backgroundTint="@color/colorBlue"
-                    android:src="@drawable/ic_ajudar_branco"
-                    app:fabSize="mini"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <include layout="@layout/include_all_banner_ads" />
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/linearAlternativas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/background_light"
-            android:orientation="vertical"
-            android:padding="15dp"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toBottomOf="@+id/linearPergunta">
-
-            <Button
-                android:id="@+id/btn01"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:paddingHorizontal="8dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:background="@drawable/btn_perguntas" />
-
-            <Button
-                android:id="@+id/btn02"
-                android:paddingHorizontal="8dp"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/btn_perguntas" />
-
-            <Button
-                android:id="@+id/btn03"
-                android:paddingHorizontal="8dp"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/btn_perguntas" />
-
-            <Button
-                android:id="@+id/btn04"
-                android:paddingHorizontal="8dp"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/btn_perguntas" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="25dp"
-                android:visibility="visible"
-                android:weightSum="1">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCompartilhar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_screen"
-                    android:backgroundTint="@android:color/holo_red_dark"
-                    android:drawableStart="@drawable/ic_exit"
-                    android:drawableLeft="@drawable/ic_exit"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    android:text="@string/desistir_da_partida"
-                    android:textColor="@android:color/white"
-                    tools:ignore="RtlSymmetry,UnusedAttribute" />
-
-                <Button
-                    android:id="@+id/btnProximo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:alpha="1"
-                    android:background="@drawable/btn_splash"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:enabled="false"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:visibility="gone"
-                    tools:ignore="UnusedAttribute"
-                    tools:text="PULAR" />
-
-            </LinearLayout>
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

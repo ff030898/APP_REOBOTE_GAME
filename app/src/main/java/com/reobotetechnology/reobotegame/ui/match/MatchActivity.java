@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,7 +70,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer_red;
-import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer;
+import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer_blue;
 
 public class MatchActivity extends AppCompatActivity {
 
@@ -127,6 +129,9 @@ public class MatchActivity extends AppCompatActivity {
     Timer tempo;
     int cont = 0;
 
+    //AdMob
+    private AdView mAdView;
+
 
     @SuppressLint("SetTextI18n")
 
@@ -134,6 +139,8 @@ public class MatchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
+
+        mAdView = findViewById(R.id.adView);
 
         //Vem da Activity CarregarPartida
         Bundle extras = getIntent().getExtras();
@@ -203,7 +210,7 @@ public class MatchActivity extends AppCompatActivity {
                         Alerter.create(MatchActivity.this)
                                 .setTitle("Dica")
                                 .setText("Ainda não cadastrei dica para essa pergunta. Tente na próxima pergunta")
-                                .setDuration(5000)
+                                .setDuration(3500)
                                 .setBackgroundColorRes(R.color.colorBlue)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -217,7 +224,7 @@ public class MatchActivity extends AppCompatActivity {
                         Alerter.create(MatchActivity.this)
                                 .setTitle("Dica")
                                 .setText(list.get(position).getQuestaoDica())
-                                .setDuration(5000)
+                                .setDuration(3500)
                                 .setBackgroundColorRes(R.color.colorBlue)
                                 .setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -583,37 +590,29 @@ public class MatchActivity extends AppCompatActivity {
                 .show();
     }
 
-    //Método responsável por carregar as perguntas da partida de 1 em 1
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void nextPergunta() {
         enabledOption(true);
 
         btn01.setTextColor(ColorStateList.valueOf(0xff000000));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            btn01.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-            btn01.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
-        }
+
+        btn01.setBackgroundTintList(ColorStateList.valueOf(0xfff0f0f0));
 
 
         btn02.setTextColor(ColorStateList.valueOf(0xff000000));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            btn02.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-            btn02.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
-        }
+
+        btn02.setBackgroundTintList(ColorStateList.valueOf(0xfff0f0f0));
 
 
         btn03.setTextColor(ColorStateList.valueOf(0xff000000));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            btn03.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-            btn03.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
-        }
+
+        btn03.setBackgroundTintList(ColorStateList.valueOf(0xfff0f0f0));
 
 
         btn04.setTextColor(ColorStateList.valueOf(0xff000000));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            btn04.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-            btn04.setBackground(getResources().getDrawable(R.drawable.btn_perguntas));
-        }
+
+        btn04.setBackgroundTintList(ColorStateList.valueOf(0xfff0f0f0));
+
 
         position++;
 
@@ -636,22 +635,22 @@ public class MatchActivity extends AppCompatActivity {
         clicado = true;
 
         btn01.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn01.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-        btn01.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+        btn01.setBackgroundTintList(ColorStateList.valueOf(0xffe2e2e2));
+
 
         btn02.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn02.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-        btn02.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+        btn02.setBackgroundTintList(ColorStateList.valueOf(0xffe2e2e2));
+
 
         btn03.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn03.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-        btn03.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+        btn03.setBackgroundTintList(ColorStateList.valueOf(0xffe2e2e2));
+
 
         btn04.setTextColor(ColorStateList.valueOf(0xff989898));
-        btn04.setBackgroundTintList(ColorStateList.valueOf(0xffffffff));
-        btn04.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+        btn04.setBackgroundTintList(ColorStateList.valueOf(0xffe2e2e2));
 
-        selectedOption.setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+
+        selectedOption.setBackground(this.getResources().getDrawable(R.drawable.bg_questions));
         selectedOption.setBackgroundTintList(ColorStateList.valueOf(0xFF0066cc));
         selectedOption.setTextColor(ColorStateList.valueOf(0xffffffff));
     }
@@ -754,9 +753,7 @@ public class MatchActivity extends AppCompatActivity {
         for (int i = 0; i < 4; i++) {
             linearAlternativas.getChildAt(i).setEnabled(enabled);
             if (enabled) {
-                linearAlternativas.getChildAt(i).setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
-            }else{
-                linearAlternativas.getChildAt(i).setBackground(this.getResources().getDrawable(R.drawable.btn_perguntas));
+                linearAlternativas.getChildAt(i).setBackgroundTintList(ColorStateList.valueOf(0xfff0f0f0));
             }
         }
     }
@@ -769,7 +766,7 @@ public class MatchActivity extends AppCompatActivity {
         clicado = false;
         btnTimer.setText("15");
         cronometro = 15;
-        btnTimer.setBackground(getResources().getDrawable(btn_quiz_timer));
+        btnTimer.setBackground(getResources().getDrawable(btn_quiz_timer_blue));
 
         if (tempo != null) {
             tempo.cancel();
@@ -864,6 +861,7 @@ public class MatchActivity extends AppCompatActivity {
             if (!txtUsuario2.getText().equals(getString(R.string.name_robot))) {
 
                 new Handler().postDelayed(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void run() {
                         enabledOption(false);
@@ -876,6 +874,7 @@ public class MatchActivity extends AppCompatActivity {
 
 
                 new Handler().postDelayed(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
@@ -910,7 +909,6 @@ public class MatchActivity extends AppCompatActivity {
         usuarioRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
 
                 String pontosGeral = Objects.requireNonNull(dataSnapshot.child("pontosG").getValue()).toString();
@@ -1014,7 +1012,7 @@ public class MatchActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SetTextI18n")
-    private void openModal(final String resultado){
+    private void openModal(final String resultado) {
         final Dialog welcomeModal = new Dialog(this);
         welcomeModal.requestWindowFeature(Window.FEATURE_NO_TITLE);
         welcomeModal.setCancelable(false);
@@ -1027,23 +1025,21 @@ public class MatchActivity extends AppCompatActivity {
         TextView txt_title = welcomeModal.findViewById(R.id.txt_title);
         TextView txtDescription = welcomeModal.findViewById(R.id.txtDescription);
 
-        String [] name = Objects.requireNonNull(userF.getDisplayName()).split(" ");
+        String[] name = Objects.requireNonNull(userF.getDisplayName()).split(" ");
 
-        if(resultado.equals("vitoria")){
+        if (resultado.equals("vitoria")) {
             imageIcon.setImageResource(R.drawable.ic_emogi_happy);
-            txt_title.setText("Parabéns, "+name[0]+"!");
+            txt_title.setText("Parabéns, " + name[0] + "!");
             txtDescription.setText("Você venceu e ganhou\n +10 pontos");
             btnAction.setText("GANHAR +10");
-        }
-
-        else if(resultado.equals("derrota")){
+        } else if (resultado.equals("derrota")) {
             imageIcon.setImageResource(R.drawable.ic_emogi_sad);
-            txt_title.setText("Oh não, "+name[0]+"!");
+            txt_title.setText("Oh não, " + name[0] + "!");
             txtDescription.setText("Você perdeu a partida\n -3 pontos");
             btnAction.setText("GANHAR +3");
-        }else {
+        } else {
             imageIcon.setImageResource(R.drawable.ic_emogi_cry);
-            txt_title.setText("Faltou pouco, "+name[0]+"!");
+            txt_title.setText("Faltou pouco, " + name[0] + "!");
             txtDescription.setText("Você empatou e ganhou\n +5 pontos");
             btnAction.setText("GANHAR +5");
         }
@@ -1063,7 +1059,7 @@ public class MatchActivity extends AppCompatActivity {
                 i.putExtra("jogador2", nomeJogador2);
                 i.putExtra("imagem", imagem);
                 i.putExtra("pontos2", scoreJogador2);
-                startActivity( i );
+                startActivity(i);
                 finish();
 
             }
@@ -1083,7 +1079,7 @@ public class MatchActivity extends AppCompatActivity {
                 i.putExtra("jogador2", nomeJogador2);
                 i.putExtra("imagem", imagem);
                 i.putExtra("pontos2", scoreJogador2);
-                startActivity( i );
+                startActivity(i);
                 finish();
             }
         });
@@ -1109,6 +1105,17 @@ public class MatchActivity extends AppCompatActivity {
 
     }
 
+    private void loadBannerAdMob(){
+        new Handler().postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void run() {
+                AdRequest adRequest = new AdRequest.Builder().build();
+                mAdView.loadAd(adRequest);
+            }
+        }, 2000);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onBackPressed() {
@@ -1129,6 +1136,7 @@ public class MatchActivity extends AppCompatActivity {
         carregaUser();
         recuperarPontosJogador1();
         jogando(true);
+        loadBannerAdMob();
     }
 
     @Override

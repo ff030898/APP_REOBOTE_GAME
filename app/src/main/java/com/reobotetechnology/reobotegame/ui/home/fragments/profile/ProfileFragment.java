@@ -27,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -118,11 +120,16 @@ public class ProfileFragment extends Fragment {
 
     private BottomSheetDialog bottomSheetDialog;
 
+    //AdMob
+    private AdView mAdView;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mAdView = root.findViewById(R.id.adView);
 
         progressBar = root.findViewById(R.id.progressBar3);
         constraintPrincipal = root.findViewById(R.id.constraintPrincipal);
@@ -512,7 +519,6 @@ public class ProfileFragment extends Fragment {
         bottomSheetDialog.show();
     }
 
-
     private void listConquist(){
 
         listConquist.clear();
@@ -594,22 +600,32 @@ public class ProfileFragment extends Fragment {
         listMatches.add(new MatchModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
         listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
         listMatches.add(new MatchModel("23/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("21/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("20/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+
 
         adapterMatches.notifyDataSetChanged();
 
     }
 
+    private void loadBannerAdMob(){
+        new Handler().postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void run() {
+                AdRequest adRequest = new AdRequest.Builder().build();
+                mAdView.loadAd(adRequest);
+            }
+        }, 2000);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onStart() {
-        super.onStart();
         viewProfile();
         getAllNotifications();
         listConquist();
         listBookFavorites();
         listMatches();
-
+        loadBannerAdMob();
+        super.onStart();
     }
 }

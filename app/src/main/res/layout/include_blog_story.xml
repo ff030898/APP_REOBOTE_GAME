@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="16dp"
@@ -15,7 +14,7 @@
         android:layout_marginLeft="18dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:text="DESTAQUES"
+        android:text="@string/destaques"
         android:textColor="@color/colorPreto"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recyclerBlogStory"

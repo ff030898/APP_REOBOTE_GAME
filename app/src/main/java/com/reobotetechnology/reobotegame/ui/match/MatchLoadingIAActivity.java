@@ -40,7 +40,6 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private LinearLayout linearConfirmation;
     private TextView textTime, textDescription;
-    private Button btnDesistir;
 
     private String name;
 
@@ -48,7 +47,6 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
     private Animation topAnim;
     private ImageButton btn_back;
 
-    private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
@@ -68,7 +66,7 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
         textDescription = findViewById(R.id.txtDescription);
         imagemPerfil = findViewById(R.id.imagemPerfil);
         imagemPerfil2 = findViewById(R.id.imagemPerfil2);
-        btnDesistir = findViewById(R.id.btnDesistir);
+        Button btnDesistir = findViewById(R.id.btnDesistir);
         txtUsuario1 = findViewById(R.id.txtUsuario1);
         txtUsuario2 = findViewById(R.id.txtUsuario2);
 
@@ -80,12 +78,12 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
         TextView txt_title = findViewById(R.id.txt_title);
         TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
-        String title = ("Você vs "+getString(R.string.name_robot));
+        String title = ("Você vs " + getString(R.string.name_robot));
         String description = "Aguardando confirmação";
 
         txt_title.setText(title);
         txt_subtitle.setText(description);
-        String [] name = user.getDisplayName().split(" ");
+        String[] name = user.getDisplayName().split(" ");
         txtUsuario1.setText(name[0]);
         txtUsuario2.setText(getString(R.string.name_robot));
 
@@ -94,7 +92,6 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
 
         loadUser();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +117,7 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
 
     }
 
-    private void loadUser(){
+    private void loadUser() {
         try {
 
             if (user.getPhotoUrl() == null) {
@@ -195,32 +192,32 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
                     TextView txt_subtitle = findViewById(R.id.txt_subtitle);
                     txt_subtitle.setText(description);
 
-                        if (cont > 0) {
+                    if (cont > 0) {
 
-                            cont = cont - 1;
-                            textTime.setText("0" + cont);
-                            textDescription.setText(description.toUpperCase());
-                            if (cont <= 3) {
-                                textDescription.setText("ATENÇÃO! A PARTIDA JÁ VAI COMEÇAR...");
-                            }
-
-                        } else {
-
-                            try {
-
-                                time.cancel();
-                                boolean foregroud = new ChecarSegundoPlano().execute(getApplicationContext()).get();
-                                if (foregroud && !exit) {
-                                      initalMatch(name);
-                                }
-
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
+                        cont = cont - 1;
+                        textTime.setText("0" + cont);
+                        textDescription.setText(description.toUpperCase());
+                        if (cont <= 3) {
+                            textDescription.setText("ATENÇÃO! A PARTIDA JÁ VAI COMEÇAR...");
                         }
+
+                    } else {
+
+                        try {
+
+                            time.cancel();
+                            boolean foregroud = new ChecarSegundoPlano().execute(getApplicationContext()).get();
+                            if (foregroud && !exit) {
+                                initalMatch(name);
+                            }
+
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
 
 
                 }
@@ -236,15 +233,15 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
         try {
             exit = true;
             finish();
-        }catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
     }
 
-    private void initalMatch(String name){
+    private void initalMatch(String name) {
 
-        if(name.equals(getString(R.string.name_robot))) {
+        if (name.equals(getString(R.string.name_robot))) {
             Intent i = new Intent(getApplicationContext(), MatchActivity.class);
             i.putExtra("nome", name);
             i.putExtra("imagem", "");
@@ -257,9 +254,9 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(cont > 0) {
+        if (cont > 0) {
             abortMatch();
-        }else {
+        } else {
             exit = true;
             super.onBackPressed();
         }

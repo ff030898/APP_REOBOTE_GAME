@@ -95,35 +95,6 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
 
            holder.ranking.setText(usuarioModel.getRanking() + "º");
 
-           /*if(holder.ranking.getText().equals("1º")){
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                   holder.ranking.setBackgroundTintList(ColorStateList.valueOf(0xffAE841A));
-                   holder.ranking.setTextColor(ColorStateList.valueOf(0xffffffff));
-               }
-
-
-           }else if(usuarioModel.getRanking() == 2) {
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                   holder.ranking.setBackgroundTintList(ColorStateList.valueOf(0xffC0C0C0));
-                   holder.ranking.setTextColor(ColorStateList.valueOf(0xff000000));
-               }
-           }else if(usuarioModel.getRanking() == 3) {
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                   holder.ranking.setBackgroundTintList(ColorStateList.valueOf(0xffCD7F32));
-                   holder.ranking.setTextColor(ColorStateList.valueOf(0xffffffff));
-               }
-           }else{
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                   holder.ranking.setBackground(context.getResources().getDrawable(R.drawable.bg_ranking_position));
-                   holder.ranking.setTextColor(ColorStateList.valueOf(0xff000000));
-               }
-           }*/
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.ranking.setBackground(context.getResources().getDrawable(R.drawable.bg_ranking_position));
-            holder.ranking.setTextColor(ColorStateList.valueOf(0xff000000));
-        }
-
     }
 
 

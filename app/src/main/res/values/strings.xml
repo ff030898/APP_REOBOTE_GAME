@@ -221,6 +221,13 @@
     <string name="acertos">ACERTOS</string>
     <string name="erros">ERROS</string>
     <string name="media">MÉDIA</string>
+    <string name="homens">HOMENS</string>
+    <string name="mulheres">MULHERES</string>
+    <string name="crian_as">CRIANÇAS</string>
+    <string name="jovens">JOVENS</string>
+    <string name="cristologia">CRISTOLOGIA</string>
+    <string name="escatologia">ESCATOLOGIA</string>
+    <string name="destaques">DESTAQUES</string>
 
 
 </resources>

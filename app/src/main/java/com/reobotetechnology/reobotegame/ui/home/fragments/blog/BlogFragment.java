@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -86,12 +88,17 @@ public class BlogFragment extends Fragment {
     private TextView textWelcome, textDescriptionNotifications;
     private Button btn_notifications;
 
+    //AdMob
+    private AdView mAdView;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_blog, container, false);
+
+        mAdView = root.findViewById(R.id.adView);
 
         //configuracoes de objetos
         autenticacao = ConfigurationFirebase.getFirebaseAutenticacao();
@@ -269,7 +276,7 @@ public class BlogFragment extends Fragment {
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
                         Notification notification = new Notification();
-                        String view = dados.child("view").getValue().toString();
+                        String view = Objects.requireNonNull(dados.child("view").getValue()).toString();
                         notification.setView(Boolean.parseBoolean(view));
                         if(!notification.isView()){
                             countNoitificationsView  = countNoitificationsView + 1;
@@ -279,10 +286,8 @@ public class BlogFragment extends Fragment {
                     btn_notifications.setText("" + countNoitificationsView);
 
                 } catch (Exception e) {
-                    Log.i("ERRO NOTIFICATION", e.getMessage());
+                    Log.i("ERRO NOTIFICATION", Objects.requireNonNull(e.getMessage()));
                 }
-
-
 
 
             }
@@ -371,12 +376,26 @@ public class BlogFragment extends Fragment {
         }, 2000);
 
     }
+
+    private void loadBannerAdMob(){
+        new Handler().postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void run() {
+                AdRequest adRequest = new AdRequest.Builder().build();
+                mAdView.loadAd(adRequest);
+            }
+        }, 2000);
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onStart() {
         viewProfile();
         getAllNotifications();
         listPostBlog();
+        loadBannerAdMob();
         super.onStart();
     }
 }

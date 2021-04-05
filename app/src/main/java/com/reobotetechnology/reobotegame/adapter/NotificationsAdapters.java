@@ -42,7 +42,7 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        Notification notification = notifications.get(position);
+        Notification notification = notifications.get(getItemCount() - position - 1);
 
         holder.txtDescNotification.setText(notification.getFromName());
         try{

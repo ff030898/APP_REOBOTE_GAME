@@ -157,7 +157,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/colorPreto"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             tools:text="20" />
 

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,10 +48,6 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RankingFragment extends Fragment {
-
-    //SwipeRefresh
-    //private SwipeRefreshLayout swipeRefresh;
-
 
     //Toolbar
     private CircleImageView profileImage;
@@ -89,27 +87,9 @@ public class RankingFragment extends Fragment {
         autenticacao = ConfigurationFirebase.getFirebaseAutenticacao();
         user = autenticacao.getCurrentUser();
 
-        //swipeRefresh = root.findViewById(R.id.swipe);
 
         progressBar.setVisibility(View.VISIBLE);
         constraintPrincipal.setVisibility(View.GONE);
-
-        //Refresh
-        /*swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                new Handler().postDelayed(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-                        onStart();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });*/
 
         //Toolbar
 
@@ -131,7 +111,6 @@ public class RankingFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //startActivity(new Intent(getContext(), EditarPerfilActivity.class));
                 startActivity(new Intent(getActivity(), NotificacoesActivity.class));
             }
         });
@@ -401,6 +380,7 @@ public class RankingFragment extends Fragment {
 
 
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

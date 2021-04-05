@@ -94,13 +94,14 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSend"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="55dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:text="@string/enviar"
+                    android:paddingHorizontal="40dp"
                     android:textColor="@android:color/white"
                     android:background="@drawable/btn_splash"
                     android:layout_gravity="center"

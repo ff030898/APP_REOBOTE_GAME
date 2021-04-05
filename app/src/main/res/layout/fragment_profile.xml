@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="64dp"
                     android:clipToPadding="false"
-                    android:paddingBottom="84dp"
+                    android:paddingBottom="125dp"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +59,7 @@
                     <include layout="@layout/include_profile_conquistes" />
                     <include layout="@layout/include_profile_book_favorites" />
                     <include layout="@layout/include_profile_matches" />
+                    <include layout="@layout/include_all_banner_ads" />
 
 
                 </LinearLayout>

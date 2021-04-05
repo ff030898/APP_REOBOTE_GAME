@@ -45,7 +45,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer;
+import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer_blue;
 import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer_green;
 import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer_red;
 
@@ -301,7 +301,7 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
             txtScoreMedia.setTextColor(ColorStateList.valueOf(0xff801b20));
             txtScoreMediaTitle.setTextColor(ColorStateList.valueOf(0xff801b20));
         } else if (media >= 50 && media < 70) {
-            textGrapich.setBackground(getResources().getDrawable(btn_quiz_timer));
+            textGrapich.setBackground(getResources().getDrawable(btn_quiz_timer_blue));
             textGrapich.setTextColor(ColorStateList.valueOf(0xff0066cc));
             txtScoreMedia.setTextColor(ColorStateList.valueOf(0xff0066cc));
             txtScoreMediaTitle.setTextColor(ColorStateList.valueOf(0xff0066cc));
