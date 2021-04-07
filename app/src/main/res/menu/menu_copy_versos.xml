@@ -3,18 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_image"
-        android:icon="@drawable/ic_image_copy"
-        android:title="@string/imagem"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
-
-    <item
-        android:id="@+id/action_whatsApp"
-        android:icon="@drawable/ic_whatsapp"
-        android:title="@string/whatsapp"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_compartilhar"

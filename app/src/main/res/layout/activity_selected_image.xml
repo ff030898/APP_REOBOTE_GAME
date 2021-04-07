@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBranco"
-    tools:context=".ui.main.selected_image.ProfileActivity">
+    tools:context=".ui.main.CreateImageAccountActivity">
 
     <TextView
         android:id="@+id/txtPular"

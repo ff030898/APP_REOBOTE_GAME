@@ -21,7 +21,6 @@ import com.reobotetechnology.reobotegame.adapter.BooksOfBibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
-import com.reobotetechnology.reobotegame.ui.bible.biblia_capitulos.CapitulosActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +113,7 @@ public class DetailsBookActivity extends AppCompatActivity {
                                 if (tamanho > 2) {
 
                                     BooksOfBibleModel livroSelecionado = listFavorites.get(position);
-                                    Intent i = new Intent(getApplicationContext(), CapitulosActivity.class);
+                                    Intent i = new Intent(getApplicationContext(), ChaptersActivity.class);
                                     i.putExtra("nm_livro", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
                                     startActivity(i);

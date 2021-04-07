@@ -46,10 +46,7 @@ import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.dao.DataBaseHCAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.UserModel;
-import com.reobotetechnology.reobotegame.ui.main.create.CadastroActivity;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
-import com.reobotetechnology.reobotegame.ui.politices.PoliticesActivity;
-import com.reobotetechnology.reobotegame.ui.termes.TermosActivity;
 
 
 import java.util.Objects;
@@ -174,13 +171,13 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void cadastro(View view) {
-        Intent intent = new Intent(getApplicationContext(), CadastroActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CreateAccountActivity.class);
         startActivity(intent);
 
     }
 
     public void termos(View view) {
-        startActivity(new Intent(getApplicationContext(), TermosActivity.class));
+        startActivity(new Intent(getApplicationContext(), TermesofUseActivity.class));
     }
 
     public void politices(View view){

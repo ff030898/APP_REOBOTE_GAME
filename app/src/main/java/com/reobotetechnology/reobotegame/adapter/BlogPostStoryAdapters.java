@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.BlogPostModel;
-import com.reobotetechnology.reobotegame.ui.home.blog.BlogDetails;
+import com.reobotetechnology.reobotegame.ui.blog.BlogDetails;
 
 import java.util.List;
 

@@ -558,7 +558,7 @@ public class MatchActivity extends AppCompatActivity {
     //Esse método exibe um alert de confirmação caso o usuário queira desistir da partida
     private void desistirP() {
 
-        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+        new SweetAlertDialog(MatchActivity.this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Desistir da Partida")
                 .setContentText("Atenção! Se você desistir da partida vai perder -3 pontos. Tem certeza que deseja desistir ?")
                 .setConfirmText("Sim")

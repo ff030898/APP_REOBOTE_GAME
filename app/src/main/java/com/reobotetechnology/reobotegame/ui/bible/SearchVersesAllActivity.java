@@ -29,8 +29,6 @@ import com.reobotetechnology.reobotegame.adapter.BibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.VersesBibleModel;
-import com.reobotetechnology.reobotegame.model.ThemeslistModel;
-import com.reobotetechnology.reobotegame.ui.bible.biblia_toda.BibliaActivity;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
@@ -140,7 +138,7 @@ public class SearchVersesAllActivity extends AppCompatActivity {
                                 DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
                                 String book = dataBaseAcess.findBook(themes.getLivro());
 
-                                Intent i = new Intent(getApplicationContext(), BibliaActivity.class);
+                                Intent i = new Intent(getApplicationContext(), BiblieActivity.class);
                                 i.putExtra("nm_livro", book);
                                 i.putExtra("livroSelecionado", themes.getLivro());
                                 i.putExtra("capitulo", themes.getCapitulo());

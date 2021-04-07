@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBranco"
-    tools:context=".ui.harp.HarpeActivity">
+    tools:context=".ui.harpe.HarpeActivity">
 
     <TextView
         android:id="@+id/titleHarpe"

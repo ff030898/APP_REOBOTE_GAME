@@ -29,7 +29,6 @@ import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.MensagensModel;
 import com.reobotetechnology.reobotegame.model.UserModel;
-import com.reobotetechnology.reobotegame.ui.messages.chat.ChatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

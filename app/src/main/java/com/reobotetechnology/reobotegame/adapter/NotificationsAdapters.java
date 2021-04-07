@@ -42,17 +42,16 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        Notification notification = notifications.get(getItemCount() - position - 1);
+        Notification notification = notifications.get(position);
 
         holder.txtDescNotification.setText(notification.getFromName());
-        try{
+        try {
 
-            if(notification.getFromName().equals(context.getString(R.string.name_robot))){
+            if (notification.getFromName().equals(context.getString(R.string.name_robot))) {
                 holder.imagemPerfil.setImageResource(R.drawable.reobote);
-            }
-            else if(notification.getFromImage().isEmpty()){
+            } else if (notification.getFromImage().isEmpty()) {
                 holder.imagemPerfil.setImageResource(R.drawable.profile);
-            }else {
+            } else {
 
                 Glide
                         .with(context)
@@ -61,20 +60,21 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
                         .placeholder(R.drawable.profile)
                         .into(holder.imagemPerfil);
             }
-        }catch (Exception e){
+
+            if (!notification.getTipo().equals("blog")) {
+                holder.cardViewBlog.setVisibility(View.GONE);
+            }
+
+
+            if (notification.isView()) {
+                holder.view.setVisibility(View.GONE);
+            }
+
+            holder.txtTimeNotification.setText(notification.getText() + " - " + notification.getTime());
+        } catch (Exception e) {
 
             holder.imagemPerfil.setImageResource(R.drawable.profile);
         }
-
-        if(!notification.getTipo().equals("blog")){
-            holder.cardViewBlog.setVisibility(View.GONE);
-        }
-
-        if(notification.isView()){
-            holder.view.setVisibility(View.GONE);
-        }
-
-        holder.txtTimeNotification.setText(notification.getText()+" - "+notification.getTime());
 
     }
 
@@ -83,7 +83,7 @@ public class NotificationsAdapters extends RecyclerView.Adapter<NotificationsAda
         return notifications.size();
     }
 
-    static class myViewHolder extends RecyclerView.ViewHolder{
+    static class myViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView imagemPerfil;
         TextView txtDescNotification, txtTimeNotification;

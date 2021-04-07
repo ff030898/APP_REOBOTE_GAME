@@ -228,6 +228,9 @@
     <string name="cristologia">CRISTOLOGIA</string>
     <string name="escatologia">ESCATOLOGIA</string>
     <string name="destaques">DESTAQUES</string>
+    <string name="descriptionFollow">Você está seguindo</string>
+    <string name="descriptionFollow2">Você tem</string>
+    <string name="pessoas">pessoas</string>
 
 
 </resources>

@@ -23,12 +23,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
+import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MatchLoadingIAActivity extends AppCompatActivity {
@@ -83,7 +86,7 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
 
         txt_title.setText(title);
         txt_subtitle.setText(description);
-        String[] name = user.getDisplayName().split(" ");
+        String[] name = Objects.requireNonNull(user.getDisplayName()).split(" ");
         txtUsuario1.setText(name[0]);
         txtUsuario2.setText(getString(R.string.name_robot));
 
@@ -231,8 +234,27 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
     private void abortMatch() {
 
         try {
-            exit = true;
-            finish();
+            new SweetAlertDialog(MatchLoadingIAActivity.this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Desistir da Partida")
+                    .setContentText("Tem certeza que deseja desistir ?")
+                    .setConfirmText("Sim")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            exit = true;
+                            sDialog.hide();
+                            finish();
+                        }
+                    }).setCancelText("Não")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                            sweetAlertDialog.hide();
+                        }
+                    })
+                    .show();
+
         } catch (Exception ignored) {
 
         }
@@ -241,13 +263,18 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
 
     private void initalMatch(String name) {
 
+        try {
+
         if (name.equals(getString(R.string.name_robot))) {
             Intent i = new Intent(getApplicationContext(), MatchActivity.class);
             i.putExtra("nome", name);
             i.putExtra("imagem", "");
             startActivity(i);
-            exit = true;
             finish();
+        }
+
+        } catch (Exception ignored) {
+
         }
 
     }

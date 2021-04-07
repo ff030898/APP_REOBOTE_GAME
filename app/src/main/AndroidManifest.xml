@@ -32,23 +32,23 @@
         <activity android:name=".ui.match.MatchAdMobActivity" />
         <activity android:name=".ui.bible.SearchVersesAllActivity" />
         <activity android:name=".ui.bible.DetailsBookActivity" />
-        <activity android:name=".ui.bible.bible_song.SongBibleActivity" />
-        <activity android:name=".ui.bible.bible_themes.listAll.BibleThemesListActivity" />
-        <activity android:name=".ui.bible.bible_themes.listVerses.ThemesActivity" />
+        <activity android:name=".ui.bible.SongBibleActivity" />
+        <activity android:name=".ui.bible.BibleThemesListActivity" />
+        <activity android:name=".ui.bible.ThemesActivity" />
         <activity
-            android:name=".ui.harp.HarpeListActivity"
+            android:name=".ui.harpe.HarpeListActivity"
             android:theme="@style/AppThemeToolbar" />
         <activity
-            android:name=".ui.harp.HarpeActivity"
+            android:name=".ui.harpe.HarpeActivity"
             android:theme="@style/AppThemeToolbar" />
-        <activity android:name=".ui.main.find_friends.FindFriendsActivity" />
-        <activity android:name=".ui.politices.PoliticesActivity" />
+        <activity android:name=".ui.main.FindFriendsActivity" />
+        <activity android:name=".ui.main.PoliticesActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".ui.bible.biblia_livros.ListBibliaGrid" />
-        <activity android:name=".ui.main.selected_image.ProfileActivity" />
+        <activity android:name=".ui.bible.ListBiblieGrid" />
+        <activity android:name=".ui.main.CreateImageAccountActivity" />
         <activity android:name=".ui.match.MatchLoadingIAActivity" />
 
         <meta-data
@@ -69,14 +69,14 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.profile.editar_perfil.EditarPerfilActivity"
+            android:name=".ui.main.EditProfileActivity"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.view_images_screen.VisualizarImagemActivity"
+            android:name=".ui.friends.ViewImageScreenActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.friends.friends_profile.FriendProfileActivity"
+            android:name=".ui.friends.FriendProfileActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -84,15 +84,15 @@
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.bible.biblia_versiculos.VersiculosActivity"
+            android:name=".ui.bible.VersesActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.bible.biblia_capitulos.CapitulosActivity"
+            android:name=".ui.bible.ChaptersActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.bible.biblia_toda.BibliaActivity"
+            android:name=".ui.bible.BiblieActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeToolbar"
             tools:ignore="LockedOrientationActivity" />
@@ -102,21 +102,21 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.home.blog.BlogDetails"
+            android:name=".ui.blog.BlogDetails"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ui.termes.TermosActivity" />
+        <activity android:name=".ui.main.TermesofUseActivity" />
         <activity
-            android:name=".ui.friends.friends_list.FriendsAllActivity"
+            android:name=".ui.friends.FriendsListActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ui.messages.chat.ChatActivity" />
+        <activity android:name=".ui.messages.ChatActivity" />
         <activity
-            android:name=".ui.notifications.NotificacoesActivity"
+            android:name=".ui.notifications.NotificationsActivity"
             tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name=".ui.main.tela_splash.SplashActivity"
+            android:name=".ui.main.SplashScreenActivity"
             android:theme="@style/AppThemeSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -124,11 +124,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.forgot_password.EsqueceuSenhaActivity" />
-        <activity android:name=".ui.main.create.CadastroActivity" />
-        <activity android:name=".ui.main.login.LoginActivity" />
+        <activity android:name=".ui.main.ForgotPasswordActivity" />
+        <activity android:name=".ui.main.CreateAccountActivity" />
+        <activity android:name=".ui.main.LoginAccountActivity" />
         <activity
-            android:name=".ui.settings.ConfiguracoesActivity"
+            android:name=".ui.main.SettingsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity

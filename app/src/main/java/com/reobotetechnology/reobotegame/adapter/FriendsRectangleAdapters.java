@@ -26,7 +26,7 @@ import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.Message;
 import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.model.UserModel;
-import com.reobotetechnology.reobotegame.ui.friends.friends_profile.FriendProfileActivity;
+import com.reobotetechnology.reobotegame.ui.friends.FriendProfileActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

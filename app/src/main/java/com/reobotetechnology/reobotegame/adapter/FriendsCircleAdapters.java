@@ -44,21 +44,38 @@ public class FriendsCircleAdapters extends RecyclerView.Adapter<FriendsCircleAda
         try {
 
             if (usuarioModel.getNome().equals("Amigo")) {
-
-                holder.img.setImageResource(R.drawable.ic_sala);
+                Glide
+                        .with(context)
+                        .load(R.drawable.ic_sala)
+                        .centerCrop()
+                        .placeholder(R.drawable.profile)
+                        .into(holder.img);
                 holder.online.setVisibility(View.GONE);
-            }else if(usuarioModel.getNome().equals("Reobote IA")){
-                holder.img.setImageResource(R.drawable.reobote);
+            }else if(usuarioModel.getNome().equals(context.getString(R.string.name_robot))){
+
+                Glide
+                        .with(context)
+                        .load(R.drawable.reobote)
+                        .centerCrop()
+                        .placeholder(R.drawable.profile)
+                        .into(holder.img);
             }else {
 
                 if (usuarioModel.isOnline()) {
                     holder.online.setVisibility(View.VISIBLE);
+                    /*if(usuarioModel.isJogando()){
+                        holder.online.setBackground(context.getResources().getDrawable(R.drawable.btn_is_match));
+                    }*/
                 }
 
                 if (usuarioModel.getImagem().isEmpty()) {
 
-
-                    holder.img.setImageResource(R.drawable.profile);
+                    Glide
+                            .with(context)
+                            .load(R.drawable.profile)
+                            .centerCrop()
+                            .placeholder(R.drawable.profile)
+                            .into(holder.img);
 
                 } else {
                     Glide
