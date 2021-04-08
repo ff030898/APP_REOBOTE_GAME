@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.ThemesModel;
+
 import java.util.List;
 
 public class ThemesVersesOfBibleAdapters extends RecyclerView.Adapter<ThemesVersesOfBibleAdapters.myViewHolder> {
@@ -39,11 +40,6 @@ public class ThemesVersesOfBibleAdapters extends RecyclerView.Adapter<ThemesVers
 
         ThemesModel theme = listThemes.get(position);
 
-        //int[] rainbow = context.getResources().getIntArray(R.array.rainbow);
-        //int tamanho = rainbow.length;
-
-        //int numero = new Random().nextInt(tamanho);
-
         switch (theme.getThemeText()) {
             case "Amor":
                 holder.image.setImageResource(R.drawable.amor);
@@ -60,10 +56,28 @@ public class ThemesVersesOfBibleAdapters extends RecyclerView.Adapter<ThemesVers
             case "Casamento":
                 holder.image.setImageResource(R.drawable.casamento);
                 break;
+            case "Santidade":
+                holder.image.setImageResource(R.drawable.santidade);
+                break;
+            case "Pecado":
+                holder.image.setImageResource(R.drawable.pecado);
+                break;
+            case "Tristeza":
+                holder.image.setImageResource(R.drawable.tristeza);
+                break;
+            case "Sabedoria":
+                holder.image.setImageResource(R.drawable.sabedoria);
+                break;
+            case "Aprender":
+                holder.image.setImageResource(R.drawable.aprender);
+                break;
+            case "Oração":
+                holder.image.setImageResource(R.drawable.oracao);
+                break;
         }
 
-        holder.txt_theme.setText(theme.getThemeText());
 
+        holder.txt_theme.setText(theme.getThemeText());
 
     }
 
@@ -74,16 +88,12 @@ public class ThemesVersesOfBibleAdapters extends RecyclerView.Adapter<ThemesVers
 
     public static class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txt_theme;
-        //CardView bg_theme;
-        ImageView image;
-
+        private TextView txt_theme;
+        private ImageView image;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-
             txt_theme = itemView.findViewById(R.id.txt_theme);
-            //bg_theme = itemView.findViewById(R.id.bg_theme);
             image = itemView.findViewById(R.id.image);
 
         }

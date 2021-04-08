@@ -10,8 +10,8 @@
     android:drawablePadding="8dp"
     android:textColorHint="#667C8A"
     android:textCursorDrawable="@drawable/input_cursor"
-    android:drawableStart="@drawable/ic_search_outlined"
+    android:drawableStart="@drawable/ic_search_book"
     android:background="@drawable/bg_input_search"
     android:hint="@string/pesquisar2"
-    android:drawableLeft="@drawable/ic_search_outlined"
+    android:drawableLeft="@drawable/ic_search_book"
     />

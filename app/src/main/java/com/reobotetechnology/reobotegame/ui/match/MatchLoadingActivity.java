@@ -400,7 +400,7 @@ public class MatchLoadingActivity extends AppCompatActivity {
     private void carregaUser2() {
 
         String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(email));
-        firebaseRef.child("usuarios").child(idUsuario).addValueEventListener(new ValueEventListener() {
+        firebaseRef.child("usuarios").child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -412,10 +412,10 @@ public class MatchLoadingActivity extends AppCompatActivity {
                 String[] nameInvite = nome.split(" ");
                 txtUsuario2.setText(nameInvite[0]);
 
-                String[] userMatch = user.getDisplayName().split(" ");
+                String[] userMatch = Objects.requireNonNull(user.getDisplayName()).split(" ");
 
                 txt_title.setText(userMatch[0] +" vs "+nameInvite[0]);
-                txt_subtitle.setText("Aguardando confirmação de "+nome);
+                txt_subtitle.setText(getString(R.string.descriptionMatch));
 
                 try {
 
@@ -677,7 +677,7 @@ public class MatchLoadingActivity extends AppCompatActivity {
 
         DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
 
-        usuarioRef.addValueEventListener(new ValueEventListener() {
+        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -732,60 +732,64 @@ public class MatchLoadingActivity extends AppCompatActivity {
         DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
         usuarioRef.child("resultado").setValue(email);
         usuarioRef.child("desconectado").setValue(true);
-        ;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void enviarNotificacao() {
 
-        String emailUsuario = Objects.requireNonNull(user.getEmail());
-        String idUsuario = Base64Custom.codificarBase64(emailUsuario);
+        try {
 
-        String emailUsuario2 = Objects.requireNonNull(email);
-        String idUsuario2 = Base64Custom.codificarBase64(emailUsuario2);
+            String emailUsuario = Objects.requireNonNull(user.getEmail());
+            String idUsuario = Base64Custom.codificarBase64(emailUsuario);
 
-        final String fromId = idUsuario;
-        final String toId = idUsuario2;
-        long timestamp = System.currentTimeMillis();
+            String emailUsuario2 = Objects.requireNonNull(email);
+            String idUsuario2 = Base64Custom.codificarBase64(emailUsuario2);
 
-        final Message message = new Message();
-        message.setFromId(fromId);
-        message.setToId(toId);
-        message.setTimestamp("" + timestamp);
-        message.setText("Lhe enviou um convite para jogar");
+            final String fromId = idUsuario;
+            final String toId = idUsuario2;
+            long timestamp = System.currentTimeMillis();
 
-        if (!message.getText().isEmpty() && convidado.equals("nao")) {
+            final Message message = new Message();
+            message.setFromId(fromId);
+            message.setToId(toId);
+            message.setTimestamp("" + timestamp);
+            message.setText("Lhe enviou um convite para jogar");
 
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            if (!message.getText().isEmpty() && convidado.equals("nao")) {
 
-            Calendar cal = Calendar.getInstance();
-            Date data = new Date();
-            cal.setTime(data);
-            Date data_atual = cal.getTime();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-            String dateNotification = dateFormatNotification.format(data);
-            String time = timeFormat.format(data_atual);
+                Calendar cal = Calendar.getInstance();
+                Date data = new Date();
+                cal.setTime(data);
+                Date data_atual = cal.getTime();
 
-            Notification notification = new Notification();
-            notification.setFromId(message.getFromId());
-            notification.setToId(message.getToId());
-            notification.setTimestamp(message.getTimestamp());
-            notification.setText(message.getText());
-            notification.setTipo("partida");
-            notification.setFromName(user.getDisplayName());
-            notification.setId(idPartida);
-            notification.setDate(dateNotification);
-            notification.setTime(time);
-            if (user.getPhotoUrl() != null) {
-                notification.setFromImage(user.getPhotoUrl().toString());
-            } else {
-                notification.setFromImage("");
+                String dateNotification = dateFormatNotification.format(data);
+                String time = timeFormat.format(data_atual);
+
+                Notification notification = new Notification();
+                notification.setFromId(message.getFromId());
+                notification.setToId(message.getToId());
+                notification.setTimestamp(message.getTimestamp());
+                notification.setText(message.getText());
+                notification.setTipo("partida");
+                notification.setFromName(user.getDisplayName());
+                notification.setId(idPartida);
+                notification.setDate(dateNotification);
+                notification.setTime(time);
+                if (user.getPhotoUrl() != null) {
+                    notification.setFromImage(user.getPhotoUrl().toString());
+                } else {
+                    notification.setFromImage("");
+                }
+                notification.setView(false);
+                DatabaseReference usuarioRef = firebaseRef.child("notifications");
+                usuarioRef.child(idUsuario2).child("" + timestamp).setValue(notification);
+
+
             }
-            notification.setView(false);
-            DatabaseReference usuarioRef = firebaseRef.child("notifications");
-            usuarioRef.child(idUsuario2).child("" + timestamp).setValue(notification);
-
+        }catch(Exception ignored){
 
         }
     }

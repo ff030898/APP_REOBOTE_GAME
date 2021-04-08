@@ -88,6 +88,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -248,6 +249,15 @@ public class HomeFragment extends Fragment {
             txtPalavra.setText(nm_versiculo);
             String verso = nm_livro + " " + capitulo + ":" + versiculo;
             txtVerso.setText(verso);
+
+            int randomImageVerseDay = new Random().nextInt(2);
+            ImageView palavreDay = root.findViewById(R.id.palavreDay);
+
+            if (randomImageVerseDay == 0) {
+                palavreDay.setImageResource(R.drawable.verse_day);
+            } else {
+                palavreDay.setImageResource(R.drawable.verse_day2);
+            }
 
         } catch (Exception e) {
             txtPalavra.setText(getString(R.string.versiculo));
@@ -1082,6 +1092,12 @@ public class HomeFragment extends Fragment {
         listThemes.add(new ThemesModel("Ansiedade"));
         listThemes.add(new ThemesModel("Namoro"));
         listThemes.add(new ThemesModel("Casamento"));
+        listThemes.add(new ThemesModel("Santidade"));
+        listThemes.add(new ThemesModel("Pecado"));
+        listThemes.add(new ThemesModel("Tristeza"));
+        listThemes.add(new ThemesModel("Sabedoria"));
+        listThemes.add(new ThemesModel("Aprender"));
+        listThemes.add(new ThemesModel("Oração"));
 
         adapterTheme.notifyDataSetChanged();
 

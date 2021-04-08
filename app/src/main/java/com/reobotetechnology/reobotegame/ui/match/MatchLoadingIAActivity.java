@@ -82,10 +82,9 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
         TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
         String title = ("Você vs " + getString(R.string.name_robot));
-        String description = "Aguardando confirmação";
 
         txt_title.setText(title);
-        txt_subtitle.setText(description);
+        txt_subtitle.setText(getString(R.string.descriptionMatch));
         String[] name = Objects.requireNonNull(user.getDisplayName()).split(" ");
         txtUsuario1.setText(name[0]);
         txtUsuario2.setText(getString(R.string.name_robot));

@@ -48,7 +48,7 @@ public class FriendsCircleAdapters extends RecyclerView.Adapter<FriendsCircleAda
                         .with(context)
                         .load(R.drawable.ic_sala)
                         .centerCrop()
-                        .placeholder(R.drawable.profile)
+                        .placeholder(R.drawable.ic_sala)
                         .into(holder.img);
                 holder.online.setVisibility(View.GONE);
             }else if(usuarioModel.getNome().equals(context.getString(R.string.name_robot))){

@@ -573,6 +573,7 @@ public class MatchActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         finish();
                         sair = true;
+                        desistir = true;
                         if (!nomeJogador2.equals(getString(R.string.name_robot))) {
                             DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
                             usuarioRef.child("desconectado").setValue(true);
@@ -582,6 +583,7 @@ public class MatchActivity extends AppCompatActivity {
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sair = false;
                         desistir = false;
                         jogando(true);
                         sweetAlertDialog.hide();
@@ -1120,12 +1122,12 @@ public class MatchActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        desistirP();
-        if (desistir) {
+        if (desistir && sair) {
             jogando(false);
             super.onBackPressed();
+        }else{
+            desistirP();
         }
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

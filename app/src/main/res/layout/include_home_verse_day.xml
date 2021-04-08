@@ -73,10 +73,10 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/palavreDay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.5"
+            android:layout_height="200dp"
+            android:alpha="0.3"
             android:scaleType="centerCrop"
-            android:src="@drawable/verse_day" />
+            android:src="@drawable/verse_day2" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -11,16 +11,9 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@+id/menu_text"
-        android:icon="@drawable/ic_text"
-        android:title="@string/configura_es"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
-
-    <item
-        android:id="@+id/menu_edit"
-        android:icon="@drawable/ic_anotations"
-        android:title="@string/editar_perfil"
+        android:id="@+id/menu_favorite"
+        android:icon="@drawable/ic_favorite_book"
+        android:title="@string/copiar"
         app:showAsAction="always" />
 
     <item
@@ -29,9 +22,6 @@
         android:title="@string/copiar"
         app:showAsAction="always" />
 
-    <item android:id="@+id/menu_sair"
-        android:title="@string/sair2"
-        app:showAsAction="never" />
 
     <item android:id="@+id/menu_details"
         android:title="@string/detalhes"
@@ -39,6 +29,14 @@
 
     <item android:id="@+id/menu_search"
         android:title="@string/pesquisar2"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_settings"
+        android:title="@string/configura_es"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_sair"
+        android:title="@string/sair2"
         app:showAsAction="never" />
 
 

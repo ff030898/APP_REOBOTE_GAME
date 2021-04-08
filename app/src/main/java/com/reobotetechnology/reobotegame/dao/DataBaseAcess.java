@@ -104,7 +104,6 @@ public class DataBaseAcess {
 
     }
 
-
     public void onUpdate(){
 
         open();
@@ -157,7 +156,6 @@ public class DataBaseAcess {
         }
 
     }
-
 
     public List<BooksOfBibleModel> listAllBooks(){
 
@@ -349,7 +347,6 @@ public class DataBaseAcess {
         return lista;
 
     }
-
 
     public List<VersesBibleModel> listAllVerses(String text){
 
@@ -751,6 +748,9 @@ public class DataBaseAcess {
         listTheme.add(new ThemeslistModel(21,4,10, "Amizade"));
         listTheme.add(new ThemeslistModel(45,12,10, "Amizade"));
         listTheme.add(new ThemeslistModel(20,17,17, "Amizade"));
+        listTheme.add(new ThemeslistModel(20,13,20, "Amizade"));
+        listTheme.add(new ThemeslistModel(20,27,17, "Amizade"));
+        listTheme.add(new ThemeslistModel(20,27,9, "Amizade"));
 
         //Ansiedade
         listTheme.add(new ThemeslistModel(60,5,7, "Ansiedade"));
@@ -779,6 +779,56 @@ public class DataBaseAcess {
         listTheme.add(new ThemeslistModel(51,3,19, "Casamento"));
         listTheme.add(new ThemeslistModel(20,19,14, "Casamento"));
         listTheme.add(new ThemeslistModel(1,2,18, "Casamento"));
+
+
+        //Santidade
+        listTheme.add(new ThemeslistModel(49,5,3, "Santidade"));
+        listTheme.add(new ThemeslistModel(58,12,14, "Santidade"));
+        listTheme.add(new ThemeslistModel(60,1,15, "Santidade"));
+        listTheme.add(new ThemeslistModel(60,1,16, "Santidade"));
+        listTheme.add(new ThemeslistModel(30,5,14, "Santidade"));
+
+        //Pecado
+        listTheme.add(new ThemeslistModel(20,10,9, "Pecado"));
+        listTheme.add(new ThemeslistModel(20,28,13, "Pecado"));
+        listTheme.add(new ThemeslistModel(59,3,10, "Pecado"));
+        listTheme.add(new ThemeslistModel(45,8,1, "Pecado"));
+        listTheme.add(new ThemeslistModel(45,8,2, "Pecado"));
+
+        //Tristeza
+        listTheme.add(new ThemeslistModel(19,38,9, "Tristeza"));
+        listTheme.add(new ThemeslistModel(47,6,10, "Tristeza"));
+        listTheme.add(new ThemeslistModel(45,12,15, "Tristeza"));
+        listTheme.add(new ThemeslistModel(20,10,1, "Tristeza"));
+        listTheme.add(new ThemeslistModel(19,34,17, "Tristeza"));
+        listTheme.add(new ThemeslistModel(19,34,18, "Tristeza"));
+
+
+        //Sabedoria
+        listTheme.add(new ThemeslistModel(21,8,1, "Sabedoria"));
+        listTheme.add(new ThemeslistModel(21,7,10, "Sabedoria"));
+        listTheme.add(new ThemeslistModel(20,27,1, "Sabedoria"));
+        listTheme.add(new ThemeslistModel(20,10,1, "Sabedoria"));
+        listTheme.add(new ThemeslistModel(19,32,8, "Sabedoria"));
+        listTheme.add(new ThemeslistModel(45,8,28, "Sabedoria"));
+        listTheme.add(new ThemeslistModel(20,3,13, "Sabedoria"));
+
+
+        //Aprender
+        listTheme.add(new ThemeslistModel(23,26,9, "Aprender"));
+        listTheme.add(new ThemeslistModel(52,5,11, "Aprender"));
+        listTheme.add(new ThemeslistModel(20,27,1, "Aprender"));
+        listTheme.add(new ThemeslistModel(19,25,5, "Aprender"));
+        listTheme.add(new ThemeslistModel(62,2,27, "Aprender"));
+        listTheme.add(new ThemeslistModel(20,12,1, "Aprender"));
+
+
+        //Oração
+        listTheme.add(new ThemeslistModel(19,63,1, "Oração"));
+        listTheme.add(new ThemeslistModel(52,5,17, "Oração"));
+        listTheme.add(new ThemeslistModel(24,33,3, "Oração"));
+        listTheme.add(new ThemeslistModel(40,21,22, "Oração"));
+        listTheme.add(new ThemeslistModel(43,15,7, "Oração"));
 
 
         this.createVerseTheme(listTheme);
@@ -855,8 +905,6 @@ public class DataBaseAcess {
 
 
     }
-
-
 
 
 }

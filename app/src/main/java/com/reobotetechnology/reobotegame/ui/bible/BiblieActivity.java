@@ -35,8 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class BiblieActivity extends AppCompatActivity {
 
     private long backPressedTime;
@@ -251,6 +249,7 @@ public class BiblieActivity extends AppCompatActivity {
                 @Override
                 public boolean onCreateActionMode(androidx.appcompat.view.ActionMode mode, Menu menu) {
                     mode.getMenuInflater().inflate(R.menu.menu_copy_versos, menu);
+                    openSelectedColors();
                     return true;
                 }
 
@@ -298,7 +297,6 @@ public class BiblieActivity extends AppCompatActivity {
             actionMode.invalidate();
         }
     }
-
 
     private void capitulos() {
 
@@ -369,7 +367,6 @@ public class BiblieActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
     }
-
 
     @SuppressLint("SetTextI18n")
     private void next() {
@@ -451,9 +448,19 @@ public class BiblieActivity extends AppCompatActivity {
     }
 
     public void confirmation() {
-        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Prontoooo!")
-                .setContentText("Este capítulo foi marcado como lido!")
+
+        Alerter.create(BiblieActivity.this)
+                .setTitle("Obaa...")
+                .setText("Capitulo marcado como lido!")
+                .setIcon(R.drawable.ic_success)
+                .setDuration(2000)
+                .setBackgroundColorRes(R.color.colorGreen1)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Alerter.hide();
+                    }
+                })
                 .show();
     }
 
@@ -474,52 +481,12 @@ public class BiblieActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), SearchVersesAllActivity.class));
     }
 
-    @SuppressLint("SetTextI18n")
-    private void openAnotattion() {
-
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_anotation, null);
-
-
-        view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View view) {
-                bottomSheetDialog.dismiss();
-                Alerter.create(BiblieActivity.this)
-                        .setTitle("Obaa...")
-                        .setText("Anotações salvas com sucesso!")
-                        .setIcon(R.drawable.ic_success)
-                        .setDuration(2000)
-                        .setBackgroundColorRes(R.color.colorGreen1)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Alerter.hide();
-                            }
-                        })
-                        .show();
-            }
-        });
-
-        bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(view);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
-        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                bottomSheetDialog = null;
-            }
-        });
-
-        bottomSheetDialog.show();
+    private void favoritedBook(){
+      //trocar icon da toolbar
     }
 
-    private void openFontSettings() {
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_bible_font, null);
+    private void openSelectedColors(){
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_bible_colors, null);
 
         view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -578,13 +545,8 @@ public class BiblieActivity extends AppCompatActivity {
                 //open modal or other activity
                 songBible();
                 break;
-            case R.id.menu_text:
-                //open modal or other activity
-                openFontSettings();
-                break;
-            case R.id.menu_edit:
-                //open modal or other activity
-                openAnotattion();
+            case R.id.menu_favorite:
+                favoritedBook();
                 break;
             case R.id.menu_check:
                 confirmation();
