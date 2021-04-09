@@ -46,6 +46,7 @@
     Cada partida vale 10 pontos\n\nCada jogador tem 15 segundos para responder cada pergunta\n\nQuem acertar mais perguntas vence e ganha +10 pontos no ranking.\n\nSe o número de acertos for igual é empate e cada um ganha +5 pontos\n\nO Perdedor da partida perde -3 pontos\n\nEm caso de vitória o jogador vencedor poderá dobrar os pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de empate os dois jogadores poderão dobrar os seus pontos ganhos da partida assistindo uma propaganda de 30 segundos\n\nEm caso de derrota o jogador perdedor poderá recuperar os 3 pontos perdidos da partida assistindo uma propaganda de 30 segundos
     </string>
     <string name="ler_mais">LER MAIS</string>
+    <string name="learning_now">LER AGORA</string>
     <string name="jogar">JOGAR AGORA</string>
     <string name="top_5_da_semana">TOP 5 DE HOJE</string>
     <string name="amigos_sugeridos">AMIGOS SUGERIDOS</string>
@@ -53,7 +54,7 @@
     <string name="vs">VS</string>
     <string name="desistir_da_partida">DESISTIR DA PARTIDA</string>
     <string name="aguardando_confirma_o">AGUARDANDO RESPOSTA</string>
-    <string name="videos_recomendados">VIDEOS RECOMENDADOS</string>
+    <string name="book_recomendes">LIVROS RECOMENDADOS</string>
     <string name="digite_uma_mensagem">Digite uma mensagem...</string>
     <string name="outros_videos">OUTROS VIDEOS</string>
     <string name="conversas">CONVERSAS</string>
@@ -126,6 +127,7 @@
     <string name="Nome">Nome</string>
     <string name="e">e</string>
     <string name="crie_sua_conta_gr_tis">Crie sua conta grátis</string>
+    <string name="lorem3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. Duis sodales diam eu placerat dapibus.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. Duis sodales diam eu placerat dapibus.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. Duis sodales diam eu placerat dapibus.</string>
     <string name="lorem2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. Duis sodales diam eu placerat dapibus.</string>
 
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pretium ante ac maximus tincidunt. In hac habitasse platea dictumst. Vestibulum venenatis luctus scelerisque. In sollicitudin erat a tellus maximus condimentum. Donec sed lobortis urna, nec blandit nibh. In maximus, augue eget egestas mattis, sem ante ullamcorper est, a accumsan elit augue vel turpis. Cras nisi mauris, ullamcorper sed tellus et, mollis efficitur metus. Donec quis consequat turpis, eu mollis lectus. Sed at elementum justo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed vitae commodo turpis. \n
@@ -233,6 +235,8 @@
     <string name="pessoas">pessoas</string>
     <string name="descriptionMatch">Aguardando confirmação</string>
     <string name="marcar_vers_culo_s">Marcar Versículo(s)</string>
+    <string name="reference">Sem referência</string>
+    <string name="marcar_vers_culo_s_selecionado_s">Marcar versículo(s) selecionado(s)</string>
 
 
 </resources>

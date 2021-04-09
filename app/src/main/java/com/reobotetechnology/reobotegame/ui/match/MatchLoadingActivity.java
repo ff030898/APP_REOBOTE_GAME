@@ -834,7 +834,11 @@ public class MatchLoadingActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        jogando(false);
+        if(!desistir){
+            DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef.child("desconectado").setValue(true);
+            jogando(false);
+        }
         super.onStop();
     }
 }

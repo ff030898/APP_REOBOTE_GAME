@@ -13,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.reobotetechnology.reobotegame.R;
+import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
+import com.reobotetechnology.reobotegame.model.DescriptionBookModel;
 import com.tapadoo.alerter.Alerter;
+
+import java.util.List;
 
 public class SongBibleActivity extends AppCompatActivity {
 
@@ -49,7 +53,25 @@ public class SongBibleActivity extends AppCompatActivity {
             //book
             TextView txtSigla = findViewById(R.id.txtSigla);
             assert nm_book != null;
-            txtSigla.setText(nm_book.substring(0,2));
+            try {
+                DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+
+                int id_book = dataBaseAcess.findBookName(nm_book);
+
+                List<DescriptionBookModel> list;
+                list = dataBaseAcess.listDescriptionBook(id_book);
+
+                if (list.size() != 0) {
+                    String sigle = list.get(0).getSigle();
+                    txtSigla.setText(sigle);
+                }else{
+                    txtSigla.setText(nm_book.substring(0,2));
+                }
+
+            }catch(Exception ignored){
+
+            }
+
         }
 
         btn_back = findViewById(R.id.btn_back);

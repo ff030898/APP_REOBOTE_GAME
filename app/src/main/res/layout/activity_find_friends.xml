@@ -61,31 +61,7 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <Button
-            android:id="@+id/btn_close2"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/btn_screen"
-            android:backgroundTint="@color/colorBlue"
-            android:drawableEnd="@drawable/ic_continuar"
-            android:drawableRight="@drawable/ic_continuar"
-            android:onClick="close"
-            android:paddingStart="40dp"
-            android:paddingLeft="40dp"
-            android:paddingEnd="15dp"
-            android:paddingRight="15dp"
-            android:text="@string/continuar"
-            android:textColor="@color/colorBranco"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="UnusedAttribute" />
+        <include layout="@layout/include_component_button_next" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

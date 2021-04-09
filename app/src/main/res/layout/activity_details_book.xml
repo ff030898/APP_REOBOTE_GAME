@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,10 +24,10 @@
 
             <ProgressBar
                 android:id="@+id/progressBar"
-                android:visibility="visible"
-                android:indeterminateTint="@color/colorBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:indeterminateTint="@color/colorBlue"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -40,28 +39,62 @@
                 android:id="@+id/linearTermes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="30dp"
                 android:clipToPadding="false"
-                android:visibility="visible"
                 android:orientation="vertical"
-                >
+                android:visibility="visible">
 
                 <include layout="@layout/include_toolbar_activites" />
 
-
                 <TextView
+                    android:id="@+id/detailsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginVertical="24dp"
-                    android:text="@string/lorem" />
+                    android:lineSpacingExtra="10dp"
+                    android:text="@string/lorem2"
+                    android:textColor="@color/colorPreto" />
+
+                <TextView
+                    android:id="@+id/detailsTextReference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="32dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/detalhes"
+                    android:textColor="@color/colorPreto"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_screen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@drawable/btn_screen"
+                    android:text="@string/learning_now"
+                    android:textColor="@color/colorBranco"
+                    android:backgroundTint="@color/colorBlue"
+                    android:drawableEnd="@drawable/ic_continuar"
+                    android:drawableRight="@drawable/ic_continuar"
+                    android:paddingStart="40dp"
+                    android:paddingLeft="40dp"
+                    android:paddingEnd="15dp"
+                    android:paddingRight="15dp"
+                    tools:ignore="UnusedAttribute" />
 
                 <include layout="@layout/include_profile_book_favorites" />
+                <include layout="@layout/include_all_banner_ads" />
 
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

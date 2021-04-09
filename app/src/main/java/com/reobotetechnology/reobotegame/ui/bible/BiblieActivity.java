@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -249,7 +250,6 @@ public class BiblieActivity extends AppCompatActivity {
                 @Override
                 public boolean onCreateActionMode(androidx.appcompat.view.ActionMode mode, Menu menu) {
                     mode.getMenuInflater().inflate(R.menu.menu_copy_versos, menu);
-                    openSelectedColors();
                     return true;
                 }
 
@@ -270,6 +270,8 @@ public class BiblieActivity extends AppCompatActivity {
                         adapter.copyVerses(lc, true);
                         mode.finish();
                         return true;
+                    }else if (item.getItemId() == R.id.action_color){
+                        openSelectedColors();
                     }
                     return false;
                 }
@@ -454,7 +456,7 @@ public class BiblieActivity extends AppCompatActivity {
                 .setText("Capitulo marcado como lido!")
                 .setIcon(R.drawable.ic_success)
                 .setDuration(2000)
-                .setBackgroundColorRes(R.color.colorGreen1)
+                .setBackgroundColorRes(R.color.colorBlue)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -471,18 +473,8 @@ public class BiblieActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void deatils() {
-        Intent i = new Intent(getApplicationContext(), DetailsBookActivity.class);
-        i.putExtra("nm_book", nm_livro);
-        startActivity(i);
-    }
-
     private void search(){
         startActivity(new Intent(getApplicationContext(), SearchVersesAllActivity.class));
-    }
-
-    private void favoritedBook(){
-      //trocar icon da toolbar
     }
 
     private void openSelectedColors(){
@@ -526,33 +518,35 @@ public class BiblieActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
+    private MenuItem menu_favorite, menu_check;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_bible, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bible, menu);
+        menu_favorite = menu.findItem(R.id.menu_favorite);
+        menu_check = menu.findItem(R.id.menu_check);
+        return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish(); // Finaliza a Activity atual e assim volta para a tela anterior
+                finish();
                 break;
             case R.id.menu_song:
-                //open modal or other activity
                 songBible();
                 break;
             case R.id.menu_favorite:
-                favoritedBook();
+                menu_favorite.setIcon(R.drawable.ic_favorite_book_pint);
+                Toast.makeText(getApplicationContext(), "Livro adicionado na sua lista de favoritos", Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_check:
                 confirmation();
-                break;
-            case R.id.menu_details:
-                deatils();
+                menu_check.setIcon(R.drawable.ic_check_validation);
                 break;
             case R.id.menu_search:
                 search();
@@ -565,7 +559,7 @@ public class BiblieActivity extends AppCompatActivity {
             default:
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 

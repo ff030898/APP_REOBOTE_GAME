@@ -385,7 +385,7 @@ public class BlogFragment extends Fragment {
                 AdRequest adRequest = new AdRequest.Builder().build();
                 mAdView.loadAd(adRequest);
             }
-        }, 2000);
+        }, 1200);
     }
 
 

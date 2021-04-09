@@ -22,11 +22,6 @@
         android:title="@string/copiar"
         app:showAsAction="always" />
 
-
-    <item android:id="@+id/menu_details"
-        android:title="@string/detalhes"
-        app:showAsAction="never" />
-
     <item android:id="@+id/menu_search"
         android:title="@string/pesquisar2"
         app:showAsAction="never" />

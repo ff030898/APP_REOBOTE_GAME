@@ -65,6 +65,7 @@ import com.reobotetechnology.reobotegame.model.Message;
 import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.model.ThemesModel;
 import com.reobotetechnology.reobotegame.model.UserModel;
+import com.reobotetechnology.reobotegame.ui.bible.DetailsBookActivity;
 import com.reobotetechnology.reobotegame.ui.friends.FriendsListActivity;
 import com.reobotetechnology.reobotegame.ui.bible.BibleThemesListActivity;
 import com.reobotetechnology.reobotegame.ui.bible.ThemesActivity;
@@ -523,11 +524,10 @@ public class HomeFragment extends Fragment {
                                 if (tamanho > 2) {
 
                                     BooksOfBibleModel livroSelecionado = listaAntigo.get(position);
-                                    Intent i = new Intent(getActivity(), ChaptersActivity.class);
-                                    i.putExtra("nm_livro", livroSelecionado.getNome());
+                                    Intent i = new Intent(getActivity(), DetailsBookActivity.class);
+                                    i.putExtra("nm_book", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
                                     startActivity(i);
-
                                 }
 
 
@@ -560,8 +560,8 @@ public class HomeFragment extends Fragment {
                                 if (tamanho > 2) {
 
                                     BooksOfBibleModel livroSelecionado = listaNovo.get(position);
-                                    Intent i = new Intent(getActivity(), ChaptersActivity.class);
-                                    i.putExtra("nm_livro", livroSelecionado.getNome());
+                                    Intent i = new Intent(getActivity(), DetailsBookActivity.class);
+                                    i.putExtra("nm_book", livroSelecionado.getNome());
                                     i.putExtra("livroSelecionado", livroSelecionado.getId());
                                     startActivity(i);
 
@@ -1319,7 +1319,7 @@ public class HomeFragment extends Fragment {
                 AdRequest adRequest = new AdRequest.Builder().build();
                 mAdView.loadAd(adRequest);
             }
-        }, 2000);
+        }, 1200);
     }
 
 

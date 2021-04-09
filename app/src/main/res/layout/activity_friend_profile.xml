@@ -60,6 +60,22 @@
 
                     <include layout="@layout/include_profile_userinfo" />
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonInviteFriend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:background="@drawable/btn_screen"
+                        android:layout_marginTop="32dp"
+                        android:text="@string/desafiar"
+                        android:drawableEnd="@drawable/ic_continuar"
+                        android:drawableRight="@drawable/ic_continuar"
+                        android:paddingStart="40dp"
+                        android:paddingLeft="40dp"
+                        android:paddingEnd="20dp"
+                        android:paddingRight="20dp"
+                        android:textColor="@color/colorBranco" />
+
                     <include layout="@layout/include_profile_info_completed" />
 
                     <include layout="@layout/include_profile_conquistes" />

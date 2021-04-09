@@ -207,7 +207,7 @@ public class NotificationsActivity extends AppCompatActivity {
     private void getAllNotifications() {
         try {
             final String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
-            firebaseRef.child("notifications").child(idUsuario).addValueEventListener(new ValueEventListener() {
+            firebaseRef.child("notifications").child(idUsuario).orderByChild("date").addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

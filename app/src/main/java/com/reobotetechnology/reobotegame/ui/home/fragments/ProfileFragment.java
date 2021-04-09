@@ -406,7 +406,7 @@ public class ProfileFragment extends Fragment {
                                 txtRankingUsuarioPerfil.setText(user.getRanking() + "º");
                                 txtSeguindoUsuarioPerfil.setText("" + user.getSeguidores());
                                 txtSeguidoresUsuarioPerfil.setText("" + user.getSeguindo());
-                                bioDescription.setText(getString(R.string.sobre));
+                                bioDescription.setText(""+getString(R.string.sobre));
 
                                 //INFO
                                 txtRankingStatus.setText(user.getRanking() + "");
@@ -415,7 +415,7 @@ public class ProfileFragment extends Fragment {
                                 txtVictoryStatus.setText("" + user.getVitorias());
                                 txtEmpatedStatus.setText("" + user.getEmpates());
                                 txtDerrotedStatus.setText("" + user.getDerrotas());
-                                txtBioUserStatus.setText(getString(R.string.lorem2));
+                                txtBioUserStatus.setText(""+getString(R.string.lorem2));
                             }
                         }
 
@@ -635,7 +635,7 @@ public class ProfileFragment extends Fragment {
                 AdRequest adRequest = new AdRequest.Builder().build();
                 mAdView.loadAd(adRequest);
             }
-        }, 2000);
+        }, 1200);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

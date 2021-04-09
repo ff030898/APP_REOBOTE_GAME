@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -92,6 +93,15 @@ public class FindFriendsActivity extends AppCompatActivity {
         recyclerFriends.setHasFixedSize(true);
         recyclerFriends.setAdapter(adapter);
 
+        Button btn_screen = findViewById(R.id.btn_screen);
+
+        btn_screen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  close();
+            }
+        });
+
     }
 
     private void listFriends(){
@@ -137,7 +147,7 @@ public class FindFriendsActivity extends AppCompatActivity {
 
     }
 
-    public void close(View view){
+    public void close(){
         finish();
     }
 

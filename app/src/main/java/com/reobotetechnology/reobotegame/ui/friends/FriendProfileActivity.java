@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -45,6 +46,8 @@ import com.reobotetechnology.reobotegame.model.MatchModel;
 import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
 import com.reobotetechnology.reobotegame.ui.bible.ListBiblieGrid;
+import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchLoadingIAActivity;
 
 
 import java.util.ArrayList;
@@ -105,6 +108,10 @@ public class FriendProfileActivity extends AppCompatActivity {
     // list Matches
     private ProfileMatchesAdapters adapterMatches;
     private List<MatchModel> listMatches = new ArrayList<>();
+
+    //InviteFriend
+    boolean match = true;
+    String email, token;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -295,6 +302,14 @@ public class FriendProfileActivity extends AppCompatActivity {
         recyclerMatch.setHasFixedSize(true);
         recyclerMatch.setAdapter(adapterMatches);
 
+        Button buttonInviteFriend = findViewById(R.id.buttonInviteFriend);
+        buttonInviteFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inviteFriend();
+            }
+        });
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -313,6 +328,9 @@ public class FriendProfileActivity extends AppCompatActivity {
 
                     if(user!=null){
 
+                        match = user.isJogando();
+                        email = user.getEmail();
+                        token = user.getToken();
                         nome = user.getNome();
                         imagem = user.getImagem();
 
@@ -326,7 +344,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                         txtRankingUsuarioPerfil.setText(user.getRanking()+"º");
                         txtSeguindoUsuarioPerfil.setText(""+user.getSeguidores());
                         txtSeguidoresUsuarioPerfil.setText(""+user.getSeguindo());
-                        bioDescription.setText(getString(R.string.sobre));
+                        bioDescription.setText(""+getString(R.string.sobre));
 
                         //INFO
                         txtRankingStatus.setText(user.getRanking()+"");
@@ -335,7 +353,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                         txtVictoryStatus.setText(""+user.getVitorias());
                         txtEmpatedStatus.setText(""+user.getEmpates());
                         txtDerrotedStatus.setText(""+user.getDerrotas());
-                        txtBioUserStatus.setText(getString(R.string.lorem2));
+                        txtBioUserStatus.setText(""+getString(R.string.lorem2));
 
 
                         try{
@@ -509,6 +527,52 @@ public class FriendProfileActivity extends AppCompatActivity {
         } catch (Exception ignored) {
 
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void inviteFriend(){
+        try {
+            getUser();
+
+            new SweetAlertDialog(FriendProfileActivity.this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Jogar Agora")
+                    .setContentText("Tem certeza que deseja desafiar: "+nome+" para jogar agora?")
+                    .setConfirmText("Sim")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            if (match) {
+                                //Se usuario estiver jogando
+                                String description = "Jogador(a): " + nome + " está em uma partida no momento. Aguarde 5 minutos ou convide outro amigo";
+                                Toast.makeText(getApplicationContext(), description, Toast.LENGTH_LONG).show();
+                                sDialog.hide();
+                            } else {
+
+                                Intent i = new Intent(getApplicationContext(), MatchLoadingActivity.class);
+                                i.putExtra("token", token);
+                                i.putExtra("email", email);
+                                i.putExtra("convidado", "nao");
+                                i.putExtra("idPartida", "");
+                                startActivity(i);
+                                sDialog.hide();
+                                finish();
+                            }
+
+                        }
+                    }).setCancelText("Não")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                            sweetAlertDialog.hide();
+                        }
+                    })
+                    .show();
+
+        } catch (Exception ignored) {
+
+        }
+
     }
 
 

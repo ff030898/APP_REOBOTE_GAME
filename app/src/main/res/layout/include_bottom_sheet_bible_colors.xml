@@ -15,20 +15,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/marcar_vers_culo_s"
+        android:layout_marginTop="16dp"
+        android:text="@string/marcar_vers_culo_s_selecionado_s"
         android:textColor="@color/colorPreto"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <LinearLayout
         android:id="@+id/linearColors"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal"
@@ -81,6 +82,86 @@
             android:layout_marginEnd="15dp"
             tools:ignore="UnusedAttribute" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_notifications"
+            android:backgroundTint="#FF5733"
+            android:layout_marginEnd="15dp"
+            tools:ignore="UnusedAttribute" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearColors2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:gravity="start|center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearColors">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_notifications"
+            android:backgroundTint="#DE3163"
+            android:layout_marginEnd="15dp"
+            tools:ignore="UnusedAttribute" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_notifications"
+            android:backgroundTint="#CCCCFF"
+            android:layout_marginEnd="15dp"
+            tools:ignore="UnusedAttribute" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_notifications"
+            android:backgroundTint="#40E0D0"
+            android:layout_marginEnd="15dp"
+            tools:ignore="UnusedAttribute" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_notifications"
+            android:backgroundTint="#000080"
+            android:layout_marginEnd="15dp"
+            tools:ignore="UnusedAttribute" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_notifications"
+            android:backgroundTint="#FF00FF"
+            android:layout_marginEnd="15dp"
+            tools:ignore="UnusedAttribute" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_notifications"
+            android:backgroundTint="#800080"
+            android:layout_marginEnd="15dp"
+            tools:ignore="UnusedAttribute" />
+
     </LinearLayout>
 
 
@@ -90,7 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
@@ -101,6 +182,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearColors" />
+        app:layout_constraintTop_toBottomOf="@+id/linearColors2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
