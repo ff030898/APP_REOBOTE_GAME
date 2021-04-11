@@ -1,5 +1,6 @@
 package com.reobotetechnology.reobotegame.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,7 +17,10 @@ import com.reobotetechnology.reobotegame.model.VerseDayModel;
 import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 import com.reobotetechnology.reobotegame.model.ThemeslistModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DataBaseAcess {
@@ -91,12 +95,12 @@ public class DataBaseAcess {
 
             String sqlVerseDay = "CREATE TABLE IF NOT EXISTS " + TABELA_VERSE_DAY
                     + " (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "id INTEGER PRIMARY KEY, " +
                     "book_id INTEGER NOT NULL, " +
                     "chapter_id INTEGER NOT NULL," +
                     "verse_id INTEGER NOT NULL," +
-                    "date VARCHAR(10) NOT NULL," +
-                    "time VARCHAR(10) NOT NULL" +
+                    "date VARCHAR(20) NOT NULL," +
+                    "time VARCHAR(20) NOT NULL" +
                     "); ";
 
             String sqlDescriptionBook = "CREATE TABLE IF NOT EXISTS " + TABELA_DESCRIPTION_BOOK
@@ -107,7 +111,7 @@ public class DataBaseAcess {
                     "description VARCHAR(800) NOT NULL," +
                     "availabled INTEGER NOT NULL, " +
                     "favorited BOOLEAN NOT NULL," +
-                    "date VARCHAR(50) NOT NULL," +
+                    "date VARCHAR(20) NOT NULL," +
                     "learning DECIMAL(10,2) NOT NULL," +
                     "reference VARCHAR(50) NOT NULL" +
                     "); ";
@@ -130,6 +134,7 @@ public class DataBaseAcess {
                 this.inserirPerguntas();
                 this.insertThemes();
                 this.insertDescriptionBook();
+                this.insertVerseDay();
 
                 Log.i("INFO DB", "Sucesso ao criar as tabelas");
 
@@ -364,6 +369,31 @@ public class DataBaseAcess {
         cursor.close();
         close();
         return lista;
+    }
+
+    public String findVerses(int book_id, int chapter_id, int verse_id) {
+
+        String textReturn = "";
+
+        open();
+        List<VersesBibleModel> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM verse where book_id=" + book_id + " and chapter=" + chapter_id + " and verse=" + verse_id + "";
+        cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                do {
+
+
+                    textReturn = cursor.getString(4);
+
+
+                } while (cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        close();
+        return textReturn;
     }
 
     public List<VersesBibleModel> listarVersos(String l, String c) {
@@ -798,7 +828,6 @@ public class DataBaseAcess {
 
 
     //Themes
-
     private void insertThemes() {
 
         List<ThemeslistModel> listTheme = new ArrayList<>();
@@ -981,6 +1010,8 @@ public class DataBaseAcess {
 
         List<DescriptionBookModel> listDescriptionBook = new ArrayList<>();
 
+        /*ANTIGO TESTAMENTO */
+
         //Gênesis
         listDescriptionBook.add(new DescriptionBookModel(1, "Gn", "Moisés",
                 "A palavra Gênesis quer dizer “Começo, Início”. Este é o livro da bíblia que conta como tudo que " +
@@ -988,7 +1019,7 @@ public class DataBaseAcess {
                         "inclusive a entrada do pecado e do sofrimento na humanidade. " +
                         "Neste livro estão descritas as ações de Deus na criação do mundo, " +
                         "no cuidar das pessoas e na justiça divina que castiga os ímpios e abençoa " +
-                        "os justos.", 5, false, "1400 AC", 0.0, "Fonte: https://www.infoescola.com/biblia/genesis"));
+                        "os justos.", 5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/genesis"));
 
 
         //Êxodo
@@ -997,18 +1028,18 @@ public class DataBaseAcess {
                         "considerada mais importante da história do povo de Israel: a saída dos israelitas do Egito, " +
                         "onde viviam como escravos no Egito. Essa libertação deu origem a primeira páscoa.   " +
                         "Ao longo de 40 capítulos o livro relata além dos detalhes sobre a vida de escravidão, " +
-                        "o nascimento e grande parte da vida de Moisés.", 5, false, "1400 AC", 0.0, "Fonte: https://www.infoescola.com/biblia/exodo"));
+                        "o nascimento e grande parte da vida de Moisés.", 5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/exodo"));
 
         //Levitico
         listDescriptionBook.add(new DescriptionBookModel(3, "Lv", "Moisés",
                 "O terceiro livro da Bíblia recebe esse nome porque contém a lei dos sacerdotes da Tribo de Levi – uma das doze tribos de Israel " +
                         "que foi designada para exercer a função sacerdotal no meio do seu povo. E assim como Gênesis e Êxodo, " +
-                        "a autoria de Levítico é atribuída a Moisés, profeta que viveu por volta de1400 ACeteria conduzido " +
+                        "a autoria de Levítico é atribuída a Moisés, profeta que viveu por volta de 1400 aC e teria conduzido " +
                         "o povo israelita para fora do Egito, sobre os desígnios do próprio Deus, a fim de libertar o " +
                         "povo da escravidão. Nos livros seguintes a expressão “Lei de Moisés” faz referência aos cinco " +
                         "primeiros livros da bíblia (o chamado “Pentateuco”) que, entre outras informações, trazem orientações " +
                         "de conduta ao povo de Deus, como por exemplo, os 10 mandamentos.",
-                5, false, "1400 AC", 0.0, "Fonte: https://www.infoescola.com/biblia/levitico"));
+                5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/levitico"));
 
         //Números
         listDescriptionBook.add(new DescriptionBookModel(4, "Nm", "Moisés",
@@ -1020,7 +1051,7 @@ public class DataBaseAcess {
                         " a Moisés (profeta que viveu por volta de 1400 AC e teria " +
                         "conduzido o povo israelita para fora do Egito, sobre os desígnios do próprio Deus, " +
                         "a fim de libertar o povo da escravidão).",
-                5, false, "1400 AC", 0.0, "Fonte: https://www.infoescola.com/biblia/numeros"));
+                5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/numeros"));
 
         //Deuteronômio
         listDescriptionBook.add(new DescriptionBookModel(5, "Dt", "Moisés",
@@ -1030,10 +1061,79 @@ public class DataBaseAcess {
                         "próprio Deus), e recebe este nome por significar “repetir a lei” ou “segunda lei”..\n" +
                         "Ao longo de 34 capítulos, as passagens trazem os discursos de Moisés quando o povo ainda " +
                         "estava na terra de Moabe, a leste do Rio Jordão.",
-                5, false, "1400 AC", 0.0, "Fonte: https://www.infoescola.com/biblia/deuteronomio"));
+                5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/deuteronomio"));
+
+        //Josué
+        listDescriptionBook.add(new DescriptionBookModel(6, "Js", "Incerto, (Josué)",
+                "O sexto livro da Bíblia relata ao longo de 24 capítulos, a história " +
+                        "de como os israelitas conquistaram a terra de Canaã e " +
+                        "passaram a morar nela. E Josué foi responsável por comandar a " +
+                        "conquista da terra, tendo sucedido Moisés como líder do povo de Deus.\n\n" +
+                        "Ao nascer, Josué recebeu o nome de Oseias (hebr. Hishea, “salvação”; Nm 13.8), " +
+                        "mas Moisés o chamou de Josué (hebr. Yehoshua, “o Senhor salva”; Nm 13.16).",
+                5, false, "1400-1375 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/josue"));
+
+        //Juízes
+        listDescriptionBook.add(new DescriptionBookModel(7, "Jz", "Incerto, (Samuel)",
+                "Apesar de não trazer nenhuma declaração explícita sobre de quem seja a autoria," +
+                        " ela é atribuída a Samuel. Este, que é o sétimo livro da Bíblia, e faz parte do" +
+                        " Velho Testamento, conta a história de Israel desde a conquista da Terra de Canaã" +
+                        " até o começo da monarquia. Neste tempo surgiram os líderes militares conhecidos" +
+                        " como “Juízes” que foram levantados por Deus, e por isso o governo deles não era hereditário.",
+                5, false, "1050-1000 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/juizes"));
+
+
+        //Rute
+        listDescriptionBook.add(new DescriptionBookModel(8, "Rt", "Incerto, (Samuel)",
+                "Rute é bisavó de Davi, considerado maior rei de Israel. Tendo em vista a " +
+                        "semelhança de linguagem entre os livros de Rute, Juízes e Samuel, a autoria " +
+                        "deste oitavo livro da bíblia é atribuída a Samuel. Além dele, há indícios de " +
+                        "participações de Ezequias e Davi, embora as evidências textuais não confirmem essa teoria.\n\n" +
+                        "A história se passa no tempo em que o povo de Israel ainda era governado por Juízes. " +
+                        "Rute era casada com um israelita, ela era uma jovem do país de Moabe, e após da morte do " +
+                        "marido se une ainda mais à sua sogra.",
+                5, false, "1210-1030 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/rute"));
+
+        //1 Samuel
+        listDescriptionBook.add(new DescriptionBookModel(9, "1Sm", "Samuel",
+                "Samuel foi o último dos juízes, Saul foi o primeiro rei de Israel e Davi o segundo. " +
+                        "O livro de I Samuel conta a história de transição do período dos juizes para o período dos reis.\n\n" +
+                        "Após um longo período de clamor e oração para que tivesse filhos, a ponto do marido achar que estivesse" +
+                        " embriagada, Ana, mãe de Samuel orou assim que soube que esperava o menino: “Meu coração exulta no Senhor; " +
+                        "no Senhor minha força é exaltada”. Minha boca se exalta sobre os meus inimigos, pois me alegro em tua libertação....",
+                5, false, "1100 até 1000 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
+
+        //2 Samuel
+        listDescriptionBook.add(new DescriptionBookModel(10, "2Sm", "Samuel",
+                "Por sua vez o II livro de Samuel detalha o inicio do reinado de Davi, " +
+                        "que derrotou um gigante nas lutas entre os pretendentes ao trono de Jerusalém." +
+                        " Ele era um homem de profunda devoção a Deus e que conquistou a lealdade de" +
+                        " seu povo. O livro não poupa nem mesmo seus pecados, e assim que o profeta Natã" +
+                        " os apontou, Davi aceitou a correção da parte de Deus, e ainda obteve vitória num" +
+                        " período de guerra civil.",
+                5, false, "960 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
+
+
+        //1 Reis
+        listDescriptionBook.add(new DescriptionBookModel(11, "1Rs", "Incerto, (Jeremias)",
+                "O livro de I Reis traz informações sobre um contexto que começou no livro de Samuel, que é a história dos reis israelitas. " +
+                        "Samuel foi o último dos juízes, Saul foi o primeiro rei de Israel e Davi o segundo. " +
+                        "Após a morte da Davi, que reinou em Jerusalém, seu filho Salomão herda o trono e um dos " +
+                        "destaques de seu reinado foi construir um grande templo na região. Conhecido nos dias " +
+                        "atuais como “Templo de Salomão”.",
+                5, false, "560 e 538 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
+
+        //2 Reis
+        listDescriptionBook.add(new DescriptionBookModel(12, "2Rs", "Incerto, (Jeremias)",
+                "Este livro pode ter uma espécie de divisão, pois relata a história de dois reinos, no Norte e do Sul." +
+                        " O primeiro com a queda de Samaria e o segundo coma conquista de " +
+                        "Jerusalém pelo rei Nabucodonosor. A queda dos reinos de Israel " +
+                        "acontece porque seus reis haviam sido infiéis com os principio do " +
+                        "Senhor, deixando toda a nação vulnerável.",
+                5, false, "560 e 538 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
+
 
         this.createDescriptionBook(listDescriptionBook);
-
 
     }
 
@@ -1123,19 +1223,30 @@ public class DataBaseAcess {
 
     //verseDay
 
-    public void createVerseDay(List<VerseDayModel> listVerseDay){
+    private void insertVerseDay() {
+
+        List<VerseDayModel> listVerseDay = new ArrayList<>();
+
+        listVerseDay.add(new VerseDayModel(1, 1, 26, 22, "10-04-2021", "03:27"));
+
+        this.createVerseDay(listVerseDay);
+
+    }
+
+    private void createVerseDay(List<VerseDayModel> listVerseDay){
         open();
         ContentValues valores = new ContentValues();
 
         for (int i = 0; i < listVerseDay.size(); i++) {
 
-
+            int id = listVerseDay.get(i).getId();
             int book_id = listVerseDay.get(i).getBook_id();
             int chapter_id = listVerseDay.get(i).getChapter_id();
             int verse_id = listVerseDay.get(i).getVerse_id();
             String date = listVerseDay.get(i).getDate();
             String time = listVerseDay.get(i).getTime();
 
+            valores.put("id", id);
             valores.put("book_id", book_id);
             valores.put("chapter_id", chapter_id);
             valores.put("verse_id", verse_id);
@@ -1157,13 +1268,48 @@ public class DataBaseAcess {
         close();
 
     }
-    public List<VerseDayModel> listVerseDay(String dateNow){
+
+    public void updateVerseDay(List<VerseDayModel> listVerseDay){
+
+        open();
+        ContentValues valores = new ContentValues();
+
+        for (int i = 0; i < listVerseDay.size(); i++) {
+
+            int book_id = listVerseDay.get(i).getBook_id();
+            int chapter_id = listVerseDay.get(i).getChapter_id();
+            int verse_id = listVerseDay.get(i).getVerse_id();
+            String date = listVerseDay.get(i).getDate();
+            String time = listVerseDay.get(i).getTime();
+
+            valores.put("book_id", book_id);
+            valores.put("chapter_id", chapter_id);
+            valores.put("verse_id", verse_id);
+            valores.put("date", date);
+            valores.put("time", time);
+
+            long resultado = db.update(TABELA_VERSE_DAY, valores, "id=" + 1, null);
+
+
+            if (resultado == -1) {
+
+                Log.i("Verse Day", "Erro ao atualizar versesDay");
+            } else {
+                Log.i("Verse Day", "Sucesso ao atualizar versesDay: ");
+            }
+
+        }
+
+        close();
+
+    }
+    public List<VerseDayModel> listVerseDay(){
 
         List<VerseDayModel> list = new ArrayList<>();
 
         open();
 
-        String sql = "SELECT * FROM verse_day where date='" + dateNow + "'";
+        String sql = "SELECT * FROM verse_day";
         cursor = db.rawQuery(sql, null);
         if (cursor.getCount() > 0) {
             if (cursor.moveToFirst()) {

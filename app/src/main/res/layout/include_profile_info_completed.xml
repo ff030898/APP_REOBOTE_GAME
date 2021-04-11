@@ -42,6 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:lineSpacingExtra="7dp"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. Duis sodales diam eu placerat dapibus."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

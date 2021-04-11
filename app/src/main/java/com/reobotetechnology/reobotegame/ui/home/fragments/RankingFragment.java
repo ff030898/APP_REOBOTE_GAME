@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -362,8 +364,15 @@ public class RankingFragment extends Fragment {
                     }
 
                     adapterRanking.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
-                    constraintPrincipal.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(new Runnable() {
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            constraintPrincipal.setVisibility(View.VISIBLE);
+                        }
+                    }, 1000);
+
                 }
 
                 @Override

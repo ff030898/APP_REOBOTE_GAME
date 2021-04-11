@@ -545,7 +545,7 @@ public class BiblieActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Livro adicionado na sua lista de favoritos", Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_check:
-                confirmation();
+                Toast.makeText(getApplicationContext(), "Capítulo marcado como lido", Toast.LENGTH_LONG).show();
                 menu_check.setIcon(R.drawable.ic_check_validation);
                 break;
             case R.id.menu_search:

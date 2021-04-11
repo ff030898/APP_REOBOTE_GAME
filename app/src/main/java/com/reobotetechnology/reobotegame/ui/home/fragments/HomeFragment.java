@@ -58,6 +58,7 @@ import com.reobotetechnology.reobotegame.dao.DataBaseHCAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
+import com.reobotetechnology.reobotegame.model.VerseDayModel;
 import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 import com.reobotetechnology.reobotegame.model.HarpeCModel;
 import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
@@ -114,6 +115,7 @@ public class HomeFragment extends Fragment {
     private int livro, capitulo, versiculo;
     private String nm_versiculo, nm_livro;
     private TextView txtPalavra, txtVerso;
+    private ImageView palavreDay;
     private ProgressBar progressBar;
     private ConstraintLayout constraintPrincipal;
 
@@ -243,27 +245,8 @@ public class HomeFragment extends Fragment {
         });
 
         //PALAVRA DO DIA
-        try {
-            livro();
-            capitulo();
-            versiculo();
-            txtPalavra.setText(nm_versiculo);
-            String verso = nm_livro + " " + capitulo + ":" + versiculo;
-            txtVerso.setText(verso);
+        palavreDay = root.findViewById(R.id.palavreDay);
 
-            int randomImageVerseDay = new Random().nextInt(2);
-            ImageView palavreDay = root.findViewById(R.id.palavreDay);
-
-            if (randomImageVerseDay == 0) {
-                palavreDay.setImageResource(R.drawable.verse_day);
-            } else {
-                palavreDay.setImageResource(R.drawable.verse_day2);
-            }
-
-        } catch (Exception e) {
-            txtPalavra.setText(getString(R.string.versiculo));
-            txtVerso.setText(getString(R.string.verso_cap_livro));
-        }
 
         //Copiar e Compartilhar
         Button buttonCopy = root.findViewById(R.id.btnCopy);
@@ -274,27 +257,26 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (livro != 0) {
-                    ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clipData = ClipData.newPlainText("Versiculos", txtPalavra.getText() + "\n\n" + txtVerso.getText());
-                    assert clipboardManager != null;
-                    clipboardManager.setPrimaryClip(clipData);
 
-                    Alerter.create(requireActivity())
-                            .setTitle("Obaa...")
-                            .setText("Texto copiado para a área de transferência!")
-                            .setIcon(R.drawable.ic_success)
-                            .setDuration(2000)
-                            .setBackgroundColorRes(R.color.colorGreen1)
-                            .setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Alerter.hide();
-                                }
-                            })
-                            .show();
+                ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("Versiculos", txtPalavra.getText() + "\n\n" + txtVerso.getText());
+                assert clipboardManager != null;
+                clipboardManager.setPrimaryClip(clipData);
 
-                }
+                Alerter.create(requireActivity())
+                        .setTitle("Obaa...")
+                        .setText("Texto copiado para a área de transferência!")
+                        .setIcon(R.drawable.ic_success)
+                        .setDuration(2000)
+                        .setBackgroundColorRes(R.color.colorGreen1)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Alerter.hide();
+                            }
+                        })
+                        .show();
+
             }
         });
 
@@ -318,7 +300,7 @@ public class HomeFragment extends Fragment {
         txtPalavra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               openLearnBible();
+                openLearnBible();
             }
         });
 
@@ -442,7 +424,7 @@ public class HomeFragment extends Fragment {
 
                                         UserModel user = dataSnapshot.getValue(UserModel.class);
                                         if (user != null) {
-                                            if(!user.isLearnRules()){
+                                            if (!user.isLearnRules()) {
                                                 getRules();
                                             }
 
@@ -618,6 +600,7 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
 
     //Profile
 
@@ -804,67 +787,195 @@ public class HomeFragment extends Fragment {
     }
 
     //Palavra do dia
-    private void livro() {
+    private Integer livro() {
 
+        int book = 0;
         try {
             DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
             List<BooksOfBibleModel> livroLista = dataBaseAcess.listarLivroPalavra();
             BooksOfBibleModel p = livroLista.get(0);
             if (p.getId() != 0) {
-                livro = p.getId();
-                nm_livro = p.getNome();
-            } else {
-                livro = 0;
-                nm_livro = "ERRO";
+                book = p.getId();
             }
-        } catch (Exception e) {
-            livro = 0;
-            nm_livro = "ERRO";
+        } catch (Exception ignored) {
+
         }
+
+        return book;
 
     }
 
-    private void capitulo() {
+    private Integer capitulo(int book) {
+
+        int chapther = 0;
+
+        try {
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
+            chapther = dataBaseAcess.capituloPalavra(book);
+
+        } catch (Exception ignored) {
+        }
+
+        return chapther;
+
+
+    }
+
+    private void verseOfDay() {
 
         try {
 
-            if (livro != 0) {
-                DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
-                capitulo = dataBaseAcess.capituloPalavra(livro);
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
+            List<VerseDayModel> listVerseDay = dataBaseAcess.listVerseDay();
+
+            if (listVerseDay.size() != 0) {
+
+                String date = listVerseDay.get(0).getDate();
+
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+                Calendar cal = Calendar.getInstance();
+                Date data = new Date();
+                cal.setTime(data);
+                Date data_atual = cal.getTime();
+
+                String dateNotification = dateFormatNotification.format(data);
+                String time = timeFormat.format(data_atual);
+
+                String[] dateSplit = dateNotification.split("-");
+                String[] dateDataBaseSplit = date.split("-");
+
+                int yearDateSplit = Integer.parseInt(dateSplit[2]);
+                int monthDateSplit = Integer.parseInt(dateSplit[1]);
+                int dayDateSplit = Integer.parseInt(dateSplit[0]);
+
+                int yearDataBaseSplit = Integer.parseInt(dateDataBaseSplit[2]);
+                int monthDataBaseSplit = Integer.parseInt(dateDataBaseSplit[1]);
+                int dayDataBaseSplit = Integer.parseInt(dateDataBaseSplit[0]);
+
+                String[] timeNow = time.split(":");
+                int timeNowHours = Integer.parseInt(timeNow[0]);
+
+
+                boolean findVerse = false;
+
+                //Se faz mais de um ano que o usuário não acessa o app já carrega um novo verso
+                if (yearDateSplit > yearDataBaseSplit) {
+                    findVerse = true;
+                }
+                //Se faz menos de um ano vamos pra validação
+                else if (yearDateSplit == yearDataBaseSplit) {
+                    //Se faz mais de um mês que o usuário não acessa o app já carrega um novo verso
+                    if (monthDateSplit > monthDataBaseSplit) {
+                        findVerse = true;
+                        //Se faz mais de um dois que o usuário não acessa o app já carrega um novo verso
+                    } else if (dayDateSplit > (dayDataBaseSplit + 1)) {
+                        findVerse = true;
+                        //Se o usuário acessou o app ontem (Verifica se já passou das 8 demanhã de hoje) se passou.... Carrega um novo Verso.
+                        //Senão continua com o mesmo verso de ontem até passar das 8 da manhã
+                    } else if (dayDateSplit > dayDataBaseSplit) {
+                        //se (timeNowHours >= 8:00 da manhã...) traz a palavra do dia
+                        if (timeNowHours >= 8) {
+                            findVerse = true;
+                            //sendNotificationAlertVerseOfDayforUserLogged
+                        }
+
+                    }
+                }
+
+                //Se for necessário buscar outro verso no banco senão usar o verso que já está no banco
+                if (findVerse) {
+                    findNewVerse();
+
+                } else {
+
+                    int randomImageVerseDay = new Random().nextInt(2);
+
+                    if (randomImageVerseDay == 0) {
+                        palavreDay.setImageResource(R.drawable.verse_day);
+                    } else {
+                        palavreDay.setImageResource(R.drawable.verse_day2);
+                    }
+
+                    int book = listVerseDay.get(0).getBook_id();
+                    String nm_book = dataBaseAcess.findBook(book);
+                    int chapther = listVerseDay.get(0).getChapter_id();
+                    int verse = listVerseDay.get(0).getVerse_id();
+
+                    String text = dataBaseAcess.findVerses(book, chapther, verse);
+
+                    txtPalavra.setText(text);
+                    String nm_versiculo = nm_book + " " + chapther + ":" + verse;
+                    txtVerso.setText(nm_versiculo);
+
+                    //SendNextActionOnCLikinVerseText
+                    livro = book;
+                    nm_livro = nm_book;
+                    capitulo = chapther;
+                    versiculo = verse;
+
+                }
+
+
             } else {
-                capitulo = 0;
+                txtPalavra.setText(getString(R.string.versiculo));
+                txtVerso.setText(getString(R.string.verso_cap_livro));
+
             }
-        } catch (Exception e) {
-            capitulo = 0;
+
+        } catch (Exception ignored) {
+            txtPalavra.setText(getString(R.string.versiculo));
+            txtVerso.setText(getString(R.string.verso_cap_livro));
+
         }
 
 
     }
 
-    private void versiculo() {
+
+    private void findNewVerse() {
 
         try {
 
-            if (livro != 0) {
-                DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
-                List<VersesBibleModel> versiculoLista = dataBaseAcess.listarVersiculoPalavra(livro, capitulo);
-                VersesBibleModel v = versiculoLista.get(0);
-                versiculo = v.getVerso();
-                nm_versiculo = v.getText();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-            } else {
-                versiculo = 0;
-                nm_livro = "ERRO";
-            }
+            Calendar cal = Calendar.getInstance();
+            Date data = new Date();
+            cal.setTime(data);
+            Date data_atual = cal.getTime();
 
-        } catch (Exception e) {
-            versiculo = 0;
-            nm_livro = "ERRO";
+            String dateNotification = dateFormatNotification.format(data);
+            String time = timeFormat.format(data_atual);
+
+            int book = livro();
+            int chapther = capitulo(book);
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getActivity());
+            List<VersesBibleModel> versiculoLista = dataBaseAcess.listarVersiculoPalavra(book, chapther);
+            VersesBibleModel v = versiculoLista.get(0);
+
+            int verse = v.getVerso();
+
+            List<VerseDayModel> listVerseConsult = new ArrayList<>();
+
+            listVerseConsult.add(new VerseDayModel(1, book, chapther, verse, dateNotification, time));
+
+            DataBaseAcess dataBaseAcessUpdate = DataBaseAcess.getInstance(getActivity());
+
+            dataBaseAcessUpdate.updateVerseDay(listVerseConsult);
+
+            this.verseOfDay();
+
+
+        } catch (Exception ignored) {
+
         }
 
     }
 
-    private void openLearnBible(){
+    private void openLearnBible() {
         if (livro != 0) {
             Intent i = new Intent(getActivity(), BiblieActivity.class);
             i.putExtra("nm_livro", nm_livro);
@@ -874,7 +985,6 @@ public class HomeFragment extends Fragment {
             startActivity(i);
         }
     }
-
 
     //ListasRecycler
     private void listarAmigos() {
@@ -1274,7 +1384,7 @@ public class HomeFragment extends Fragment {
         Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
     }
 
-    private void getRules(){
+    private void getRules() {
         new SweetAlertDialog(this.requireActivity(), SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Regras")
                 .setContentText("Deseja ler as regras do jogo antes de enviar o convite ?")
@@ -1288,7 +1398,7 @@ public class HomeFragment extends Fragment {
                             String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(user.getEmail())));
                             DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
                             usuarioRef.child("learnRules").setValue(true);
-                        }catch (Exception ignored){
+                        } catch (Exception ignored) {
 
                         }
                         sDialog.hide();
@@ -1302,7 +1412,7 @@ public class HomeFragment extends Fragment {
                             String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(user.getEmail())));
                             DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
                             usuarioRef.child("learnRules").setValue(true);
-                        }catch (Exception ignored){
+                        } catch (Exception ignored) {
 
                         }
                         sweetAlertDialog.hide();
@@ -1311,7 +1421,7 @@ public class HomeFragment extends Fragment {
                 .show();
     }
 
-    private void loadBannerAdMob(){
+    private void loadBannerAdMob() {
         new Handler().postDelayed(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -1328,6 +1438,7 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         viewProfile();
         getAllNotifications();
+        verseOfDay();
         listarAmigos();
         listThemesVerses();
         listarLivros();

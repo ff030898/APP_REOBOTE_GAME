@@ -21,7 +21,8 @@
         android:text="@string/lorem2"
         android:textColor="@color/colorPreto"
         android:textSize="16sp"
-        android:maxWidth="250dp"
+        android:maxWidth="230dp"
+        android:lineSpacingExtra="5dp"
         app:layout_constraintEnd_toStartOf="@+id/profileRem"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />

@@ -191,7 +191,7 @@ public class DetailsBookActivity extends AppCompatActivity {
             list = dataBaseAcess.listDescriptionBook(id_book);
 
             if (list.size() != 0) {
-                String subtitle = getString(R.string.autor)+" "+list.get(0).getAuthor()+" em "+list.get(0).getDate();
+                String subtitle = getString(R.string.autor)+" "+list.get(0).getAuthor()+" cerca de "+list.get(0).getDate();
                 txt_subtitle.setText(subtitle);
                 detailsText.setText(list.get(0).getDescription());
                 detailsTextReference.setText(list.get(0).getReference());
@@ -212,11 +212,12 @@ public class DetailsBookActivity extends AppCompatActivity {
 
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
 
-        List<BooksOfBibleModel> lista3;
-        lista3 = dataBaseAcess.listarNovoTestamento();
+        List<BooksOfBibleModel> lista;
+        lista = dataBaseAcess.listarNovoTestamento();
 
-        if (lista3.size() != 0) {
-            listFavorites.addAll(lista3);
+
+        if (lista.size() != 0) {
+            listFavorites.addAll(lista);
         }
 
         adapterFavorites.notifyDataSetChanged();

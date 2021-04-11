@@ -53,6 +53,7 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginVertical="24dp"
                     android:textColor="@color/colorPreto"
+                    android:lineSpacingExtra="10dp"
                     android:text="@string/regras" />
 
             </LinearLayout>
