@@ -821,6 +821,7 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void verseOfDay() {
 
         try {
@@ -905,15 +906,52 @@ public class HomeFragment extends Fragment {
 
                     String text = dataBaseAcess.findVerses(book, chapther, verse);
 
-                    txtPalavra.setText(text);
-                    String nm_versiculo = nm_book + " " + chapther + ":" + verse;
-                    txtVerso.setText(nm_versiculo);
+                    //Tamanho do versículo for maior que 150 não precisa pesquisar outro no banco
+                    //Senão busca o próximo se tiver
+                    if (text.length() > 150) {
+                        txtPalavra.setText(text);
+                        String nm_versiculo = nm_book + " " + chapther + ":" + verse;
+                        txtVerso.setText(nm_versiculo);
+                    } else {
+                        try {
+
+                            int verse2;
+                            verse2 = (verse + 1);
+
+                            String text2;
+                            text2 = dataBaseAcess.findVerses(book, chapther, verse2);
+
+                            //Verifica se existe o próximo versículo no msm capítulo (verse2 = (verse+1))
+                            //Senão existir pega o versículo anterior (verse2 = (verse-1))
+
+                            if (text2.isEmpty()) {
+                                verse2 = (verse - 1);
+                                text2 = dataBaseAcess.findVerses(book, chapther, verse2);
+
+                                txtPalavra.setText(text2 + text);
+                                String nm_versiculo = nm_book + " " + chapther + ":" + verse2 + "," + verse;
+                                txtVerso.setText(nm_versiculo);
+
+                                versiculo = verse2;
+                            }else{
+                                txtPalavra.setText(text + text2);
+                                String nm_versiculo = nm_book + " " + chapther + ":" + verse + "," + verse2;
+                                txtVerso.setText(nm_versiculo);
+
+                                versiculo = verse;
+                            }
+
+
+                        } catch (Exception ignored) {
+                        }
+
+                    }
 
                     //SendNextActionOnCLikinVerseText
                     livro = book;
                     nm_livro = nm_book;
                     capitulo = chapther;
-                    versiculo = verse;
+
 
                 }
 
@@ -932,7 +970,6 @@ public class HomeFragment extends Fragment {
 
 
     }
-
 
     private void findNewVerse() {
 
