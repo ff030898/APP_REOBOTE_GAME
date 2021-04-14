@@ -1,6 +1,7 @@
 package com.reobotetechnology.reobotegame.model;
 
 public class CheckChaptherModel {
+
     private int book_id;
     private int chapter_id;
 

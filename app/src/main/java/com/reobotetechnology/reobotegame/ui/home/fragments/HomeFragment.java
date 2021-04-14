@@ -84,6 +84,7 @@ import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 import com.tapadoo.alerter.Alerter;
 
 
+import java.security.acl.LastOwnerException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -377,28 +378,23 @@ public class HomeFragment extends Fragment {
         //RecyclerAmigosJogar
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerAmigos.setLayoutManager(layoutManager);
-        recyclerAmigos.setHasFixedSize(true);
         recyclerAmigos.setAdapter(adapter);
 
         RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerThemes.setLayoutManager(layoutManager4);
-        recyclerThemes.setHasFixedSize(true);
         recyclerThemes.setAdapter(adapterTheme);
 
         //RecyclerLivros
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerAntigoTestamento.setLayoutManager(layoutManager1);
-        recyclerAntigoTestamento.setHasFixedSize(true);
         recyclerAntigoTestamento.setAdapter(adapterAntigo);
 
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerNovoTestamento.setLayoutManager(layoutManager2);
-        recyclerNovoTestamento.setHasFixedSize(true);
         recyclerNovoTestamento.setAdapter(adapterNovo);
 
         RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerHC.setLayoutManager(layoutManager3);
-        recyclerHC.setHasFixedSize(true);
         recyclerHC.setAdapter(adapterHC);
 
 
@@ -912,6 +908,9 @@ public class HomeFragment extends Fragment {
                         txtPalavra.setText(text);
                         String nm_versiculo = nm_book + " " + chapther + ":" + verse;
                         txtVerso.setText(nm_versiculo);
+
+                        versiculo = verse;
+
                     } else {
                         try {
 
@@ -1260,16 +1259,23 @@ public class HomeFragment extends Fragment {
         List<BooksOfBibleModel> lista2;
         lista2 = dataBaseAcess.listarAntigoTestamento();
 
-
         if (lista2.size() != 0) {
-            listaAntigo.addAll(lista2);
+            for(int i = 0; i<lista2.size(); i++) {
+                int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
+                lista2.get(i).setLearning(learningBook);
+                listaAntigo.add(lista2.get(i));
+            }
         }
 
         List<BooksOfBibleModel> lista3;
         lista3 = dataBaseAcess.listarNovoTestamento();
 
         if (lista3.size() != 0) {
-            listaNovo.addAll(lista3);
+            for(int i = 0; i<lista3.size(); i++) {
+                int learningBook = dataBaseAcess.learningBook(lista3.get(i).getId());
+                lista3.get(i).setLearning(learningBook);
+                listaNovo.add(lista3.get(i));
+            }
         }
 
         adapterAntigo.notifyDataSetChanged();

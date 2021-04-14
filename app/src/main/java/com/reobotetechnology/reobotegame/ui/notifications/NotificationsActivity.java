@@ -154,7 +154,6 @@ public class NotificationsActivity extends AppCompatActivity {
         //RecyclerRanking
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerNotifications.setLayoutManager(layoutManager);
-        recyclerNotifications.setHasFixedSize(true);
         recyclerNotifications.setAdapter(adapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();

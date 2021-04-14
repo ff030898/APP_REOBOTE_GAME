@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.reobotetechnology.reobotegame.R;
+import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 
 import java.util.List;
@@ -62,14 +64,6 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
                 "3Jo", "Jd", "Ap"};
 
 
-        //int[] rainbow = context.getResources().getIntArray(R.array.rainbow);
-        //int tamanho = rainbow.length;
-
-        //int numero = new Random().nextInt(tamanho);
-
-        //holder.bg_livro.setCardBackgroundColor(rainbow[numero]);
-
-
         if (b1.getNome().equals("Gênesis")) {
             holder.txtSigla.setText(siglaLivros[position]);
             holder.image.setImageResource(R.drawable.antigo);
@@ -78,11 +72,11 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
             holder.image.setImageResource(R.drawable.novo_testamento);
         }
 
-        int progresso = new Random().nextInt(100);
+        int progresso = b.getLearning();
 
         holder.progressBar7.setMax(100);
         holder.progressBar7.setProgress(progresso);
-        holder.txtProgresso.setText(progresso+"%");
+        holder.txtProgresso.setText(progresso + "%");
 
     }
 
@@ -91,7 +85,7 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
         return biblia.size();
     }
 
-    public class myViewHolder extends RecyclerView.ViewHolder {
+    public static class myViewHolder extends RecyclerView.ViewHolder {
 
         TextView livro, txtSigla, txtProgresso;
         CardView bg_livro;

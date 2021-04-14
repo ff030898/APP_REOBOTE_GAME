@@ -124,7 +124,6 @@ public class DetailsBookActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerNovoTestamento.setLayoutManager(layoutManager2);
-        recyclerNovoTestamento.setHasFixedSize(true);
         recyclerNovoTestamento.setAdapter(adapterFavorites);
 
 
@@ -177,6 +176,7 @@ public class DetailsBookActivity extends AppCompatActivity {
                 i.putExtra("nm_livro", nameBook);
                 i.putExtra("livroSelecionado", id_book);
                 startActivity(i);
+                finish();
             }
         });
     }
@@ -215,9 +215,12 @@ public class DetailsBookActivity extends AppCompatActivity {
         List<BooksOfBibleModel> lista;
         lista = dataBaseAcess.listarNovoTestamento();
 
-
         if (lista.size() != 0) {
-            listFavorites.addAll(lista);
+            for(int i = 0; i<lista.size(); i++) {
+                int learningBook = dataBaseAcess.learningBook(lista.get(i).getId());
+                lista.get(i).setLearning(learningBook);
+                listFavorites.add(lista.get(i));
+            }
         }
 
         adapterFavorites.notifyDataSetChanged();

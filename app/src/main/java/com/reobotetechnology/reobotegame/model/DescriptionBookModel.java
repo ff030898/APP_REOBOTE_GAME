@@ -7,12 +7,12 @@ public class DescriptionBookModel {
     private String author;
     private String description;
     private int availabled;
-    private boolean favorited;
+    private int favorited;
     private String date;
-    private Double learning;
+    private int learning;
     private String reference;
 
-    public DescriptionBookModel(int book_id, String sigle, String author, String description, int availabled, boolean favorited, String date, Double learning, String reference) {
+    public DescriptionBookModel(int book_id, String sigle, String author, String description, int availabled, int favorited, String date, int learning, String reference) {
         this.book_id = book_id;
         this.sigle = sigle;
         this.author = author;
@@ -64,11 +64,11 @@ public class DescriptionBookModel {
         this.availabled = availabled;
     }
 
-    public boolean isFavorited() {
+    public int getFavorited() {
         return favorited;
     }
 
-    public void setFavorited(boolean favorited) {
+    public void setFavorited(int favorited) {
         this.favorited = favorited;
     }
 
@@ -80,11 +80,11 @@ public class DescriptionBookModel {
         this.date = date;
     }
 
-    public Double getLearning() {
+    public Integer getLearning() {
         return learning;
     }
 
-    public void setLearning(Double learning) {
+    public void setLearning(Integer learning) {
         this.learning = learning;
     }
 

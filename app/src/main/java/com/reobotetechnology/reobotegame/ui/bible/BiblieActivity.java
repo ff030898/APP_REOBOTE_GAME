@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
+import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
+import com.reobotetechnology.reobotegame.model.CheckChaptherModel;
 import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
@@ -71,6 +74,8 @@ public class BiblieActivity extends AppCompatActivity {
 
     private BottomSheetDialog bottomSheetDialog;
 
+    private MenuItem menu_favorite, menu_check;
+
 
     @SuppressLint({"WrongConstant", "ResourceType"})
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -80,7 +85,6 @@ public class BiblieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_biblia);
 
         txtCapitulo = findViewById(R.id.txtCapitulo);
-        DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
 
 
         //Vem da Activity Principal
@@ -270,7 +274,7 @@ public class BiblieActivity extends AppCompatActivity {
                         adapter.copyVerses(lc, true);
                         mode.finish();
                         return true;
-                    }else if (item.getItemId() == R.id.action_color){
+                    } else if (item.getItemId() == R.id.action_color) {
                         openSelectedColors();
                     }
                     return false;
@@ -357,6 +361,8 @@ public class BiblieActivity extends AppCompatActivity {
             recyclerVersos.smoothScrollToPosition(0);
         }
 
+        favoriteBook();
+        checkChapther();
 
     }
 
@@ -449,23 +455,6 @@ public class BiblieActivity extends AppCompatActivity {
 
     }
 
-    public void confirmation() {
-
-        Alerter.create(BiblieActivity.this)
-                .setTitle("Obaa...")
-                .setText("Capitulo marcado como lido!")
-                .setIcon(R.drawable.ic_success)
-                .setDuration(2000)
-                .setBackgroundColorRes(R.color.colorBlue)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Alerter.hide();
-                    }
-                })
-                .show();
-    }
-
     private void songBible() {
         Intent i = new Intent(getApplicationContext(), SongBibleActivity.class);
         i.putExtra("nm_book", nm_livro);
@@ -473,11 +462,11 @@ public class BiblieActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void search(){
+    private void search() {
         startActivity(new Intent(getApplicationContext(), SearchVersesAllActivity.class));
     }
 
-    private void openSelectedColors(){
+    private void openSelectedColors() {
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_bible_colors, null);
 
         view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
@@ -518,7 +507,121 @@ public class BiblieActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
-    private MenuItem menu_favorite, menu_check;
+    private boolean checkChapther() {
+        try {
+
+            boolean check = false;
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+            List<CheckChaptherModel> listCheck;
+            listCheck = dataBaseAcess.listCheck(livro, c);
+
+            if (listCheck.size() > 0) {
+                check = true;
+                menu_check.setIcon(R.drawable.ic_check_validation);
+            } else {
+                menu_check.setIcon(R.drawable.ic_circle_check_outline);
+            }
+
+            return check;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+
+    }
+
+    private void createCheckChapther() {
+        try {
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+            List<CheckChaptherModel> listCheck = new ArrayList<>();
+            listCheck.add(new CheckChaptherModel(livro, c));
+            dataBaseAcess.createCheckChapther(listCheck);
+
+            Toast.makeText(getApplicationContext(), "Capítulo marcado como lido", Toast.LENGTH_LONG).show();
+            updateLearningBook();
+            checkChapther();
+
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+    private void deleteCheckChapther(){
+        //Aida flata criar esse metódo
+        Toast.makeText(getApplicationContext(), "Capítulo removido como lido", Toast.LENGTH_LONG).show();
+    }
+
+    private boolean favoriteBook() {
+
+        try {
+            boolean favorited;
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+
+            favorited = dataBaseAcess.favorited(livro);
+
+            if (favorited) {
+                menu_favorite.setIcon(R.drawable.ic_favorite_book_pint);
+            } else {
+                menu_favorite.setIcon(R.drawable.ic_favorite_book);
+            }
+
+            return favorited;
+
+        } catch (Exception ignored) {
+
+            return false;
+        }
+
+    }
+
+    private void updateFavoriteBook(int favorited) {
+
+        try {
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+
+            dataBaseAcess.updateFavoritedBook(livro, favorited);
+
+            favoriteBook();
+
+            if(favorited != 0) {
+                Toast.makeText(getApplicationContext(), "Livro adicionado na sua lista de favoritos ", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Livro removido da sua lista de favoritos ", Toast.LENGTH_LONG).show();
+            }
+
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+    private void updateLearningBook() {
+
+        try {
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+            int chapthersBook = dataBaseAcess.num(livro);
+
+            int chapthersSelecteds = dataBaseAcess.findChapthersLearningBook(livro);
+
+
+            double var = ((double)chapthersSelecteds / (double)chapthersBook);
+            double var2 = (var * 100);
+
+            dataBaseAcess.updateLearningBook(livro, (int)var2);
+
+
+        } catch (Exception e) {
+            Log.d("Erro", ""+e.getMessage());
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -541,12 +644,24 @@ public class BiblieActivity extends AppCompatActivity {
                 songBible();
                 break;
             case R.id.menu_favorite:
-                menu_favorite.setIcon(R.drawable.ic_favorite_book_pint);
-                Toast.makeText(getApplicationContext(), "Livro adicionado na sua lista de favoritos", Toast.LENGTH_LONG).show();
+                boolean favorited = favoriteBook();
+                if (favorited) {
+                    menu_favorite.setIcon(R.drawable.ic_favorite_book);
+                    updateFavoriteBook(0);
+                } else {
+                    menu_favorite.setIcon(R.drawable.ic_favorite_book_pint);
+                    updateFavoriteBook(1);
+                }
                 break;
             case R.id.menu_check:
-                Toast.makeText(getApplicationContext(), "Capítulo marcado como lido", Toast.LENGTH_LONG).show();
-                menu_check.setIcon(R.drawable.ic_check_validation);
+                boolean check = checkChapther();
+                if(check){
+                    menu_check.setIcon(R.drawable.ic_circle_check_outline);
+                    deleteCheckChapther();
+                }else{
+                    menu_check.setIcon(R.drawable.ic_check_validation);
+                    createCheckChapther();
+                }
                 break;
             case R.id.menu_search:
                 search();

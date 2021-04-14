@@ -231,7 +231,6 @@ public class FriendProfileActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerRanking.setLayoutManager(layoutManager);
-        recyclerRanking.setHasFixedSize(true);
         recyclerRanking.setAdapter(adapterConquist);
 
         ImageView ic_new = findViewById(R.id.ic_novo);
@@ -242,7 +241,6 @@ public class FriendProfileActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerNovoTestamento.setLayoutManager(layoutManager2);
-        recyclerNovoTestamento.setHasFixedSize(true);
         recyclerNovoTestamento.setAdapter(adapterFavorites);
 
         ic_new.setOnClickListener(new View.OnClickListener() {
@@ -299,7 +297,6 @@ public class FriendProfileActivity extends AppCompatActivity {
         //RecyclerRanking
         RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(getApplicationContext());
         recyclerMatch.setLayoutManager(layoutManager5);
-        recyclerMatch.setHasFixedSize(true);
         recyclerMatch.setAdapter(adapterMatches);
 
         Button buttonInviteFriend = findViewById(R.id.buttonInviteFriend);
@@ -432,11 +429,15 @@ public class FriendProfileActivity extends AppCompatActivity {
 
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
 
-        List<BooksOfBibleModel> lista3;
-        lista3 = dataBaseAcess.listarNovoTestamento();
+        List<BooksOfBibleModel> lista2;
+        lista2 = dataBaseAcess.listarNovoTestamento();
 
-        if (lista3.size() != 0) {
-            listFavorites.addAll(lista3);
+        if (lista2.size() != 0) {
+            for(int i = 0; i<lista2.size(); i++) {
+                int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
+                lista2.get(i).setLearning(learningBook);
+                listFavorites.add(lista2.get(i));
+            }
         }
 
         adapterFavorites.notifyDataSetChanged();

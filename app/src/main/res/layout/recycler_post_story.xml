@@ -44,8 +44,9 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="45dp"
             android:textStyle="bold"
+            android:maxLines="4"
             android:lineSpacingExtra="2dp"
-            tools:text="O que foi a reforma prostestante?"
+            tools:text="@string/lorem2"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="24dp" />
 

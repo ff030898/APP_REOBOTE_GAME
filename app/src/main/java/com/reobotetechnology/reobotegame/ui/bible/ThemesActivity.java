@@ -68,7 +68,7 @@ public class ThemesActivity extends AppCompatActivity {
         //RecyclerThemes
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerThemesVerses.setLayoutManager(layoutManager);
-        recyclerThemesVerses.setHasFixedSize(true);
+
 
         recyclerThemesVerses.setAdapter(adapter);
 

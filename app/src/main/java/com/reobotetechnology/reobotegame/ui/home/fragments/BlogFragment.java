@@ -174,43 +174,43 @@ public class BlogFragment extends Fragment {
         //RecyclerStory
         RecyclerView.LayoutManager layoutManagerMenu = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory.setLayoutManager(layoutManagerMenu);
-        recyclerStory.setHasFixedSize(true);
+
         recyclerStory.setAdapter(adapterStory);
 
         //RecyclerStory2
         RecyclerView.LayoutManager layoutManagerMenu2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory2.setLayoutManager(layoutManagerMenu2);
-        recyclerStory2.setHasFixedSize(true);
+
         recyclerStory2.setAdapter(adapterStory2);
 
         //RecyclerStory3
         RecyclerView.LayoutManager layoutManagerMenu3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory3.setLayoutManager(layoutManagerMenu3);
-        recyclerStory3.setHasFixedSize(true);
+
         recyclerStory3.setAdapter(adapterStory3);
 
         //RecyclerStory4
         RecyclerView.LayoutManager layoutManagerMenu4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory4.setLayoutManager(layoutManagerMenu4);
-        recyclerStory4.setHasFixedSize(true);
+
         recyclerStory4.setAdapter(adapterStory4);
 
         //RecyclerStory5
         RecyclerView.LayoutManager layoutManagerMenu5 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory5.setLayoutManager(layoutManagerMenu5);
-        recyclerStory5.setHasFixedSize(true);
+
         recyclerStory5.setAdapter(adapterStory5);
 
         //RecyclerStory6
         RecyclerView.LayoutManager layoutManagerMenu6 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory6.setLayoutManager(layoutManagerMenu6);
-        recyclerStory6.setHasFixedSize(true);
+
         recyclerStory6.setAdapter(adapterStory6);
 
         //RecyclerStory7
         RecyclerView.LayoutManager layoutManagerMenu7 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory7.setLayoutManager(layoutManagerMenu7);
-        recyclerStory7.setHasFixedSize(true);
+
         recyclerStory7.setAdapter(adapterStory);
 
 

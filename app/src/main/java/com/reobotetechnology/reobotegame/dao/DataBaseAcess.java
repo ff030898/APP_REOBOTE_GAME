@@ -110,16 +110,17 @@ public class DataBaseAcess {
                     "author VARCHAR(50) NOT NULL," +
                     "description VARCHAR(800) NOT NULL," +
                     "availabled INTEGER NOT NULL, " +
-                    "favorited BOOLEAN NOT NULL," +
+                    "favorited INTEGER(1) NOT NULL," +
                     "date VARCHAR(20) NOT NULL," +
-                    "learning DECIMAL(10,2) NOT NULL," +
+                    "learning INTEGER(3) NOT NULL," +
                     "reference VARCHAR(50) NOT NULL" +
                     "); ";
 
 
             String sqlCheckChapther = "CREATE TABLE IF NOT EXISTS " + TABELA_CHECK_CHAPTHER
                     + " (" +
-                    "book_id INTEGER PRIMARY KEY NOT NULL, " +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "book_id INTEGER NOT NULL, " +
                     "chapter_id INTEGER NOT NULL" +
                     "); ";
 
@@ -224,7 +225,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -251,7 +252,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -278,7 +279,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -305,7 +306,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -332,7 +333,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
                     lista.add(b.getNome());
 
                 } while (cursor.moveToNext());
@@ -573,7 +574,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
                     palavra.add(b);
 
 
@@ -1019,7 +1020,7 @@ public class DataBaseAcess {
                         "inclusive a entrada do pecado e do sofrimento na humanidade. " +
                         "Neste livro estão descritas as ações de Deus na criação do mundo, " +
                         "no cuidar das pessoas e na justiça divina que castiga os ímpios e abençoa " +
-                        "os justos.", 5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/genesis"));
+                        "os justos.", 5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/genesis"));
 
 
         //Êxodo
@@ -1028,7 +1029,7 @@ public class DataBaseAcess {
                         "considerada mais importante da história do povo de Israel: a saída dos israelitas do Egito, " +
                         "onde viviam como escravos no Egito. Essa libertação deu origem a primeira páscoa.   " +
                         "Ao longo de 40 capítulos o livro relata além dos detalhes sobre a vida de escravidão, " +
-                        "o nascimento e grande parte da vida de Moisés.", 5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/exodo"));
+                        "o nascimento e grande parte da vida de Moisés.", 5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/exodo"));
 
         //Levitico
         listDescriptionBook.add(new DescriptionBookModel(3, "Lv", "Moisés",
@@ -1039,7 +1040,7 @@ public class DataBaseAcess {
                         "povo da escravidão. Nos livros seguintes a expressão “Lei de Moisés” faz referência aos cinco " +
                         "primeiros livros da bíblia (o chamado “Pentateuco”) que, entre outras informações, trazem orientações " +
                         "de conduta ao povo de Deus, como por exemplo, os 10 mandamentos.",
-                5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/levitico"));
+                5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/levitico"));
 
         //Números
         listDescriptionBook.add(new DescriptionBookModel(4, "Nm", "Moisés",
@@ -1051,7 +1052,7 @@ public class DataBaseAcess {
                         " a Moisés (profeta que viveu por volta de 1400 AC e teria " +
                         "conduzido o povo israelita para fora do Egito, sobre os desígnios do próprio Deus, " +
                         "a fim de libertar o povo da escravidão).",
-                5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/numeros"));
+                5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/numeros"));
 
         //Deuteronômio
         listDescriptionBook.add(new DescriptionBookModel(5, "Dt", "Moisés",
@@ -1061,7 +1062,7 @@ public class DataBaseAcess {
                         "próprio Deus), e recebe este nome por significar “repetir a lei” ou “segunda lei”..\n" +
                         "Ao longo de 34 capítulos, as passagens trazem os discursos de Moisés quando o povo ainda " +
                         "estava na terra de Moabe, a leste do Rio Jordão.",
-                5, false, "1400 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/deuteronomio"));
+                5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/deuteronomio"));
 
         //Josué
         listDescriptionBook.add(new DescriptionBookModel(6, "Js", "Incerto, (Josué)",
@@ -1071,16 +1072,16 @@ public class DataBaseAcess {
                         "conquista da terra, tendo sucedido Moisés como líder do povo de Deus.\n\n" +
                         "Ao nascer, Josué recebeu o nome de Oseias (hebr. Hishea, “salvação”; Nm 13.8), " +
                         "mas Moisés o chamou de Josué (hebr. Yehoshua, “o Senhor salva”; Nm 13.16).",
-                5, false, "1400-1375 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/josue"));
+                5, 0, "1400-1375 aC", 0, "Fonte: https://www.infoescola.com/biblia/josue"));
 
         //Juízes
         listDescriptionBook.add(new DescriptionBookModel(7, "Jz", "Incerto, (Samuel)",
                 "Apesar de não trazer nenhuma declaração explícita sobre de quem seja a autoria," +
                         " ela é atribuída a Samuel. Este, que é o sétimo livro da Bíblia, e faz parte do" +
-                        " Velho Testamento, conta a história de Israel desde a conquista da Terra de Canaã" +
+                        " Antigo Testamento, conta a história de Israel desde a conquista da Terra de Canaã" +
                         " até o começo da monarquia. Neste tempo surgiram os líderes militares conhecidos" +
                         " como “Juízes” que foram levantados por Deus, e por isso o governo deles não era hereditário.",
-                5, false, "1050-1000 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/juizes"));
+                5, 0, "1050-1000 aC", 0, "Fonte: https://www.infoescola.com/biblia/juizes"));
 
 
         //Rute
@@ -1092,7 +1093,7 @@ public class DataBaseAcess {
                         "A história se passa no tempo em que o povo de Israel ainda era governado por Juízes. " +
                         "Rute era casada com um israelita, ela era uma jovem do país de Moabe, e após da morte do " +
                         "marido se une ainda mais à sua sogra.",
-                5, false, "1210-1030 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/rute"));
+                5, 0, "1210-1030 aC", 0, "Fonte: https://www.infoescola.com/biblia/rute"));
 
         //1 Samuel
         listDescriptionBook.add(new DescriptionBookModel(9, "1Sm", "Samuel",
@@ -1101,7 +1102,7 @@ public class DataBaseAcess {
                         "Após um longo período de clamor e oração para que tivesse filhos, a ponto do marido achar que estivesse" +
                         " embriagada, Ana, mãe de Samuel orou assim que soube que esperava o menino: “Meu coração exulta no Senhor; " +
                         "no Senhor minha força é exaltada”. Minha boca se exalta sobre os meus inimigos, pois me alegro em tua libertação....",
-                5, false, "1100 até 1000 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
+                5, 0, "1100 até 1000 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
 
         //2 Samuel
         listDescriptionBook.add(new DescriptionBookModel(10, "2Sm", "Samuel",
@@ -1111,7 +1112,7 @@ public class DataBaseAcess {
                         " seu povo. O livro não poupa nem mesmo seus pecados, e assim que o profeta Natã" +
                         " os apontou, Davi aceitou a correção da parte de Deus, e ainda obteve vitória num" +
                         " período de guerra civil.",
-                5, false, "960 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
+                5, 0, "960 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
 
 
         //1 Reis
@@ -1121,7 +1122,7 @@ public class DataBaseAcess {
                         "Após a morte da Davi, que reinou em Jerusalém, seu filho Salomão herda o trono e um dos " +
                         "destaques de seu reinado foi construir um grande templo na região. Conhecido nos dias " +
                         "atuais como “Templo de Salomão”.",
-                5, false, "560 e 538 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
+                5, 0, "560-538 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
 
         //2 Reis
         listDescriptionBook.add(new DescriptionBookModel(12, "2Rs", "Incerto, (Jeremias)",
@@ -1130,7 +1131,186 @@ public class DataBaseAcess {
                         "Jerusalém pelo rei Nabucodonosor. A queda dos reinos de Israel " +
                         "acontece porque seus reis haviam sido infiéis com os principio do " +
                         "Senhor, deixando toda a nação vulnerável.",
-                5, false, "560 e 538 aC", 0.0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
+                5, 0, "560-538 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
+
+
+        //1 Crônicas
+        listDescriptionBook.add(new DescriptionBookModel(13, "1Cr", "Atribuído a Esdras",
+                "A boa nova deste livro é mostrar ao longo de 29 capítulos, que embora estivessem fragilizados " +
+                        "pela perda que sofreram em Jerusalém para o rei Nabucodonosor, as promessas de Deus se cumpririam. " +
+                        "Ainda que seu povo tivesse sido infiel, o Senhor é fiel para cumprir as suas promessas, e mostra isso " +
+                        "sobretudo para os fiéis que viviamem Judá. Alémda genealogia de Adão até Davi, estão relatadas as conquistas" +
+                        " de Davi e seu filho Salomão. O livro conta as reformas promovidas por Josafá, Ezequias, e Josias, e ainda, " +
+                        "sobre a grande parte do povo ter continuado fiel a Deus.",
+                5, 0, "425-400 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-cronicas/"));
+
+        //2 Crônicas
+        listDescriptionBook.add(new DescriptionBookModel(14, "2Cr", "Atribuído a Esdras",
+                "Esta que é a continuação do I Crônicas traz mais informações sobre o reinado de Salomão em " +
+                        "Israel e em Judá, a visita da rainha de Sabá ao reinado dele, e a divisão em dois reinos após" +
+                        " a morte de Salomão.  Ao longo de 36 capítulos, o livro termina com o decreto do rei Ciro, " +
+                        "que reinava sobre a Pérsia. Foi ele que permitiu que os judeus voltassem para Jerusalém e " +
+                        "reconstruíssem o templo.",
+                5, 0, "425-400 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-cronicas/"));
+
+        //Esdras
+        listDescriptionBook.add(new DescriptionBookModel(15, "Ed", "Atribuído a Esdras",
+                "O livro de Esdras faz parte do Antigo Testamento, e é continuação do segundo livro " +
+                        "de crônicas. A tradição atribui este livro a Esdras, um escriba e sacerdote, " +
+                        "descendente de Arão, e que dedicou a vida a estudar e " +
+                        "ensinar a palavra de Deus durante o exílio dos israelitas " +
+                        "na Babilônia. No entanto ainda não há um consenso entre " +
+                        "os estudiosos quanto a sua autoria. Inclusive, existe um " +
+                        "segmento de historiadores que afirmam que manuscritos mais antigos, " +
+                        "Esdras e Neemias constituíam um único livro com características semelhantes quanto ao estilo e conteúdo.",
+                5, 0, "538-457 aC", 0, "Fonte: https://www.infoescola.com/biblia/esdras/"));
+
+        //Neemias
+        listDescriptionBook.add(new DescriptionBookModel(16, "Ne", "Neemias",
+                "Este livro conta ao longo de 13 capítulos, que Neemias sempre dependeu " +
+                        "de Deus e foi um homem de oração. Ele foi mandando pelo próprio Ciro, " +
+                        "Rei da Pérsia, para governar Judá. O livro de Neemias faz parte do Antigo " +
+                        "Testamento, e é a continuação do livro de Esdras (sacerdote, descendente de " +
+                        "Arão, e que dedicou a vida para estudar e ensinar a palavra de Deus durante o " +
+                        "exílio dos israelitas na Babilônia, e acompanhou a restauração do tempo após " +
+                        "o decreto de Ciro Rei da Pérsia libertando este povo).",
+                5, 0, "423 aC", 0, "Fonte: https://www.infoescola.com/biblia/neemias/"));
+
+
+        //Ester
+        listDescriptionBook.add(new DescriptionBookModel(17, "Et", "Desconhecido",
+                "O livro de Ester faz parte do Antigo Testamento, e o seu autor é desconhecido. " +
+                        "Há indícios de que tenha sido escrito por algum judeu que conhecia Susã , o palácio real" +
+                        " e os costumes persas. O Talmude atribui este livro aos homens da grande sinagoga, " +
+                        "que seriam mestres anônimos que viveram no período que se passou entre os últimos profetas" +
+                        " e os primeiros estudiosos rabínicos. Já os patriarcas da igreja primitiva (por exemplo Clemente de Alexandria)" +
+                        " e autoridades judaicas (por exemplo Josefo), atribuem o livro a Mordecai. Esta segunda autoria é mais aceita " +
+                        "e difindida pela tradição, que ainda reconhecem a possibilidade de terem escritos de Esdras e Neemias.",
+                5, 0, "465 aC", 0, "Fonte: https://www.infoescola.com/biblia/ester/"));
+
+        //Jó
+        listDescriptionBook.add(new DescriptionBookModel(18, "Jó", "Incerto, (Moisés ou Salomão)",
+                "O livro de Jó faz parte do Antigo Testamento, aparece depois do livro de Ester e antes do " +
+                        "livro de Salmos. Seu autor é desconhecido, pois o nome não parece de forma explícita. " +
+                        "Entretanto há indícios de que tenha sido escrito pelo próprio Jó, ou ainda por Eliú,  " +
+                        "Ezequias, Isaías, Moisés e Salomão. Caso tenha sido Moisés a data possível é de 1441 AC e " +
+                        "caso tenha sido Salomão a data possível é de950 AC. Uma constatação sobre quem escreveu o livro, " +
+                        "é que sem dúvida, tinha aptidões literárias e vasto conhecimento sobre os animais, a mineração, " +
+                        "a astronomia, a caça e a consciência sobre o desenvolvimento embrionário.",
+                5, 0, "séc. V ao II aC", 0, "Fonte: https://www.infoescola.com/biblia/jo/"));
+
+        //Salmos
+        listDescriptionBook.add(new DescriptionBookModel(19, "Sl", "Davi, Asafe, filhos de Coré e outros",
+                "O livro dos Salmos é um livro de orações e hinos da Bíblia. Ele contém cânticos de adoração que foram" +
+                        " compostos por um longo período da história de Israel. Entre os anos de 1000 a 333 AC, e " +
+                        "diversos autores os escreveram, eram usados pelo povo de Israel nas reuniões de adoração a Deus. Alguns salmos " +
+                        "possuem em seu título a atribuição daquele salmo a um determinado autor como Davi e Salomão, outros " +
+                        "salmos por sua vez não trazem menção de quem os teria escrito.",
+                5, 0, "1000 e 300 aC", 0, "Fonte: https://www.infoescola.com/biblia/salmos/"));
+
+        //Provérbios
+        listDescriptionBook.add(new DescriptionBookModel(20, "Pv", "Salomão, Agur e rei Lemuel",
+                "A Bíblia faz referencia ao rei Salomão como o rei mais sábio da história de Israel. Salomão ora ao Senhor: " +
+                        "“Dá, pois ao teu servo coração compreensivo para julgar a teu povo para que prudentemente " +
+                        "discirna entre o bem e o mal, pois quem poderia julgar a este grande povo?” (IRs 3:9)  " +
+                        "e a autoria da maioria deste livro é atribuída a ele, e há suspeita de que além de seus " +
+                        "próprios ensinamentos, Salomão tenha editado provérbios de outros escritores.",
+                5, 0, "950 aC", 0, "Fonte: https://www.infoescola.com/biblia/proverbios/"));
+
+        //Eclesiastes
+        listDescriptionBook.add(new DescriptionBookModel(21, "Ec", "Salomão",
+                "Embora o livro de Eclesiastes não identifique diretamente o seu autor, a forte" +
+                        " tradição se baseia em alguns versículos que dão a entender que Salomão e " +
+                        "dá crédito a ele como o pregador que escreveu este livro: “Palavra do pregador, " +
+                        "filho de Davi, rei de Jerusalém: Vaidade de vaidades, diz o pregador, vaidade de " +
+                        "vaidades, tudo é vaidade” (Ec 1,1:2)  Isso não anula a possibilidade de alguma " +
+                        "outra pessoa possa ter feito acréscimos ao livro centenas de anos após a morte " +
+                        "de Salomão.",
+                5, 0, "931 aC", 0, "Fonte: https://www.infoescola.com/biblia/eclesiastes/"));
+
+        //Cantares
+        listDescriptionBook.add(new DescriptionBookModel(22, "Ct", "Salomão",
+                "Em latim é chamado somente de Cânticos. O título hebraico é uma expressão " +
+                        "Cântico dos Cânticos, com significado superlativo “o mais excelente cântico”. " +
+                        "Na bíblia hebraica, Cânticos dos Cânticos faz parte de uma coletânea lida nos dias " +
+                        "festivos do calendário judaico. Os outros livros dessa coletânea são Rute, Ester, " +
+                        "Eclesiastes e Lamentações.",
+                5, 0, "970-930 aC", 0, "Fonte: https://www.infoescola.com/biblia/canticos-dos-canticos/"));
+
+        //Isaías
+        listDescriptionBook.add(new DescriptionBookModel(23, "Is", "Isaías",
+                "Isaías, filho de Amoz, é uma dos maiores profetas do Antigo Testamento, " +
+                        "e anunciou suas mensagens proféticas ao povo do reino de Judá e aos moradores " +
+                        "da cidade de a partir do ano da morte do rei Uzias, e após Uzias reinaram no " +
+                        "tempo de Jeremias os reis Jotão, Acaz e Ezequias, indicando que estes acontecimentos " +
+                        "se passaram no período de 742 a 687 AC. “No ano da morte do rei Uzias, eu vi o " +
+                        "Senhor assentado num alto e sublime trono, e as abas de suas vestes enchiam o templo” (Is 6:1).",
+                5, 0, "700-690 aC", 0, "Fonte: https://www.infoescola.com/biblia/isaias/"));
+
+        //Jeremias
+        listDescriptionBook.add(new DescriptionBookModel(24, "Jr", "Jeremias",
+                "Grande foi o chamado para o profeta Jeremias, homem humilde perante Deus " +
+                        "“Olha para mim, Senhor, e ouve a voz dos que contendem comigo”  (Jr 18:19), " +
+                        "e que chegou a se dizer criança para fazer tamanha obra a mando do próprio Deus, " +
+                        "que entre outras promessas o disse “Antes que eu te formasse no ventre materno, eu te conheci, e, " +
+                        "antes que saísses da madre, te consagrei, e te constituí profeta às nações” (Jr 1:5) .",
+                5, 0, "626-586 aC", 0, "Fonte: https://www.infoescola.com/biblia/jeremias/"));
+
+        //Lamentações
+        listDescriptionBook.add(new DescriptionBookModel(25, "Lm", "Jeremias",
+                "O livro de Lamentações de Jeremias faz parte do Antigo Testamento e é continuação" +
+                        " do livro de Jeremias, e é de sua autoria. Ocorreu que 586 AC a cidade de Jerusalém " +
+                        "foi destruída e o profeta chora essa destruição, efetivada pelo rei Nabucodonosor " +
+                        "e o exercito da Babilônia.  O profeta havia anunciado mensagens finais sobre Judá, " +
+                        "alertando-lhe sobre a destruição que se aproximava caso a nação não se arrependesse, " +
+                        "e clamava, pedindo ao povo que se arrependesse e a voltasse para Deus.",
+                5, 0, "587 aC", 0, "Fonte: https://www.infoescola.com/biblia/lamentacoes-de-jeremias/"));
+
+        //Ezequiel
+        listDescriptionBook.add(new DescriptionBookModel(26, "Ez", "Ezequiel",
+                "A autoria deste livro é atribuída ao profeta Ezequiel “Veio expressamente a " +
+                        "palavra do Senhor a Ezequiel, filho de Buzi, o sacerdote, na terra dos caldeus, " +
+                        "junto do rio Quebar, e ali esteve sobre ele a mão do Senhor”(Ez 1:3) e ele foi " +
+                        "contemporâneo de Jeremias e Daniel. E no tempo do profeta Ezequiel (entre 593 a 565 AC) " +
+                        "a cidade de Jerusalém foi tomada pelos babilônicos, e o profeta viveu na Babilônia " +
+                        "onde os israelitas haviam sido levados como prisioneiros. As mensagens do profeta " +
+                        "eram direcionadas a todo povo que vivia ali na Babilônia e aos moradores de Jerusalém.",
+                5, 0, "593-573 aC", 0, "Fonte: https://www.infoescola.com/biblia/ezequiel/"));
+
+        //Daniel
+        listDescriptionBook.add(new DescriptionBookModel(27, "Dn", "Daniel",
+                "A história de Daniel na cova dos leões está relatada na bíblia, no livro do próprio profeta, no antigo testamento.\n" +
+                        "\n" +
+                        "Daniel era um dos três príncipes governantes e se destacava entre eles, pois nele havia um espírito excelente e o rei pensava" +
+                        " constituí-lo sobre todo o reino. Então os outros dois presidentes e os príncipes procuravam achar algo contra Daniel a respeito " +
+                        "do reino e não achavam, porque ele era fiel, e não se achava nele nenhum erro nem culpa.",
+                5, 0, "Final do séc. VI AC", 0, "Fonte: https://www.infoescola.com/biblia/daniel-na-cova-dos-leoes/"));
+
+        //Oséias
+        listDescriptionBook.add(new DescriptionBookModel(28, "Os", "Oséias",
+                "O livro Oséias faz parte do Velho Testamento e sua autoria é atribuída ao profeta, " +
+                        "onde estabelece uma relação entre sua vida pessoal com as mensagens proféticas para " +
+                        "o povo de Deus. Ele era filhos de Beeri e foi o único profeta que registrou durante " +
+                        "os últimos anos de sua vida um conjunto de profecias para Israel. Ele viveu entre 785 e 725 aC, " +
+                        "e registrou as profecias por volta de 755 a 725 aC.",
+                5, 0, "750 aC", 0, "Fonte: https://www.infoescola.com/biblia/oseias/"));
+
+        //Joel
+        listDescriptionBook.add(new DescriptionBookModel(29, "Jl", "Joel",
+                "O livro Joel faz parte do Velho Testamento e sua autoria é atribuída ao " +
+                        "próprio profeta. O ponto de partida para Joel foi uma terrível praga de gafanhotos, " +
+                        "e que foi seguida por uma grande seca que devastaram a cidade de Judá. Para ele, " +
+                        "esses acontecimentos eram avisos de que a cidade precisava se arrepender e voltar-se para Deus.",
+                5, 0, "835-805 aC", 0, "Fonte: https://www.infoescola.com/biblia/joel/"));
+
+        //Amós
+        listDescriptionBook.add(new DescriptionBookModel(30, "Am", "Amós",
+                "Amós era pastor de ovelhas em Tecoa (Judá) “As palavras de Amós, que estava entre os pastores de Tecoa, as quais viu a respeito de Israel, " +
+                        "nos dias de Uzias, rei de Judá, e nos dias de Jeroboão, filho de Joás, rei de Israel, " +
+                        "dois anos antes do terremoto” (Am 1:1) e em nome de Deus anuncia a injustiça, opressão e " +
+                        "corrupção que assolavam ao país, pois aquela região apesar de estar em uma situação material boa, " +
+                        "estava em pecado “Portanto assim farei ó Israel! Prepara-te ó Israel para encontrares com o Senhor teu Deus. ",
+                5, 0, "760–750 aC", 0, "Fonte: https://www.infoescola.com/biblia/amos/"));
 
 
         this.createDescriptionBook(listDescriptionBook);
@@ -1151,7 +1331,7 @@ public class DataBaseAcess {
             String author = listDescriptionBook.get(i).getAuthor();
             String description = listDescriptionBook.get(i).getDescription();
             int availabled = listDescriptionBook.get(i).getBook_id();
-            boolean favorited = listDescriptionBook.get(i).isFavorited();
+            int favorited = listDescriptionBook.get(i).getFavorited();
             String date = listDescriptionBook.get(i).getDate();
             double learning = listDescriptionBook.get(i).getLearning();
             String reference = listDescriptionBook.get(i).getReference();
@@ -1200,9 +1380,9 @@ public class DataBaseAcess {
                     String author = cursor.getString(2);
                     String description = cursor.getString(3);
                     int availabled = cursor.getInt(4);
-                    boolean favorited = cursor.getInt(5)  > 0;
+                    int favorited = cursor.getInt(5);
                     String date = cursor.getString(6);
-                    double learning = cursor.getDouble(7);
+                    int learning = cursor.getInt(7);
                     String reference = cursor.getString(8);
 
 
@@ -1221,6 +1401,94 @@ public class DataBaseAcess {
 
     }
 
+    public Integer learningBook(int id) {
+
+        int learning = 0;
+
+        open();
+
+        String sql = "SELECT * FROM description_book where book_id=" + id;
+        cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    learning = cursor.getInt(7);
+                    Log.i("Learning", ""+learning);
+
+                } while (cursor.moveToNext());
+            }
+
+        }
+        cursor.close();
+        close();
+        return learning;
+
+    }
+
+    public boolean favorited(int id) {
+
+        open();
+
+        boolean favorited = false;
+
+        String sql = "SELECT * FROM description_book where book_id='" + id + "'";
+        cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    int f = cursor.getInt(5);
+                    if (f != 0) {
+                        favorited = true;
+                    }
+                } while (cursor.moveToNext());
+            }
+
+        }
+        cursor.close();
+        close();
+        return favorited;
+
+    }
+
+    public void updateFavoritedBook(int id, int favorited) {
+        open();
+        ContentValues valores = new ContentValues();
+
+        valores.put("favorited", favorited);
+
+        long resultado = db.update(TABELA_DESCRIPTION_BOOK, valores, "book_id=" + id, null);
+
+        if (resultado == -1) {
+            Log.i("Update Favorited", "Erro ao atualizar favorito");
+        } else {
+            Log.i("Update Favorited", "Sucesso ao atualizar favorito");
+        }
+
+
+        close();
+
+    }
+
+    public void updateLearningBook(int id, int learning) {
+        open();
+        ContentValues valores = new ContentValues();
+
+        valores.put("learning", learning);
+
+        long resultado = db.update(TABELA_DESCRIPTION_BOOK, valores, "book_id=" + id, null);
+
+        if (resultado == -1) {
+            Log.i("Update Favorited", "Erro ao atualizar favorito");
+        } else {
+            Log.i("Update Favorited", "Sucesso ao atualizar favorito");
+        }
+
+
+        close();
+
+    }
+
+
     //verseDay
 
     private void insertVerseDay() {
@@ -1233,7 +1501,7 @@ public class DataBaseAcess {
 
     }
 
-    private void createVerseDay(List<VerseDayModel> listVerseDay){
+    private void createVerseDay(List<VerseDayModel> listVerseDay) {
         open();
         ContentValues valores = new ContentValues();
 
@@ -1269,7 +1537,7 @@ public class DataBaseAcess {
 
     }
 
-    public void updateVerseDay(List<VerseDayModel> listVerseDay){
+    public void updateVerseDay(List<VerseDayModel> listVerseDay) {
 
         open();
         ContentValues valores = new ContentValues();
@@ -1303,7 +1571,8 @@ public class DataBaseAcess {
         close();
 
     }
-    public List<VerseDayModel> listVerseDay(){
+
+    public List<VerseDayModel> listVerseDay() {
 
         List<VerseDayModel> list = new ArrayList<>();
 
@@ -1338,9 +1607,10 @@ public class DataBaseAcess {
 
     }
 
+
     //check_chapther
 
-    public void createCheckChapther(List<CheckChaptherModel> list){
+    public void createCheckChapther(List<CheckChaptherModel> list) {
         open();
         ContentValues valores = new ContentValues();
 
@@ -1367,13 +1637,13 @@ public class DataBaseAcess {
         close();
     }
 
-    public List<CheckChaptherModel> list(int book){
+    public List<CheckChaptherModel> listCheck(int book, int chapther) {
 
         List<CheckChaptherModel> list = new ArrayList<>();
 
         open();
 
-        String sql = "SELECT * FROM check_chapther where id_book='" + book + "'";
+        String sql = "SELECT * FROM check_chapther where book_id=" + book + " and chapter_id=" + chapther;
         cursor = db.rawQuery(sql, null);
         if (cursor.getCount() > 0) {
             if (cursor.moveToFirst()) {
@@ -1398,5 +1668,55 @@ public class DataBaseAcess {
 
 
     }
+
+    public void dropCheckChapther(List<CheckChaptherModel> list) {
+        /*open();
+        ContentValues valores = new ContentValues();
+
+        for (int i = 0; i < list.size(); i++) {
+
+            int book_id = list.get(i).getBook_id();
+            int chapter_id = list.get(i).getChapter_id();
+
+            valores.put("book_id", book_id);
+            valores.put("chapter_id", chapter_id);
+
+            long resultado = db.delete(TABELA_CHECK_CHAPTHER, null, "id=" + 1);
+
+
+            if (resultado == -1) {
+
+                Log.i("Check", "Erro ao cadastrar todos os checks");
+            } else {
+                Log.i("Check", "Sucesso ao cadastrar todos os checks");
+            }
+
+        }
+
+        close();*/
+    }
+
+    public Integer findChapthersLearningBook(int id) {
+        int countChapther = 0;
+        open();
+
+        String sql = "SELECT count(chapter_id) FROM check_chapther where book_id=" + id;
+        cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                do {
+
+                    countChapther = cursor.getInt(0);
+
+
+                } while (cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        close();
+        return countChapther;
+
+    }
+
 
 }

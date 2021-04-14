@@ -63,7 +63,6 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="32dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/detalhes"
                     android:textColor="@color/colorPreto"
                     android:textStyle="bold" />

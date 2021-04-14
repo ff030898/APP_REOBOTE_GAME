@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
@@ -70,8 +71,6 @@ public class SearchVersesAllActivity extends AppCompatActivity {
         //RecyclerThemes
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerThemesVerses.setLayoutManager(layoutManager);
-        recyclerThemesVerses.setHasFixedSize(true);
-
         recyclerThemesVerses.setAdapter(adapter);
 
 
@@ -113,8 +112,11 @@ public class SearchVersesAllActivity extends AppCompatActivity {
         inputSearch.addTextChangedListener(new TextWatcher() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             public void afterTextChanged(Editable s) {
-                String text = Objects.requireNonNull(inputSearch.getText()).toString();
+                final String text = Objects.requireNonNull(inputSearch.getText()).toString();
+
                 listVersesofTheme(text);
+
+
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -188,6 +190,8 @@ public class SearchVersesAllActivity extends AppCompatActivity {
 
     private void listVersesofTheme(String text) {
 
+        recyclerThemesVerses.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         listVerses.clear();
 
@@ -200,5 +204,15 @@ public class SearchVersesAllActivity extends AppCompatActivity {
         listVerses.addAll(lista2);
 
         adapter.notifyDataSetChanged();
+
+        new Handler().postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+                recyclerThemesVerses.setVisibility(View.VISIBLE);
+            }
+        }, 1500);
+
     }
 }

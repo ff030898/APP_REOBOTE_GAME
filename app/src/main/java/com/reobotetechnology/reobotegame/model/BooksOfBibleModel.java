@@ -2,12 +2,13 @@ package com.reobotetechnology.reobotegame.model;
 
 public class BooksOfBibleModel {
 
-    private int id, testamento;
+    private int id, testamento, learning;
     private String nome;
 
-    public BooksOfBibleModel(int id, int testamento, String nome) {
+    public BooksOfBibleModel(int id, int testamento, int learning, String nome) {
         this.id = id;
         this.testamento = testamento;
+        this.learning = learning;
         this.nome = nome;
     }
 
@@ -27,18 +28,19 @@ public class BooksOfBibleModel {
         this.testamento = testamento;
     }
 
+    public int getLearning() {
+        return learning;
+    }
+
+    public void setLearning(int learning) {
+        this.learning = learning;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    @Override
-    public String toString() {
-        return "BibliaModel{" +
-                "nome='" + nome + '\'' +
-                '}';
     }
 }

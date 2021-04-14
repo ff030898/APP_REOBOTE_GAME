@@ -1,6 +1,11 @@
 package com.reobotetechnology.reobotegame.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.reobotetechnology.reobotegame.R;
@@ -10,11 +15,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import nl.joery.animatedbottombar.AnimatedBottomBar;
+
 
 public class HomeActivity extends AppCompatActivity {
 
 
     private BottomNavigationViewEx navView;
+    //private AnimatedBottomBar navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,4 +47,5 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
     }
+
 }
