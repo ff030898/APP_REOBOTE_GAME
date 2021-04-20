@@ -25,8 +25,8 @@
             android:id="@+id/img_user"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/profile"
             android:visibility="visible"
@@ -63,14 +63,16 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/bg_ranking_position"
             android:textColor="@color/colorPreto"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="1º" />
+            android:maxLength="3"
+            android:ellipsize="end"
+            tools:text="100º" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

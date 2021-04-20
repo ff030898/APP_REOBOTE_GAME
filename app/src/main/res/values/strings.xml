@@ -217,7 +217,7 @@
     <string name="o_jogador_desistiu_da_partida">O jogador desistiu da partida</string>
     <string name="fonte">Fonte</string>
     <string name="searchAll">Pesquise versículos por toda a bíblia</string>
-    <string name="bible">Bíblia Segrada</string>
+    <string name="bible">Bíblia Sagrada</string>
     <string name="available">Deseja avaliar?</string>
     <string name="noteAvailable">Deixe sua nota de avaliação</string>
     <string name="acertos">ACERTOS</string>
@@ -238,6 +238,7 @@
     <string name="reference">Sem referência</string>
     <string name="marcar_vers_culo_s_selecionado_s">Marcar versículo(s) selecionado(s)</string>
     <string name="g_nesis_26_22">Gênesis 26:22</string>
+    <string name="desmarcar_capitulos">Desmarcar capitulos</string>
 
 
 </resources>

@@ -1312,6 +1312,383 @@ public class DataBaseAcess {
                         "estava em pecado “Portanto assim farei ó Israel! Prepara-te ó Israel para encontrares com o Senhor teu Deus. ",
                 5, 0, "760–750 aC", 0, "Fonte: https://www.infoescola.com/biblia/amos/"));
 
+        //Obadias
+        listDescriptionBook.add(new DescriptionBookModel(31, "Ob", "Obadias",
+                "Este é o menor livro que compõe o Antigo Testamento, possui apenas um capítulo e " +
+                        "sua autoria é atribuída ao próprio profeta Obadias. A maioria dos estudiosos afirmam " +
+                        "que provavelmente foi escrito após a destruição de Jerusalém por Nabucodonosor no ano 586 AC. " +
+                        "O profeta anunciou o pecado dos Edonitas. Ocorreu que os Edomitas haviam ficado alegres com a conquista de " +
+                        "Jerusalém pelos babilônicos, e isso desagradou o Senhor, que usou o profeta para anunciar que os Edonitas seriam " +
+                        "castigados junto com os outros povos inimigos do povo de Deus",
+                5, 0, "Após 586 aC", 0, "Fonte: https://www.infoescola.com/biblia/obadias/"));
+
+        //Jonas
+        listDescriptionBook.add(new DescriptionBookModel(32, "Jn", "Jonas",
+                "O livro de Jonas foi escrito por volta de 800 a 750 AC, e ao longo de quatro capítulos " +
+                        "mostra o temor de Jonas que o leva a fugir de Deus. No caso, ele se recusa a ir a Nínive " +
+                        "pregar o arrependimento ao povo, como o Senhor havia ordenado, pois ele sente que os " +
+                        "ninivitas não irão ouvi-lo e acredita que o Senhor não vai seguir adiante com a ameaça " +
+                        "de destruir a cidade caso o povo não se arrependa de seus maus caminhos.",
+                5, 0, "800-750 aC", 0, "Fonte: https://www.infoescola.com/biblia/jonas/"));
+
+        //Miquéias
+        listDescriptionBook.add(new DescriptionBookModel(33, "Mq", "Miquéias",
+                "A autoria do livro é atribuída ao próprio profeta, que viveu por volta de 800 AC, " +
+                        "e ele era natural de uma pequena cidade de Judá, o reino do Sul “Palavra do Senhor que em " +
+                        "visão veio a Miquéias, morastita, nos dias de Jotão, Acaz, e Ezequias, reis de Judá, " +
+                        "sobre Samaria e Jerusalém. Ouvi, todos os povos, prestai atenção, ó terra e tudo o que ela contém, " +
+                        "e seja o Senhor Deus testemunha contra vós outros, o Senhor desde o seu santo templo” (Mq 1,1:2). " +
+                        "O livro de Miquéias faz parte do Antigo Testamento, e ao longo de sete capítulos conta que o profeta " +
+                        "Miquéias condena os sacerdotes, governadores e até mesmo outros profetas de Israel que iludiam o povo.",
+                5, 0, "704 e 696 aC", 0, "Fonte: https://www.infoescola.com/biblia/miqueias/"));
+
+        //Naum
+        listDescriptionBook.add(new DescriptionBookModel(34, "Na", "Naum",
+                "Este livro possui apenas três capítulos e faz parte do Antigo Testamento. " +
+                        "Ele foi escrito por volta de 663 a612 ACe sua autoria é atribuída ao próprio " +
+                        "Naum: profeta que viveu na mesma época em que viveram Habacuque e Sofonias. " +
+                        "Ele descreve a queda de Nínive (capital da Assíria) de forma poética " +
+                        "“Peso de Nínive. Livro da visão de Naum, o elcosita. O Senhor é Deus " +
+                        "zeloso e vingador; o Senhor é vingador e cheio de furor; o Senhor toma " +
+                        "vingança contra os seus adversários, e guarda a ira contra os seus inimigos. " +
+                        "O Senhor é tardio em irar-se, mas grande em poder, e ao culpado não tem por inocente; " +
+                        "o Senhor tem o seu caminho na tormenta e na tempestade, e as nuvens são o pó dos seus pés” (Na 1,1:3).",
+                5, 0, "antes de 612 aC", 0, "Fonte: https://www.infoescola.com/biblia/naum/"));
+
+
+        //Habacuque
+        listDescriptionBook.add(new DescriptionBookModel(35, "Hc", "Habacuque",
+                "Este livro possui apenas três capítulos e faz parte do Antigo Testamento. " +
+                        "Ele foi escrito por volta de 625 e 587 aC e pouco se sabe sobre quem teria registrado " +
+                        "tais acontecimentos, e a autoria é atribuída tradicionalmente ao próprio profeta. " +
+                        "Habacuque viveu na mesma época em que viveram Naum e Sofonias. Há indícios de que " +
+                        "teria amado profundamente seu povo, e procurou traze-los para junto de si, sempre consolando e " +
+                        "amparando-os.  Inclusive alguns rabinos associam seu nome a palavra que no hebraico significa" +
+                        " “abraço”, pois Habacuque seria um nome incomum e aparece somente duaz vezes no Antigo Testamento.",
+                5, 0, "625-587 aC", 0, "Fonte: https://www.infoescola.com/biblia/habacuque/"));
+
+        //Sofonias
+        listDescriptionBook.add(new DescriptionBookModel(36, "Sf", "Sofonias",
+                "Este livro possui apenas três capítulos e faz parte do Antigo Testamento. Ele foi escrito " +
+                        "por volta de 663 a 612 aC e sua autoria é atribuída ao próprio Sofonias: " +
+                        "profeta que viveu na mesma época em que viveram Naum e Habacuque “A palavra do Senhor, " +
+                        "que veio a Sofonias, filho de Cusi, filho de Gedalias, filho de Amarias, filho de Ezequias, " +
+                        "nos dias de Josias, filho de Amom, rei de Judá” (Sf 1:1).\n\nSeu nome faz uma referência à " +
+                        "proteção dada por Deus durante a opressão e a idolatria do reinado de Manasses, ou uma " +
+                        "mensagem de proteção de Deus em meio a seu castigo, para aqueles que se arrependem. ",
+                5, 0, "663-612 aC", 0, "Fonte: https://www.infoescola.com/biblia/sofonias/"));
+
+        //Ageu
+        listDescriptionBook.add(new DescriptionBookModel(37, "Ag", "Ageu",
+                "Este livro possui apenas dois capítulos e faz parte do Antigo Testamento. " +
+                        "A sua autoria é atribuída ao próprio profeta. Ocorreu que em 538 aC os " +
+                        "israelitas começavam a voltar da Babilônia (após o decreto assinado por Ciro, rei da Pércia) " +
+                        "onde viviam cativos, eram escravizados.O povo estava reconstruindo suas casas, mas não se " +
+                        "preocupava em reconstruir o templo, que estava destruído",
+                5, 0, "520 aC", 0, "Fonte: https://www.infoescola.com/biblia/ageu/"));
+
+        //Zacarias
+        listDescriptionBook.add(new DescriptionBookModel(38, "Zc", "Zacarias",
+                "O nome Zacarias é comum no Antigo Testamento, e vários homens receberam esse nome naquela época. " +
+                        "No caso do profeta o nome é muito apropriado, pois significa “Javé Lembra”, pois as mensagens que ele " +
+                        "anunciou entre 520 e 518 aC diziam que o povo ainda era escolhido por Deus após terem voltado do exílio.\n\nO livro " +
+                        "mostra que a salvação está ao alcance de todos. Contudo, é importante ressaltar que nem todas as pessoas serão " +
+                        "salvas (teoria universalista), isso porque a salvação é plano do Senhor para seu povo, e para isso é preciso " +
+                        "estar na presença do Senhor, acreditar Nele.",
+                5, 0, "520-475 aC", 0, "Fonte: https://www.infoescola.com/biblia/zacarias/"));
+
+        //Malaquias
+        listDescriptionBook.add(new DescriptionBookModel(39, "Ml", "Desconhecido, (Malaquias)",
+                "O livro de Malaquias é o último livro do Antigo Testamento, e aparece depois do livro de Zacarias. " +
+                        "Seu autor é desconhecido, e este pode ser o único livro escrito de forma “anônima” desta seção profética. " +
+                        "Isso ocorre pois além do nome não aparecer de forma explícita, o nome Malaquias pode ser um nome próprio ou um " +
+                        "substantivo usado como título. Sobretudo, o livro não traz referencia biográfica sobre o profeta. " +
+                        "A tradição atribui a autoria ao escriba Esdras (embora este não tenha sido chamado de profeta ou mensageiro). " +
+                        "Portanto, as informações citadas no livro tem possibilidade de serem de fato anunciadas por um profeta chamado Malaquias, " +
+                        "ou esta expressão pode fazer referência a pessoa que possa estar por traz de Malaquias, que realizou os feitos descritos neste livro, " +
+                        "ainda que não seja este o seu nome próprio.",
+                5, 0, "450 aC", 0, "Fonte: https://www.infoescola.com/biblia/malaquias/"));
+
+
+
+
+        /* NOVO TESTAMENTO */
+        //Mateus
+        listDescriptionBook.add(new DescriptionBookModel(40, "Mt", "Mateus",
+                "O Evangelho segundo Mateus faz parte do Novo Testamento e acredita-se que tenha sido " +
+                        "escrito por volta de 50 dC, período do inicio da igreja. O Evangelho de Mateus " +
+                        "tem esse nome, porque foi escrito pelo próprio apóstolo. Consta que antes de seguir " +
+                        "Jesus ele trabalhava como cobrador de impostos. Inclusive, sua escrita mostra que teve " +
+                        "muito interesse em contabilidade (18:23-24; 25:14-15). Sobretudo, nesta profissão acredita-se " +
+                        "que tinham a habilidade da taquigrafia ou seja, conseguia grafar as palavras de forma file, " +
+                        "palavra por palavra, na medida em que a pessoa falava.",
+                5, 0, "50-75 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-mateus/"));
+
+        //Marcos
+        listDescriptionBook.add(new DescriptionBookModel(41, "Mc", "Marcos",
+                "O Evangelho de Marcos faz parte do Novo testamento e é curiosamente o mais antigo e mais curto de todos os evangelhos, " +
+                        "e ao longo de dezesseis capítulos, podemos identificar que foi escrito provavelmente " +
+                        "antes da destruição do templo de Jerusalém por volta de 70 dC. O testemunho dos primeiros cristãos " +
+                        "deixa poucas dúvidas de que Marcos tenha sido o autor e por isso o livro leva seu nome.\n" +
+                        "\n" +
+                        "Sabe-se que sua mãe também se chamava Maria, e ele era primo de Barnabé. " +
+                        "Inclusive, Marcos viajou com Paulo e Barnabé e passou longo período com Pedro que " +
+                        "se referia a ele como “meu filho”.",
+                5, 0, "65-70 dC", 0, "Fonte: https://www.infoescola.com/biblia/evangelho-de-marcos/"));
+
+        //Lucas
+        listDescriptionBook.add(new DescriptionBookModel(42, "Lc", "Lucas",
+                "De acordo com a tradição cristã o autor do terceiro evangelho da bíblia, parte do novo testamento, " +
+                        "a autoria do livro e atribuída a Lucas, que era médico e companheiro de jornada de Paulo. Inclusive, " +
+                        "entre as várias referências que Paulo faz a Lucas, em uma delas o chama de “amado”. Não se sabe se " +
+                        "Lucas era judeu ou gentio, mas sabe-se que viveu na Antioquia da Síria, " +
+                        "e é comumente identificado como gentio.",
+                5, 0, "59-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/lucas/"));
+
+        //João
+        listDescriptionBook.add(new DescriptionBookModel(43, "Jo", "Apóstolo João",
+                "O Evangelho de João quarto e último evangelho na bíblia apresenta Jesus como Verbo " +
+                        "de Deus que existiu desde a eternidade com Deus e que se fez ser humano, " +
+                        "mostrando assim o amor e a verdade de Deus “No princípio era o Verbo, " +
+                        "e o verbo estava com Deus. Ele estava no princípio com Deus. " +
+                        "Todas as coisas foram feitas por intermédio Dele, e, sem ele, nada do que foi feito se fez. " +
+                        "A vida estava nele e a vida era a luz dos homens” (Jo 1,1:4)",
+                5, 0, "85 dC", 0, "Fonte: https://www.infoescola.com/biblia/evangelho-de-joao/"));
+
+        //Atos
+        listDescriptionBook.add(new DescriptionBookModel(44, "At", "Lucas",
+                "Este é o quinto livro do Novo Testamento e descreve a história da era apostólica. " +
+                        "De acordo com a tradição a autoria é atribuída a Lucas, que também escreveu o livro homônimo, " +
+                        "a compor um dos evangelhos. Sabe-se que ele era médico e companheiro de jornada de Paulo. " +
+                        "Inclusive, entre as várias referências que Paulo faz a Lucas, em uma delas o chama de “amado”. " +
+                        "Provavelmente os dois livros de sua autoria tenham sido escritos em tempos muito próximos, datando " +
+                        "de 61 e 63 DC. Há indicações da prisão domiciliar de Paulo em Roma, entretanto não chega a relatar o " +
+                        "julgamento ou morte dele (que ocorreu por volta de 66 e 68 DC).",
+                5, 0, "62 dC", 0, "Fonte: https://www.infoescola.com/biblia/atos-dos-apostolos-2/"));
+
+        //Romanos
+        listDescriptionBook.add(new DescriptionBookModel(45, "Rm", "Paulo",
+                "A autoria do livro é atribuída ao apóstolo Paulo, e ao longo dos dezesseis capítulos, identificamos um momento em que ele " +
+                        "usa um homem chamado Tércio para transcrever suas palavras “Eu Tércio, que escrevi esta epístola, vos saúdo no Senhor” (Rm 16:22). " +
+                        "A data provável que o tenha escrito é de 55 a 59 cC.\n\nEste livro segue o propósito de todas as epístolas de Paulo às igrejas, ou seja, " +
+                        "proclamar a glória de Jesus Cristo. Esta carta aos Romanos foi escrita de Corinto um pouco antes de ele viajar para Jerusalém e entregar as " +
+                        "ofertas que estavam destinadas aos necessitados de lá.",
+                5, 0, "55-59 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-romanos/"));
+
+        //1 Coríntios
+        listDescriptionBook.add(new DescriptionBookModel(46, "1Co", "Paulo",
+                "O autor do livro de dezesseis capítulos já havia " +
+                        "fundado uma igreja em Corinto. Tempos depois os cristãos desta igreja haviam escrito uma carta a Paulo pedindo " +
+                        "a opinião dele sobre diversos assuntos. Ocorreu que a igreja de Corinto estava com divisões, " +
+                        "a igreja estava dividida em diversos grupos onde alguns toleravam imoralidade sexual, outros apresentavam indícios de " +
+                        "orgulho, e ainda, um conflito acerca dos dons do Espírito Santo, que estavam sendo utilizados de forma equivocada.\n\nCom essa diferença " +
+                        "dentro da igreja, os cristãos de Corinto estavam se distanciando da essência dos ensinamentos do Senhor e seguindo determinados líderes " +
+                        "espirituais “Refiro-me ao fato de cada um de vós dizer: Eu sou de Paulo, e eu, de Apolo, e eu, de Cefas, e eu, de Cristo” (1 Co 1:12).",
+                5, 0, "50 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-corintios/"));
+
+        //2 Coríntios
+        listDescriptionBook.add(new DescriptionBookModel(47, "2Co", "Paulo",
+                "Este livro foi escrito por Paulo para a igreja em Corinto como resultado de sua segunda viagem missionária. " +
+                        "Ocorreu que muitos cristãos na época em que receberam a primeira carta haviam se rebelado, criticando e até mesmo " +
+                        "questionando a autoridade de Paulo como apóstolo de cristo e sua autoridade para fazer as recomendações que fez à igreja.\n" +
+                        "\n" +
+                        "Paulo chegou a escrever quatro epistolas, e duas delas fazem parte da bíblia, compondo parte do Novo Testamento. " +
+                        "Esta segunda carta a princípio, foi a terceira delas, escrita num segundo momento, onde Paulo defende sua autoridade e " +
+                        "trata de assuntos da vida cristã.",
+                5, 0, "50 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-corintios/"));
+
+        //Galatas
+        listDescriptionBook.add(new DescriptionBookModel(48, "Gl", "Paulo",
+                "Este livro possui seis capítulos e faz parte do Novo Testamento. Ele foi escrito pelo apóstlo Paulo por volta de 48 a 57 dC, " +
+                        "dependendo de onde exatamente o livro foi enviado e se foi na primeira ou segunda viagem de Paulo na província romana da Galácia, " +
+                        "região que atualmente faz parte da Turquia.\n\nApós o evangelho ter sido espalhado pelo império romano, e muitos gentios começaram a aceitar Jesus como Salvador, " +
+                        "surgiram discussões sobre os gentios seguirem as leis dos judeus, especialmente a lei que mandava que todo homem fosse circuncidado.",
+                5, 0, "48-57 dC", 0, "Fonte: https://www.infoescola.com/biblia/galatas/"));
+
+        //Efésios
+        listDescriptionBook.add(new DescriptionBookModel(49, "Ef", "Paulo",
+                "Durante sua terceira viagem missionária, o apóstolo Paulo passou quase três anos na cidade de Éfeso, " +
+                        "cidade que veio a ser um importante pólo do trabalho cristão na província romana da Ásia, numa região pertencente a Turquia. " +
+                        "A epístola aos Efésios foi escrita  por Paulo, durante sua primeira prisão em Roma, datada entre 60 e 63 dC.\n" +
+                        "A maior parte das recomendações do apóstolo refere-se à posição da igreja em relação a Cristo. Ao final dos seis capítulos, " +
+                        "há um destaque sobre a luta dos santos, um incentivo a compreensão de que na condição de seguidores de Cristo, todos deveriam compreender " +
+                        "que Deus possui toda autoridade para manifestar sua presença entre os crentes\"Bendito o Deus e Pai de nosso Senhor Jesus Cristo, que nos " +
+                        "tem abençoado com toda sorte de bênção espiritual nas regiões celestiais em Cristo\"(Ef 1:3).",
+                5, 0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/efesios/"));
+
+        //Filipenses
+        listDescriptionBook.add(new DescriptionBookModel(50, "Fp", "Paulo",
+                "A autoria deste livro é atribuída ao apóstolo Paulo, provavelmente com a ajuda de Timóteo, por volta de 60 e 63 dC. " +
+                        "Esta Epístola foi escrita aos Filipenses enquanto Paulo ainda era prisioneiro de Nero, e estava na prisão em Roma. " +
+                        "Quando esteve em Filipos, onde visitou em sua segunda viagem missionária, havia cerca de trinta anos após a ascensão de Cristo, " +
+                        "e em torno de dez anos depois de Paulo ter pregado em Filipos pela primeira vez, e ocorreu que Lídia, o carcereiro e sua família " +
+                        "foram convertidos a Cristo. E alguns anos depois, a igreja já estava estruturada, como demonstra o inicio deste se referindo a " +
+                        "cargos da igreja “Paulo e Timóteo, servos de Cristo Jesus, inclusive bispos e diáconos que vivem em Filipos” (Fp 1:1).",
+                5, 0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/filipenses"));
+
+        //Colossenses
+        listDescriptionBook.add(new DescriptionBookModel(51, "Cl", "Paulo",
+                "O livro de Colossenses faz parte do Novo testamento e foi escrito por volta de 60 dC.  " +
+                        "A cidade de Colossos ficava na província romana da Ásia, região que hoje faz parte da Turquia. " +
+                        "A igreja dessa cidade não havia sido fundada por Paulo, e há indícios de que ele não havia estado lá quando " +
+                        "escreveu esta epístola destinada a eles. A possibilidade de que Epafras, companheiro de Paulo tenha sido pioneiro " +
+                        "em anunciar o evangelho para eles “Segundo fostes instruídos por Epafras nosso amado conservo e, " +
+                        "quanto a vós outros, fiel ministros de Cristo” (Cl 1:7).",
+                5, 0, "60 dC", 0, "Fonte: https://www.infoescola.com/biblia/colossenses/"));
+
+        //1Tessalonicenses
+        listDescriptionBook.add(new DescriptionBookModel(52, "1Ts", "Paulo",
+                "Logo após ter chegado a Tessalônica Paulo foi obrigado a seguir para Bereia, posteriormente " +
+                        "Atenas e em seguida Corinto.Equando já estava em Corinto, Paulo escreve esta epístola aos " +
+                        "cristão de Tessalonica, pois Timóteo havia relatado a Paulo a situação da igreja que havia " +
+                        "sido fundada lá, e com intuito de combater alguns mal-entendidos sobre a volta de Cristo Paulo " +
+                        "faz instruções, ao longo de cinco capítulos, sobre uma vida de santificação.",
+                5, 0, "50-52 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-tessalonicenses/"));
+
+        //2Tessalonicenses
+        listDescriptionBook.add(new DescriptionBookModel(53, "2Ts", "Paulo",
+                "Nesta epístola Paulo estava ansioso para continuar sua comunicação com a igreja de Tessalônica. " +
+                        "Ele ainda estava em Corinto quando escreveu os três capítulos que falam sobretudo sobre o Dia do Senhor " +
+                        "e os incentiva continuar trabalhando “Porque, quando ainda convosco, vos ordenamos isto: se alguém não quer " +
+                        "trabalhar, também não coma” (2 Ts 3:10) e ficarem firmes mantendo distância daqueles que rejeitam o evangelho " +
+                        "“se, de fato, é justo para com Deus que ele dê em paga tribulação aos que vos atribulam e a vós outros, que sois " +
+                        "atribulados, alívio juntamente conosco, quando do céu se manifestar o Senhor Jesus com os anjos do seu poder” (2 Ts 1,6:7); " +
+                        "“Todavia, o Senhor é fiel; ele vos confirmará e guardará do Maligno”(2 Ts 3:3).",
+                5, 0, "50-52 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-tessalonicenses/"));
+
+        //1Timoteo
+        listDescriptionBook.add(new DescriptionBookModel(54, "1Tm", "Paulo",
+                "Paulo começa a epístola incentivando Timóteo a ter cuidado com os falsos mestres e ficar vigilante com relação a falsas doutrinas, " +
+                        "além de tratar sobre a conduta pastoral \"Combate o bom combate da fé. Toma posse da vida eterna, para a qual também foste chamado e de " +
+                        "que fizeste a boa confissão perante muitas testemunhas\" (1Tm 6:12).\n\nPaulo instrui Timóteo sobre a Adoração (1 Tm 2,8:10) " +
+                        "e na responsabilidade da liderança amadurecida e séria para a igreja. Essencialmente, a conduta pastoral deve ter cuidado com seus " +
+                        "membros e alertar a comunidade contra o pecado, deve também considerar as viúvas, anciãos e escravos.",
+                5, 0, "64 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-timoteo/"));
+
+        //2Timoteo
+        listDescriptionBook.add(new DescriptionBookModel(55, "1Tm", "Paulo",
+                "Há indícios de que Paulo tenha percebido que sua vida terrena provavelmente estaria chegando ao fim, " +
+                        "e isso faz desse livro em essência as \"últimas palavras\" de Paulo\n\nNesta epístola ele procura encorajar Timóteo " +
+                        "a permanecer na presença de Cristo, mantendo firme a sua fé e zelando pela doutrina “Toda a Escritura " +
+                        "é inspirada por Deus e útil para o ensino, para a repreensão, para a correção, para a educação na justiça, " +
+                        "a fim de que o homem de Deus seja perfeito e perfeitamente habilitado para toda boa obra” (2Tm 3,16:17).",
+                5, 0, "66-67 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-timoteo/"));
+
+        //Tito
+        listDescriptionBook.add(new DescriptionBookModel(56, "Tt", "Paulo",
+                "Tito era um gênio que havia se tornado cristão e acompanhou Paulo em seu trabalho missionário. " +
+                        "Inclusive, esta epístola que veio a fazer parte do Novo Testamento foi escrita pelo próprio apostolo Paulo, " +
+                        "no período de 62 a 64 dC. Há indicações de que Paulo tenha escrito a Tito de Nicópolis em Épiro. " +
+                        "A ilha de Creta era o local onde Paulo deixou Tito encarregado de liderar a igreja, e era habitada por nativos e judeus " +
+                        "que ainda não conheciam a verdade sobre Jesus Cristo \"A razão de tê-lo deixado em Creta foi para que você pusesse em ordem " +
+                        "o que ainda faltava e constituísse presbíteros em cada cidade, como eu o instruí\" (Tt 1:5).",
+                5, 0, "62-64 dC", 0, "Fonte: https://www.infoescola.com/biblia/tito/"));
+
+        //Filemom
+        listDescriptionBook.add(new DescriptionBookModel(57, "Fm", "Paulo",
+                "O livro de Filemon possui apenas um capítulo e faz parte do Novo Testamento e " +
+                        "embora não seja explícita sua autoria, a tradição atribui a Paulo. Por volta de 60 a 63 dC.\n\n" +
+                        "Filemon era um cristão que provavelmente fazia parte da igreja de Colossos. Onésimo era escravo de " +
+                        "Filemon havia fugido de seu dono, e não se sabe como ele chegou a conhecer Paulo, mas o fato é " +
+                        "que havia se convertido ouvindo as pregações dele.\n" +
+                        "\n" +
+                        "Paulo decide que Onesimo deveria voltar para seu dono e escreve esta epístola, solicitando a " +
+                        "Filemon que o recebesse de volta nao como escravo, mas como irmãos em Cristo",
+                5, 0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/filemom/"));
+
+        //Hebreus
+        listDescriptionBook.add(new DescriptionBookModel(58, "Hb", "desconhecido",
+                "Esta epístola faz parte do Novo Testamento e foi escrita por volta de 65 DC, destinada a cristãos " +
+                        "que eram judeus de nascença, por isso recebe o nome de epistola ao Hebreus \"Há muito tempo Deus falou " +
+                        "muitas vezes e de várias maneiras aos nossos antepassados por meio dos profetas, mas nestes últimos dias " +
+                        "falou-nos por meio do Filho, a quem constituiu herdeiro de todas as coisas e por meio de quem fez o universo\"(Hb 1,1:2).\n" +
+                        " Na época eles estavam sendo perseguidos e havia grande pressão para que abandonassem a fé cristã e voltar para a região de seus antepassados.\n\n" +
+                        "Embora não esteja explícita a autoria, e não apresente a saudação de graça e paz característica do apóstolo Paulo, há possibilidade de que seja " +
+                        "de sua autoria. Alguns estudiosos creditam esta epístola a Lucas, outros indicam Apolo, Barnabé, Silas, Felipe, ou mesmo o casal " +
+                        "cristão Áquila e Priscila.",
+                5, 0, "65 dC", 0, "Fonte: https://www.infoescola.com/biblia/hebreus/"));
+
+        //Tiago
+        listDescriptionBook.add(new DescriptionBookModel(59, "Tg", "Tiago",
+                "A tradição afirma que Tiago, um dos filhos de José e Maria e por isso meio irmãos de Jesus, " +
+                        "seja o autor deste livro. Curiosamente, assim como outros membros da família ele não aceitou a verdade " +
+                        "sobre Cristo até depois da ressurreição, entretanto, após esse fato, ele tornou-se ancião da igreja em " +
+                        "Jerusalém e conquistou grande respeito como um dos líderes da igreja primitiva\n\nEste livro que compõe o " +
+                        "Novo Testamento possui apenas cinco capítulos e data de 62 DC. Embora seja um livro curto, em comparação aos " +
+                        "outros livros da bíblia, traz com muita sabedoria grandes ensinamentos sobre o proceder cristão, a mais freqüente " +
+                        "delas refere-se à vigilância no falar",
+                5, 0, "62 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-tiago/"));
+
+        //1Pedro
+        listDescriptionBook.add(new DescriptionBookModel(60, "1Pe", "Pedro",
+                "Trata-se de uma carta de Pedro destinada aos fiéis que estavam sofrendo perseguição. " +
+                        "O autor entendia bem o que era ser perseguido, pois teve experiência de ser agredido, preso e " +
+                        "ameaçado, por pregar a Palavra de Deus. Ele mostrava sua perseverança sem amargura e não " +
+                        "deixava-se abater. Com esperança, vivendo de forma obediente aos ensinamentos de Jesus, " +
+                        "alimentava a sua fé e procurava pelas cartas incentivar aos outros cristãos a continuarem " +
+                        "firmes. \"Bendito seja o Deus e Pai de nosso Senhor Jesus Cristo! Conforme a sua grande misericórdia, " +
+                        "ele nos regenerou para uma esperança viva, por meio da ressurreição de Jesus Cristo dentre os mortos\"(1Pe 1:3)",
+                5, 0, "60-65 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-pedro/"));
+
+        //2Pedro
+        listDescriptionBook.add(new DescriptionBookModel(61, "2Pe", "Pedro",
+                "Em apenas três capítulos, Pedro escreve no final de sua vida, e faz um chamado aos " +
+                        "cristãos para se fortificarem na fé “Visto como o seu divino poder nos deu tudo o que " +
+                        "diz respeito à vida e piedade, pelo conhecimento daquele que nos chamou pela sua glória e " +
+                        "virtude; Pelas quais ele nos tem dado grandíssimas e preciosas promessas, para que por " +
+                        "elas fiqueis participantes da natureza divina, havendo escapado da corrupção, que pela " +
+                        "concupiscência há no mundo”(2 Pe 1,3:4).",
+                5, 0, "60-65 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-pedro/"));
+
+        //1Joao
+        listDescriptionBook.add(new DescriptionBookModel(62, "1Jo", "Apóstolo João",
+                "O autor escreve essa carta direcionada aos cristãos que estavam em risco de serem enganados " +
+                        "por falsos mestres (naquela época, obviamente, não havia um Novo Testamento completo onde os " +
+                        "crentes podiam consultar). O objetivo era estabelecer a verdade sobre questões relevantes, " +
+                        "entre elas a identidade de Jesus Cristo; e com isso responder aos questionamentos dos crentes, " +
+                        "fortalecendo a fé de toda a igreja.",
+                5, 0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
+
+        //2Joao
+        listDescriptionBook.add(new DescriptionBookModel(63, "2Jo", "Apóstolo João",
+                "Esta pequena epístola é dirigida aos membros de uma igreja, onde o autor pede que amem uns aos " +
+                        "outros e que tomem cuidado com certas doutrinas falsas que estavam sendo espalhadas pelo mundo \"Olhai por vós mesmos, " +
+                        "para que não percamos o que temos ganho, antes recebamos o inteiro galardão. Todo aquele que prevarica, e não " +
+                        "persevera na doutrina de Cristo, não tem a Deus. Quem persevera na doutrina de Cristo, esse tem tanto ao Pai " +
+                        "como ao Filho\" (2Jo 8:9).",
+                5, 0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
+
+        //3Joao
+        listDescriptionBook.add(new DescriptionBookModel(64, "3Jo", "Apóstolo João",
+                "Esta pequena epístola é dirigida a Gaio, dirigente de uma igreja. O autor elogia a Gaio, " +
+                        "condena a oposição de Diótrefes (um líder ditatorial a frente de uma das igrejas na província " +
+                        "da Ásia, e seu comportamento estava desagradando por se opor a tudo o que o apóstolo e o " +
+                        "seu Evangelho pregava) \"Amado, não sigas o mal, mas o bem. Quem faz o bem é de Deus; " +
+                        "mas quem faz o mal não tem visto a Deus\" (3Jo 1:11), e fala bem, elogia o bom testemunho de Demétrio.",
+                5, 0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
+
+        //Judas
+        listDescriptionBook.add(new DescriptionBookModel(65, "Jd", "Judas",
+                "O livro de Judas, irmão de Tiago, faz parte do Novo testamento e foi escrito entre 60 e 80 dC. " +
+                        "O livro de apenas um capítulo fala do fim dos tempos, de uma época considerada o fim da era da igreja, " +
+                        "que começou com o Dia de Pentecostes ”Judas, servo de Jesus Cristo e irmão de Tiago, aos chamados, amados em " +
+                        "Deus Pai e guardados em Jesus Cristo, a misericórdia, a paz e o amor vos sejam multiplicados” (Jd 1:1,2).",
+                5, 0, "60-80 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-judas/"));
+
+        //Apocalipse
+        listDescriptionBook.add(new DescriptionBookModel(66, "Ap", "Apóstolo João",
+                "A palavra “apocalipse” quer dizer revelação, e por isso esse livro é considerado pelos cristãos " +
+                        "como uma revelação de Deus a João, o autor. Este, que é o último livro do Novo Testamento, " +
+                        "foi inscrito em uma época em que as autoridades romanas estavam perseguindo os cristãos. " +
+                        "Essa perseguição ocorreu porque os cristãos não adorarem Nero, imperador romano que se " +
+                        "auto-intitulava “senhor” e “deus”.\n\nO livro foi escrito em torno de 90 e 96 dC, tempo final " +
+                        "do reinado de Domiciano. Antes dele, o culto ao Nero havia se identificado após seu suicídio e " +
+                        "com isso a perseguição aos cristãos e a dificuldade enfrentada pelas igrejas.Inclusive, o livro " +
+                        "começa com cartas destinadas a sete igrejas da Ásia Menor, são elas as igrejas de Éfeso, " +
+                        "Esmirna, Pérgamo, Tiatira, Sardes, Filadélfia, Laodicéia.",
+                5, 0, "90-96 dC", 0, "Fonte: https://www.infoescola.com/biblia/apocalipse-2/"));
+
+
 
         this.createDescriptionBook(listDescriptionBook);
 
@@ -1413,7 +1790,7 @@ public class DataBaseAcess {
             if (cursor.moveToFirst()) {
                 do {
                     learning = cursor.getInt(7);
-                    Log.i("Learning", ""+learning);
+                    Log.i("Learning", "" + learning);
 
                 } while (cursor.moveToNext());
             }
@@ -1670,30 +2047,42 @@ public class DataBaseAcess {
     }
 
     public void dropCheckChapther(List<CheckChaptherModel> list) {
-        /*open();
-        ContentValues valores = new ContentValues();
+        open();
+
 
         for (int i = 0; i < list.size(); i++) {
 
             int book_id = list.get(i).getBook_id();
             int chapter_id = list.get(i).getChapter_id();
 
-            valores.put("book_id", book_id);
-            valores.put("chapter_id", chapter_id);
-
-            long resultado = db.delete(TABELA_CHECK_CHAPTHER, null, "id=" + 1);
+            long resultado = db.delete(TABELA_CHECK_CHAPTHER, "book_id=" + book_id + " and " + "chapter_id=" + chapter_id, null);
 
 
             if (resultado == -1) {
 
-                Log.i("Check", "Erro ao cadastrar todos os checks");
+                Log.i("Check", "Erro ao deletar o check");
             } else {
-                Log.i("Check", "Sucesso ao cadastrar todos os checks");
+                Log.i("Check", "Sucesso ao deletar o check");
             }
 
         }
 
-        close();*/
+        close();
+    }
+
+    public void dropBookAllCheckChapther(int book) {
+        open();
+
+        long resultado = db.delete(TABELA_CHECK_CHAPTHER, "book_id=" + book, null);
+
+        if (resultado == -1) {
+
+            Log.i("Check", "Erro ao deletar o check");
+        } else {
+            Log.i("Check", "Sucesso ao deletar o check");
+        }
+
+        close();
     }
 
     public Integer findChapthersLearningBook(int id) {

@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -41,6 +42,7 @@ import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.friends.FriendProfileActivity;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificationsActivity;
+import com.reobotetechnology.reobotegame.utils.LinearLayoutManagerWithSmoothScroller;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -70,6 +72,8 @@ public class RankingFragment extends Fragment {
 
     private CircleImageView img_user, img_user2, img_user3;
     private TextView Jogador, Jogador2, Jogador3, pJogador, pJogador2, pJogador3;
+
+    private int postitionRanking;
 
 
     @Override
@@ -125,12 +129,11 @@ public class RankingFragment extends Fragment {
         pJogador2 = root.findViewById(R.id.pJogador2);
         pJogador3 = root.findViewById(R.id.pJogador3);
 
-        RecyclerView recyclerRanking = root.findViewById(R.id.recyclerJogadores);
+        final RecyclerView recyclerRanking = root.findViewById(R.id.recyclerJogadores);
         adapterRanking = new RankingAdapters(listaRanking, getActivity());
 
         //RecyclerRanking
-        RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(getActivity());
-        recyclerRanking.setLayoutManager(layoutManager5);
+        recyclerRanking.setLayoutManager(new LinearLayoutManagerWithSmoothScroller(getActivity()));
         recyclerRanking.setHasFixedSize(true);
         recyclerRanking.setAdapter(adapterRanking);
 
@@ -165,6 +168,13 @@ public class RankingFragment extends Fragment {
                         }
                 )
         );
+
+        top_ranking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerRanking.smoothScrollToPosition(postitionRanking - 1);
+            }
+        });
 
         return root;
     }
@@ -208,6 +218,7 @@ public class RankingFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         UserModel user = dataSnapshot.getValue(UserModel.class);
+                        postitionRanking = user.getRanking();
                         if (user != null) {
                             textDescriptionNotifications.setText("Você está em "+user.getRanking()+"º no ranking");
                         }

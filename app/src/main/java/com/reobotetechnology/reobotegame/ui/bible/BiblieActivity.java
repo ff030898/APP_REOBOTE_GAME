@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class BiblieActivity extends AppCompatActivity {
 
     private long backPressedTime;
@@ -550,9 +552,49 @@ public class BiblieActivity extends AppCompatActivity {
 
     }
 
-    private void deleteCheckChapther(){
-        //Aida flata criar esse metódo
-        Toast.makeText(getApplicationContext(), "Capítulo removido como lido", Toast.LENGTH_LONG).show();
+    private void deleteCheckChapther() {
+        try {
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+            List<CheckChaptherModel> listRemoveCheck = new ArrayList<>();
+            listRemoveCheck.add(new CheckChaptherModel(livro, c));
+            dataBaseAcess.dropCheckChapther(listRemoveCheck);
+            Toast.makeText(getApplicationContext(), "Capítulo removido como lido", Toast.LENGTH_LONG).show();
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+    private void deleteAllCheckChapther() {
+        try {
+            new SweetAlertDialog(BiblieActivity.this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Desmarcar Tudo")
+                    .setContentText("Tem certeza que deseja desmarcar todos os capitulos lidos desse livro ?")
+                    .setConfirmText("Sim")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+                            dataBaseAcess.dropBookAllCheckChapther(livro);
+                            Toast.makeText(getApplicationContext(), "Capítulo(s) do livro removido(s) como lido(s)", Toast.LENGTH_LONG).show();
+                            checkChapther();
+                            sDialog.hide();
+
+                        }
+                    }).setCancelText("Não")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                            sweetAlertDialog.hide();
+                        }
+                    })
+                    .show();
+
+        } catch (Exception ignored) {
+
+        }
+
     }
 
     private boolean favoriteBook() {
@@ -589,9 +631,9 @@ public class BiblieActivity extends AppCompatActivity {
 
             favoriteBook();
 
-            if(favorited != 0) {
+            if (favorited != 0) {
                 Toast.makeText(getApplicationContext(), "Livro adicionado na sua lista de favoritos ", Toast.LENGTH_LONG).show();
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Livro removido da sua lista de favoritos ", Toast.LENGTH_LONG).show();
             }
 
@@ -611,14 +653,14 @@ public class BiblieActivity extends AppCompatActivity {
             int chapthersSelecteds = dataBaseAcess.findChapthersLearningBook(livro);
 
 
-            double var = ((double)chapthersSelecteds / (double)chapthersBook);
+            double var = ((double) chapthersSelecteds / (double) chapthersBook);
             double var2 = (var * 100);
 
-            dataBaseAcess.updateLearningBook(livro, (int)var2);
+            dataBaseAcess.updateLearningBook(livro, (int) var2);
 
 
         } catch (Exception e) {
-            Log.d("Erro", ""+e.getMessage());
+            Log.d("Erro", "" + e.getMessage());
         }
 
     }
@@ -655,13 +697,16 @@ public class BiblieActivity extends AppCompatActivity {
                 break;
             case R.id.menu_check:
                 boolean check = checkChapther();
-                if(check){
+                if (check) {
                     menu_check.setIcon(R.drawable.ic_circle_check_outline);
                     deleteCheckChapther();
-                }else{
+                } else {
                     menu_check.setIcon(R.drawable.ic_check_validation);
                     createCheckChapther();
                 }
+                break;
+            case R.id.menu_delete:
+                deleteAllCheckChapther();
                 break;
             case R.id.menu_search:
                 search();
