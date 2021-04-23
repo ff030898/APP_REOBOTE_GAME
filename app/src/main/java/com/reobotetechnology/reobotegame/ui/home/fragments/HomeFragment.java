@@ -83,8 +83,6 @@ import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 import com.tapadoo.alerter.Alerter;
 
-
-import java.security.acl.LastOwnerException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -102,8 +100,6 @@ public class HomeFragment extends Fragment {
 
     //SwipeRefresh
     private SwipeRefreshLayout swipeRefresh;
-    private Date data;
-    private String data_completa, hora_atual;
 
 
     //Toolbar
@@ -114,7 +110,7 @@ public class HomeFragment extends Fragment {
 
     //palavra do dia
     private int livro, capitulo, versiculo;
-    private String nm_versiculo, nm_livro;
+    private String nm_livro;
     private TextView txtPalavra, txtVerso;
     private ImageView palavreDay;
     private ProgressBar progressBar;
@@ -174,13 +170,6 @@ public class HomeFragment extends Fragment {
         progressBar = root.findViewById(R.id.progressBar3);
         constraintPrincipal = root.findViewById(R.id.constraintPrincipal);
 
-
-        ImageView ic_amigos = root.findViewById(R.id.ic_amigos);
-
-        ImageView ic_antigo = root.findViewById(R.id.ic_antigo);
-        ImageView ic_novo = root.findViewById(R.id.ic_novo);
-        ImageView ic_hc = root.findViewById(R.id.ic_hc);
-        ImageView ic_theme = root.findViewById(R.id.ic_theme);
 
         swipeRefresh = root.findViewById(R.id.swipe);
 
@@ -312,16 +301,33 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //EVENTOS VerMais de Recycler Horizontal
 
-        ic_amigos.setOnClickListener(new View.OnClickListener() {
+        TextView textViewMoreFriends = root.findViewById(R.id.txtViewMoreFriends);
+        TextView txtViewMoreThemes = root.findViewById(R.id.txtViewMoreVerses);
+        TextView txtViewMoreBackTestament = root.findViewById(R.id.txtViewMoreBackTestament);
+        TextView txtViewMoreNewTestament = root.findViewById(R.id.txtViewMoreNewTestament);
+        TextView txtViewMoreHarpe = root.findViewById(R.id.txtViewMoreHarpe);
+
+        textViewMoreFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), FriendsListActivity.class));
+                Intent i = new Intent(getActivity(), FriendsListActivity.class);
+                i.putExtra("eventList", getString(R.string.seguidoresMin));
+                startActivity(i);
+            }
+        });
+
+        txtViewMoreThemes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), BibleThemesListActivity.class);
+                startActivity(i);
             }
         });
 
 
-        ic_antigo.setOnClickListener(new View.OnClickListener() {
+        txtViewMoreBackTestament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ListBiblieGrid.class);
@@ -330,7 +336,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        ic_novo.setOnClickListener(new View.OnClickListener() {
+        txtViewMoreNewTestament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ListBiblieGrid.class);
@@ -339,7 +345,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        ic_hc.setOnClickListener(new View.OnClickListener() {
+        txtViewMoreHarpe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), HarpeListActivity.class);
@@ -347,13 +353,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        ic_theme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), BibleThemesListActivity.class);
-                startActivity(i);
-            }
-        });
 
 
         //Configurações Recycler
@@ -1284,7 +1283,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void listHC() {
+    private void listHarpeC() {
 
         listHC.clear();
 
@@ -1299,7 +1298,6 @@ public class HomeFragment extends Fragment {
 
     private void atualizarRanking() {
         final List<UserModel> listaRankingAll = new ArrayList<>();
-
 
         try {
 
@@ -1323,6 +1321,7 @@ public class HomeFragment extends Fragment {
                         UserModel usuarioSelecionado = listaRankingAll.get((tamanho - i - 1));
                         String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(usuarioSelecionado.getEmail())));
                         DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+                        usuarioRef.child("backPosition").setValue(usuarioSelecionado.getRanking());
                         usuarioRef.child("ranking").setValue(pos);
                     }
 
@@ -1485,7 +1484,7 @@ public class HomeFragment extends Fragment {
         listarAmigos();
         listThemesVerses();
         listarLivros();
-        listHC();
+        listHarpeC();
         atualizarRanking();
         loadBannerAdMob();
         super.onStart();

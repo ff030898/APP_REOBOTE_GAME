@@ -1,9 +1,7 @@
 package com.reobotetechnology.reobotegame.ui.main;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -16,7 +14,7 @@ import android.widget.TextView;
 
 import com.reobotetechnology.reobotegame.R;
 
-public class TermesofUseActivity extends AppCompatActivity {
+public class HelpActivity extends AppCompatActivity {
 
     //Animation
     private Animation topAnim;
@@ -26,11 +24,10 @@ public class TermesofUseActivity extends AppCompatActivity {
     private ImageButton btn_back;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_termes);
+        setContentView(R.layout.activity_help);
 
         progressBar = findViewById(R.id.progressBar);
         linearTermes = findViewById(R.id.linearTermes);
@@ -40,7 +37,7 @@ public class TermesofUseActivity extends AppCompatActivity {
         TextView txt_title = findViewById(R.id.txt_title);
         TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
-        txt_title.setText(getString(R.string.regras_termosM));
+        txt_title.setText(getString(R.string.ajuda));
         txt_subtitle.setText(getString(R.string.leia_com_aten_o));
 
         btn_back = findViewById(R.id.btn_back);
@@ -67,9 +64,5 @@ public class TermesofUseActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
-
-
 }

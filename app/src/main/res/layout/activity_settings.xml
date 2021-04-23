@@ -34,23 +34,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogoff" />
 
-    <nl.joery.animatedbottombar.AnimatedBottomBar
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:background="#f5f5f5"
-        app:abb_indicatorAppearance="round"
-        app:abb_indicatorColor="@color/colorPreto"
-        app:abb_tabColor="@color/colorPreto"
-        app:abb_indicatorHeight="4dp"
-        app:abb_indicatorMargin="16dp"
-        app:abb_selectedIndex="1"
-        app:abb_tabColorSelected="@color/colorPreto"
-        app:abb_rippleColor="@color/colorPreto"
-        app:abb_selectedTabType="text"
-        app:abb_tabs="@menu/bottom_nav_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/btnHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/btn_login"
+        android:text="@string/ajuda"
+        android:textColor="@color/colorBranco"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRules" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

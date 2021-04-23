@@ -576,7 +576,8 @@ public class BiblieActivity extends AppCompatActivity {
                         public void onClick(SweetAlertDialog sDialog) {
                             DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
                             dataBaseAcess.dropBookAllCheckChapther(livro);
-                            Toast.makeText(getApplicationContext(), "Capítulo(s) do livro removido(s) como lido(s)", Toast.LENGTH_LONG).show();
+                            dataBaseAcess.updateLearningBook(livro, 0);
+                            Toast.makeText(getApplicationContext(), "Capítulo(s) do livro desmarcado(s) como lido(s)", Toast.LENGTH_LONG).show();
                             checkChapther();
                             sDialog.hide();
 

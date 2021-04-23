@@ -23,7 +23,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +46,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        Button btnHelp = findViewById(R.id.btnHelp);
+        btnHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHelp();
+            }
+        });
+
     }
 
 
@@ -61,5 +68,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void viewRules(){
         startActivity(new Intent(getApplicationContext(), MatchRulesActivity.class));
+    }
+
+    private void viewHelp(){
+        startActivity(new Intent(getApplicationContext(), HelpActivity.class));
     }
 }

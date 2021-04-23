@@ -61,7 +61,6 @@ public class FriendsListActivity extends AppCompatActivity {
         //token = extras.getString("token");
         String eventList = extras.getString("eventList");
 
-
         //Configurações iniciais
         progressBar = findViewById(R.id.progressBar);
         constraintMain = findViewById(R.id.constraintMain);

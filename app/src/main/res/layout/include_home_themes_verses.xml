@@ -23,15 +23,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ic_theme"
+    <TextView
+        android:id="@+id/txtViewMoreVerses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/ic_right"
-        android:visibility="gone"
+        android:text="@string/ver_mais"
+        android:textColor="#909090"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,26 +39,12 @@
         android:id="@+id/recyclerThemesVerses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:clipToPadding="false"
         android:paddingHorizontal="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28" />
-
-    <TextView
-        android:id="@+id/textView28"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:visibility="gone"
-        tools:text="Escolha uma letra para meditar nos versículos"
-        app:layout_constraintEnd_toStartOf="@+id/ic_theme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView27" />
 

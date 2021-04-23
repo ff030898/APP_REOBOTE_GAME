@@ -427,21 +427,9 @@ public class ProfileFragment extends Fragment {
 
 
             } catch (Exception e) {
-                Glide
-                        .with(ProfileFragment.this)
-                        .load(R.drawable.profile)
-                        .centerCrop()
-                        .placeholder(R.drawable.profile)
-                        .into(profileImage);
 
-
-                Glide
-                        .with(ProfileFragment.this)
-                        .load(R.drawable.profile)
-                        .centerCrop()
-                        .placeholder(R.drawable.profile)
-                        .into(profile_main);
-
+                profileImage.setImageResource(R.drawable.profile);
+                profile_main.setImageResource(R.drawable.profile);
             }
 
 

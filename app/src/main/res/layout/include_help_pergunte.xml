@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginVertical="8dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPreto"
+        android:textStyle="bold"
+        android:text="@string/_1_como_funciona_o_jogo_online" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="24dp"
+        android:textColor="@color/colorPreto"
+        android:lineSpacingExtra="10dp"
+        android:text="@string/o_jogo_funciona_da_seguinte_maneira_cada_partida_tem_dura_o_de_2_minutos_e_30_segundos_contendo_10_perguntas_quem_acertar_mais_perguntas_vence_e_acumula_10_pontos_no_ranking_geral_o_perdedor_perde_3_pontos_por_m_poss_vel_recuperar_os_pontos_perdidos_ou_dobrar_os_pontos_ganhos_assistindo_um_an_ncio_de_30_segundos_ao_t_rmino_da_partida" />
+
+</LinearLayout>

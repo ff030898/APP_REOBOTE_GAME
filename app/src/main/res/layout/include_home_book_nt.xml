@@ -23,15 +23,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ic_novo"
+    <TextView
+        android:id="@+id/txtViewMoreNewTestament"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:visibility="gone"
-        android:src="@drawable/ic_right"
+        android:text="@string/ver_mais"
+        android:textColor="#909090"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,21 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+        app:layout_constraintTop_toBottomOf="@+id/txtViewMoreNewTestament" />
 
-    <TextView
-        android:id="@+id/textView28"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:visibility="gone"
-        android:text="@string/escolha_um_livro_da_b_blia_abaixo_para_meditar"
-        app:layout_constraintEnd_toStartOf="@+id/ic_novo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_title_list_book" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

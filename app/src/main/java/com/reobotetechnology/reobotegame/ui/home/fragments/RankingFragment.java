@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
@@ -25,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -218,9 +216,33 @@ public class RankingFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         UserModel user = dataSnapshot.getValue(UserModel.class);
+                        assert user != null;
                         postitionRanking = user.getRanking();
-                        if (user != null) {
-                            textDescriptionNotifications.setText("Você está em "+user.getRanking()+"º no ranking");
+                        textDescriptionNotifications.setText("Você está em " + user.getRanking() + "º no ranking");
+                        int backPosition = user.getBackPosition();
+
+                        int sumPosition = 0;
+
+
+                        if (backPosition > postitionRanking) {
+                            sumPosition = (backPosition - postitionRanking);
+                            top_ranking.setImageResource(R.drawable.ic_position_down);
+
+                            if (sumPosition >= 2) {
+                                Toast.makeText(getActivity(), "Você caiu: " + sumPosition + " posições no ranking", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Você caiu: " + sumPosition + " posição no ranking", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            top_ranking.setImageResource(R.drawable.ic_position_up);
+                            sumPosition = (postitionRanking - backPosition);
+                            if (sumPosition > 0) {
+                                if (sumPosition >= 2) {
+                                    Toast.makeText(getActivity(), "Você subiu: " + sumPosition + " posições no ranking", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getActivity(), "Você subiu: " + sumPosition + " posição no ranking", Toast.LENGTH_LONG).show();
+                                }
+                            }
                         }
                     }
 
@@ -229,7 +251,6 @@ public class RankingFragment extends Fragment {
 
                     }
                 });
-
 
 
             } catch (Exception e) {
@@ -262,8 +283,8 @@ public class RankingFragment extends Fragment {
                         Notification notification = new Notification();
                         String view = dados.child("view").getValue().toString();
                         notification.setView(Boolean.parseBoolean(view));
-                        if(!notification.isView()){
-                            countNoitificationsView  = countNoitificationsView + 1;
+                        if (!notification.isView()) {
+                            countNoitificationsView = countNoitificationsView + 1;
                         }
                     }
 
@@ -274,8 +295,6 @@ public class RankingFragment extends Fragment {
                 }
 
 
-
-
             }
 
             @Override
@@ -283,7 +302,6 @@ public class RankingFragment extends Fragment {
 
             }
         });
-
 
 
     }
@@ -398,7 +416,6 @@ public class RankingFragment extends Fragment {
 
 
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

@@ -1790,7 +1790,6 @@ public class DataBaseAcess {
             if (cursor.moveToFirst()) {
                 do {
                     learning = cursor.getInt(7);
-                    Log.i("Learning", "" + learning);
 
                 } while (cursor.moveToNext());
             }
