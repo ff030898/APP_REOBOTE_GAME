@@ -8,7 +8,7 @@
     android:background="@color/colorBranco">
 
     <ProgressBar
-        android:id="@+id/progressBar3"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/colorBlue"
@@ -20,55 +20,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UnusedAttribute" />
 
-    <FrameLayout
-        android:id="@+id/frameTopo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <ImageView
-            android:id="@+id/imgVoltar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/ic_voltar"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-        <TextView
-            android:id="@+id/txtCapitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="CAPITULO"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
-
-        <ImageView
-            android:id="@+id/imgNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/ic_next"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-
-    </FrameLayout>
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/constraintPrincipal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

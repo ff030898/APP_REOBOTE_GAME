@@ -3,7 +3,7 @@ package com.reobotetechnology.reobotegame.ui.bible;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -17,22 +17,22 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.reobotetechnology.reobotegame.R;
-import com.reobotetechnology.reobotegame.adapter.BooksOfBibleAdapters;
+import com.reobotetechnology.reobotegame.adapter.ListBooksOfBibleAdapters;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
-import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListBiblieGrid extends AppCompatActivity {
+public class ListBiblieScreen extends AppCompatActivity {
 
     //BIBLIA
-    private BooksOfBibleAdapters adapter;
+    private ListBooksOfBibleAdapters adapter;
     private List<BooksOfBibleModel> lista = new ArrayList<>();
 
     private ProgressBar progressBar;
@@ -48,8 +48,7 @@ public class ListBiblieGrid extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_biblia_grid);
-
+        setContentView(R.layout.activity_list_biblia_screen);
 
 
         progressBar = findViewById(R.id.progressBar);
@@ -62,28 +61,31 @@ public class ListBiblieGrid extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         //Configurando Adapter
-        adapter = new BooksOfBibleAdapters(lista, getApplicationContext());
+        adapter = new ListBooksOfBibleAdapters(lista, getApplicationContext());
 
-        //RecyclerLivros
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        //RecyclerLivros  //RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerBiblia.setLayoutManager(layoutManager);
-        recyclerBiblia.setHasFixedSize(true);
         recyclerBiblia.setAdapter(adapter);
+
+        //TOOLBAR
+        TextView txt_title = findViewById(R.id.txt_title);
+        TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
         //Vem da Activity Principal
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int cd_testamento = extras.getInt("cd_testamento");
             listarLivros(cd_testamento);
+            if(cd_testamento == 0) {
+                txt_title.setText(getString(R.string.antigo_testamento));
+            }else {
+                txt_title.setText(getString(R.string.novo_testamento));
+            }
+            txt_subtitle.setText(getString(R.string.escolha_um_livro_da_b_blia_abaixo_para_meditar));
         }
 
-
-        //TOOLBAR
-        TextView txt_title = findViewById(R.id.txt_title);
-        TextView txt_subtitle = findViewById(R.id.txt_subtitle);
-
-        txt_title.setText(getString(R.string.antigo_testamento));
-        txt_subtitle.setText(getString(R.string.escolha_um_livro_da_b_blia_abaixo_para_meditar));
 
         btn_back = findViewById(R.id.btn_back);
 
@@ -158,6 +160,9 @@ public class ListBiblieGrid extends AppCompatActivity {
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
         List<BooksOfBibleModel> lista2;
 
+
+
+
         if(cd_testamento == 0) {
             lista2 = dataBaseAcess.listarAntigoTestamento();
 
@@ -167,7 +172,11 @@ public class ListBiblieGrid extends AppCompatActivity {
         }
 
         if (lista2.size() != 0) {
-            lista.addAll(lista2);
+            for(int i = 0; i<lista2.size(); i++) {
+                int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
+                lista2.get(i).setLearning(learningBook);
+                lista.add(lista2.get(i));
+            }
         }
 
 

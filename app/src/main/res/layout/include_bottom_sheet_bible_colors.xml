@@ -176,7 +176,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/btn_login"
-        android:text="@string/salvar_altera_es"
+        android:text="@string/marcar_vers_culos"
         android:textColor="@color/colorBranco"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

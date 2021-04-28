@@ -355,7 +355,7 @@ public class LoginAccountActivity extends AppCompatActivity {
 
                                 UserModel usuario2Model = new UserModel(idUsuario, user.getDisplayName(), email, "", imagem,
                                         "", "", "", 0, 0, 0, 0,
-                                        0, 0, 0, 0, 0, 0,  false, false, false, false, false,
+                                        1, 0, 0, 0, 0, 0,  false, false, false, false, false,
                                         false, false, false, false);
 
                                 usuario2Model.salvar();

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,8 @@ public class HarpeCAdapters extends RecyclerView.Adapter<HarpeCAdapters.myViewHo
 
         HarpeCModel b = listHC.get(position);
 
+
+
         String texto = Html.fromHtml(b.getLyrics()).toString().trim();
 
 
@@ -56,6 +59,7 @@ public class HarpeCAdapters extends RecyclerView.Adapter<HarpeCAdapters.myViewHo
 
         holder.txtTexto.setVisibility(View.VISIBLE);
         holder.txtTexto.setTextSize(16);
+
         //holder.txtTexto.setText(texto);
 
 
@@ -71,9 +75,11 @@ public class HarpeCAdapters extends RecyclerView.Adapter<HarpeCAdapters.myViewHo
 
         TextView txtTexto;
 
+
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTexto = itemView.findViewById(R.id.txtTexto);
+
         }
     }
 

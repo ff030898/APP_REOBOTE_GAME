@@ -28,7 +28,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.admin.questions.CreateQuestionActivity"></activity>
+        <activity android:name=".ui.comment.AnotattionActivity"></activity>
+        <activity android:name=".ui.match.MatchListDetailsActivity" />
+        <activity android:name=".ui.match.MatchListActivity" />
+        <activity android:name=".ui.admin.questions.CreateQuestionActivity" />
         <activity android:name=".ui.admin.blog.CreatePostBlogActivity" />
         <activity android:name=".ui.main.HelpActivity" />
         <activity android:name=".ui.match.MatchWinnerAnimationActivity" />
@@ -50,7 +53,7 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".ui.bible.ListBiblieGrid" />
+        <activity android:name=".ui.bible.ListBiblieScreen" />
         <activity android:name=".ui.main.CreateImageAccountActivity" />
         <activity android:name=".ui.match.MatchLoadingIAActivity" />
 

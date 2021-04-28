@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="100dp"
-    android:background="#fff"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:layout_marginTop="15dp"
-    android:layout_marginHorizontal="8dp"
-    android:layout_marginBottom="15dp"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="16dp"
+    android:background="#fff">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/bg_livro"
-        android:layout_width="0dp"
+        android:layout_width="100dp"
         android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         app:cardBackgroundColor="@color/colorPreto"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtLivro"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -46,12 +41,12 @@
             android:id="@+id/txtSigla"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textSize="18sp"
+            android:gravity="center"
             android:textColor="@color/colorBranco"
-            tools:text="AP"/>
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="AP" />
 
     </androidx.cardview.widget.CardView>
 
@@ -59,50 +54,60 @@
         android:id="@+id/txtLivro"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="#333"
+        android:textColor="@color/colorPreto"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bg_livro"
+        app:layout_constraintStart_toEndOf="@+id/bg_livro"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Apocalipse" />
 
     <ProgressBar
-        android:id="@+id/progressBar7"
+        android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressTint="@color/colorPreto"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
         android:max="100"
-        android:progress="50"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtProgresso"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLivro"
+        android:progress="80"
+        android:progressTint="@color/colorPreto"
+        app:layout_constraintStart_toEndOf="@+id/bg_livro"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
         tools:ignore="UnusedAttribute" />
 
     <TextView
         android:id="@+id/txtProgresso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="8dp"
-        tools:text="50%"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/progressBar"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+        tools:text="80%" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:maxLines="6"
+        android:ellipsize="end"
+        android:text="@string/lorem2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bg_livro"
         app:layout_constraintTop_toBottomOf="@+id/txtLivro" />
 
 

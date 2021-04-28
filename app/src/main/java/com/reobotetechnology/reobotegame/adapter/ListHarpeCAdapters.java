@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class ListHarpeCAdapters extends RecyclerView.Adapter<ListHarpeCAdapters.
 
         HarpeCModel b = listHC.get(position);
 
+        holder.btnFavorited.setVisibility(View.GONE);
+
         if(b.getId() < 10) {
             holder.txtSigla.setText("00" + b.getId());
         }else if(b.getId() < 100){
@@ -64,6 +67,7 @@ public class ListHarpeCAdapters extends RecyclerView.Adapter<ListHarpeCAdapters.
         CardView bg_livro;
         ProgressBar progressBar7;
         ImageView image;
+        ImageButton btnFavorited;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +77,7 @@ public class ListHarpeCAdapters extends RecyclerView.Adapter<ListHarpeCAdapters.
             txtProgresso = itemView.findViewById(R.id.txtProgresso);
             progressBar7 = itemView.findViewById(R.id.progressBar7);
             image = itemView.findViewById(R.id.image);
+            btnFavorited = itemView.findViewById(R.id.btnFavorited);
         }
     }
 }

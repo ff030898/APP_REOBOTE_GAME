@@ -29,18 +29,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingHorizontal="32dp"
                 android:layout_marginVertical="25dp"
                 tools:ignore="UselessParent">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imageIcon"
+                    android:id="@+id/nivel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_emogi_happy"/>
+                    android:src="@drawable/conquiste_modal"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txt_title"
@@ -48,9 +49,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="10dp"
-                    tools:text="Olá, jogador"
-                    android:textColor="#3E5481"
+                    android:layout_marginVertical="12dp"
+                    tools:text="Nível 2"
+                    android:textColor="@color/colorPreto"
                     android:textAlignment="center"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -67,25 +68,38 @@
                     android:layout_gravity="center"
                     android:lineSpacingExtra="5dp"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="12dp"
+                    android:layout_marginVertical="8dp"
                     android:textSize="18sp"
-                    android:textColor="@color/colorPreto"
-                    tools:text="@string/descriptionWelcome"/>
+                    android:textColor="#2E3E5C"
+                    android:text="@string/continue_jogando_para_alcan_ar_o_pr_ximo_n_vel"/>
 
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnAction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="53dp"
-                    android:layout_margin="8dp"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:paddingHorizontal="35dp"
-                    android:text="@string/fechar"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/btn_splash"
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressTint="@color/colorPreto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     android:layout_gravity="center"
-                    />
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginHorizontal="32dp"
+                    android:max="100"
+                    android:progress="50"
+                    tools:ignore="UnusedAttribute" />
+
+                <TextView
+                    android:id="@+id/txtProgresso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:textAlignment="center"
+                    android:layout_gravity="center"
+                    tools:text="50/100 xp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtLivro"
+                    android:gravity="center_horizontal" />
 
 
             </LinearLayout>

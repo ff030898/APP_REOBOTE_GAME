@@ -243,6 +243,10 @@
     <string name="perguntas_frequentes">PERGUNTAS FREQUENTES</string>
     <string name="_1_como_funciona_o_jogo_online">1. Como funciona o jogo online?</string>
     <string name="o_jogo_funciona_da_seguinte_maneira_cada_partida_tem_dura_o_de_2_minutos_e_30_segundos_contendo_10_perguntas_quem_acertar_mais_perguntas_vence_e_acumula_10_pontos_no_ranking_geral_o_perdedor_perde_3_pontos_por_m_poss_vel_recuperar_os_pontos_perdidos_ou_dobrar_os_pontos_ganhos_assistindo_um_an_ncio_de_30_segundos_ao_t_rmino_da_partida">O jogo funciona da seguinte maneira: Cada partida tem duração de 2 minutos e 30 segundos contendo 10 perguntas. Quem acertar mais perguntas vence e acumula + 10 pontos no ranking geral. O perdedor perde -3 pontos. Porém é possível recuperar os pontos perdidos ou dobrar os pontos ganhos assistindo um anúncio de 30 segundos ao término da partida</string>
+    <string name="marcar_vers_culos">MARCAR VERSÍCULOS</string>
+    <string name="continue_jogando_para_alcan_ar_o_pr_ximo_n_vel">Continue jogando para alcançar o próximo nível</string>
+    <string name="nivel">Nível</string>
+    <string name="digite_aqui">Digite aqui...</string>
 
 
 </resources>

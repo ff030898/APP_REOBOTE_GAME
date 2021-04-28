@@ -133,6 +133,12 @@ public class BibleThemesListActivity extends AppCompatActivity {
         listThemes.add(new ThemesModel("Ansiedade"));
         listThemes.add(new ThemesModel("Namoro"));
         listThemes.add(new ThemesModel("Casamento"));
+        listThemes.add(new ThemesModel("Santidade"));
+        listThemes.add(new ThemesModel("Pecado"));
+        listThemes.add(new ThemesModel("Tristeza"));
+        listThemes.add(new ThemesModel("Sabedoria"));
+        listThemes.add(new ThemesModel("Aprender"));
+        listThemes.add(new ThemesModel("Oração"));
 
         adapter.notifyDataSetChanged();
 

@@ -70,9 +70,8 @@ import com.reobotetechnology.reobotegame.ui.bible.DetailsBookActivity;
 import com.reobotetechnology.reobotegame.ui.friends.FriendsListActivity;
 import com.reobotetechnology.reobotegame.ui.bible.BibleThemesListActivity;
 import com.reobotetechnology.reobotegame.ui.bible.ThemesActivity;
-import com.reobotetechnology.reobotegame.ui.bible.ListBiblieGrid;
+import com.reobotetechnology.reobotegame.ui.bible.ListBiblieScreen;
 import com.reobotetechnology.reobotegame.ui.bible.BiblieActivity;
-import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
 import com.reobotetechnology.reobotegame.ui.friends.FriendProfileActivity;
 import com.reobotetechnology.reobotegame.ui.harpe.HarpeActivity;
 import com.reobotetechnology.reobotegame.ui.harpe.HarpeListActivity;
@@ -330,7 +329,7 @@ public class HomeFragment extends Fragment {
         txtViewMoreBackTestament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ListBiblieGrid.class);
+                Intent i = new Intent(getActivity(), ListBiblieScreen.class);
                 i.putExtra("cd_testamento", 0);
                 startActivity(i);
             }
@@ -339,7 +338,7 @@ public class HomeFragment extends Fragment {
         txtViewMoreNewTestament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ListBiblieGrid.class);
+                Intent i = new Intent(getActivity(), ListBiblieScreen.class);
                 i.putExtra("cd_testamento", 1);
                 startActivity(i);
             }
@@ -939,6 +938,34 @@ public class HomeFragment extends Fragment {
                                 versiculo = verse;
                             }
 
+                            if(txtPalavra.getText().length() < 150) {
+
+                                int verse3;
+                                verse3 = (verse2 + 1);
+
+                                String text3;
+                                text3 = dataBaseAcess.findVerses(book, chapther, verse3);
+
+                                if (text3.isEmpty()) {
+                                    verse3 = (verse - 2);
+                                    text3 = dataBaseAcess.findVerses(book, chapther, verse3);
+
+                                    txtPalavra.setText(text3 + text2 + text);
+                                    String nm_versiculo = nm_book + " " + chapther + ":" + verse3 + "," + verse2 + "," + verse;
+                                    txtVerso.setText(nm_versiculo);
+
+                                    versiculo = verse3;
+                                } else {
+                                    txtPalavra.setText(text + text2 + text3);
+                                    String nm_versiculo = nm_book + " " + chapther + ":" + verse + "," + verse2 + "," + verse3;
+                                    txtVerso.setText(nm_versiculo);
+
+                                    versiculo = verse;
+                                }
+
+                            }
+
+
 
                         } catch (Exception ignored) {
                         }
@@ -949,7 +976,6 @@ public class HomeFragment extends Fragment {
                     livro = book;
                     nm_livro = nm_book;
                     capitulo = chapther;
-
 
                 }
 

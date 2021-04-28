@@ -22,7 +22,7 @@
         android:text="@string/convide_um_amigo_para_jogar"
         android:textColor="@color/colorPreto"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintEnd_toStartOf="@+id/txtViewMoreFriends"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

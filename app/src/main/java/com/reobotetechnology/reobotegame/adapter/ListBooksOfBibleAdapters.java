@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -21,15 +20,14 @@ import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.model.DescriptionBookModel;
 
 import java.util.List;
-import java.util.Random;
 
-public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapters.myViewHolder> {
+public class ListBooksOfBibleAdapters extends RecyclerView.Adapter<ListBooksOfBibleAdapters.myViewHolder> {
 
 
     private List<BooksOfBibleModel> biblia;
     private Context context;
 
-    public BooksOfBibleAdapters(List<BooksOfBibleModel> listaBiblia, Context c) {
+    public ListBooksOfBibleAdapters(List<BooksOfBibleModel> listaBiblia, Context c) {
         this.biblia = listaBiblia;
         this.context = c;
     }
@@ -38,13 +36,14 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_books_bible, parent, false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_list_books_bible, parent, false);
         return new myViewHolder(itemLista);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
+
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(context);
 
         BooksOfBibleModel b = biblia.get(position);
@@ -61,9 +60,11 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
             holder.image.setImageResource(R.drawable.novo_testamento);
         }
 
+        holder.txtDescription.setText(list.get(0).getDescription());
+
         holder.txtSigla.setText(list.get(0).getSigle());
         if(list.get(0).getFavorited() == 0) {
-            //holder.btnFavorited.setImageResource(R.drawable.ic_favorited_book);
+            holder.btnFavorited.setImageResource(R.drawable.ic_favorited_book);
             holder.btnFavorited.setVisibility(View.GONE);
         }else{
             holder.btnFavorited.setImageResource(R.drawable.ic_favorite_book2_pint);
@@ -71,8 +72,8 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
 
         int progresso = b.getLearning();
 
-        holder.progressBar7.setMax(100);
-        holder.progressBar7.setProgress(progresso);
+        holder.progressBar.setMax(100);
+        holder.progressBar.setProgress(progresso);
         holder.txtProgresso.setText(progresso + "%");
 
     }
@@ -84,9 +85,9 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
 
     public static class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView livro, txtSigla, txtProgresso;
+        TextView livro, txtSigla, txtProgresso, txtDescription;
         CardView bg_livro;
-        ProgressBar progressBar7;
+        ProgressBar progressBar;
         ImageView image;
         ImageButton btnFavorited;
 
@@ -95,9 +96,10 @@ public class BooksOfBibleAdapters extends RecyclerView.Adapter<BooksOfBibleAdapt
 
             livro = itemView.findViewById(R.id.txtLivro);
             txtSigla = itemView.findViewById(R.id.txtSigla);
+            txtDescription = itemView.findViewById(R.id.txtDescription);
             bg_livro = itemView.findViewById(R.id.bg_livro);
             txtProgresso = itemView.findViewById(R.id.txtProgresso);
-            progressBar7 = itemView.findViewById(R.id.progressBar7);
+            progressBar = itemView.findViewById(R.id.progressBar);
             image = itemView.findViewById(R.id.image);
             btnFavorited = itemView.findViewById(R.id.btnFavorited);
         }

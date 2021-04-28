@@ -3,14 +3,18 @@ package com.reobotetechnology.reobotegame.ui.friends;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,9 +49,8 @@ import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.model.MatchModel;
 import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
-import com.reobotetechnology.reobotegame.ui.bible.ListBiblieGrid;
+import com.reobotetechnology.reobotegame.ui.bible.ListBiblieScreen;
 import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
-import com.reobotetechnology.reobotegame.ui.match.MatchLoadingIAActivity;
 
 
 import java.util.ArrayList;
@@ -113,6 +116,9 @@ public class FriendProfileActivity extends AppCompatActivity {
     boolean match = true;
     String email, token;
 
+    private Animation modal_anima;
+    private int score, nivelUser;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +166,8 @@ public class FriendProfileActivity extends AppCompatActivity {
             }
         });
 
+        //Animação da Modal de Tempo Esgotado
+        modal_anima = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.modal_animation);
 
         //status
 
@@ -246,7 +254,7 @@ public class FriendProfileActivity extends AppCompatActivity {
         ic_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ListBiblieGrid.class);
+                Intent i = new Intent(getApplicationContext(), ListBiblieScreen.class);
                 i.putExtra("cd_testamento", 1);
                 startActivity(i);
             }
@@ -288,6 +296,34 @@ public class FriendProfileActivity extends AppCompatActivity {
                 )
         );
 
+        //Recycler Conquist
+        recyclerRanking.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getApplicationContext(),
+                        recyclerRanking,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                ConquistesModel nivel = listConquist.get(position);
+                                //Se nível está ativo e não for o primeiro nível. OpenModal
+                                if(nivel.isEnabled() && position > 0) {
+                                    openModalConquist(nivel.getDescription(), nivel.getCount());
+                                }
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
 
         //List Matches
 
@@ -304,6 +340,26 @@ public class FriendProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 inviteFriend();
+            }
+        });
+
+        //OpenFriendsList
+        txtSeguindoUsuarioPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), FriendsListActivity.class);
+                i.putExtra("eventList", getString(R.string.seguindoMin));
+                startActivity(i);
+
+            }
+        });
+
+        txtSeguidoresUsuarioPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), FriendsListActivity.class);
+                i.putExtra("eventList", getString(R.string.seguidoresMin));
+                startActivity(i);
             }
         });
 
@@ -330,6 +386,8 @@ public class FriendProfileActivity extends AppCompatActivity {
                         token = user.getToken();
                         nome = user.getNome();
                         imagem = user.getImagem();
+                        score = user.getPontosG();
+                        nivelUser = user.getNivel();
 
                         //Toolbar
                         txt_title.setText(nome);
@@ -421,6 +479,31 @@ public class FriendProfileActivity extends AppCompatActivity {
         listConquist.add(new ConquistesModel("Nível 8", 450, false));
 
         adapterConquist.notifyDataSetChanged();
+    }
+
+    private void openModalConquist(String description, int count){
+
+        Dialog nivelDIalog = new Dialog(this);
+        nivelDIalog.setContentView(R.layout.include_modal_nivel);
+
+        CardView cardModal = nivelDIalog.findViewById(R.id.cardModal);
+        cardModal.startAnimation(modal_anima);
+
+        TextView txt_title = nivelDIalog.findViewById(R.id.txt_title);
+        TextView txtProgresso = nivelDIalog.findViewById(R.id.txtProgresso);
+        ProgressBar progressBar = nivelDIalog.findViewById(R.id.progressBar);
+        progressBar.setMax(count);
+        progressBar.setProgress(Math.min(score, count));
+
+        txt_title.setText(description);
+        txtProgresso.setText(score+"/"+count);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(nivelDIalog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        nivelDIalog.setCancelable(true);
+        nivelDIalog.show();
+
     }
 
     private void listBookFavorites() {

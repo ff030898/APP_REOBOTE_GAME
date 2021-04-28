@@ -3,10 +3,12 @@ package com.reobotetechnology.reobotegame.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,7 +59,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_friends_rectangle, parent, false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_friends_list, parent, false);
         return new myViewHolder(itemLista);
     }
 
@@ -106,8 +108,9 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
             public void onClick(View v) {
 
                 //enviar notification
-                holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.badge_background));
-                holder.buttonMatch.setImageResource(R.drawable.ic_done);
+                holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.btn_screen));
+                holder.buttonMatch.setTextColor(ColorStateList.valueOf(0xffffffff));
+                holder.buttonMatch.setText(context.getString(R.string.seguindo));
                 Toast.makeText(context.getApplicationContext(), "Você começou a seguir " + userModel.getNome(), Toast.LENGTH_LONG).show();
                 String emailUsuario = Objects.requireNonNull(user.getEmail());
                 final String idUsuario = Base64Custom.codificarBase64(emailUsuario);
@@ -236,7 +239,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
 
         CircleImageView profileImage;
         TextView userName, userPositionRanking;
-        ImageButton buttonMatch;
+        Button buttonMatch;
         ImageView online;
 
         myViewHolder(@NonNull View itemView) {

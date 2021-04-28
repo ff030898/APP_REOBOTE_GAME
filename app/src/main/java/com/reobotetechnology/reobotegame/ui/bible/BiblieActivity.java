@@ -3,31 +3,44 @@ package com.reobotetechnology.reobotegame.ui.bible;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BibleAdapters;
+import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
-import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.model.CheckChaptherModel;
 import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 
@@ -43,34 +56,30 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BiblieActivity extends AppCompatActivity {
 
-    private long backPressedTime;
-    private Toast backToast;
+
     private RecyclerView recyclerVersos;
     private List<VersesBibleModel> lista = new ArrayList<>();
     private BibleAdapters adapter;
-    private BibleAdapters adapter2;
-    int livro = 0;
-    String nm_livro;
+    private int livro = 0;
+    private String nm_livro;
 
     //String l = int livro.toString()
-    String livroS;
+    private String livroS;
 
     //int c é variavel contadora do next e do voltar
-    int c;
+    private int c;
 
     //cap = capitulo e versiculo da palavra do dia
-    int cap = 0;
-    int versiculo = 0;
+    private int cap = 0;
+    private int versiculo = 0;
 
     //int capitulos vem do metodo do DBhelper capitulos(num)
-    int capitulos;
+    private int capitulos;
 
-    int contadoraAuxiliar = 0;
+    private int contadoraAuxiliar = 0;
 
-    private TextView txtCapitulo;
 
-    private ImageView imgVoltar, imgNext;
-    Spinner spinner, spinner2;
+    private Spinner spinner, spinner2;
 
     private ActionMode actionMode;
 
@@ -78,16 +87,22 @@ public class BiblieActivity extends AppCompatActivity {
 
     private MenuItem menu_favorite, menu_check;
 
+    private CoordinatorLayout constraintPrincipal;
+    private ProgressBar progressBar;
+
+    //Configuração FireBase
+    private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
+    private FirebaseUser user = autenticacao.getCurrentUser();
+
+    private Animation modal_anima;
+
 
     @SuppressLint({"WrongConstant", "ResourceType"})
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_biblia);
-
-        txtCapitulo = findViewById(R.id.txtCapitulo);
-
+        setContentView(R.layout.activity_biblie);
 
         //Vem da Activity Principal
         Bundle extras = getIntent().getExtras();
@@ -117,26 +132,11 @@ public class BiblieActivity extends AppCompatActivity {
 
 
         recyclerVersos = findViewById(R.id.recyclerVersiculos);
-        imgVoltar = findViewById(R.id.imgVoltar);
-        imgNext = findViewById(R.id.imgNext);
+        constraintPrincipal = findViewById(R.id.constraintPrincipal);
+        progressBar = findViewById(R.id.progressBar);
 
-
-        imgVoltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                voltar();
-
-            }
-        });
-
-        imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                next();
-            }
-        });
+        //Animação da Modal de Tempo Esgotado
+        modal_anima = AnimationUtils.loadAnimation(this, R.anim.modal_animation);
 
         //configurarAdapter
         adapter = new BibleAdapters(lista, getApplicationContext(), 0);
@@ -246,6 +246,16 @@ public class BiblieActivity extends AppCompatActivity {
             }
         });
 
+        /*new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                progressBar.setVisibility(View.GONE);
+                constraintPrincipal.setVisibility(View.VISIBLE);
+
+            }
+        }, 1200);*/
+
 
     }
 
@@ -312,14 +322,13 @@ public class BiblieActivity extends AppCompatActivity {
         capitulos = dataBaseAcess.num(livro);
 
         //Atualiza numero de capitulos
-
         List<String> listaCapitulos = new ArrayList<>();
 
         for (int ii = 1; ii <= capitulos; ii++) {
             listaCapitulos.add("" + ii);
         }
 
-        ArrayAdapter<String> spinnerArrayAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaCapitulos);
+        ArrayAdapter<String> spinnerArrayAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaCapitulos);
         spinnerArrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(spinnerArrayAdapter2);
 
@@ -334,7 +343,7 @@ public class BiblieActivity extends AppCompatActivity {
         List<VersesBibleModel> lista2 = new ArrayList<>();
         lista2 = dataBaseAcess.listarVersos(livro2, capitulo);
         lista.addAll(lista2);
-        imgVoltar.setVisibility(View.GONE);
+        /*imgVoltar.setVisibility(View.GONE);
         imgNext.setVisibility(View.GONE);
 
 
@@ -355,8 +364,12 @@ public class BiblieActivity extends AppCompatActivity {
 
         }
 
-        adapter.notifyDataSetChanged();
         txtCapitulo.setText(nm_livro + " " + c);
+
+        */
+
+        adapter.notifyDataSetChanged();
+
         Objects.requireNonNull(getSupportActionBar()).setTitle(nm_livro + " " + c);
 
         if (cap == 0) {
@@ -373,7 +386,7 @@ public class BiblieActivity extends AppCompatActivity {
         List<String> listaBiblia = new ArrayList<>();
         listaBiblia = dataBaseAcess.listarLivrosNome();
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listaBiblia);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaBiblia);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
     }
@@ -385,31 +398,33 @@ public class BiblieActivity extends AppCompatActivity {
         DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
         c = c + 1;
         assert nm_livro != null;
-        txtCapitulo.setText(nm_livro + " " + c);
-        List<VersesBibleModel> lista3 = new ArrayList<>();
+
+        List<VersesBibleModel> lista3;
         lista3 = dataBaseAcess.listarVersos(livroS, "" + c);
         lista.addAll(lista3);
         adapter.notifyDataSetChanged();
-        imgVoltar.setVisibility(View.VISIBLE);
+
+        //txtCapitulo.setText(nm_livro + " " + c);
+        //imgVoltar.setVisibility(View.VISIBLE);
         recyclerVersos.smoothScrollToPosition(0);
 
         if (c == capitulos) {
-            imgNext.setVisibility(View.GONE);
+            //imgNext.setVisibility(View.GONE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(0);
         } else {
-            imgNext.setVisibility(View.VISIBLE);
+            //imgNext.setVisibility(View.VISIBLE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(c - 1);
         }
 
         if (c == 1) {
-            imgVoltar.setVisibility(View.GONE);
+            //imgVoltar.setVisibility(View.GONE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(0);
 
         } else {
-            imgVoltar.setVisibility(View.VISIBLE);
+            //imgVoltar.setVisibility(View.VISIBLE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(c - 1);
         }
@@ -426,30 +441,30 @@ public class BiblieActivity extends AppCompatActivity {
         lista.clear();
         assert nm_livro != null;
 
-        txtCapitulo.setText(nm_livro + " " + c);
+        //txtCapitulo.setText(nm_livro + " " + c);
 
-        List<VersesBibleModel> lista4 = new ArrayList<>();
+        List<VersesBibleModel> lista4;
         lista4 = dataBaseAcess.listarVersos(livroS, "" + c);
         lista.addAll(lista4);
         adapter.notifyDataSetChanged();
         recyclerVersos.smoothScrollToPosition(0);
 
         if (c == 1) {
-            imgVoltar.setVisibility(View.GONE);
+            //imgVoltar.setVisibility(View.GONE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(0);
         } else {
-            imgVoltar.setVisibility(View.VISIBLE);
+            //imgVoltar.setVisibility(View.VISIBLE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(c - 1);
         }
 
         if (c == capitulos) {
-            imgNext.setVisibility(View.GONE);
+            //imgNext.setVisibility(View.GONE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(0);
         } else {
-            imgNext.setVisibility(View.VISIBLE);
+            //imgNext.setVisibility(View.VISIBLE);
             spinner.setSelection(livro - 1);
             spinner2.setSelection(c - 1);
         }
@@ -558,6 +573,7 @@ public class BiblieActivity extends AppCompatActivity {
             List<CheckChaptherModel> listRemoveCheck = new ArrayList<>();
             listRemoveCheck.add(new CheckChaptherModel(livro, c));
             dataBaseAcess.dropCheckChapther(listRemoveCheck);
+            updateLearningBookRemovedChapther();
             Toast.makeText(getApplicationContext(), "Capítulo removido como lido", Toast.LENGTH_LONG).show();
         } catch (Exception ignored) {
 
@@ -659,6 +675,81 @@ public class BiblieActivity extends AppCompatActivity {
 
             dataBaseAcess.updateLearningBook(livro, (int) var2);
 
+            int completed = (int) var2;
+            if (completed == 100) {
+                //modal parabéns
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    modalCompletedLearnBook();
+                }
+            }
+
+
+        } catch (Exception e) {
+            Log.d("Erro", "" + e.getMessage());
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @SuppressLint("SetTextI18n")
+    private void modalCompletedLearnBook() {
+        final Dialog welcomeModal = new Dialog(this);
+        welcomeModal.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        welcomeModal.setContentView(R.layout.include_modal);
+
+        CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
+        cardModal.startAnimation(modal_anima);
+        ImageView imageIcon = welcomeModal.findViewById(R.id.imageIcon);
+        Button btnAction = welcomeModal.findViewById(R.id.btnAction);
+        TextView txt_title = welcomeModal.findViewById(R.id.txt_title);
+        TextView txtDescription = welcomeModal.findViewById(R.id.txtDescription);
+
+        String[] name = Objects.requireNonNull(user.getDisplayName()).split(" ");
+
+
+        imageIcon.setImageResource(R.drawable.ic_emogi_happy);
+        txt_title.setText("Parabéns, " + name[0] + "!");
+        txtDescription.setText(Html.fromHtml("Você terminou de ler<br><b>"+nm_livro+"</b>"));
+        btnAction.setText(getString(R.string.fechar));
+
+
+        btnAction.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+                welcomeModal.dismiss();
+                welcomeModal.hide();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(welcomeModal.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        welcomeModal.show();
+
+
+    }
+
+
+    //Calcular porcetagem com capitulo removido
+    private void updateLearningBookRemovedChapther() {
+
+        try {
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+            int chapthersBook = dataBaseAcess.num(livro);
+
+            int chapthersSelecteds = dataBaseAcess.findChapthersLearningBook(livro);
+
+            int chapthersLearnings = (chapthersSelecteds - 1);
+
+            double var = ((double) chapthersLearnings / (double) chapthersBook);
+            double var2 = (var * 100);
+
+            dataBaseAcess.updateLearningBook(livro, (int) var2);
+
 
         } catch (Exception e) {
             Log.d("Erro", "" + e.getMessage());
@@ -674,7 +765,6 @@ public class BiblieActivity extends AppCompatActivity {
         menu_check = menu.findItem(R.id.menu_check);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

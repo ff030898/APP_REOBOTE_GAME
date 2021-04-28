@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,8 +85,9 @@ public class FriendsListActivity extends AppCompatActivity {
         adapter = new FriendsRectangleAdapters(listFriends, getApplicationContext());
 
         //RecyclerFriends
-        RecyclerView.LayoutManager layoutManagerMenu2 = new LinearLayoutManager(getApplicationContext());
-        recyclerFriends.setLayoutManager(layoutManagerMenu2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        //RecyclerView.LayoutManager layoutManagerMenu2 = new LinearLayoutManager(getApplicationContext());
+        recyclerFriends.setLayoutManager(layoutManager);
         recyclerFriends.setHasFixedSize(true);
         recyclerFriends.setAdapter(adapter);
 

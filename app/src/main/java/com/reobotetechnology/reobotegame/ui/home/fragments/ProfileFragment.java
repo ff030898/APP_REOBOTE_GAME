@@ -1,8 +1,11 @@
 package com.reobotetechnology.reobotegame.ui.home.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +25,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,7 +58,8 @@ import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.model.MatchModel;
 import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
-import com.reobotetechnology.reobotegame.ui.bible.ListBiblieGrid;
+import com.reobotetechnology.reobotegame.ui.bible.ListBiblieScreen;
+import com.reobotetechnology.reobotegame.ui.comment.AnotattionActivity;
 import com.reobotetechnology.reobotegame.ui.friends.FriendsListActivity;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificationsActivity;
 import com.reobotetechnology.reobotegame.ui.main.EditProfileActivity;
@@ -124,6 +131,9 @@ public class ProfileFragment extends Fragment {
     private AdView mAdView;
 
 
+    private Animation modal_anima;
+    private int score, nivelUser;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -143,6 +153,9 @@ public class ProfileFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
         constraintPrincipal.setVisibility(View.GONE);
+
+        //Animação da Modal de Tempo Esgotado
+        modal_anima = AnimationUtils.loadAnimation(getActivity(), R.anim.modal_animation);
 
         //Refresh
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -261,7 +274,7 @@ public class ProfileFragment extends Fragment {
         ic_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ListBiblieGrid.class);
+                Intent i = new Intent(getActivity(), ListBiblieScreen.class);
                 i.putExtra("cd_testamento", 1);
                 startActivity(i);
             }
@@ -288,6 +301,36 @@ public class ProfileFragment extends Fragment {
 
                                 }
 
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
+
+
+        //Recycler Conquist
+        recyclerRanking.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getActivity(),
+                        recyclerRanking,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                    ConquistesModel nivel = listConquist.get(position);
+                                    //Se nível está ativo e não for o primeiro nível. OpenModal
+                                    if(nivel.isEnabled() && position > 0) {
+                                        openModalConquist(nivel.getDescription(), nivel.getCount());
+                                    }
                             }
 
                             @Override
@@ -399,7 +442,8 @@ public class ProfileFragment extends Fragment {
                                 //STATUS
                                 txt_username.setText(user.getNome());
                                 txt_email.setText(user.getEmail());
-                                //txt_email.setText("Nível: "+user.getNivel());
+                                score = user.getPontosG();
+                                nivelUser = user.getNivel();
                                 txtRankingUsuarioPerfil.setText(user.getRanking() + "º");
                                 txtSeguindoUsuarioPerfil.setText("" + user.getSeguidores());
                                 txtSeguidoresUsuarioPerfil.setText("" + user.getSeguindo());
@@ -483,46 +527,7 @@ public class ProfileFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void openAnotattion() {
-
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_anotation, null);
-
-        view.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View view) {
-                bottomSheetDialog.dismiss();
-                Alerter.create(requireActivity())
-                        .setTitle("Obaa...")
-                        .setText("Status atualizado com sucesso!")
-                        .setIcon(R.drawable.ic_success)
-                        .setDuration(2000)
-                        .setBackgroundColorRes(R.color.colorGreen1)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Alerter.hide();
-                            }
-                        })
-                        .show();
-
-            }
-        });
-
-        bottomSheetDialog = new BottomSheetDialog(requireActivity());
-        bottomSheetDialog.setContentView(view);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
-        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                bottomSheetDialog = null;
-            }
-        });
-
-        bottomSheetDialog.show();
+       startActivity(new Intent(requireActivity(), AnotattionActivity.class));
     }
 
     private void listConquist() {
@@ -540,6 +545,33 @@ public class ProfileFragment extends Fragment {
         listConquist.add(new ConquistesModel("Nível 8", 450, false));
 
         adapterConquist.notifyDataSetChanged();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void openModalConquist(String description, int count){
+
+        Dialog nivelDIalog = new Dialog(requireActivity());
+        nivelDIalog.setContentView(R.layout.include_modal_nivel);
+
+        CardView cardModal = nivelDIalog.findViewById(R.id.cardModal);
+        cardModal.startAnimation(modal_anima);
+
+        TextView txt_title = nivelDIalog.findViewById(R.id.txt_title);
+        TextView txtProgresso = nivelDIalog.findViewById(R.id.txtProgresso);
+        ProgressBar progressBar = nivelDIalog.findViewById(R.id.progressBar);
+        progressBar.setMax(count);
+        progressBar.setProgress(Math.min(score, count));
+
+        txt_title.setText(description);
+        txtProgresso.setText(score+"/"+count);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(nivelDIalog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        nivelDIalog.setCancelable(true);
+        nivelDIalog.show();
+
     }
 
     private void listBookFavorites() {
@@ -568,7 +600,7 @@ public class ProfileFragment extends Fragment {
 
         listMatches.clear();
 
-        /*try {
+        try {
 
             //firebaseRef.child("usuarios").orderByChild("pontosD").limitToLast(7)
 
@@ -576,7 +608,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    listMatches.clear();
+                    //listMatches.clear();
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
                         //PartidaModel p = dados.getValue(PartidaModel.class);
@@ -586,12 +618,12 @@ public class ProfileFragment extends Fragment {
 
                         //listMatches.add(p);
 
-                        //Log.d("partida", "id: "+t);
+                        Log.d("partida", "partida "+dados.getValue());
 
                     }
 
 
-                    adapterMatches.notifyDataSetChanged();
+                    //adapterMatches.notifyDataSetChanged();
                     //progressBar.setVisibility(View.GONE);
                     //constraintPrincipal.setVisibility(View.VISIBLE);
                 }
@@ -604,7 +636,7 @@ public class ProfileFragment extends Fragment {
 
         } catch (Exception ignored) {
 
-        }*/
+        }
 
         listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
         listMatches.add(new MatchModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));

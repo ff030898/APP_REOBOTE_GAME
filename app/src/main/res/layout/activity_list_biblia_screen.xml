@@ -42,18 +42,18 @@
 
                 <include layout="@layout/include_toolbar_activites" />
 
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <include layout="@layout/include_input_search" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerBiblia"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="24dp"
-            android:paddingHorizontal="16dp"
             android:clipToPadding="false"
-            android:layout_gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="24dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
