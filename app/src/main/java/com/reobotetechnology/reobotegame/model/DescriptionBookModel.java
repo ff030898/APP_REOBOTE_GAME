@@ -8,17 +8,19 @@ public class DescriptionBookModel {
     private String description;
     private int availabled;
     private int favorited;
+    private int scoreLearning;
     private String date;
     private int learning;
     private String reference;
 
-    public DescriptionBookModel(int book_id, String sigle, String author, String description, int availabled, int favorited, String date, int learning, String reference) {
+    public DescriptionBookModel(int book_id, String sigle, String author, String description, int availabled, int favorited, int scoreLearning, String date, int learning, String reference) {
         this.book_id = book_id;
         this.sigle = sigle;
         this.author = author;
         this.description = description;
         this.availabled = availabled;
         this.favorited = favorited;
+        this.scoreLearning = scoreLearning;
         this.date = date;
         this.learning = learning;
         this.reference = reference;
@@ -72,6 +74,14 @@ public class DescriptionBookModel {
         this.favorited = favorited;
     }
 
+    public int getScoreLearning() {
+        return scoreLearning;
+    }
+
+    public void setScoreLearning(int scoreLearning) {
+        this.scoreLearning = scoreLearning;
+    }
+
     public String getDate() {
         return date;
     }
@@ -80,11 +90,11 @@ public class DescriptionBookModel {
         this.date = date;
     }
 
-    public Integer getLearning() {
+    public int getLearning() {
         return learning;
     }
 
-    public void setLearning(Integer learning) {
+    public void setLearning(int learning) {
         this.learning = learning;
     }
 

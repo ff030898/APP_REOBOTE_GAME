@@ -4,12 +4,14 @@ public class BooksOfBibleModel {
 
     private int id, testamento, learning;
     private String nome;
+    private boolean favorited;
 
-    public BooksOfBibleModel(int id, int testamento, int learning, String nome) {
+    public BooksOfBibleModel(int id, int testamento, int learning, String nome, boolean favorited) {
         this.id = id;
         this.testamento = testamento;
         this.learning = learning;
         this.nome = nome;
+        this.favorited = favorited;
     }
 
     public int getId() {
@@ -42,5 +44,13 @@ public class BooksOfBibleModel {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public boolean isFavorited() {
+        return favorited;
+    }
+
+    public void setFavorited(boolean favorited) {
+        this.favorited = favorited;
     }
 }

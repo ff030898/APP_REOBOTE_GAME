@@ -75,12 +75,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
         android:max="100"
         android:progress="80"
         android:progressTint="@color/colorPreto"
+        app:layout_constraintBottom_toBottomOf="@+id/bg_livro"
         app:layout_constraintStart_toEndOf="@+id/bg_livro"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
         tools:ignore="UnusedAttribute" />
 
     <TextView
@@ -89,9 +88,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
         app:layout_constraintStart_toEndOf="@+id/progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
         tools:text="80%" />
 
     <TextView
@@ -100,11 +98,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:maxLines="6"
         android:ellipsize="end"
+        android:maxLines="6"
         android:text="@string/lorem2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bg_livro"

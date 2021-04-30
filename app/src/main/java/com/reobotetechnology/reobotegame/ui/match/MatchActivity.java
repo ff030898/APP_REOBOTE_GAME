@@ -44,6 +44,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -427,6 +428,7 @@ public class MatchActivity extends AppCompatActivity {
 
             desistirTimer = desistirDIalog.findViewById(R.id.cardTimer);
             desistirTimer.startAnimation(modal_anima);
+            ImageButton btn_close = desistirDIalog.findViewById(R.id.btn_close);
             desistirModal = desistirDIalog.findViewById(R.id.btnTimer);
             txtdesistir = desistirDIalog.findViewById(R.id.txtDesistir);
 
@@ -439,6 +441,22 @@ public class MatchActivity extends AppCompatActivity {
             desistirDIalog.setCancelable(false);
 
             desistirDIalog.show();
+
+            btn_close.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("SetTextI18n")
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onClick(View v) {
+                    desistirDIalog.dismiss();
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        atualizarPontosJogador1(10);
+                    }
+                    jogando(false);
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    finish();
+                }
+            });
 
             desistirModal.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("SetTextI18n")
@@ -1022,6 +1040,7 @@ public class MatchActivity extends AppCompatActivity {
 
         CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
         cardModal.startAnimation(modal_anima);
+        ImageButton btn_close = welcomeModal.findViewById(R.id.btn_close);
         ImageView imageIcon = welcomeModal.findViewById(R.id.imageIcon);
         Button btnAction = welcomeModal.findViewById(R.id.btnAction);
         TextView txt_title = welcomeModal.findViewById(R.id.txt_title);
@@ -1074,6 +1093,25 @@ public class MatchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 welcomeModal.dismiss();
                 welcomeModal.hide();
+
+                Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
+                i.putExtra("resultado", resultado);
+                i.putExtra("pontos", score);
+                i.putExtra("jogador2", nomeJogador2);
+                i.putExtra("imagem", imagem);
+                i.putExtra("pontos2", scoreJogador2);
+                startActivity(i);
+                finish();
+                //Abrir video premium Admob
+            }
+        });
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+                welcomeModal.dismiss();
 
                 Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
                 i.putExtra("resultado", resultado);

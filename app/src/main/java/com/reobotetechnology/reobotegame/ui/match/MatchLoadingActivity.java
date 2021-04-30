@@ -328,6 +328,7 @@ public class MatchLoadingActivity extends AppCompatActivity {
 
         desistirTimer = desistirDIalog.findViewById(R.id.cardTimer);
         desistirTimer.startAnimation(modal_anima);
+        ImageButton btn_close = desistirDIalog.findViewById(R.id.btn_close);
         desistirModal = desistirDIalog.findViewById(R.id.btnTimer);
         txtdesistir = desistirDIalog.findViewById(R.id.txtDesistir);
 
@@ -339,6 +340,21 @@ public class MatchLoadingActivity extends AppCompatActivity {
         desistirDIalog.setCancelable(false);
 
         desistirDIalog.show();
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+                desistirDIalog.dismiss();
+                if (convidado.equals("nao")) {
+                    finish();
+                } else {
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    finish();
+                }
+            }
+        });
 
         desistirModal.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")

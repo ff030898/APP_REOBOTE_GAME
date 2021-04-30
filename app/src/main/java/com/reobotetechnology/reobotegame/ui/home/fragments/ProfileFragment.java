@@ -19,9 +19,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -103,6 +105,7 @@ public class ProfileFragment extends Fragment {
     private TextView bioDescription;
 
     //Status Info Completed
+    private TextView txtNivelStatus;
     private TextView txtRankingStatus;
     private TextView txtSeguindoStatus;
     private TextView txtSeguidoresStatus;
@@ -243,7 +246,7 @@ public class ProfileFragment extends Fragment {
 
 
         //StatusCompleted
-
+        txtNivelStatus = root.findViewById(R.id.textViewN2);
         txtRankingStatus = root.findViewById(R.id.textView29);
         txtSeguindoStatus = root.findViewById(R.id.textView33);
         txtSeguidoresStatus = root.findViewById(R.id.textView35);
@@ -326,11 +329,11 @@ public class ProfileFragment extends Fragment {
                             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void onItemClick(View view, int position) {
-                                    ConquistesModel nivel = listConquist.get(position);
-                                    //Se nível está ativo e não for o primeiro nível. OpenModal
-                                    if(nivel.isEnabled() && position > 0) {
-                                        openModalConquist(nivel.getDescription(), nivel.getCount());
-                                    }
+                                ConquistesModel nivel = listConquist.get(position);
+                                //Se nível está ativo e não for o primeiro nível. OpenModal
+                                if (nivel.isEnabled() && position > 0) {
+                                    openModalConquist(nivel.getDescription(), nivel.getCount());
+                                }
                             }
 
                             @Override
@@ -443,20 +446,22 @@ public class ProfileFragment extends Fragment {
                                 txt_username.setText(user.getNome());
                                 txt_email.setText(user.getEmail());
                                 score = user.getPontosG();
+                                listConquist(score);
                                 nivelUser = user.getNivel();
                                 txtRankingUsuarioPerfil.setText(user.getRanking() + "º");
                                 txtSeguindoUsuarioPerfil.setText("" + user.getSeguidores());
                                 txtSeguidoresUsuarioPerfil.setText("" + user.getSeguindo());
-                                bioDescription.setText(""+getString(R.string.sobre));
+                                bioDescription.setText("Sobre");
 
                                 //INFO
+                                txtNivelStatus.setText(user.getNivel()+"");
                                 txtRankingStatus.setText(user.getRanking() + "");
                                 txtSeguindoStatus.setText("" + user.getSeguidores());
                                 txtSeguidoresStatus.setText("" + user.getSeguindo());
                                 txtVictoryStatus.setText("" + user.getVitorias());
                                 txtEmpatedStatus.setText("" + user.getEmpates());
                                 txtDerrotedStatus.setText("" + user.getDerrotas());
-                                txtBioUserStatus.setText(""+getString(R.string.lorem2));
+                                txtBioUserStatus.setText("" + getString(R.string.lorem2));
                             }
                         }
 
@@ -527,36 +532,71 @@ public class ProfileFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void openAnotattion() {
-       startActivity(new Intent(requireActivity(), AnotattionActivity.class));
+        startActivity(new Intent(requireActivity(), AnotattionActivity.class));
     }
 
-    private void listConquist() {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listConquist(int score) {
 
         listConquist.clear();
 
         listConquist.add(new ConquistesModel("Cadastro", 20, true));
-        listConquist.add(new ConquistesModel("Nível 1", 100, true));
-        listConquist.add(new ConquistesModel("Nível 2", 150, true));
-        listConquist.add(new ConquistesModel("Nível 3", 200, false));
-        listConquist.add(new ConquistesModel("Nível 4", 250, false));
-        listConquist.add(new ConquistesModel("Nível 5", 300, false));
-        listConquist.add(new ConquistesModel("Nível 6", 350, false));
-        listConquist.add(new ConquistesModel("Nível 7", 400, false));
-        listConquist.add(new ConquistesModel("Nível 8", 450, false));
+
+        int count = 1;
+        int countNivel = 50;
+        int nivelUser = 0;
+
+        for (int i = countNivel; i <= 2000; i += countNivel) {
+
+            if (score > i) {
+                listConquist.add(new ConquistesModel("Nível " + count, i, true));
+                nivelUser++;
+            } else if ((i - score) <= countNivel) {
+                listConquist.add(new ConquistesModel("Nível " + count, i, true));
+                nivelUser++;
+            } else {
+                listConquist.add(new ConquistesModel("Nível " + count, i, false));
+            }
+
+            count++;
+        }
 
         adapterConquist.notifyDataSetChanged();
+        updateNivelUser(nivelUser);
+
+    }
+
+    private void updateNivelUser(int nivel) {
+
+        try {
+
+            String emailUsuario = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                emailUsuario = Objects.requireNonNull(autenticacao.getCurrentUser()).getEmail();
+            }
+            assert emailUsuario != null;
+            String idUsuario = Base64Custom.codificarBase64(emailUsuario);
+            DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+
+            usuarioRef.child("nivel").setValue(nivel);
+
+        } catch (Exception ignored) {
+
+        }
+
     }
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void openModalConquist(String description, int count){
+    private void openModalConquist(String description, int count) {
 
-        Dialog nivelDIalog = new Dialog(requireActivity());
+        final Dialog nivelDIalog = new Dialog(requireActivity());
         nivelDIalog.setContentView(R.layout.include_modal_nivel);
 
         CardView cardModal = nivelDIalog.findViewById(R.id.cardModal);
         cardModal.startAnimation(modal_anima);
 
+        ImageButton btn_close = nivelDIalog.findViewById(R.id.btn_close);
         TextView txt_title = nivelDIalog.findViewById(R.id.txt_title);
         TextView txtProgresso = nivelDIalog.findViewById(R.id.txtProgresso);
         ProgressBar progressBar = nivelDIalog.findViewById(R.id.progressBar);
@@ -564,12 +604,23 @@ public class ProfileFragment extends Fragment {
         progressBar.setProgress(Math.min(score, count));
 
         txt_title.setText(description);
-        txtProgresso.setText(score+"/"+count);
+        if (score <= count) {
+            txtProgresso.setText(score + "/" + count);
+        } else {
+            txtProgresso.setText(count + "/" + count);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull(nivelDIalog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
-        nivelDIalog.setCancelable(true);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nivelDIalog.dismiss();
+            }
+        });
+
         nivelDIalog.show();
 
     }
@@ -584,9 +635,12 @@ public class ProfileFragment extends Fragment {
         lista2 = dataBaseAcess.listarNovoTestamento();
 
         if (lista2.size() != 0) {
-            for(int i = 0; i<lista2.size(); i++) {
+            for (int i = 0; i < lista2.size(); i++) {
+
                 int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
+                boolean favorited = dataBaseAcess.favorited(lista2.get(i).getId());
                 lista2.get(i).setLearning(learningBook);
+                lista2.get(i).setFavorited(favorited);
                 listFavorites.add(lista2.get(i));
             }
         }
@@ -618,7 +672,7 @@ public class ProfileFragment extends Fragment {
 
                         //listMatches.add(p);
 
-                        Log.d("partida", "partida "+dados.getValue());
+                        Log.d("partida", "partida " + dados.getValue());
 
                     }
 
@@ -664,7 +718,7 @@ public class ProfileFragment extends Fragment {
     public void onStart() {
         viewProfile();
         getAllNotifications();
-        listConquist();
+        //listConquist();
         listBookFavorites();
         listMatches();
         loadBannerAdMob();

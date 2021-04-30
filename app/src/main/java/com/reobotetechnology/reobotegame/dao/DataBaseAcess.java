@@ -33,6 +33,7 @@ public class DataBaseAcess {
     private static String TABELA_VERSE_DAY = "verse_day";
     private static String TABELA_DESCRIPTION_BOOK = "description_book";
     private static String TABELA_CHECK_CHAPTHER = "check_chapther";
+    private static String TABELA_CHECK_VERSE = "check_verse";
     private Cursor cursor = null;
     private int id = 0;
 
@@ -108,9 +109,10 @@ public class DataBaseAcess {
                     "book_id INTEGER PRIMARY KEY NOT NULL, " +
                     "sigle VARCHAR(50) NOT NULL," +
                     "author VARCHAR(50) NOT NULL," +
-                    "description VARCHAR(800) NOT NULL," +
+                    "description VARCHAR(500) NOT NULL," +
                     "availabled INTEGER NOT NULL, " +
                     "favorited INTEGER(1) NOT NULL," +
+                    "scoreLearning INTEGER(1) NOT NULL," +
                     "date VARCHAR(20) NOT NULL," +
                     "learning INTEGER(3) NOT NULL," +
                     "reference VARCHAR(50) NOT NULL" +
@@ -124,6 +126,15 @@ public class DataBaseAcess {
                     "chapter_id INTEGER NOT NULL" +
                     "); ";
 
+            String sqlCheckVerse = "CREATE TABLE IF NOT EXISTS " + TABELA_CHECK_VERSE
+                    + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "book_id INTEGER NOT NULL, " +
+                    "chapter_id INTEGER NOT NULL," +
+                    "verse_id INTEGER NOT NULL," +
+                    "color VARCHAR(50) NOT NULL" +
+                    "); ";
+
 
             try {
                 db.execSQL(sql);
@@ -131,6 +142,7 @@ public class DataBaseAcess {
                 db.execSQL(sqlVerseDay);
                 db.execSQL(sqlDescriptionBook);
                 db.execSQL(sqlCheckChapther);
+                db.execSQL(sqlCheckVerse);
 
                 this.inserirPerguntas();
                 this.insertThemes();
@@ -225,7 +237,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome, false);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -252,7 +264,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome, false);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -279,7 +291,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome, false);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -306,7 +318,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome, false);
                     lista.add(b);
 
                 } while (cursor.moveToNext());
@@ -333,7 +345,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome, false);
                     lista.add(b.getNome());
 
                 } while (cursor.moveToNext());
@@ -574,7 +586,7 @@ public class DataBaseAcess {
                     int id = cursor.getInt(1);
                     int testamento = cursor.getInt(2);
                     String nome = cursor.getString(3);
-                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome);
+                    BooksOfBibleModel b = new BooksOfBibleModel(id, testamento, 0, nome, false);
                     palavra.add(b);
 
 
@@ -1020,7 +1032,7 @@ public class DataBaseAcess {
                         "inclusive a entrada do pecado e do sofrimento na humanidade. " +
                         "Neste livro estão descritas as ações de Deus na criação do mundo, " +
                         "no cuidar das pessoas e na justiça divina que castiga os ímpios e abençoa " +
-                        "os justos.", 5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/genesis"));
+                        "os justos.", 5, 0, 0,"1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/genesis"));
 
 
         //Êxodo
@@ -1029,7 +1041,7 @@ public class DataBaseAcess {
                         "considerada mais importante da história do povo de Israel: a saída dos israelitas do Egito, " +
                         "onde viviam como escravos no Egito. Essa libertação deu origem a primeira páscoa.   " +
                         "Ao longo de 40 capítulos o livro relata além dos detalhes sobre a vida de escravidão, " +
-                        "o nascimento e grande parte da vida de Moisés.", 5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/exodo"));
+                        "o nascimento e grande parte da vida de Moisés.", 5, 0,0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/exodo"));
 
         //Levitico
         listDescriptionBook.add(new DescriptionBookModel(3, "Lv", "Moisés",
@@ -1040,7 +1052,7 @@ public class DataBaseAcess {
                         "povo da escravidão. Nos livros seguintes a expressão “Lei de Moisés” faz referência aos cinco " +
                         "primeiros livros da bíblia (o chamado “Pentateuco”) que, entre outras informações, trazem orientações " +
                         "de conduta ao povo de Deus, como por exemplo, os 10 mandamentos.",
-                5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/levitico"));
+                5, 0, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/levitico"));
 
         //Números
         listDescriptionBook.add(new DescriptionBookModel(4, "Nm", "Moisés",
@@ -1052,7 +1064,7 @@ public class DataBaseAcess {
                         " a Moisés (profeta que viveu por volta de 1400 AC e teria " +
                         "conduzido o povo israelita para fora do Egito, sobre os desígnios do próprio Deus, " +
                         "a fim de libertar o povo da escravidão).",
-                5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/numeros"));
+                5, 0,0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/numeros"));
 
         //Deuteronômio
         listDescriptionBook.add(new DescriptionBookModel(5, "Dt", "Moisés",
@@ -1062,7 +1074,7 @@ public class DataBaseAcess {
                         "próprio Deus), e recebe este nome por significar “repetir a lei” ou “segunda lei”..\n" +
                         "Ao longo de 34 capítulos, as passagens trazem os discursos de Moisés quando o povo ainda " +
                         "estava na terra de Moabe, a leste do Rio Jordão.",
-                5, 0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/deuteronomio"));
+                5, 0,0, "1400 aC", 0, "Fonte: https://www.infoescola.com/biblia/deuteronomio"));
 
         //Josué
         listDescriptionBook.add(new DescriptionBookModel(6, "Js", "Incerto, (Josué)",
@@ -1072,7 +1084,7 @@ public class DataBaseAcess {
                         "conquista da terra, tendo sucedido Moisés como líder do povo de Deus.\n\n" +
                         "Ao nascer, Josué recebeu o nome de Oseias (hebr. Hishea, “salvação”; Nm 13.8), " +
                         "mas Moisés o chamou de Josué (hebr. Yehoshua, “o Senhor salva”; Nm 13.16).",
-                5, 0, "1400-1375 aC", 0, "Fonte: https://www.infoescola.com/biblia/josue"));
+                5, 0,0, "1400-1375 aC", 0, "Fonte: https://www.infoescola.com/biblia/josue"));
 
         //Juízes
         listDescriptionBook.add(new DescriptionBookModel(7, "Jz", "Incerto, (Samuel)",
@@ -1081,7 +1093,7 @@ public class DataBaseAcess {
                         " Antigo Testamento, conta a história de Israel desde a conquista da Terra de Canaã" +
                         " até o começo da monarquia. Neste tempo surgiram os líderes militares conhecidos" +
                         " como “Juízes” que foram levantados por Deus, e por isso o governo deles não era hereditário.",
-                5, 0, "1050-1000 aC", 0, "Fonte: https://www.infoescola.com/biblia/juizes"));
+                5, 0,0, "1050-1000 aC", 0, "Fonte: https://www.infoescola.com/biblia/juizes"));
 
 
         //Rute
@@ -1093,7 +1105,7 @@ public class DataBaseAcess {
                         "A história se passa no tempo em que o povo de Israel ainda era governado por Juízes. " +
                         "Rute era casada com um israelita, ela era uma jovem do país de Moabe, e após da morte do " +
                         "marido se une ainda mais à sua sogra.",
-                5, 0, "1210-1030 aC", 0, "Fonte: https://www.infoescola.com/biblia/rute"));
+                5, 0,0, "1210-1030 aC", 0, "Fonte: https://www.infoescola.com/biblia/rute"));
 
         //1 Samuel
         listDescriptionBook.add(new DescriptionBookModel(9, "1Sm", "Samuel",
@@ -1102,7 +1114,7 @@ public class DataBaseAcess {
                         "Após um longo período de clamor e oração para que tivesse filhos, a ponto do marido achar que estivesse" +
                         " embriagada, Ana, mãe de Samuel orou assim que soube que esperava o menino: “Meu coração exulta no Senhor; " +
                         "no Senhor minha força é exaltada”. Minha boca se exalta sobre os meus inimigos, pois me alegro em tua libertação....",
-                5, 0, "1100 até 1000 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
+                5, 0,0, "1100 até 1000 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
 
         //2 Samuel
         listDescriptionBook.add(new DescriptionBookModel(10, "2Sm", "Samuel",
@@ -1112,7 +1124,7 @@ public class DataBaseAcess {
                         " seu povo. O livro não poupa nem mesmo seus pecados, e assim que o profeta Natã" +
                         " os apontou, Davi aceitou a correção da parte de Deus, e ainda obteve vitória num" +
                         " período de guerra civil.",
-                5, 0, "960 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
+                5, 0,0, "960 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-samuel"));
 
 
         //1 Reis
@@ -1122,7 +1134,7 @@ public class DataBaseAcess {
                         "Após a morte da Davi, que reinou em Jerusalém, seu filho Salomão herda o trono e um dos " +
                         "destaques de seu reinado foi construir um grande templo na região. Conhecido nos dias " +
                         "atuais como “Templo de Salomão”.",
-                5, 0, "560-538 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
+                5, 0,0, "560-538 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
 
         //2 Reis
         listDescriptionBook.add(new DescriptionBookModel(12, "2Rs", "Incerto, (Jeremias)",
@@ -1131,7 +1143,7 @@ public class DataBaseAcess {
                         "Jerusalém pelo rei Nabucodonosor. A queda dos reinos de Israel " +
                         "acontece porque seus reis haviam sido infiéis com os principio do " +
                         "Senhor, deixando toda a nação vulnerável.",
-                5, 0, "560-538 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
+                5, 0,0, "560-538 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-reis"));
 
 
         //1 Crônicas
@@ -1142,7 +1154,7 @@ public class DataBaseAcess {
                         "sobretudo para os fiéis que viviamem Judá. Alémda genealogia de Adão até Davi, estão relatadas as conquistas" +
                         " de Davi e seu filho Salomão. O livro conta as reformas promovidas por Josafá, Ezequias, e Josias, e ainda, " +
                         "sobre a grande parte do povo ter continuado fiel a Deus.",
-                5, 0, "425-400 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-cronicas/"));
+                5, 0,0, "425-400 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-cronicas/"));
 
         //2 Crônicas
         listDescriptionBook.add(new DescriptionBookModel(14, "2Cr", "Atribuído a Esdras",
@@ -1151,7 +1163,7 @@ public class DataBaseAcess {
                         " a morte de Salomão.  Ao longo de 36 capítulos, o livro termina com o decreto do rei Ciro, " +
                         "que reinava sobre a Pérsia. Foi ele que permitiu que os judeus voltassem para Jerusalém e " +
                         "reconstruíssem o templo.",
-                5, 0, "425-400 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-cronicas/"));
+                5, 0,0, "425-400 aC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-cronicas/"));
 
         //Esdras
         listDescriptionBook.add(new DescriptionBookModel(15, "Ed", "Atribuído a Esdras",
@@ -1163,7 +1175,7 @@ public class DataBaseAcess {
                         "os estudiosos quanto a sua autoria. Inclusive, existe um " +
                         "segmento de historiadores que afirmam que manuscritos mais antigos, " +
                         "Esdras e Neemias constituíam um único livro com características semelhantes quanto ao estilo e conteúdo.",
-                5, 0, "538-457 aC", 0, "Fonte: https://www.infoescola.com/biblia/esdras/"));
+                5, 0,0, "538-457 aC", 0, "Fonte: https://www.infoescola.com/biblia/esdras/"));
 
         //Neemias
         listDescriptionBook.add(new DescriptionBookModel(16, "Ne", "Neemias",
@@ -1174,7 +1186,7 @@ public class DataBaseAcess {
                         "Arão, e que dedicou a vida para estudar e ensinar a palavra de Deus durante o " +
                         "exílio dos israelitas na Babilônia, e acompanhou a restauração do tempo após " +
                         "o decreto de Ciro Rei da Pérsia libertando este povo).",
-                5, 0, "423 aC", 0, "Fonte: https://www.infoescola.com/biblia/neemias/"));
+                5, 0, 0,"423 aC", 0, "Fonte: https://www.infoescola.com/biblia/neemias/"));
 
 
         //Ester
@@ -1186,7 +1198,7 @@ public class DataBaseAcess {
                         " e os primeiros estudiosos rabínicos. Já os patriarcas da igreja primitiva (por exemplo Clemente de Alexandria)" +
                         " e autoridades judaicas (por exemplo Josefo), atribuem o livro a Mordecai. Esta segunda autoria é mais aceita " +
                         "e difindida pela tradição, que ainda reconhecem a possibilidade de terem escritos de Esdras e Neemias.",
-                5, 0, "465 aC", 0, "Fonte: https://www.infoescola.com/biblia/ester/"));
+                5, 0,0, "465 aC", 0, "Fonte: https://www.infoescola.com/biblia/ester/"));
 
         //Jó
         listDescriptionBook.add(new DescriptionBookModel(18, "Jó", "Incerto, (Moisés ou Salomão)",
@@ -1197,7 +1209,7 @@ public class DataBaseAcess {
                         "caso tenha sido Salomão a data possível é de950 AC. Uma constatação sobre quem escreveu o livro, " +
                         "é que sem dúvida, tinha aptidões literárias e vasto conhecimento sobre os animais, a mineração, " +
                         "a astronomia, a caça e a consciência sobre o desenvolvimento embrionário.",
-                5, 0, "séc. V ao II aC", 0, "Fonte: https://www.infoescola.com/biblia/jo/"));
+                5, 0,0, "séc. V ao II aC", 0, "Fonte: https://www.infoescola.com/biblia/jo/"));
 
         //Salmos
         listDescriptionBook.add(new DescriptionBookModel(19, "Sl", "Davi, Asafe, filhos de Coré e outros",
@@ -1206,7 +1218,7 @@ public class DataBaseAcess {
                         "diversos autores os escreveram, eram usados pelo povo de Israel nas reuniões de adoração a Deus. Alguns salmos " +
                         "possuem em seu título a atribuição daquele salmo a um determinado autor como Davi e Salomão, outros " +
                         "salmos por sua vez não trazem menção de quem os teria escrito.",
-                5, 0, "1000 e 300 aC", 0, "Fonte: https://www.infoescola.com/biblia/salmos/"));
+                5, 0,0, "1000 e 300 aC", 0, "Fonte: https://www.infoescola.com/biblia/salmos/"));
 
         //Provérbios
         listDescriptionBook.add(new DescriptionBookModel(20, "Pv", "Salomão, Agur e rei Lemuel",
@@ -1215,7 +1227,7 @@ public class DataBaseAcess {
                         "discirna entre o bem e o mal, pois quem poderia julgar a este grande povo?” (IRs 3:9)  " +
                         "e a autoria da maioria deste livro é atribuída a ele, e há suspeita de que além de seus " +
                         "próprios ensinamentos, Salomão tenha editado provérbios de outros escritores.",
-                5, 0, "950 aC", 0, "Fonte: https://www.infoescola.com/biblia/proverbios/"));
+                5, 0,0, "950 aC", 0, "Fonte: https://www.infoescola.com/biblia/proverbios/"));
 
         //Eclesiastes
         listDescriptionBook.add(new DescriptionBookModel(21, "Ec", "Salomão",
@@ -1226,7 +1238,7 @@ public class DataBaseAcess {
                         "vaidades, tudo é vaidade” (Ec 1,1:2)  Isso não anula a possibilidade de alguma " +
                         "outra pessoa possa ter feito acréscimos ao livro centenas de anos após a morte " +
                         "de Salomão.",
-                5, 0, "931 aC", 0, "Fonte: https://www.infoescola.com/biblia/eclesiastes/"));
+                5, 0,0, "931 aC", 0, "Fonte: https://www.infoescola.com/biblia/eclesiastes/"));
 
         //Cantares
         listDescriptionBook.add(new DescriptionBookModel(22, "Ct", "Salomão",
@@ -1235,7 +1247,7 @@ public class DataBaseAcess {
                         "Na bíblia hebraica, Cânticos dos Cânticos faz parte de uma coletânea lida nos dias " +
                         "festivos do calendário judaico. Os outros livros dessa coletânea são Rute, Ester, " +
                         "Eclesiastes e Lamentações.",
-                5, 0, "970-930 aC", 0, "Fonte: https://www.infoescola.com/biblia/canticos-dos-canticos/"));
+                5, 0,0, "970-930 aC", 0, "Fonte: https://www.infoescola.com/biblia/canticos-dos-canticos/"));
 
         //Isaías
         listDescriptionBook.add(new DescriptionBookModel(23, "Is", "Isaías",
@@ -1245,7 +1257,7 @@ public class DataBaseAcess {
                         "tempo de Jeremias os reis Jotão, Acaz e Ezequias, indicando que estes acontecimentos " +
                         "se passaram no período de 742 a 687 AC. “No ano da morte do rei Uzias, eu vi o " +
                         "Senhor assentado num alto e sublime trono, e as abas de suas vestes enchiam o templo” (Is 6:1).",
-                5, 0, "700-690 aC", 0, "Fonte: https://www.infoescola.com/biblia/isaias/"));
+                5, 0,0, "700-690 aC", 0, "Fonte: https://www.infoescola.com/biblia/isaias/"));
 
         //Jeremias
         listDescriptionBook.add(new DescriptionBookModel(24, "Jr", "Jeremias",
@@ -1254,7 +1266,7 @@ public class DataBaseAcess {
                         "e que chegou a se dizer criança para fazer tamanha obra a mando do próprio Deus, " +
                         "que entre outras promessas o disse “Antes que eu te formasse no ventre materno, eu te conheci, e, " +
                         "antes que saísses da madre, te consagrei, e te constituí profeta às nações” (Jr 1:5) .",
-                5, 0, "626-586 aC", 0, "Fonte: https://www.infoescola.com/biblia/jeremias/"));
+                5, 0,0, "626-586 aC", 0, "Fonte: https://www.infoescola.com/biblia/jeremias/"));
 
         //Lamentações
         listDescriptionBook.add(new DescriptionBookModel(25, "Lm", "Jeremias",
@@ -1264,7 +1276,7 @@ public class DataBaseAcess {
                         "e o exercito da Babilônia.  O profeta havia anunciado mensagens finais sobre Judá, " +
                         "alertando-lhe sobre a destruição que se aproximava caso a nação não se arrependesse, " +
                         "e clamava, pedindo ao povo que se arrependesse e a voltasse para Deus.",
-                5, 0, "587 aC", 0, "Fonte: https://www.infoescola.com/biblia/lamentacoes-de-jeremias/"));
+                5, 0,0, "587 aC", 0, "Fonte: https://www.infoescola.com/biblia/lamentacoes-de-jeremias/"));
 
         //Ezequiel
         listDescriptionBook.add(new DescriptionBookModel(26, "Ez", "Ezequiel",
@@ -1275,7 +1287,7 @@ public class DataBaseAcess {
                         "a cidade de Jerusalém foi tomada pelos babilônicos, e o profeta viveu na Babilônia " +
                         "onde os israelitas haviam sido levados como prisioneiros. As mensagens do profeta " +
                         "eram direcionadas a todo povo que vivia ali na Babilônia e aos moradores de Jerusalém.",
-                5, 0, "593-573 aC", 0, "Fonte: https://www.infoescola.com/biblia/ezequiel/"));
+                5, 0,0, "593-573 aC", 0, "Fonte: https://www.infoescola.com/biblia/ezequiel/"));
 
         //Daniel
         listDescriptionBook.add(new DescriptionBookModel(27, "Dn", "Daniel",
@@ -1284,7 +1296,7 @@ public class DataBaseAcess {
                         "Daniel era um dos três príncipes governantes e se destacava entre eles, pois nele havia um espírito excelente e o rei pensava" +
                         " constituí-lo sobre todo o reino. Então os outros dois presidentes e os príncipes procuravam achar algo contra Daniel a respeito " +
                         "do reino e não achavam, porque ele era fiel, e não se achava nele nenhum erro nem culpa.",
-                5, 0, "Final do séc. VI AC", 0, "Fonte: https://www.infoescola.com/biblia/daniel-na-cova-dos-leoes/"));
+                5, 0,0, "Final do séc. VI AC", 0, "Fonte: https://www.infoescola.com/biblia/daniel-na-cova-dos-leoes/"));
 
         //Oséias
         listDescriptionBook.add(new DescriptionBookModel(28, "Os", "Oséias",
@@ -1293,7 +1305,7 @@ public class DataBaseAcess {
                         "o povo de Deus. Ele era filhos de Beeri e foi o único profeta que registrou durante " +
                         "os últimos anos de sua vida um conjunto de profecias para Israel. Ele viveu entre 785 e 725 aC, " +
                         "e registrou as profecias por volta de 755 a 725 aC.",
-                5, 0, "750 aC", 0, "Fonte: https://www.infoescola.com/biblia/oseias/"));
+                5, 0,0, "750 aC", 0, "Fonte: https://www.infoescola.com/biblia/oseias/"));
 
         //Joel
         listDescriptionBook.add(new DescriptionBookModel(29, "Jl", "Joel",
@@ -1301,7 +1313,7 @@ public class DataBaseAcess {
                         "próprio profeta. O ponto de partida para Joel foi uma terrível praga de gafanhotos, " +
                         "e que foi seguida por uma grande seca que devastaram a cidade de Judá. Para ele, " +
                         "esses acontecimentos eram avisos de que a cidade precisava se arrepender e voltar-se para Deus.",
-                5, 0, "835-805 aC", 0, "Fonte: https://www.infoescola.com/biblia/joel/"));
+                5, 0,0, "835-805 aC", 0, "Fonte: https://www.infoescola.com/biblia/joel/"));
 
         //Amós
         listDescriptionBook.add(new DescriptionBookModel(30, "Am", "Amós",
@@ -1310,7 +1322,7 @@ public class DataBaseAcess {
                         "dois anos antes do terremoto” (Am 1:1) e em nome de Deus anuncia a injustiça, opressão e " +
                         "corrupção que assolavam ao país, pois aquela região apesar de estar em uma situação material boa, " +
                         "estava em pecado “Portanto assim farei ó Israel! Prepara-te ó Israel para encontrares com o Senhor teu Deus. ",
-                5, 0, "760–750 aC", 0, "Fonte: https://www.infoescola.com/biblia/amos/"));
+                5, 0,0, "760–750 aC", 0, "Fonte: https://www.infoescola.com/biblia/amos/"));
 
         //Obadias
         listDescriptionBook.add(new DescriptionBookModel(31, "Ob", "Obadias",
@@ -1320,7 +1332,7 @@ public class DataBaseAcess {
                         "O profeta anunciou o pecado dos Edonitas. Ocorreu que os Edomitas haviam ficado alegres com a conquista de " +
                         "Jerusalém pelos babilônicos, e isso desagradou o Senhor, que usou o profeta para anunciar que os Edonitas seriam " +
                         "castigados junto com os outros povos inimigos do povo de Deus",
-                5, 0, "Após 586 aC", 0, "Fonte: https://www.infoescola.com/biblia/obadias/"));
+                5, 0,0, "Após 586 aC", 0, "Fonte: https://www.infoescola.com/biblia/obadias/"));
 
         //Jonas
         listDescriptionBook.add(new DescriptionBookModel(32, "Jn", "Jonas",
@@ -1329,7 +1341,7 @@ public class DataBaseAcess {
                         "pregar o arrependimento ao povo, como o Senhor havia ordenado, pois ele sente que os " +
                         "ninivitas não irão ouvi-lo e acredita que o Senhor não vai seguir adiante com a ameaça " +
                         "de destruir a cidade caso o povo não se arrependa de seus maus caminhos.",
-                5, 0, "800-750 aC", 0, "Fonte: https://www.infoescola.com/biblia/jonas/"));
+                5, 0,0, "800-750 aC", 0, "Fonte: https://www.infoescola.com/biblia/jonas/"));
 
         //Miquéias
         listDescriptionBook.add(new DescriptionBookModel(33, "Mq", "Miquéias",
@@ -1340,7 +1352,7 @@ public class DataBaseAcess {
                         "e seja o Senhor Deus testemunha contra vós outros, o Senhor desde o seu santo templo” (Mq 1,1:2). " +
                         "O livro de Miquéias faz parte do Antigo Testamento, e ao longo de sete capítulos conta que o profeta " +
                         "Miquéias condena os sacerdotes, governadores e até mesmo outros profetas de Israel que iludiam o povo.",
-                5, 0, "704 e 696 aC", 0, "Fonte: https://www.infoescola.com/biblia/miqueias/"));
+                5, 0,0, "704 e 696 aC", 0, "Fonte: https://www.infoescola.com/biblia/miqueias/"));
 
         //Naum
         listDescriptionBook.add(new DescriptionBookModel(34, "Na", "Naum",
@@ -1353,7 +1365,7 @@ public class DataBaseAcess {
                         "vingança contra os seus adversários, e guarda a ira contra os seus inimigos. " +
                         "O Senhor é tardio em irar-se, mas grande em poder, e ao culpado não tem por inocente; " +
                         "o Senhor tem o seu caminho na tormenta e na tempestade, e as nuvens são o pó dos seus pés” (Na 1,1:3).",
-                5, 0, "antes de 612 aC", 0, "Fonte: https://www.infoescola.com/biblia/naum/"));
+                5, 0,0, "antes de 612 aC", 0, "Fonte: https://www.infoescola.com/biblia/naum/"));
 
 
         //Habacuque
@@ -1365,7 +1377,7 @@ public class DataBaseAcess {
                         "teria amado profundamente seu povo, e procurou traze-los para junto de si, sempre consolando e " +
                         "amparando-os.  Inclusive alguns rabinos associam seu nome a palavra que no hebraico significa" +
                         " “abraço”, pois Habacuque seria um nome incomum e aparece somente duaz vezes no Antigo Testamento.",
-                5, 0, "625-587 aC", 0, "Fonte: https://www.infoescola.com/biblia/habacuque/"));
+                5, 0,0, "625-587 aC", 0, "Fonte: https://www.infoescola.com/biblia/habacuque/"));
 
         //Sofonias
         listDescriptionBook.add(new DescriptionBookModel(36, "Sf", "Sofonias",
@@ -1376,7 +1388,7 @@ public class DataBaseAcess {
                         "nos dias de Josias, filho de Amom, rei de Judá” (Sf 1:1).\n\nSeu nome faz uma referência à " +
                         "proteção dada por Deus durante a opressão e a idolatria do reinado de Manasses, ou uma " +
                         "mensagem de proteção de Deus em meio a seu castigo, para aqueles que se arrependem. ",
-                5, 0, "663-612 aC", 0, "Fonte: https://www.infoescola.com/biblia/sofonias/"));
+                5, 0,0, "663-612 aC", 0, "Fonte: https://www.infoescola.com/biblia/sofonias/"));
 
         //Ageu
         listDescriptionBook.add(new DescriptionBookModel(37, "Ag", "Ageu",
@@ -1385,7 +1397,7 @@ public class DataBaseAcess {
                         "israelitas começavam a voltar da Babilônia (após o decreto assinado por Ciro, rei da Pércia) " +
                         "onde viviam cativos, eram escravizados.O povo estava reconstruindo suas casas, mas não se " +
                         "preocupava em reconstruir o templo, que estava destruído",
-                5, 0, "520 aC", 0, "Fonte: https://www.infoescola.com/biblia/ageu/"));
+                5, 0,0, "520 aC", 0, "Fonte: https://www.infoescola.com/biblia/ageu/"));
 
         //Zacarias
         listDescriptionBook.add(new DescriptionBookModel(38, "Zc", "Zacarias",
@@ -1395,7 +1407,7 @@ public class DataBaseAcess {
                         "mostra que a salvação está ao alcance de todos. Contudo, é importante ressaltar que nem todas as pessoas serão " +
                         "salvas (teoria universalista), isso porque a salvação é plano do Senhor para seu povo, e para isso é preciso " +
                         "estar na presença do Senhor, acreditar Nele.",
-                5, 0, "520-475 aC", 0, "Fonte: https://www.infoescola.com/biblia/zacarias/"));
+                5, 0,0, "520-475 aC", 0, "Fonte: https://www.infoescola.com/biblia/zacarias/"));
 
         //Malaquias
         listDescriptionBook.add(new DescriptionBookModel(39, "Ml", "Desconhecido, (Malaquias)",
@@ -1407,7 +1419,7 @@ public class DataBaseAcess {
                         "Portanto, as informações citadas no livro tem possibilidade de serem de fato anunciadas por um profeta chamado Malaquias, " +
                         "ou esta expressão pode fazer referência a pessoa que possa estar por traz de Malaquias, que realizou os feitos descritos neste livro, " +
                         "ainda que não seja este o seu nome próprio.",
-                5, 0, "450 aC", 0, "Fonte: https://www.infoescola.com/biblia/malaquias/"));
+                5, 0,0, "450 aC", 0, "Fonte: https://www.infoescola.com/biblia/malaquias/"));
 
 
 
@@ -1422,7 +1434,7 @@ public class DataBaseAcess {
                         "muito interesse em contabilidade (18:23-24; 25:14-15). Sobretudo, nesta profissão acredita-se " +
                         "que tinham a habilidade da taquigrafia ou seja, conseguia grafar as palavras de forma file, " +
                         "palavra por palavra, na medida em que a pessoa falava.",
-                5, 0, "50-75 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-mateus/"));
+                5, 0,0, "50-75 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-mateus/"));
 
         //Marcos
         listDescriptionBook.add(new DescriptionBookModel(41, "Mc", "Marcos",
@@ -1434,7 +1446,7 @@ public class DataBaseAcess {
                         "Sabe-se que sua mãe também se chamava Maria, e ele era primo de Barnabé. " +
                         "Inclusive, Marcos viajou com Paulo e Barnabé e passou longo período com Pedro que " +
                         "se referia a ele como “meu filho”.",
-                5, 0, "65-70 dC", 0, "Fonte: https://www.infoescola.com/biblia/evangelho-de-marcos/"));
+                5, 0,0, "65-70 dC", 0, "Fonte: https://www.infoescola.com/biblia/evangelho-de-marcos/"));
 
         //Lucas
         listDescriptionBook.add(new DescriptionBookModel(42, "Lc", "Lucas",
@@ -1443,7 +1455,7 @@ public class DataBaseAcess {
                         "entre as várias referências que Paulo faz a Lucas, em uma delas o chama de “amado”. Não se sabe se " +
                         "Lucas era judeu ou gentio, mas sabe-se que viveu na Antioquia da Síria, " +
                         "e é comumente identificado como gentio.",
-                5, 0, "59-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/lucas/"));
+                5, 0, 0,"59-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/lucas/"));
 
         //João
         listDescriptionBook.add(new DescriptionBookModel(43, "Jo", "Apóstolo João",
@@ -1453,7 +1465,7 @@ public class DataBaseAcess {
                         "e o verbo estava com Deus. Ele estava no princípio com Deus. " +
                         "Todas as coisas foram feitas por intermédio Dele, e, sem ele, nada do que foi feito se fez. " +
                         "A vida estava nele e a vida era a luz dos homens” (Jo 1,1:4)",
-                5, 0, "85 dC", 0, "Fonte: https://www.infoescola.com/biblia/evangelho-de-joao/"));
+                5, 0,0, "85 dC", 0, "Fonte: https://www.infoescola.com/biblia/evangelho-de-joao/"));
 
         //Atos
         listDescriptionBook.add(new DescriptionBookModel(44, "At", "Lucas",
@@ -1464,7 +1476,7 @@ public class DataBaseAcess {
                         "Provavelmente os dois livros de sua autoria tenham sido escritos em tempos muito próximos, datando " +
                         "de 61 e 63 DC. Há indicações da prisão domiciliar de Paulo em Roma, entretanto não chega a relatar o " +
                         "julgamento ou morte dele (que ocorreu por volta de 66 e 68 DC).",
-                5, 0, "62 dC", 0, "Fonte: https://www.infoescola.com/biblia/atos-dos-apostolos-2/"));
+                5, 0,0, "62 dC", 0, "Fonte: https://www.infoescola.com/biblia/atos-dos-apostolos-2/"));
 
         //Romanos
         listDescriptionBook.add(new DescriptionBookModel(45, "Rm", "Paulo",
@@ -1473,7 +1485,7 @@ public class DataBaseAcess {
                         "A data provável que o tenha escrito é de 55 a 59 cC.\n\nEste livro segue o propósito de todas as epístolas de Paulo às igrejas, ou seja, " +
                         "proclamar a glória de Jesus Cristo. Esta carta aos Romanos foi escrita de Corinto um pouco antes de ele viajar para Jerusalém e entregar as " +
                         "ofertas que estavam destinadas aos necessitados de lá.",
-                5, 0, "55-59 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-romanos/"));
+                5, 0,0, "55-59 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-romanos/"));
 
         //1 Coríntios
         listDescriptionBook.add(new DescriptionBookModel(46, "1Co", "Paulo",
@@ -1484,7 +1496,7 @@ public class DataBaseAcess {
                         "orgulho, e ainda, um conflito acerca dos dons do Espírito Santo, que estavam sendo utilizados de forma equivocada.\n\nCom essa diferença " +
                         "dentro da igreja, os cristãos de Corinto estavam se distanciando da essência dos ensinamentos do Senhor e seguindo determinados líderes " +
                         "espirituais “Refiro-me ao fato de cada um de vós dizer: Eu sou de Paulo, e eu, de Apolo, e eu, de Cefas, e eu, de Cristo” (1 Co 1:12).",
-                5, 0, "50 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-corintios/"));
+                5, 0,0, "50 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-corintios/"));
 
         //2 Coríntios
         listDescriptionBook.add(new DescriptionBookModel(47, "2Co", "Paulo",
@@ -1495,7 +1507,7 @@ public class DataBaseAcess {
                         "Paulo chegou a escrever quatro epistolas, e duas delas fazem parte da bíblia, compondo parte do Novo Testamento. " +
                         "Esta segunda carta a princípio, foi a terceira delas, escrita num segundo momento, onde Paulo defende sua autoridade e " +
                         "trata de assuntos da vida cristã.",
-                5, 0, "50 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-corintios/"));
+                5, 0,0, "50 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-corintios/"));
 
         //Galatas
         listDescriptionBook.add(new DescriptionBookModel(48, "Gl", "Paulo",
@@ -1503,7 +1515,7 @@ public class DataBaseAcess {
                         "dependendo de onde exatamente o livro foi enviado e se foi na primeira ou segunda viagem de Paulo na província romana da Galácia, " +
                         "região que atualmente faz parte da Turquia.\n\nApós o evangelho ter sido espalhado pelo império romano, e muitos gentios começaram a aceitar Jesus como Salvador, " +
                         "surgiram discussões sobre os gentios seguirem as leis dos judeus, especialmente a lei que mandava que todo homem fosse circuncidado.",
-                5, 0, "48-57 dC", 0, "Fonte: https://www.infoescola.com/biblia/galatas/"));
+                5, 0,0, "48-57 dC", 0, "Fonte: https://www.infoescola.com/biblia/galatas/"));
 
         //Efésios
         listDescriptionBook.add(new DescriptionBookModel(49, "Ef", "Paulo",
@@ -1514,7 +1526,7 @@ public class DataBaseAcess {
                         "há um destaque sobre a luta dos santos, um incentivo a compreensão de que na condição de seguidores de Cristo, todos deveriam compreender " +
                         "que Deus possui toda autoridade para manifestar sua presença entre os crentes\"Bendito o Deus e Pai de nosso Senhor Jesus Cristo, que nos " +
                         "tem abençoado com toda sorte de bênção espiritual nas regiões celestiais em Cristo\"(Ef 1:3).",
-                5, 0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/efesios/"));
+                5, 0,0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/efesios/"));
 
         //Filipenses
         listDescriptionBook.add(new DescriptionBookModel(50, "Fp", "Paulo",
@@ -1524,7 +1536,7 @@ public class DataBaseAcess {
                         "e em torno de dez anos depois de Paulo ter pregado em Filipos pela primeira vez, e ocorreu que Lídia, o carcereiro e sua família " +
                         "foram convertidos a Cristo. E alguns anos depois, a igreja já estava estruturada, como demonstra o inicio deste se referindo a " +
                         "cargos da igreja “Paulo e Timóteo, servos de Cristo Jesus, inclusive bispos e diáconos que vivem em Filipos” (Fp 1:1).",
-                5, 0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/filipenses"));
+                5, 0, 0,"60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/filipenses"));
 
         //Colossenses
         listDescriptionBook.add(new DescriptionBookModel(51, "Cl", "Paulo",
@@ -1534,7 +1546,7 @@ public class DataBaseAcess {
                         "escreveu esta epístola destinada a eles. A possibilidade de que Epafras, companheiro de Paulo tenha sido pioneiro " +
                         "em anunciar o evangelho para eles “Segundo fostes instruídos por Epafras nosso amado conservo e, " +
                         "quanto a vós outros, fiel ministros de Cristo” (Cl 1:7).",
-                5, 0, "60 dC", 0, "Fonte: https://www.infoescola.com/biblia/colossenses/"));
+                5, 0,0, "60 dC", 0, "Fonte: https://www.infoescola.com/biblia/colossenses/"));
 
         //1Tessalonicenses
         listDescriptionBook.add(new DescriptionBookModel(52, "1Ts", "Paulo",
@@ -1543,7 +1555,7 @@ public class DataBaseAcess {
                         "cristão de Tessalonica, pois Timóteo havia relatado a Paulo a situação da igreja que havia " +
                         "sido fundada lá, e com intuito de combater alguns mal-entendidos sobre a volta de Cristo Paulo " +
                         "faz instruções, ao longo de cinco capítulos, sobre uma vida de santificação.",
-                5, 0, "50-52 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-tessalonicenses/"));
+                5, 0,0, "50-52 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-tessalonicenses/"));
 
         //2Tessalonicenses
         listDescriptionBook.add(new DescriptionBookModel(53, "2Ts", "Paulo",
@@ -1554,7 +1566,7 @@ public class DataBaseAcess {
                         "“se, de fato, é justo para com Deus que ele dê em paga tribulação aos que vos atribulam e a vós outros, que sois " +
                         "atribulados, alívio juntamente conosco, quando do céu se manifestar o Senhor Jesus com os anjos do seu poder” (2 Ts 1,6:7); " +
                         "“Todavia, o Senhor é fiel; ele vos confirmará e guardará do Maligno”(2 Ts 3:3).",
-                5, 0, "50-52 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-tessalonicenses/"));
+                5, 0,0, "50-52 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-tessalonicenses/"));
 
         //1Timoteo
         listDescriptionBook.add(new DescriptionBookModel(54, "1Tm", "Paulo",
@@ -1563,7 +1575,7 @@ public class DataBaseAcess {
                         "que fizeste a boa confissão perante muitas testemunhas\" (1Tm 6:12).\n\nPaulo instrui Timóteo sobre a Adoração (1 Tm 2,8:10) " +
                         "e na responsabilidade da liderança amadurecida e séria para a igreja. Essencialmente, a conduta pastoral deve ter cuidado com seus " +
                         "membros e alertar a comunidade contra o pecado, deve também considerar as viúvas, anciãos e escravos.",
-                5, 0, "64 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-timoteo/"));
+                5, 0, 0,"64 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-timoteo/"));
 
         //2Timoteo
         listDescriptionBook.add(new DescriptionBookModel(55, "1Tm", "Paulo",
@@ -1572,7 +1584,7 @@ public class DataBaseAcess {
                         "a permanecer na presença de Cristo, mantendo firme a sua fé e zelando pela doutrina “Toda a Escritura " +
                         "é inspirada por Deus e útil para o ensino, para a repreensão, para a correção, para a educação na justiça, " +
                         "a fim de que o homem de Deus seja perfeito e perfeitamente habilitado para toda boa obra” (2Tm 3,16:17).",
-                5, 0, "66-67 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-timoteo/"));
+                5, 0,0, "66-67 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-timoteo/"));
 
         //Tito
         listDescriptionBook.add(new DescriptionBookModel(56, "Tt", "Paulo",
@@ -1582,7 +1594,7 @@ public class DataBaseAcess {
                         "A ilha de Creta era o local onde Paulo deixou Tito encarregado de liderar a igreja, e era habitada por nativos e judeus " +
                         "que ainda não conheciam a verdade sobre Jesus Cristo \"A razão de tê-lo deixado em Creta foi para que você pusesse em ordem " +
                         "o que ainda faltava e constituísse presbíteros em cada cidade, como eu o instruí\" (Tt 1:5).",
-                5, 0, "62-64 dC", 0, "Fonte: https://www.infoescola.com/biblia/tito/"));
+                5, 0,0, "62-64 dC", 0, "Fonte: https://www.infoescola.com/biblia/tito/"));
 
         //Filemom
         listDescriptionBook.add(new DescriptionBookModel(57, "Fm", "Paulo",
@@ -1594,7 +1606,7 @@ public class DataBaseAcess {
                         "\n" +
                         "Paulo decide que Onesimo deveria voltar para seu dono e escreve esta epístola, solicitando a " +
                         "Filemon que o recebesse de volta nao como escravo, mas como irmãos em Cristo",
-                5, 0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/filemom/"));
+                5, 0,0, "60-63 dC", 0, "Fonte: https://www.infoescola.com/biblia/filemom/"));
 
         //Hebreus
         listDescriptionBook.add(new DescriptionBookModel(58, "Hb", "desconhecido",
@@ -1606,7 +1618,7 @@ public class DataBaseAcess {
                         "Embora não esteja explícita a autoria, e não apresente a saudação de graça e paz característica do apóstolo Paulo, há possibilidade de que seja " +
                         "de sua autoria. Alguns estudiosos creditam esta epístola a Lucas, outros indicam Apolo, Barnabé, Silas, Felipe, ou mesmo o casal " +
                         "cristão Áquila e Priscila.",
-                5, 0, "65 dC", 0, "Fonte: https://www.infoescola.com/biblia/hebreus/"));
+                5, 0, 0,"65 dC", 0, "Fonte: https://www.infoescola.com/biblia/hebreus/"));
 
         //Tiago
         listDescriptionBook.add(new DescriptionBookModel(59, "Tg", "Tiago",
@@ -1617,7 +1629,7 @@ public class DataBaseAcess {
                         "Novo Testamento possui apenas cinco capítulos e data de 62 DC. Embora seja um livro curto, em comparação aos " +
                         "outros livros da bíblia, traz com muita sabedoria grandes ensinamentos sobre o proceder cristão, a mais freqüente " +
                         "delas refere-se à vigilância no falar",
-                5, 0, "62 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-tiago/"));
+                5, 0,0, "62 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-tiago/"));
 
         //1Pedro
         listDescriptionBook.add(new DescriptionBookModel(60, "1Pe", "Pedro",
@@ -1628,7 +1640,7 @@ public class DataBaseAcess {
                         "alimentava a sua fé e procurava pelas cartas incentivar aos outros cristãos a continuarem " +
                         "firmes. \"Bendito seja o Deus e Pai de nosso Senhor Jesus Cristo! Conforme a sua grande misericórdia, " +
                         "ele nos regenerou para uma esperança viva, por meio da ressurreição de Jesus Cristo dentre os mortos\"(1Pe 1:3)",
-                5, 0, "60-65 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-pedro/"));
+                5, 0,0, "60-65 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-pedro/"));
 
         //2Pedro
         listDescriptionBook.add(new DescriptionBookModel(61, "2Pe", "Pedro",
@@ -1638,7 +1650,7 @@ public class DataBaseAcess {
                         "virtude; Pelas quais ele nos tem dado grandíssimas e preciosas promessas, para que por " +
                         "elas fiqueis participantes da natureza divina, havendo escapado da corrupção, que pela " +
                         "concupiscência há no mundo”(2 Pe 1,3:4).",
-                5, 0, "60-65 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-pedro/"));
+                5, 0,0, "60-65 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-e-ii-pedro/"));
 
         //1Joao
         listDescriptionBook.add(new DescriptionBookModel(62, "1Jo", "Apóstolo João",
@@ -1647,7 +1659,7 @@ public class DataBaseAcess {
                         "crentes podiam consultar). O objetivo era estabelecer a verdade sobre questões relevantes, " +
                         "entre elas a identidade de Jesus Cristo; e com isso responder aos questionamentos dos crentes, " +
                         "fortalecendo a fé de toda a igreja.",
-                5, 0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
+                5, 0, 0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
 
         //2Joao
         listDescriptionBook.add(new DescriptionBookModel(63, "2Jo", "Apóstolo João",
@@ -1656,7 +1668,7 @@ public class DataBaseAcess {
                         "para que não percamos o que temos ganho, antes recebamos o inteiro galardão. Todo aquele que prevarica, e não " +
                         "persevera na doutrina de Cristo, não tem a Deus. Quem persevera na doutrina de Cristo, esse tem tanto ao Pai " +
                         "como ao Filho\" (2Jo 8:9).",
-                5, 0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
+                5, 0,0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
 
         //3Joao
         listDescriptionBook.add(new DescriptionBookModel(64, "3Jo", "Apóstolo João",
@@ -1665,7 +1677,7 @@ public class DataBaseAcess {
                         "da Ásia, e seu comportamento estava desagradando por se opor a tudo o que o apóstolo e o " +
                         "seu Evangelho pregava) \"Amado, não sigas o mal, mas o bem. Quem faz o bem é de Deus; " +
                         "mas quem faz o mal não tem visto a Deus\" (3Jo 1:11), e fala bem, elogia o bom testemunho de Demétrio.",
-                5, 0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
+                5, 0,0, "80-95 dC", 0, "Fonte: https://www.infoescola.com/biblia/i-ii-e-iii-joao/"));
 
         //Judas
         listDescriptionBook.add(new DescriptionBookModel(65, "Jd", "Judas",
@@ -1673,7 +1685,7 @@ public class DataBaseAcess {
                         "O livro de apenas um capítulo fala do fim dos tempos, de uma época considerada o fim da era da igreja, " +
                         "que começou com o Dia de Pentecostes ”Judas, servo de Jesus Cristo e irmão de Tiago, aos chamados, amados em " +
                         "Deus Pai e guardados em Jesus Cristo, a misericórdia, a paz e o amor vos sejam multiplicados” (Jd 1:1,2).",
-                5, 0, "60-80 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-judas/"));
+                5, 0, 0,"60-80 dC", 0, "Fonte: https://www.infoescola.com/biblia/livro-de-judas/"));
 
         //Apocalipse
         listDescriptionBook.add(new DescriptionBookModel(66, "Ap", "Apóstolo João",
@@ -1686,7 +1698,7 @@ public class DataBaseAcess {
                         "com isso a perseguição aos cristãos e a dificuldade enfrentada pelas igrejas.Inclusive, o livro " +
                         "começa com cartas destinadas a sete igrejas da Ásia Menor, são elas as igrejas de Éfeso, " +
                         "Esmirna, Pérgamo, Tiatira, Sardes, Filadélfia, Laodicéia.",
-                5, 0, "90-96 dC", 0, "Fonte: https://www.infoescola.com/biblia/apocalipse-2/"));
+                5, 0,0, "90-96 dC", 0, "Fonte: https://www.infoescola.com/biblia/apocalipse-2/"));
 
 
 
@@ -1709,6 +1721,7 @@ public class DataBaseAcess {
             String description = listDescriptionBook.get(i).getDescription();
             int availabled = listDescriptionBook.get(i).getBook_id();
             int favorited = listDescriptionBook.get(i).getFavorited();
+            int scoreLearning = listDescriptionBook.get(i).getScoreLearning();
             String date = listDescriptionBook.get(i).getDate();
             double learning = listDescriptionBook.get(i).getLearning();
             String reference = listDescriptionBook.get(i).getReference();
@@ -1720,6 +1733,7 @@ public class DataBaseAcess {
             valores.put("description", description);
             valores.put("availabled", availabled);
             valores.put("favorited", favorited);
+            valores.put("scoreLearning", scoreLearning);
             valores.put("date", date);
             valores.put("learning", learning);
             valores.put("reference", reference);
@@ -1758,12 +1772,13 @@ public class DataBaseAcess {
                     String description = cursor.getString(3);
                     int availabled = cursor.getInt(4);
                     int favorited = cursor.getInt(5);
-                    String date = cursor.getString(6);
-                    int learning = cursor.getInt(7);
-                    String reference = cursor.getString(8);
+                    int scoreLearning = cursor.getInt(6);
+                    String date = cursor.getString(7);
+                    int learning = cursor.getInt(8);
+                    String reference = cursor.getString(9);
 
 
-                    DescriptionBookModel v = new DescriptionBookModel(book_id, sigle, author, description, availabled, favorited, date, learning, reference);
+                    DescriptionBookModel v = new DescriptionBookModel(book_id, sigle, author, description, availabled, favorited, scoreLearning, date, learning, reference);
                     list.add(v);
 
 
@@ -1789,7 +1804,7 @@ public class DataBaseAcess {
         if (cursor.getCount() > 0) {
             if (cursor.moveToFirst()) {
                 do {
-                    learning = cursor.getInt(7);
+                    learning = cursor.getInt(8);
 
                 } while (cursor.moveToNext());
             }
@@ -1857,6 +1872,48 @@ public class DataBaseAcess {
             Log.i("Update Favorited", "Erro ao atualizar favorito");
         } else {
             Log.i("Update Favorited", "Sucesso ao atualizar favorito");
+        }
+
+
+        close();
+
+    }
+
+    //ScoreLearningBook
+    public Integer learningScoreBook(int id) {
+
+        int scoreLearning = 0;
+
+        open();
+
+        String sql = "SELECT * FROM description_book where book_id=" + id;
+        cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    scoreLearning = cursor.getInt(6);
+                } while (cursor.moveToNext());
+            }
+
+        }
+        cursor.close();
+        close();
+        return scoreLearning;
+
+    }
+
+    public void updateLearningScore(int id, int scoreLearning) {
+        open();
+        ContentValues valores = new ContentValues();
+
+        valores.put("scoreLearning", scoreLearning);
+
+        long resultado = db.update(TABELA_DESCRIPTION_BOOK, valores, "book_id=" + id, null);
+
+        if (resultado == -1) {
+            Log.i("Update Learning Score", "Erro ao atualizar favorito");
+        } else {
+            Log.i("Update Learning Score", "Sucesso ao atualizar favorito");
         }
 
 

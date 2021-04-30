@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -695,6 +696,7 @@ public class HomeFragment extends Fragment {
 
         CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
         cardModal.startAnimation(modal_animate);
+        ImageButton btn_close = welcomeModal.findViewById(R.id.btn_close);
         Button btnAction = welcomeModal.findViewById(R.id.btnAction);
         TextView txt_title = welcomeModal.findViewById(R.id.txt_title);
         TextView txtDescription = welcomeModal.findViewById(R.id.txtDescription);
@@ -702,6 +704,12 @@ public class HomeFragment extends Fragment {
         txt_title.setText(msg);
         txtDescription.setText(getString(R.string.descriptionWelcome));
 
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                welcomeModal.dismiss();
+            }
+        });
         cardModal.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -710,7 +718,6 @@ public class HomeFragment extends Fragment {
                 welcomeModal.dismiss();
                 welcomeModal.dismiss();
                 welcomeModal.hide();
-
             }
         });
 
@@ -1286,8 +1293,11 @@ public class HomeFragment extends Fragment {
 
         if (lista2.size() != 0) {
             for(int i = 0; i<lista2.size(); i++) {
+
                 int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
+                boolean favorited = dataBaseAcess.favorited(lista2.get(i).getId());
                 lista2.get(i).setLearning(learningBook);
+                lista2.get(i).setFavorited(favorited);
                 listaAntigo.add(lista2.get(i));
             }
         }
@@ -1297,8 +1307,11 @@ public class HomeFragment extends Fragment {
 
         if (lista3.size() != 0) {
             for(int i = 0; i<lista3.size(); i++) {
+
                 int learningBook = dataBaseAcess.learningBook(lista3.get(i).getId());
+                boolean favorited = dataBaseAcess.favorited(lista3.get(i).getId());
                 lista3.get(i).setLearning(learningBook);
+                lista3.get(i).setFavorited(favorited);
                 listaNovo.add(lista3.get(i));
             }
         }

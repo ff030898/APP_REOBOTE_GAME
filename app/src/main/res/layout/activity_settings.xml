@@ -47,5 +47,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRules" />
 
+    <Button
+        android:id="@+id/btnInsertPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/btn_login"
+        android:text="@string/novo_post"
+        android:textColor="@color/colorBranco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHelp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

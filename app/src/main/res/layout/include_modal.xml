@@ -32,6 +32,15 @@
                 android:layout_marginVertical="25dp"
                 tools:ignore="UselessParent">
 
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_close"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="24dp"
+                    android:background="@color/float_transparent"/>
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageIcon"
                     android:layout_width="match_parent"
@@ -48,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="8dp"
+                    android:layout_marginTop="24dp"
                     tools:text="Olá, jogador"
                     android:textColor="#3E5481"
                     android:textAlignment="center"

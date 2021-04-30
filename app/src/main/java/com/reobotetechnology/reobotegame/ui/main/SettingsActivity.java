@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
+import com.reobotetechnology.reobotegame.ui.admin.blog.CreatePostBlogActivity;
 import com.reobotetechnology.reobotegame.ui.main.WelcomeActivity;
 import com.reobotetechnology.reobotegame.ui.match.MatchRulesActivity;
 
@@ -51,6 +52,14 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 viewHelp();
+            }
+        });
+
+        Button btnInsertPost = findViewById(R.id.btnInsertPost);
+        btnInsertPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CreatePostBlogActivity.class));
             }
         });
 

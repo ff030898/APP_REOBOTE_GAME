@@ -63,8 +63,7 @@ public class ListBooksOfBibleAdapters extends RecyclerView.Adapter<ListBooksOfBi
         holder.txtDescription.setText(list.get(0).getDescription());
 
         holder.txtSigla.setText(list.get(0).getSigle());
-        if(list.get(0).getFavorited() == 0) {
-            holder.btnFavorited.setImageResource(R.drawable.ic_favorited_book);
+        if(!b.isFavorited()) {
             holder.btnFavorited.setVisibility(View.GONE);
         }else{
             holder.btnFavorited.setImageResource(R.drawable.ic_favorite_book2_pint);

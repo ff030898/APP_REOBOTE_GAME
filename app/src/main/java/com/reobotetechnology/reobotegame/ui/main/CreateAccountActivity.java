@@ -291,7 +291,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         String senha = (login_password.getEditText().getText()).toString().trim();
 
                         usuario = new UserModel("1", nome, email, senha, "",
-                                "", "", "", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, false, false, false, false, false, false, false, false, false);
+                                "", ""+getString(R.string.lorem2), "", 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, false, false, false, false, false, false, false, false, false);
                         cadastrarUsuario(usuario);
 
 
@@ -552,7 +552,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
                                 UserModel usuario2Model = new UserModel(idUsuario, user.getDisplayName(), email, "", imagem,
-                                        "", "", "", 0, 0, 0, 0,
+                                        "", ""+getString(R.string.lorem2), "", 0, 0, 0, 0,
                                         1, 0, 0, 0, 0,
                                         0, false, false, false, false, false,
                                         false, false, false, false);

@@ -1,9 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBranco"
+    android:fillViewport="true"
+    android:scrollbars="none"
     tools:context=".ui.admin.blog.CreatePostBlogActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.main.EditProfileActivity">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/include_toolbar_activites"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_marginBottom="32dp"
+                app:cardBackgroundColor="@color/colorBranco"
+                app:cardCornerRadius="10dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.3"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/reforma"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btn_upload"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@color/float_transparent"
+                        android:src="@drawable/ic_insert_photo" />
+
+                    <TextView
+                        android:id="@+id/txtDescriptionUpload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="8dp"
+                        android:text="@string/upload_imagem"
+                        android:textColor="#3E5481"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/escolha_da_galeria"
+                        android:textColor="#9FA5C0" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/post_title"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/t_tulo"
+                android:textColorHint="#9098B1"
+                app:boxStrokeColor="#ccc"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="150"
+                app:endIconMode="clear_text"
+                app:endIconTint="#BDBDBD"
+                app:errorEnabled="true"
+                app:hintTextColor="#9098B1"
+                app:startIconTint="#BDBDBD">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:textColor="#707070"
+                    android:textCursorDrawable="@drawable/input_cursor" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/post_description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/descri_o"
+                android:textColorHint="#9098B1"
+                app:boxStrokeColor="#cccccc"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="5000"
+                app:endIconMode="clear_text"
+                app:endIconTint="#BDBDBD"
+                app:hintTextColor="#9098B1"
+                app:startIconTint="#BDBDBD">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textImeMultiLine"
+                    android:textColor="#707070"
+                    android:textCursorDrawable="@drawable/input_cursor" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/btn_screen"
+            android:text="@string/publicar_post"
+            android:textColor="@color/colorBranco"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

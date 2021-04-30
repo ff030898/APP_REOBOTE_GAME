@@ -351,7 +351,6 @@ public class RankingFragment extends Fragment {
                         pJogador3.setText(pjogador3);
 
                         if (imagem.isEmpty()) {
-
                             img_user.setImageResource(R.drawable.profile);
                         } else {
 
@@ -391,6 +390,47 @@ public class RankingFragment extends Fragment {
                         img_user2.setImageResource(R.drawable.profile);
                         img_user3.setImageResource(R.drawable.profile);
                     }
+
+                    //Abrir profileFriend
+
+                    img_user.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int tamanho = listaRanking.size();
+                            UserModel usuarioSelecionado = listaRanking.get(tamanho - 1);
+                            if (!usuarioSelecionado.getEmail().equals(user.getEmail())) {
+                                Intent i = new Intent(getActivity(), FriendProfileActivity.class);
+                                i.putExtra("id", usuarioSelecionado.getEmail());
+                                startActivity(i);
+                            }
+                        }
+                    });
+
+                    img_user2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int tamanho = listaRanking.size();
+                            UserModel usuarioSelecionado = listaRanking.get(tamanho - 2);
+                            if (!usuarioSelecionado.getEmail().equals(user.getEmail())) {
+                                Intent i = new Intent(getActivity(), FriendProfileActivity.class);
+                                i.putExtra("id", usuarioSelecionado.getEmail());
+                                startActivity(i);
+                            }
+                        }
+                    });
+
+                    img_user3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int tamanho = listaRanking.size();
+                            UserModel usuarioSelecionado = listaRanking.get(tamanho - 3);
+                            if (!usuarioSelecionado.getEmail().equals(user.getEmail())) {
+                                Intent i = new Intent(getActivity(), FriendProfileActivity.class);
+                                i.putExtra("id", usuarioSelecionado.getEmail());
+                                startActivity(i);
+                            }
+                        }
+                    });
 
                     adapterRanking.notifyDataSetChanged();
                     new Handler().postDelayed(new Runnable() {

@@ -90,7 +90,7 @@ public class FriendProfileActivity extends AppCompatActivity {
     private FloatingActionButton btn_edit;
 
     //Status Info Completed
-
+    private TextView txtNivelStatus;
     private TextView txtRankingStatus;
     private TextView txtSeguindoStatus;
     private TextView txtSeguidoresStatus;
@@ -224,7 +224,7 @@ public class FriendProfileActivity extends AppCompatActivity {
         });
 
         //StatusCompleted
-
+        txtNivelStatus = findViewById(R.id.textViewN2);
         txtRankingStatus = findViewById(R.id.textView29);
         txtSeguindoStatus = findViewById(R.id.textView33);
         txtSeguidoresStatus = findViewById(R.id.textView35);
@@ -387,6 +387,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                         nome = user.getNome();
                         imagem = user.getImagem();
                         score = user.getPontosG();
+                        listConquist(score);
                         nivelUser = user.getNivel();
 
                         //Toolbar
@@ -402,6 +403,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                         bioDescription.setText(""+getString(R.string.sobre));
 
                         //INFO
+                        txtNivelStatus.setText(user.getNivel()+"");
                         txtRankingStatus.setText(user.getRanking()+"");
                         txtSeguindoStatus.setText(""+user.getSeguidores());
                         txtSeguidoresStatus.setText(""+user.getSeguindo());
@@ -464,44 +466,85 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
-    private void listConquist(){
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listConquist(int score){
 
         listConquist.clear();
 
         listConquist.add(new ConquistesModel("Cadastro", 20, true));
-        listConquist.add(new ConquistesModel("Nível 1", 100, true));
-        listConquist.add(new ConquistesModel("Nível 2", 150, true));
-        listConquist.add(new ConquistesModel("Nível 3", 200, false));
-        listConquist.add(new ConquistesModel("Nível 4", 250, false));
-        listConquist.add(new ConquistesModel("Nível 5", 300, false));
-        listConquist.add(new ConquistesModel("Nível 6", 350, false));
-        listConquist.add(new ConquistesModel("Nível 7", 400, false));
-        listConquist.add(new ConquistesModel("Nível 8", 450, false));
+
+        int count = 1;
+        int countNivel = 50;
+        int nivelUser = 0;
+
+        for (int i = countNivel; i <= 2000; i += countNivel) {
+
+            if (score > i) {
+                listConquist.add(new ConquistesModel("Nível " + count, i, true));
+                nivelUser++;
+            } else if ((i - score) <= countNivel) {
+                listConquist.add(new ConquistesModel("Nível " + count, i, true));
+                nivelUser++;
+            } else {
+                listConquist.add(new ConquistesModel("Nível " + count, i, false));
+            }
+
+            count++;
+        }
 
         adapterConquist.notifyDataSetChanged();
+        updateNivelUser(nivelUser);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void updateNivelUser(int nivel) {
+
+        try {
+
+            String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(id));
+            DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+            usuarioRef.child("nivel").setValue(nivel);
+
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+    @SuppressLint("SetTextI18n")
     private void openModalConquist(String description, int count){
 
-        Dialog nivelDIalog = new Dialog(this);
+        final Dialog nivelDIalog = new Dialog(this);
         nivelDIalog.setContentView(R.layout.include_modal_nivel);
 
         CardView cardModal = nivelDIalog.findViewById(R.id.cardModal);
         cardModal.startAnimation(modal_anima);
 
+        ImageButton btn_close = nivelDIalog.findViewById(R.id.btn_close);
         TextView txt_title = nivelDIalog.findViewById(R.id.txt_title);
         TextView txtProgresso = nivelDIalog.findViewById(R.id.txtProgresso);
         ProgressBar progressBar = nivelDIalog.findViewById(R.id.progressBar);
         progressBar.setMax(count);
+        progressBar.setMax(count);
         progressBar.setProgress(Math.min(score, count));
 
         txt_title.setText(description);
-        txtProgresso.setText(score+"/"+count);
+        if(score <= count) {
+            txtProgresso.setText(score + "/" + count);
+        }else{
+            txtProgresso.setText(count + "/" + count);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull(nivelDIalog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
-        nivelDIalog.setCancelable(true);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nivelDIalog.dismiss();
+            }
+        });
         nivelDIalog.show();
 
     }
@@ -517,8 +560,11 @@ public class FriendProfileActivity extends AppCompatActivity {
 
         if (lista2.size() != 0) {
             for(int i = 0; i<lista2.size(); i++) {
+
                 int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
+                boolean favorited = dataBaseAcess.favorited(lista2.get(i).getId());
                 lista2.get(i).setLearning(learningBook);
+                lista2.get(i).setFavorited(favorited);
                 listFavorites.add(lista2.get(i));
             }
         }
@@ -659,13 +705,11 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onStart() {
         super.onStart();
         getUser();
-        listConquist();
         listBookFavorites();
         listMatches();
     }

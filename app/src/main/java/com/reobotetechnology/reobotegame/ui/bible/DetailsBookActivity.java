@@ -217,8 +217,11 @@ public class DetailsBookActivity extends AppCompatActivity {
 
         if (lista.size() != 0) {
             for(int i = 0; i<lista.size(); i++) {
+
                 int learningBook = dataBaseAcess.learningBook(lista.get(i).getId());
+                boolean favorited = dataBaseAcess.favorited(lista.get(i).getId());
                 lista.get(i).setLearning(learningBook);
+                lista.get(i).setFavorited(favorited);
                 listFavorites.add(lista.get(i));
             }
         }

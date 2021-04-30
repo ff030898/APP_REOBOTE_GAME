@@ -1,5 +1,6 @@
 package com.reobotetechnology.reobotegame.ui.bible;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
@@ -28,6 +29,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -37,20 +39,28 @@ import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.BibleAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
+import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.CheckChaptherModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
+import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 import com.reobotetechnology.reobotegame.utils.LinearLayoutManagerWithSmoothScroller;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -92,9 +102,12 @@ public class BiblieActivity extends AppCompatActivity {
 
     //Configuração FireBase
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
+    private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
     private Animation modal_anima;
+
+    private int pontosG = 0;
 
 
     @SuppressLint({"WrongConstant", "ResourceType"})
@@ -557,7 +570,7 @@ public class BiblieActivity extends AppCompatActivity {
             listCheck.add(new CheckChaptherModel(livro, c));
             dataBaseAcess.createCheckChapther(listCheck);
 
-            Toast.makeText(getApplicationContext(), "Capítulo marcado como lido", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Capítulo marcado como lido", Toast.LENGTH_SHORT).show();
             updateLearningBook();
             checkChapther();
 
@@ -574,7 +587,7 @@ public class BiblieActivity extends AppCompatActivity {
             listRemoveCheck.add(new CheckChaptherModel(livro, c));
             dataBaseAcess.dropCheckChapther(listRemoveCheck);
             updateLearningBookRemovedChapther();
-            Toast.makeText(getApplicationContext(), "Capítulo removido como lido", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Capítulo removido como lido", Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
 
         }
@@ -649,9 +662,9 @@ public class BiblieActivity extends AppCompatActivity {
             favoriteBook();
 
             if (favorited != 0) {
-                Toast.makeText(getApplicationContext(), "Livro adicionado na sua lista de favoritos ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Livro adicionado na sua lista de favoritos ", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "Livro removido da sua lista de favoritos ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Livro removido da sua lista de favoritos ", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception ignored) {
@@ -679,7 +692,13 @@ public class BiblieActivity extends AppCompatActivity {
             if (completed == 100) {
                 //modal parabéns
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    modalCompletedLearnBook();
+                    int scoreLearning = dataBaseAcess.learningScoreBook(livro);
+                    Log.d("Score Learning", "Score: "+scoreLearning);
+                    modalCompletedLearnBook(chapthersBook, scoreLearning);
+                    if(scoreLearning == 0) {
+                        updateScoreUser(chapthersBook);
+                        updateScoreUserLearning(scoreLearning + 1);
+                    }
                 }
             }
 
@@ -689,10 +708,55 @@ public class BiblieActivity extends AppCompatActivity {
         }
 
     }
+    //Método para somar com os pontos da partida do jogador e atribuir no banco de dados
+    @SuppressLint("ShowToast")
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
+    private void updateScoreUser(final int score){
+
+        try {
+            final String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+            firebaseRef.child("usuarios").child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    UserModel user = dataSnapshot.getValue(UserModel.class);
+                    assert user != null;
+                    pontosG = user.getPontosG();
+                    int pontosGeral = pontosG + score;
+                    DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+                    usuarioRef.child("pontosG").setValue(pontosGeral);
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+        } catch (Exception ignored) {
+
+        }
+
+
+    }
+
+    private void updateScoreUserLearning(int scoreLearning){
+        try {
+
+            DataBaseAcess dataBaseAcess = DataBaseAcess.getInstance(getApplicationContext());
+
+            dataBaseAcess.updateLearningScore(livro, scoreLearning);
+
+
+        } catch (Exception e) {
+            Log.d("Erro", "" + e.getMessage());
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SetTextI18n")
-    private void modalCompletedLearnBook() {
+    private void modalCompletedLearnBook(final int score, int scoreLearning) {
         final Dialog welcomeModal = new Dialog(this);
         welcomeModal.requestWindowFeature(Window.FEATURE_NO_TITLE);
         welcomeModal.setContentView(R.layout.include_modal);
@@ -700,26 +764,37 @@ public class BiblieActivity extends AppCompatActivity {
         CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
         cardModal.startAnimation(modal_anima);
         ImageView imageIcon = welcomeModal.findViewById(R.id.imageIcon);
+        ImageButton btn_close = welcomeModal.findViewById(R.id.btn_close);
         Button btnAction = welcomeModal.findViewById(R.id.btnAction);
         TextView txt_title = welcomeModal.findViewById(R.id.txt_title);
         TextView txtDescription = welcomeModal.findViewById(R.id.txtDescription);
 
         String[] name = Objects.requireNonNull(user.getDisplayName()).split(" ");
 
-
         imageIcon.setImageResource(R.drawable.ic_emogi_happy);
         txt_title.setText("Parabéns, " + name[0] + "!");
-        txtDescription.setText(Html.fromHtml("Você terminou de ler<br><b>"+nm_livro+"</b>"));
+        if(scoreLearning == 0) {
+            txtDescription.setText(Html.fromHtml("Você terminou de ler<br><b>" + nm_livro + "</b> e ganhou <br><b>+" + score + " ponto(s)</b>"));
+        }else{
+            txtDescription.setText(Html.fromHtml("Você terminou de ler<br><b>" + nm_livro + "</b>"));
+        }
         btnAction.setText(getString(R.string.fechar));
 
 
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View v) {
+                welcomeModal.dismiss();
+            }
+        });
         btnAction.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
                 welcomeModal.dismiss();
-                welcomeModal.hide();
             }
         });
 
@@ -729,9 +804,7 @@ public class BiblieActivity extends AppCompatActivity {
 
         welcomeModal.show();
 
-
     }
-
 
     //Calcular porcetagem com capitulo removido
     private void updateLearningBookRemovedChapther() {

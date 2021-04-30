@@ -162,10 +162,8 @@ public class ListBiblieScreen extends AppCompatActivity {
 
 
 
-
         if(cd_testamento == 0) {
             lista2 = dataBaseAcess.listarAntigoTestamento();
-
 
         }else{
             lista2 = dataBaseAcess.listarNovoTestamento();
@@ -174,7 +172,9 @@ public class ListBiblieScreen extends AppCompatActivity {
         if (lista2.size() != 0) {
             for(int i = 0; i<lista2.size(); i++) {
                 int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
+                boolean favorited = dataBaseAcess.favorited(lista2.get(i).getId());
                 lista2.get(i).setLearning(learningBook);
+                lista2.get(i).setFavorited(favorited);
                 lista.add(lista2.get(i));
             }
         }

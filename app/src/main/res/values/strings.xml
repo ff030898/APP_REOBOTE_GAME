@@ -182,6 +182,7 @@
     <string name="ranking2">RANKING</string>
     <string name="sobre">SOBRE</string>
     <string name="sobre_mim">SOBRE MIM</string>
+    <string name="sobre_M">Sobre mim</string>
     <string name="name_robot">Reobote IA</string>
     <string name="editar">(EDITAR)</string>
     <string name="conquistas">CONQUISTAS</string>
@@ -247,6 +248,15 @@
     <string name="continue_jogando_para_alcan_ar_o_pr_ximo_n_vel">Continue jogando para alcançar o próximo nível</string>
     <string name="nivel">Nível</string>
     <string name="digite_aqui">Digite aqui...</string>
+    <string name="t_tulo">Título</string>
+    <string name="novo_post">Novo Post</string>
+    <string name="publicar_post">Publicar Post</string>
+    <string name="upload_imagem">Upload imagem</string>
+    <string name="escolha_da_galeria">Escolha da galeria</string>
+    <string name="create_post">Cadastrar Post</string>
+    <string name="description_create_post">Adicionar conteúdo no blog</string>
+    <string name="digite_aqui_o_conte_do_do_post">Digite aqui o conteúdo do post</string>
+    <string name="descri_o">Descrição</string>
 
 
 </resources>
