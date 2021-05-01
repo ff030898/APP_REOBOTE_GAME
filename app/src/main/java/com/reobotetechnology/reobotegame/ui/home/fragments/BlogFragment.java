@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -36,6 +37,8 @@ import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
 import com.reobotetechnology.reobotegame.model.BlogPostModel;
+import com.reobotetechnology.reobotegame.model.CommentBlogPostModel;
+import com.reobotetechnology.reobotegame.model.FollowBlogPostModel;
 import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificationsActivity;
 
@@ -302,78 +305,69 @@ public class BlogFragment extends Fragment {
 
     }
 
+
     private void listPostBlog(){
-        listStory.clear();
 
-        listStory.add(new BlogPostModel(1, "O que foi a reforma protestante?", "", "1 hora atrás", 10));
-        listStory.add(new BlogPostModel(2, "Porque temos que morrer?", "", "2 horas atrás", 20));
-        listStory.add(new BlogPostModel(3, "Quem foi John Wesley?", "", "3 horas atrás", 30));
-        listStory.add(new BlogPostModel(4, "Quem foi Martinho lutero?", "", "4 horas atrás", 40));
-        listStory.add(new BlogPostModel(5, "Quem foi João Calvino?", "", "5 horas atrás", 50));
-        listStory.add(new BlogPostModel(6, "O que simbolizam os 4 cavaleiros do apocalipse?", "", "3 horas atrás", 50));
-        listStory.add(new BlogPostModel(7, "Qual era a real aparência de Jesus", "", "2 horas atrás", 80));
-        listStory.add(new BlogPostModel(8, "Quem foi Estêvão?", "", "4 horas atrás", 50));
-        listStory.add(new BlogPostModel(9, "Quem foi Timóteo?", "", "2 horas atrás", 80));
-        listStory.add(new BlogPostModel(10, "Quem é Jesus Cristo?", "", "3 horas atrás", 80));
-        listStory.add(new BlogPostModel(11, "Quem foi Josias?", "", "2 horas atrás", 80));
-        listStory.add(new BlogPostModel(12, "A arca de Noé", "", "3 horas atrás", 80));
-        listStory.add(new BlogPostModel(13, "O Pai da Fé", "", "2 horas atrás", 80));
-        listStory.add(new BlogPostModel(14, "Quem foi Débora?", "", "3 horas atrás", 80));
-        listStory.add(new BlogPostModel(15, "A libertação de Maria Madalena", "", "2 horas atrás", 80));
-        listStory.add(new BlogPostModel(16, "A história da Rainha Ester", "", "1 hora atrás", 150));
-        listStory.add(new BlogPostModel(17, "O jovem Daniel", "", "1 hora atrás", 50));
-        listStory.add(new BlogPostModel(18, "O Feminicídio que causou uma guerra", "", "1 hora atrás", 350));
-        listStory.add(new BlogPostModel(19, "Pré ou Pós tribulacionistas", "", "1 hora atrás", 350));
-        listStory.add(new BlogPostModel(20, "A visão de João", "", "1 hora atrás", 350));
-        listStory.add(new BlogPostModel(21, "A conversão de Saulo", "", "1 hora atrás", 350));
-        listStory.add(new BlogPostModel(22, "O Edito de Milão", "", "1 hora atrás", 350));
+        constraintPrincipal.setVisibility(View.GONE);
+        progressBar3.setVisibility(View.VISIBLE);
+
+        try {
+
+            listStory.clear();
+            listStory2.clear();
+            listStory3.clear();
+            listStory4.clear();
+            listStory5.clear();
+            listStory6.clear();
+
+            firebaseRef.child("blog").addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                        BlogPostModel blog = dados.getValue(BlogPostModel.class);
+
+                        assert blog != null;
+
+                        listStory.add(blog);
+                        listStory2.add(blog);
+                        listStory3.add(blog);
+                        listStory4.add(blog);
+                        listStory5.add(blog);
+                        listStory6.add(blog);
+
+                    }
+
+                    adapterStory.notifyDataSetChanged();
+                    adapterStory2.notifyDataSetChanged();
+                    adapterStory3.notifyDataSetChanged();
+                    adapterStory4.notifyDataSetChanged();
+                    adapterStory5.notifyDataSetChanged();
+                    adapterStory6.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            new Handler().postDelayed(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void run() {
+                    progressBar3.setVisibility(View.GONE);
+                    constraintPrincipal.setVisibility(View.VISIBLE);
+                }
+            }, 1200);
+
+        } catch (Exception ignored) {
+
+        }
 
 
-        //ESCATOLOGIA
-        listStory2.add(new BlogPostModel(6, "Os 4 cavaleiros do apocalipse", "", "3 horas atrás", 50));
-        listStory2.add(new BlogPostModel(17, "O jovem Daniel", "", "1 hora atrás", 50));
-        listStory2.add(new BlogPostModel(19, "Pré ou Pós tribulacionistas", "", "1 hora atrás", 350));
-        listStory2.add(new BlogPostModel(20, "A visão de João", "", "1 hora atrás", 350));
 
-        //CRISTOLOGIA
-        listStory3.add(new BlogPostModel(7, "Qual era a real aparência de Jesus", "", "2 horas atrás", 80));
-        listStory3.add(new BlogPostModel(22, "O Edito de Milão", "", "1 hora atrás", 350));
-        listStory3.add(new BlogPostModel(21, "A conversão de Saulo", "", "1 hora atrás", 350));
-        listStory3.add(new BlogPostModel(10, "Quem é Jesus Cristo?", "", "3 horas atrás", 80));
-
-        //JOVENS
-        listStory4.add(new BlogPostModel(8, "Quem foi Estêvão?", "", "4 horas atrás", 50));
-        listStory4.add(new BlogPostModel(9, "Quem foi Timóteo?", "", "2 horas atrás", 80));
-        listStory4.add(new BlogPostModel(16, "A história da Rainha Ester", "", "1 hora atrás", 150));
-        listStory4.add(new BlogPostModel(17, "O jovem Daniel", "", "1 hora atrás", 50));
-
-        //CRIANÇAS
-        listStory5.add(new BlogPostModel(10, "Quem é Jesus Cristo?", "", "3 horas atrás", 80));
-        listStory5.add(new BlogPostModel(11, "Quem foi Josias?", "", "2 horas atrás", 80));
-        listStory5.add(new BlogPostModel(12, "A arca de Noé", "", "3 horas atrás", 80));
-        listStory5.add(new BlogPostModel(13, "O Pai da Fé", "", "2 horas atrás", 80));
-
-        //MULHERES
-        listStory6.add(new BlogPostModel(18, "O Feminicídio que causou uma guerra", "", "1 hora atrás", 350));
-        listStory6.add(new BlogPostModel(14, "Quem foi Débora?", "", "3 horas atrás", 80));
-        listStory6.add(new BlogPostModel(15, "A libertação de Maria Madalena", "", "2 horas atrás", 80));
-        listStory6.add(new BlogPostModel(16, "A história da Rainha Ester", "", "1 hora atrás", 150));
-
-        adapterStory.notifyDataSetChanged();
-        adapterStory2.notifyDataSetChanged();
-        adapterStory3.notifyDataSetChanged();
-        adapterStory4.notifyDataSetChanged();
-        adapterStory5.notifyDataSetChanged();
-        adapterStory6.notifyDataSetChanged();
-
-        new Handler().postDelayed(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void run() {
-                progressBar3.setVisibility(View.GONE);
-                constraintPrincipal.setVisibility(View.VISIBLE);
-            }
-        }, 2000);
 
     }
 

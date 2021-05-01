@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.comment.AnotattionActivity"></activity>
+        <activity android:name=".ui.comment.AnotattionActivity"/>
         <activity android:name=".ui.match.MatchListDetailsActivity" />
         <activity android:name=".ui.match.MatchListActivity" />
         <activity android:name=".ui.admin.questions.CreateQuestionActivity" />
@@ -156,7 +156,7 @@
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/icon_round" />
+            android:resource="@mipmap/icon_notification" />
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.

@@ -3,15 +3,24 @@ package com.reobotetechnology.reobotegame.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.BlogPostModel;
 import com.reobotetechnology.reobotegame.ui.blog.BlogDetails;
@@ -23,6 +32,7 @@ public class BlogPostStoryAdapters extends RecyclerView.Adapter<BlogPostStoryAda
 
     private List<BlogPostModel> listBlog;
     private Context context;
+    private boolean follow = false;
 
     public BlogPostStoryAdapters(List<BlogPostModel> listBlog, Context c) {
         this.listBlog = listBlog;
@@ -38,68 +48,63 @@ public class BlogPostStoryAdapters extends RecyclerView.Adapter<BlogPostStoryAda
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull myViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull final myViewHolder holder, final int position) {
 
         final BlogPostModel post = listBlog.get(position);
 
-        holder.txt_title.setText("" + post.getTitle());
-        holder.txt_time.setText("" + post.getTime());
 
-        if (post.getId() == 1) {
-            holder.image.setImageResource(R.drawable.reforma);
-        } else if (post.getId() == 2) {
-            holder.image.setImageResource(R.drawable.jardim);
-        } else if (post.getId() == 3) {
-            holder.image.setImageResource(R.drawable.johnwesley);
-        } else if (post.getId() == 4) {
-            holder.image.setImageResource(R.drawable.lutero);
-        } else if (post.getId() == 5) {
-            holder.image.setImageResource(R.drawable.calvino);
-        } else if (post.getId() == 6) {
-            holder.image.setImageResource(R.drawable.escatologia);
-        } else if (post.getId() == 7) {
-            holder.image.setImageResource(R.drawable.cristologia);
-        } else if (post.getId() == 8) {
-            holder.image.setImageResource(R.drawable.estevao);
-        } else if (post.getId() == 9) {
-            holder.image.setImageResource(R.drawable.timoteo);
-        } else if (post.getId() == 10) {
-            holder.image.setImageResource(R.drawable.infantil);
-        } else if (post.getId() == 11) {
-            holder.image.setImageResource(R.drawable.josias);
-        } else if (post.getId() == 12) {
-            holder.image.setImageResource(R.drawable.noe2);
-        } else if (post.getId() == 13) {
-            holder.image.setImageResource(R.drawable.abraao);
-        } else if (post.getId() == 14) {
-            holder.image.setImageResource(R.drawable.debora);
-        } else if (post.getId() == 15) {
-            holder.image.setImageResource(R.drawable.maria);
-        } else if (post.getId() == 16) {
-            holder.image.setImageResource(R.drawable.ester);
-        } else if (post.getId() == 17) {
-            holder.image.setImageResource(R.drawable.daniel);
-        } else if (post.getId() == 18) {
-            holder.image.setImageResource(R.drawable.feminicidio);
-        } else if (post.getId() == 19) {
-            holder.image.setImageResource(R.drawable.tribulacao);
-        } else if (post.getId() == 20) {
-            holder.image.setImageResource(R.drawable.visao_joao);
-        } else if (post.getId() == 21) {
-            holder.image.setImageResource(R.drawable.saulo);
-        } else if (post.getId() == 22) {
-            holder.image.setImageResource(R.drawable.edito);
-        }
+        holder.txt_title.setText("" + post.getTitle());
+        holder.txt_time.setText("Hoje - " + post.getTime());
+        holder.btnFavorited.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow) {
+                    holder.btnFavorited.setImageResource(R.drawable.ic_favorited_book);
+                    follow = false;
+                }else{
+                    holder.btnFavorited.setImageResource(R.drawable.ic_favorite_book2_pint);
+                    follow = true;
+                }
+            }
+        });
+
+
+        Glide.with(context)
+                .load(post.getImage())
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        holder.progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(holder.image);
+
+        /*Glide
+                .with(context)
+                .load(post.getImage())
+                .centerCrop()
+                .placeholder(R.drawable.loading)
+                .into(holder.image);*/
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent i = new Intent(context, BlogDetails.class);
-                i.putExtra("id_post", post.getId());
+                i.putExtra("id", post.getId());
+                i.putExtra("image", post.getImage());
                 i.putExtra("title", post.getTitle());
-                i.putExtra("date", post.getTime());
+                i.putExtra("description", post.getDescription());
+                i.putExtra("reference", post.getReference());
+                i.putExtra("date", post.getDate());
+                i.putExtra("time", post.getTime());
                 context.startActivity(i);
             }
         });
@@ -115,6 +120,8 @@ public static class myViewHolder extends RecyclerView.ViewHolder {
 
     TextView txt_title, txt_time;
     ImageView image;
+    ImageButton btnFavorited;
+    ProgressBar progress;
 
 
     public myViewHolder(@NonNull View itemView) {
@@ -123,6 +130,8 @@ public static class myViewHolder extends RecyclerView.ViewHolder {
         txt_title = itemView.findViewById(R.id.txt_title);
         txt_time = itemView.findViewById(R.id.txt_time);
         image = itemView.findViewById(R.id.image);
+        btnFavorited = itemView.findViewById(R.id.btnFavorited);
+        progress = itemView.findViewById(R.id.progress);
 
 
     }

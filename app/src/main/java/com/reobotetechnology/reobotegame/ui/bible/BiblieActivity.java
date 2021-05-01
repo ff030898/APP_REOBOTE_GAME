@@ -774,7 +774,7 @@ public class BiblieActivity extends AppCompatActivity {
         imageIcon.setImageResource(R.drawable.ic_emogi_happy);
         txt_title.setText("Parabéns, " + name[0] + "!");
         if(scoreLearning == 0) {
-            txtDescription.setText(Html.fromHtml("Você terminou de ler<br><b>" + nm_livro + "</b> e ganhou <br><b>+" + score + " ponto(s)</b>"));
+            txtDescription.setText(Html.fromHtml("Você terminou de ler<br><b>" + nm_livro + "</b> e ganhou <br><b>+" + score + " xp</b>"));
         }else{
             txtDescription.setText(Html.fromHtml("Você terminou de ler<br><b>" + nm_livro + "</b>"));
         }

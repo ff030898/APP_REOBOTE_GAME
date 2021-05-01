@@ -51,7 +51,7 @@
                     android:layout_height="match_parent"
                     android:alpha="0.3"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/reforma"
+                    android:src="@drawable/loading"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -105,6 +105,7 @@
                 app:endIconTint="#BDBDBD"
                 app:errorEnabled="true"
                 app:hintTextColor="#9098B1"
+                android:textCursorDrawable="@drawable/input_cursor"
                 app:startIconTint="#BDBDBD">
 
 
@@ -124,8 +125,8 @@
                 android:id="@+id/post_description"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
                 android:hint="@string/descri_o"
                 android:textColorHint="#9098B1"
                 app:boxStrokeColor="#cccccc"
@@ -136,19 +137,67 @@
                 app:endIconMode="clear_text"
                 app:endIconTint="#BDBDBD"
                 app:hintTextColor="#9098B1"
+                android:textCursorDrawable="@drawable/input_cursor"
                 app:startIconTint="#BDBDBD">
 
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:inputType="textImeMultiLine"
                     android:textColor="#707070"
                     android:textCursorDrawable="@drawable/input_cursor" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/post_reference"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fonte"
+                android:textColorHint="#9098B1"
+                app:boxStrokeColor="#ccc"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="150"
+                app:endIconMode="clear_text"
+                app:endIconTint="#BDBDBD"
+                app:errorEnabled="true"
+                app:hintTextColor="#9098B1"
+                android:textCursorDrawable="@drawable/input_cursor"
+                app:startIconTint="#BDBDBD">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editReference"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:textColor="#707070"
+                    android:textCursorDrawable="@drawable/input_cursor" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/escolha_uma_categoria"
+                android:textColor="@color/colorPreto"
+                android:layout_marginVertical="24dp"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                />
 
 
         </LinearLayout>

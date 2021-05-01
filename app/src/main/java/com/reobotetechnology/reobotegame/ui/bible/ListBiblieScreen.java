@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.ListBooksOfBibleAdapters;
@@ -48,7 +47,7 @@ public class ListBiblieScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_biblia_screen);
+        setContentView(R.layout.activity_list_biblie_screen);
 
 
         progressBar = findViewById(R.id.progressBar);

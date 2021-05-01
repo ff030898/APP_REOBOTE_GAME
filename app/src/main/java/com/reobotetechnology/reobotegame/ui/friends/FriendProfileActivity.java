@@ -521,18 +521,24 @@ public class FriendProfileActivity extends AppCompatActivity {
         cardModal.startAnimation(modal_anima);
 
         ImageButton btn_close = nivelDIalog.findViewById(R.id.btn_close);
+        ImageView image = nivelDIalog.findViewById(R.id.nivel);
         TextView txt_title = nivelDIalog.findViewById(R.id.txt_title);
+        TextView txtDescription = nivelDIalog.findViewById(R.id.txtDescription);
         TextView txtProgresso = nivelDIalog.findViewById(R.id.txtProgresso);
         ProgressBar progressBar = nivelDIalog.findViewById(R.id.progressBar);
-        progressBar.setMax(count);
         progressBar.setMax(count);
         progressBar.setProgress(Math.min(score, count));
 
         txt_title.setText(description);
-        if(score <= count) {
-            txtProgresso.setText(score + "/" + count);
-        }else{
-            txtProgresso.setText(count + "/" + count);
+        if (score <= count) {
+            txtProgresso.setText(score + "/" + count+" xp");
+            String desc = "O Jogador(a) \n"+nome+" \nestá no "+description.toLowerCase();
+            txtDescription.setText(desc);
+        } else {
+            image.setImageResource(R.drawable.ic_emogi_happy);
+            txtProgresso.setText(count + "/" + count+" xp");
+            String desc = "O Jogador(a) \n"+nome+" \nconquistou o "+description.toLowerCase();
+            txtDescription.setText(desc);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

@@ -354,7 +354,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-
         //Configurações Recycler
 
         RecyclerView recyclerAmigos = root.findViewById(R.id.recyclerAmigos);
@@ -937,7 +936,7 @@ public class HomeFragment extends Fragment {
                                 txtVerso.setText(nm_versiculo);
 
                                 versiculo = verse2;
-                            }else{
+                            } else {
                                 txtPalavra.setText(text + text2);
                                 String nm_versiculo = nm_book + " " + chapther + ":" + verse + "," + verse2;
                                 txtVerso.setText(nm_versiculo);
@@ -945,7 +944,7 @@ public class HomeFragment extends Fragment {
                                 versiculo = verse;
                             }
 
-                            if(txtPalavra.getText().length() < 150) {
+                            if (txtPalavra.getText().length() < 150) {
 
                                 int verse3;
                                 verse3 = (verse2 + 1);
@@ -971,7 +970,6 @@ public class HomeFragment extends Fragment {
                                 }
 
                             }
-
 
 
                         } catch (Exception ignored) {
@@ -1292,7 +1290,7 @@ public class HomeFragment extends Fragment {
         lista2 = dataBaseAcess.listarAntigoTestamento();
 
         if (lista2.size() != 0) {
-            for(int i = 0; i<lista2.size(); i++) {
+            for (int i = 0; i < lista2.size(); i++) {
 
                 int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
                 boolean favorited = dataBaseAcess.favorited(lista2.get(i).getId());
@@ -1306,7 +1304,7 @@ public class HomeFragment extends Fragment {
         lista3 = dataBaseAcess.listarNovoTestamento();
 
         if (lista3.size() != 0) {
-            for(int i = 0; i<lista3.size(); i++) {
+            for (int i = 0; i < lista3.size(); i++) {
 
                 int learningBook = dataBaseAcess.learningBook(lista3.get(i).getId());
                 boolean favorited = dataBaseAcess.favorited(lista3.get(i).getId());
@@ -1337,6 +1335,7 @@ public class HomeFragment extends Fragment {
 
     private void atualizarRanking() {
         final List<UserModel> listaRankingAll = new ArrayList<>();
+
 
         try {
 
@@ -1378,6 +1377,9 @@ public class HomeFragment extends Fragment {
         } catch (Exception ignored) {
 
         }
+
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -1512,7 +1514,6 @@ public class HomeFragment extends Fragment {
             }
         }, 1200);
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

@@ -88,7 +88,7 @@ public class RankingAdapters extends RecyclerView.Adapter<RankingAdapters.myView
         }
 
 
-            holder.pontos.setText(""+usuarioModel.getPontosG());
+            holder.pontos.setText(usuarioModel.getPontosG()+" xp");
             String idUsuario = Base64Custom.codificarBase64((Objects.requireNonNull(usuarioModel.getEmail())));
             DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
             //Colocar posição anterior no banco

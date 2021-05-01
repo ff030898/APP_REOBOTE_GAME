@@ -1,18 +1,22 @@
 package com.reobotetechnology.reobotegame.ui.blog;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,6 +29,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,10 +59,10 @@ public class BlogDetails extends AppCompatActivity {
     private Animation topAnim;
 
     //SwipeRefresh
-    private SwipeRefreshLayout swipeRefresh;
+    //private SwipeRefreshLayout swipeRefresh;
 
     private ProgressBar progressBar;
-    private ConstraintLayout constraintPrincipal;
+    private CoordinatorLayout constraintPrincipal;
     private ImageButton btn_back;
 
     //Configurações do banco de dados
@@ -65,6 +73,7 @@ public class BlogDetails extends AppCompatActivity {
     //ImageBlog
     private ImageView image;
     private Button btnComment;
+    private TextView txt_description;
 
     //ProfileFriendsVizualizations
 
@@ -90,10 +99,10 @@ public class BlogDetails extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         constraintPrincipal = findViewById(R.id.constraintPrincipal);
 
-        swipeRefresh = findViewById(R.id.swipe);
+        //swipeRefresh = findViewById(R.id.swipe);
 
         //Refresh
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        /*swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -107,7 +116,7 @@ public class BlogDetails extends AppCompatActivity {
                 }, 2000);
 
             }
-        });
+        });*/
 
 
         //TOOLBAR
@@ -116,17 +125,41 @@ public class BlogDetails extends AppCompatActivity {
 
         image = findViewById(R.id.image);
         btnComment = findViewById(R.id.button6);
+        txt_description = findViewById(R.id.txt_description);
 
         //Vem da Activity Principal
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
             txt_title.setText(extras.getString("title"));
-            txt_subtitle.setText(extras.getString("date"));
-            int id_post = extras.getInt("id_post");
-            getAllImage(id_post);
+            txt_subtitle.setText(extras.getString("date")+" - "+extras.getString("time"));
+            String text = extras.getString("description")+Html.fromHtml("<br><br> <b>"+extras.getString("reference")+"</b>");
+            txt_description.setText(text);
+
+            String imagePost = extras.getString("image");
+
+            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+
+            Glide.with(this)
+                    .load(imagePost)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(image);
 
         }
+
+
 
         btn_back = findViewById(R.id.btn_back);
 
@@ -198,53 +231,6 @@ public class BlogDetails extends AppCompatActivity {
 
     }
 
-    private void getAllImage(int id_post){
-        if (id_post == 1) {
-            image.setImageResource(R.drawable.reforma);
-        } else if (id_post == 2) {
-            image.setImageResource(R.drawable.jardim);
-        } else if (id_post == 3) {
-            image.setImageResource(R.drawable.johnwesley);
-        } else if (id_post == 4) {
-            image.setImageResource(R.drawable.lutero);
-        } else if (id_post == 5) {
-            image.setImageResource(R.drawable.calvino);
-        } else if (id_post == 6) {
-            image.setImageResource(R.drawable.escatologia);
-        } else if (id_post == 7) {
-            image.setImageResource(R.drawable.cristologia);
-        } else if (id_post == 8) {
-            image.setImageResource(R.drawable.estevao);
-        } else if (id_post == 9) {
-            image.setImageResource(R.drawable.timoteo);
-        } else if (id_post == 10) {
-            image.setImageResource(R.drawable.infantil);
-        } else if (id_post == 11) {
-            image.setImageResource(R.drawable.josias);
-        } else if (id_post == 12) {
-            image.setImageResource(R.drawable.noe2);
-        } else if (id_post == 13) {
-            image.setImageResource(R.drawable.abraao);
-        } else if (id_post == 14) {
-            image.setImageResource(R.drawable.debora);
-        } else if (id_post == 15) {
-            image.setImageResource(R.drawable.maria);
-        } else if (id_post == 16) {
-            image.setImageResource(R.drawable.ester);
-        } else if (id_post == 17) {
-            image.setImageResource(R.drawable.daniel);
-        } else if (id_post == 18) {
-            image.setImageResource(R.drawable.feminicidio);
-        } else if (id_post == 19) {
-            image.setImageResource(R.drawable.tribulacao);
-        } else if (id_post == 20) {
-            image.setImageResource(R.drawable.visao_joao);
-        } else if (id_post == 21) {
-            image.setImageResource(R.drawable.saulo);
-        } else if (id_post == 22) {
-            image.setImageResource(R.drawable.edito);
-        }
-    }
 
     private void getAllFriendsVisualizations(){
         firebaseRef.child("usuarios").addValueEventListener(new ValueEventListener() {
@@ -364,10 +350,7 @@ public class BlogDetails extends AppCompatActivity {
         list.add(new CommentModel("jesus@gmail.com", "Simplesmente maravilhosooo. Que conteúdo fantástico. Ameii <3", "10/03/2021", "2", 5));
         list.add(new CommentModel("bateseba@gmail.com", "Simplesmente maravilhosooo. Que conteúdo fantástico. Ameii <3", "10/03/2021", "3", 3));
         list.add(new CommentModel("elias@gmail.com", "Simplesmente maravilhosooo. Que conteúdo fantástico. Ameii <3", "10/03/2021", "7", 2));
-        list.add(new CommentModel("davi@gmail.com", "Simplesmente maravilhosooo. Que conteúdo fantástico. Ameii <3", "10/03/2021", "7", 1));
-        list.add(new CommentModel("fabricioferreiradossantos1998@gmail.com", "Simplesmente maravilhosooo. Que conteúdo fantástico. Ameii <3", "10/03/2021", "7", 0));
-        list.add(new CommentModel("eliseu@gmail.com", "Simplesmente maravilhosooo. Que conteúdo fantástico. Ameii <3", "10/03/2021", "7", 1));
-        list.add(new CommentModel("paulo@gmail.com", "Simplesmente maravilhosooo. Que conteúdo fantástico. Ameii <3", "10/03/2021", "7", 0));
+
 
         if (user.getPhotoUrl() == null) {
             imageProfile.setImageResource(R.drawable.profile);

@@ -221,7 +221,7 @@ public class RankingFragment extends Fragment {
                         textDescriptionNotifications.setText("Você está em " + user.getRanking() + "º no ranking");
                         int backPosition = user.getBackPosition();
 
-                        int sumPosition = 0;
+                        int sumPosition;
 
 
                         if (backPosition > postitionRanking) {
@@ -281,7 +281,7 @@ public class RankingFragment extends Fragment {
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
                         Notification notification = new Notification();
-                        String view = dados.child("view").getValue().toString();
+                        String view = Objects.requireNonNull(dados.child("view").getValue()).toString();
                         notification.setView(Boolean.parseBoolean(view));
                         if (!notification.isView()) {
                             countNoitificationsView = countNoitificationsView + 1;
@@ -291,7 +291,7 @@ public class RankingFragment extends Fragment {
                     btn_notifications.setText("" + countNoitificationsView);
 
                 } catch (Exception e) {
-                    Log.i("ERRO NOTIFICATION", e.getMessage());
+                    Log.i("ERRO NOTIFICATION", Objects.requireNonNull(e.getMessage()));
                 }
 
 
@@ -334,14 +334,14 @@ public class RankingFragment extends Fragment {
                         String imagem3 = listaRanking.get(tamanho - 3).getImagem();
 
 
-                        String pjogador = listaRanking.get(tamanho - 1).getPontosG() + "";
-                        String pjogador2 = listaRanking.get(tamanho - 2).getPontosG() + "";
-                        String pjogador3 = listaRanking.get(tamanho - 3).getPontosG() + "";
+                        String pjogador = listaRanking.get(tamanho - 1).getPontosG() + " xp";
+                        String pjogador2 = listaRanking.get(tamanho - 2).getPontosG() + " xp";
+                        String pjogador3 = listaRanking.get(tamanho - 3).getPontosG() + " xp";
 
 
-                        String jogador[] = listaRanking.get(tamanho - 1).getNome().split(" ");
-                        String jogador2[] = listaRanking.get(tamanho - 2).getNome().split(" ");
-                        String jogador3[] = listaRanking.get(tamanho - 3).getNome().split(" ");
+                        String[] jogador = listaRanking.get(tamanho - 1).getNome().split(" ");
+                        String[] jogador2 = listaRanking.get(tamanho - 2).getNome().split(" ");
+                        String[] jogador3 = listaRanking.get(tamanho - 3).getNome().split(" ");
 
                         Jogador.setText(jogador[0]);
                         Jogador2.setText(jogador2[0]);

@@ -116,7 +116,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"
-        android:indeterminateTint="@color/colorBlue"
+        android:indeterminateTint="@color/colorPreto"
         app:layout_constraintBottom_toTopOf="@+id/txtDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

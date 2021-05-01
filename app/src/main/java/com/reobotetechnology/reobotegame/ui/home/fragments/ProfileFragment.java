@@ -68,6 +68,8 @@ import com.reobotetechnology.reobotegame.ui.main.EditProfileActivity;
 import com.reobotetechnology.reobotegame.ui.friends.ViewImageScreenActivity;
 import com.tapadoo.alerter.Alerter;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -597,7 +599,9 @@ public class ProfileFragment extends Fragment {
         cardModal.startAnimation(modal_anima);
 
         ImageButton btn_close = nivelDIalog.findViewById(R.id.btn_close);
+        ImageView image = nivelDIalog.findViewById(R.id.nivel);
         TextView txt_title = nivelDIalog.findViewById(R.id.txt_title);
+        TextView txtDescription = nivelDIalog.findViewById(R.id.txtDescription);
         TextView txtProgresso = nivelDIalog.findViewById(R.id.txtProgresso);
         ProgressBar progressBar = nivelDIalog.findViewById(R.id.progressBar);
         progressBar.setMax(count);
@@ -605,9 +609,12 @@ public class ProfileFragment extends Fragment {
 
         txt_title.setText(description);
         if (score <= count) {
-            txtProgresso.setText(score + "/" + count);
+            txtProgresso.setText(score + "/" + count+" xp");
         } else {
-            txtProgresso.setText(count + "/" + count);
+            image.setImageResource(R.drawable.ic_emogi_happy);
+            txtProgresso.setText(count + "/" + count+" xp");
+            String desc = getString(R.string.congratulations)+" "+description.toLowerCase();
+            txtDescription.setText(desc);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -718,7 +725,6 @@ public class ProfileFragment extends Fragment {
     public void onStart() {
         viewProfile();
         getAllNotifications();
-        //listConquist();
         listBookFavorites();
         listMatches();
         loadBannerAdMob();
