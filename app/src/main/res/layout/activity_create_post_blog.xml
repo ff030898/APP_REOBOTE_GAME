@@ -145,9 +145,13 @@
                     android:id="@+id/editDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textImeMultiLine"
+                    android:gravity="top|left"
+                    android:inputType="textMultiLine"
                     android:textColor="#707070"
-                    android:textCursorDrawable="@drawable/input_cursor" />
+                    android:lines="12"
+                    android:scrollHorizontally="false"
+                    android:textCursorDrawable="@drawable/input_cursor"
+                    tools:ignore="RtlHardcoded" />
 
 
             </com.google.android.material.textfield.TextInputLayout>

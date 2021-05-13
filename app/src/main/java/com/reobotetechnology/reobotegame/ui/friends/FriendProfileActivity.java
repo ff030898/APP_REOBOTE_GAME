@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,13 +49,19 @@ import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
 import com.reobotetechnology.reobotegame.model.ConquistesModel;
 import com.reobotetechnology.reobotegame.model.BooksOfBibleModel;
 import com.reobotetechnology.reobotegame.model.MatchModel;
+import com.reobotetechnology.reobotegame.model.Message;
+import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
 import com.reobotetechnology.reobotegame.ui.bible.ListBiblieScreen;
 import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
+import com.reobotetechnology.reobotegame.utils.VerificyFollowUser;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,14 +70,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendProfileActivity extends AppCompatActivity {
 
-    //SwipeRefresh
-    private SwipeRefreshLayout swipeRefresh;
+
     private ProgressBar progressBar;
-    private ConstraintLayout constraintPrincipal;
+    private CoordinatorLayout constraintPrincipal;
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
+    private FirebaseUser user = autenticacao.getCurrentUser();
 
-    private int cont = 0;
 
     //Animation
     private Animation topAnim;
@@ -117,33 +124,18 @@ public class FriendProfileActivity extends AppCompatActivity {
     String email, token;
 
     private Animation modal_anima;
-    private int score, nivelUser;
+    private int score;
+    private int nivelUser;
+
+    private boolean follow;
+    private String child = "seguidores";
+    private String child2 = "seguindo";
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
-
-        //Configurações iniciais
-
-        swipeRefresh = findViewById(R.id.swipe);
-
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                new Handler().postDelayed(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-                        onStart();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });
 
         progressBar = findViewById(R.id.progressBar3);
         constraintPrincipal = findViewById(R.id.constraintPrincipal);
@@ -180,7 +172,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ViewImageScreenActivity.class);
                 i.putExtra("nome", nome);
                 i.putExtra("imagem", imagem);
-                startActivity( i );
+                startActivity(i);
             }
         });
         txt_username = findViewById(R.id.txt_username);
@@ -198,11 +190,6 @@ public class FriendProfileActivity extends AppCompatActivity {
 
 
         btn_edit = findViewById(R.id.btn_edit);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            btn_edit.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.bg_ranking_position));
-            btn_edit.setImageResource(R.drawable.ic_add);
-            btn_edit.setImageTintList(ColorStateList.valueOf(0xffffffff));
-        }
 
         btn_edit.setOnClickListener(new View.OnClickListener() {
 
@@ -210,16 +197,7 @@ public class FriendProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(cont % 2 == 0) {
-                    btn_edit.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.badge_background));
-                    btn_edit.setImageResource(R.drawable.ic_done);
-                    cont = cont + 1;
-                    txtSeguidoresUsuarioPerfil.setText("1");
-                    Toast.makeText(getApplicationContext(), "Você começou a seguir "+nome, Toast.LENGTH_LONG).show();
-                }else{
-                    notMatch();
-                }
-
+                followUser();
             }
         });
 
@@ -307,7 +285,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                             public void onItemClick(View view, int position) {
                                 ConquistesModel nivel = listConquist.get(position);
                                 //Se nível está ativo e não for o primeiro nível. OpenModal
-                                if(nivel.isEnabled() && position > 0) {
+                                if (nivel.isEnabled() && position > 0) {
                                     openModalConquist(nivel.getDescription(), nivel.getCount());
                                 }
                             }
@@ -379,7 +357,7 @@ public class FriendProfileActivity extends AppCompatActivity {
 
                     UserModel user = dataSnapshot.getValue(UserModel.class);
 
-                    if(user!=null){
+                    if (user != null) {
 
                         match = user.isJogando();
                         email = user.getEmail();
@@ -396,26 +374,33 @@ public class FriendProfileActivity extends AppCompatActivity {
 
                         //STATUS
                         txt_username.setText(nome);
-                        txt_email.setText("Nível: "+user.getNivel());
-                        txtRankingUsuarioPerfil.setText(user.getRanking()+"º");
-                        txtSeguindoUsuarioPerfil.setText(""+user.getSeguidores());
-                        txtSeguidoresUsuarioPerfil.setText(""+user.getSeguindo());
-                        bioDescription.setText(""+getString(R.string.sobre));
+                        txt_email.setText("Nível: " + user.getNivel());
+                        txtRankingUsuarioPerfil.setText(user.getRanking() + "º");
+                        txtSeguindoUsuarioPerfil.setText("" + user.getSeguindo());
+                        txtSeguidoresUsuarioPerfil.setText("" + user.getSeguidores());
+                        bioDescription.setText("SOBRE MIM");
 
                         //INFO
-                        txtNivelStatus.setText(user.getNivel()+"");
-                        txtRankingStatus.setText(user.getRanking()+"");
-                        txtSeguindoStatus.setText(""+user.getSeguidores());
-                        txtSeguidoresStatus.setText(""+user.getSeguindo());
-                        txtVictoryStatus.setText(""+user.getVitorias());
-                        txtEmpatedStatus.setText(""+user.getEmpates());
-                        txtDerrotedStatus.setText(""+user.getDerrotas());
-                        txtBioUserStatus.setText(""+getString(R.string.lorem2));
+                        txtNivelStatus.setText(user.getNivel() + "");
+                        txtRankingStatus.setText(user.getRanking() + "");
+                        txtSeguindoStatus.setText("" + user.getSeguindo());
+                        txtSeguidoresStatus.setText("" + user.getSeguidores());
+                        txtVictoryStatus.setText("" + user.getVitorias());
+                        txtEmpatedStatus.setText("" + user.getEmpates());
+                        txtDerrotedStatus.setText("" + user.getDerrotas());
+                        String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. " +
+                                "Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. " +
+                                "Duis sodales diam eu placerat dapibus.</string>\n";
+                        if(user.getDescription().isEmpty() || user.getDescription() == null){
+                            txtBioUserStatus.setText(description);
+                        }else {
+                            txtBioUserStatus.setText("" + user.getDescription());
+                        }
 
 
-                        try{
+                        try {
 
-                            if(imagem.isEmpty()){
+                            if (imagem.isEmpty()) {
 
                                 Glide
                                         .with(getApplicationContext())
@@ -423,7 +408,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                                         .centerCrop()
                                         .placeholder(R.drawable.profile)
                                         .into(profile_main);
-                            }else {
+                            } else {
                                 Glide
                                         .with(getApplicationContext())
                                         .load(imagem)
@@ -431,7 +416,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                                         .placeholder(R.drawable.profile)
                                         .into(profile_main);
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Glide
                                     .with(getApplicationContext())
                                     .load(R.drawable.profile)
@@ -467,17 +452,271 @@ public class FriendProfileActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void listConquist(int score){
+    private void getFollow() {
+
+        String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(id));
+        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+
+        firebaseRef.child(child).child(idUsuario).addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                try {
+                    Objects.requireNonNull(dataSnapshot.child(idUserAuthenticate).getValue());
+                    follow = true;
+                    btn_edit.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.badge_background));
+                    btn_edit.setImageResource(R.drawable.ic_done);
+
+
+                } catch (Exception e) {
+                    follow = false;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        btn_edit.setImageResource(R.drawable.ic_add);
+                        btn_edit.setImageTintList(ColorStateList.valueOf(0xffffffff));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void followUser(){
+        getFollow();
+
+        final String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(id));
+        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+
+        if (!follow) {
+            btn_edit.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.badge_background));
+            btn_edit.setImageResource(R.drawable.ic_done);
+
+            sendNotification(idUserAuthenticate, idUsuario);
+
+            //Update Follow
+            DatabaseReference follow = firebaseRef.child(child);
+            String idUserAutenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+            follow.child(idUsuario).child(idUserAutenticate).setValue(1);
+
+            DatabaseReference follow2 = firebaseRef.child(child2);
+            follow2.child(idUserAutenticate).child(idUsuario).setValue(1);
+
+            firebaseRef.child("usuarios").child(idUserAuthenticate).addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                    if (user != null) {
+                        int seguindoFollow = user.getSeguindo();
+                        int newUpdateFollow = seguindoFollow + 1;
+                        //Update Follow
+                        DatabaseReference follow = firebaseRef.child("usuarios");
+                        follow.child(idUserAuthenticate).child("seguindo").setValue(newUpdateFollow);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            firebaseRef.child("usuarios").child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                    if (user != null) {
+                        int seguidores = user.getSeguidores();
+                        int newUpdateFollow = seguidores + 1;
+                        //Update Follow
+                        DatabaseReference follow = firebaseRef.child("usuarios");
+                        follow.child(idUsuario).child("seguidores").setValue(newUpdateFollow);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            Toast.makeText(getApplicationContext(), "Você começou a seguir " + nome, Toast.LENGTH_LONG).show();
+
+        } else {
+            modalNowFollow(idUsuario);
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void modalNowFollow(final String idUsuario) {
+        try {
+
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Deixa de Seguir")
+                    .setContentText("Tem certeza que deseja deixar de seguir " + nome)
+                    .setConfirmText("Sim")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            nowFollow(idUsuario);
+                            sDialog.hide();
+                            getFollow();
+                        }
+                    }).setCancelText("Não")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.hide();
+                            getFollow();
+                        }
+                    })
+                    .show();
+
+
+        } catch (Exception ignored) {
+
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void nowFollow(final String idUsuario){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btn_edit.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.bg_ranking_position));
+            btn_edit.setImageResource(R.drawable.ic_add);
+            btn_edit.setImageTintList(ColorStateList.valueOf(0xffffffff));
+        }
+
+        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+        DatabaseReference usuarioRef = firebaseRef.child(child).child(idUsuario);
+        usuarioRef.child(idUserAuthenticate).removeValue();
+
+        DatabaseReference follow2 = firebaseRef.child(child2).child(idUserAuthenticate);
+        follow2.child(idUsuario).removeValue();
+        follow2.child(idUsuario).removeValue();
+
+        firebaseRef.child("usuarios").child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                if (user != null) {
+                    int seguidores = user.getSeguidores();
+                    int newUpdateFollow = seguidores - 1;
+                    //Update Follow
+                    DatabaseReference follow = firebaseRef.child("usuarios");
+                    follow.child(idUsuario).child("seguidores").setValue(newUpdateFollow);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        firebaseRef.child("usuarios").child(idUserAuthenticate).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                if (user != null) {
+                    int seguindo = user.getSeguindo();
+                    int newUpdateFollow = seguindo - 1;
+                    //Update Follow
+                    DatabaseReference follow = firebaseRef.child("usuarios");
+                    follow.child(idUserAuthenticate).child("seguindo").setValue(newUpdateFollow);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        Toast.makeText(getApplicationContext(), "Você deixou de seguir " + nome, Toast.LENGTH_LONG).show();
+    }
+
+
+    private void sendNotification(String idUsuario, String idUsuario2) {
+        long timestamp = System.currentTimeMillis();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+        Calendar cal = Calendar.getInstance();
+        Date data = new Date();
+        cal.setTime(data);
+        Date data_atual = cal.getTime();
+
+        String dateNotification = dateFormatNotification.format(data);
+        String time = timeFormat.format(data_atual);
+
+        //Cria uma partida
+        String idMessage = dateFormat.format(data_atual);
+
+        final Message message = new Message();
+        message.setFromId(idUsuario);
+        message.setToId(idUsuario2);
+        message.setTimestamp("" + timestamp);
+        message.setText("Começou a seguir você");
+
+
+        Notification notification = new Notification();
+        notification.setFromId(message.getFromId());
+        notification.setToId(message.getToId());
+        notification.setTimestamp(message.getTimestamp());
+        notification.setText(message.getText());
+        notification.setTipo("follow");
+        notification.setFromName(user.getDisplayName());
+        notification.setId(idMessage);
+        if (user.getPhotoUrl() != null) {
+            notification.setFromImage(user.getPhotoUrl().toString());
+        } else {
+            notification.setFromImage("");
+        }
+
+        notification.setDate(dateNotification);
+        notification.setTime(time);
+
+        notification.setView(false);
+        DatabaseReference usuarioRef = firebaseRef.child("notifications");
+        usuarioRef.child(idUsuario2).child("" + timestamp).setValue(notification);
+
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listConquist(int score) {
 
         listConquist.clear();
 
         listConquist.add(new ConquistesModel("Cadastro", 20, true));
 
         int count = 1;
-        int countNivel = 50;
+        int countNivel = 200;
         int nivelUser = 0;
 
-        for (int i = countNivel; i <= 2000; i += countNivel) {
+        for (int i = countNivel; i <= 10000; i += countNivel) {
 
             if (score > i) {
                 listConquist.add(new ConquistesModel("Nível " + count, i, true));
@@ -512,7 +751,7 @@ public class FriendProfileActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void openModalConquist(String description, int count){
+    private void openModalConquist(String description, int count) {
 
         final Dialog nivelDIalog = new Dialog(this);
         nivelDIalog.setContentView(R.layout.include_modal_nivel);
@@ -531,13 +770,13 @@ public class FriendProfileActivity extends AppCompatActivity {
 
         txt_title.setText(description);
         if (score <= count) {
-            txtProgresso.setText(score + "/" + count+" xp");
-            String desc = "O Jogador(a) \n"+nome+" \nestá no "+description.toLowerCase();
+            txtProgresso.setText(score + "/" + count + " xp");
+            String desc = "O Jogador(a) \n" + nome + " \nestá no " + description.toLowerCase();
             txtDescription.setText(desc);
         } else {
             image.setImageResource(R.drawable.ic_emogi_happy);
-            txtProgresso.setText(count + "/" + count+" xp");
-            String desc = "O Jogador(a) \n"+nome+" \nconquistou o "+description.toLowerCase();
+            txtProgresso.setText(count + "/" + count + " xp");
+            String desc = "O Jogador(a) \n" + nome + " \nconquistou o " + description.toLowerCase();
             txtDescription.setText(desc);
         }
 
@@ -565,7 +804,7 @@ public class FriendProfileActivity extends AppCompatActivity {
         lista2 = dataBaseAcess.listarNovoTestamento();
 
         if (lista2.size() != 0) {
-            for(int i = 0; i<lista2.size(); i++) {
+            for (int i = 0; i < lista2.size(); i++) {
 
                 int learningBook = dataBaseAcess.learningBook(lista2.get(i).getId());
                 boolean favorited = dataBaseAcess.favorited(lista2.get(i).getId());
@@ -580,7 +819,7 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
-    private void listMatches(){
+    private void listMatches() {
 
         listMatches.clear();
 
@@ -622,57 +861,26 @@ public class FriendProfileActivity extends AppCompatActivity {
 
         }*/
 
-        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
         listMatches.add(new MatchModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
         listMatches.add(new MatchModel("23/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "e", "27/02/2021 - 02:12"));
 
 
         adapterMatches.notifyDataSetChanged();
 
-    }
 
-    private void notMatch(){
-        try {
-
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Deixa de Seguir")
-                    .setContentText("Tem certeza que deseja deixar de seguir "+nome)
-                    .setConfirmText("Sim")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                btn_edit.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.bg_ranking_position));
-                                btn_edit.setImageResource(R.drawable.ic_add);
-                                btn_edit.setImageTintList(ColorStateList.valueOf(0xffffffff));
-                            }
-                            cont = cont + 1;
-                            txtSeguidoresUsuarioPerfil.setText("0");
-                            Toast.makeText(getApplicationContext(), "Você deixou de seguir "+nome, Toast.LENGTH_LONG).show();
-                            sDialog.hide();
-                        }
-                    }).setCancelText("Não")
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.hide();
-                        }
-                    })
-                    .show();
-        } catch (Exception ignored) {
-
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void inviteFriend(){
+    private void inviteFriend() {
         try {
             getUser();
 
             new SweetAlertDialog(FriendProfileActivity.this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Jogar Agora")
-                    .setContentText("Tem certeza que deseja desafiar: "+nome+" para jogar agora?")
+                    .setContentText("Tem certeza que deseja desafiar: " + nome + " para jogar agora?")
                     .setConfirmText("Sim")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -716,6 +924,7 @@ public class FriendProfileActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         getUser();
+        getFollow();
         listBookFavorites();
         listMatches();
     }

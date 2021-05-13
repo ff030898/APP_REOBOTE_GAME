@@ -54,7 +54,7 @@ public class BlogPostStoryAdapters extends RecyclerView.Adapter<BlogPostStoryAda
 
 
         holder.txt_title.setText("" + post.getTitle());
-        holder.txt_time.setText("Hoje - " + post.getTime());
+        holder.txt_time.setText(post.getDate()+" - "+ post.getTime());
         holder.btnFavorited.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

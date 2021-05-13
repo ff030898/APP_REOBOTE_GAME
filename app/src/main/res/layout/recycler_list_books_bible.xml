@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="16dp"
+    android:paddingTop="16dp"
     android:background="#fff">
 
     <androidx.cardview.widget.CardView
@@ -14,8 +14,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/colorPreto"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -31,11 +33,11 @@
             android:id="@+id/btnFavorited"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorited_book"
-            android:tint="@color/colorBranco"
-            android:layout_margin="12dp"
             android:layout_gravity="end"
-            android:background="@color/float_transparent"/>
+            android:layout_margin="12dp"
+            android:background="@color/float_transparent"
+            android:src="@drawable/ic_favorited_book"
+            android:tint="@color/colorBranco" />
 
         <TextView
             android:id="@+id/txtSigla"
@@ -75,13 +77,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:max="100"
         android:progress="80"
         android:progressTint="@color/colorPreto"
-        app:layout_constraintBottom_toBottomOf="@+id/bg_livro"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bg_livro"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
         tools:ignore="UnusedAttribute" />
 
     <TextView
@@ -90,10 +91,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
         tools:text="80%" />
 
     <TextView
@@ -106,7 +106,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ellipsize="end"
-        android:maxLines="6"
+        android:maxLines="5"
         android:text="@string/lorem2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bg_livro"

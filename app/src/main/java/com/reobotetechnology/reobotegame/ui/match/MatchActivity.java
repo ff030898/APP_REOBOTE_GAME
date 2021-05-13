@@ -585,7 +585,7 @@ public class MatchActivity extends AppCompatActivity {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         tempo.cancel();
-                        atualizarResultadoPartida(emailJogador2);
+                        atualizarResultadoPartida(emailJogador2, "Derrota");
                         atualizarPontosJogador1(-3);
                         jogando(false);
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
@@ -1004,23 +1004,23 @@ public class MatchActivity extends AppCompatActivity {
         if (score == scoreJogador2) {
             //chama Modal de Empate
             atualizarPontosJogador1(5);
-            atualizarResultadoPartida("empate");
             resultado = "empate";
+            atualizarResultadoPartida(resultado, resultado);
             openModal(resultado);
 
         } else if (score < scoreJogador2) {
             //chama Modal de derrota
             atualizarPontosJogador1(-3);
-            atualizarResultadoPartida(emailJogador2);
             resultado = "derrota";
+            atualizarResultadoPartida(emailJogador2, resultado);
             openModal(resultado);
 
 
         } else {
 
             atualizarPontosJogador1(10);
-            atualizarResultadoPartida(userF.getEmail());
             resultado = "vitoria";
+            atualizarResultadoPartida(userF.getEmail(), resultado);
             openModal(resultado);
 
 
@@ -1135,12 +1135,18 @@ public class MatchActivity extends AppCompatActivity {
     }
 
     //Método Responsável por inserir os dados da partida no banco
-    private void atualizarResultadoPartida(String email) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void atualizarResultadoPartida(String email, String resultado) {
 
         if (!nomeJogador2.equals(getString(R.string.name_robot))) {
             DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
             usuarioRef.child("resultado").setValue(email);
             usuarioRef.child("perguntas").removeValue();
+
+            String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(userF.getEmail()));
+            DatabaseReference usuarioRef2 = firebaseRef.child("userMatches").child(idUser);
+            usuarioRef2.child(idPartida).setValue(resultado);
+
         }
 
     }

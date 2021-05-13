@@ -40,7 +40,7 @@ public class AnotattionActivity extends AppCompatActivity {
         TextView txt_title = findViewById(R.id.txt_title);
         TextView txt_subtitle = findViewById(R.id.txt_subtitle);
 
-        txt_title.setText(getString(R.string.sobre_M));
+        txt_title.setText(getString(R.string.comentar));
         txt_subtitle.setText(getString(R.string.leia_com_aten_o));
 
         btn_back = findViewById(R.id.btn_back);

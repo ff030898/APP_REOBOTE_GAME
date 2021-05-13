@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ import com.reobotetechnology.reobotegame.adapter.CommentsAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.model.CommentModel;
 import com.reobotetechnology.reobotegame.model.UserModel;
+import com.reobotetechnology.reobotegame.ui.comment.AnotattionActivity;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
@@ -58,8 +60,6 @@ public class BlogDetails extends AppCompatActivity {
     //Animation
     private Animation topAnim;
 
-    //SwipeRefresh
-    //private SwipeRefreshLayout swipeRefresh;
 
     private ProgressBar progressBar;
     private CoordinatorLayout constraintPrincipal;
@@ -98,25 +98,6 @@ public class BlogDetails extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         constraintPrincipal = findViewById(R.id.constraintPrincipal);
-
-        //swipeRefresh = findViewById(R.id.swipe);
-
-        //Refresh
-        /*swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                new Handler().postDelayed(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-                        onStart();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });*/
 
 
         //TOOLBAR
@@ -372,47 +353,7 @@ public class BlogDetails extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void openAnotattion(){
 
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_anotation, null);
-
-        Button comment = view.findViewById(R.id.button8);
-        comment.setText(getString(R.string.comentar));
-
-        comment.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View view) {
-                bottomSheetDialog.dismiss();
-                Alerter.create(BlogDetails.this)
-                        .setTitle("Obaa...")
-                        .setText("Comentário adicionado com sucesso!")
-                        .setIcon(R.drawable.ic_success)
-                        .setDuration(2000)
-                        .setBackgroundColorRes(R.color.colorGreen1)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Alerter.hide();
-                            }
-                        })
-                        .show();
-            }
-        });
-
-        bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(view);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Objects.requireNonNull(bottomSheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
-        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                bottomSheetDialog = null;
-            }
-        });
-
-        bottomSheetDialog.show();
+        startActivity(new Intent(getApplicationContext(), AnotattionActivity.class));
     }
 
     @Override

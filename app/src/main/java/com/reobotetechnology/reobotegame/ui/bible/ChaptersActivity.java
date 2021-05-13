@@ -127,7 +127,6 @@ public class ChaptersActivity extends AppCompatActivity {
                                 i.putExtra("livroSelecionado", livro);
                                 i.putExtra("capitulo", position + 1);
                                 startActivity(i);
-                                finish();
 
                             }
 

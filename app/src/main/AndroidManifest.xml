@@ -84,10 +84,7 @@
             android:name=".ui.friends.FriendProfileActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.play_movies.PlayActivity"
-            android:screenOrientation="landscape"
-            tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".ui.bible.VersesActivity"
             android:screenOrientation="portrait"
@@ -156,7 +153,7 @@
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/icon_notification" />
+            android:resource="@mipmap/icon_round" />
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.

@@ -133,7 +133,7 @@ public class VersesActivity extends AppCompatActivity {
                                 i.putExtra("capitulo",  capitulo);
                                 i.putExtra("versiculo", position+1);
                                 startActivity( i );
-                                finish();
+
 
                             }
 

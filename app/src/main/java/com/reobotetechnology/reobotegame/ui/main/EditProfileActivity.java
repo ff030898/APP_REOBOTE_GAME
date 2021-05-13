@@ -73,8 +73,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     CircleImageView imagemPerfil;
     Button btnEditarSalvar;
-    TextInputLayout login_nome, login_email, login_password, login_password_new,login_password_confirm;
-    TextInputEditText txtNome, txtEmail;
+    TextInputLayout login_nome, login_email, login_bio, login_password, login_password_new,login_password_confirm;
+    TextInputEditText txtNome, txtEmail, txtBio;
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
     private FirebaseUser user = autenticacao.getCurrentUser();
     private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
@@ -98,12 +98,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
         login_nome = findViewById(R.id.login_nome);
         login_email = findViewById(R.id.login_email);
+        login_bio = findViewById(R.id.user_description);
         login_password = findViewById(R.id.login_password);
         login_password_new = findViewById(R.id.login_password_new);
         login_password_confirm = findViewById(R.id.login_password_confirm);
 
         txtNome = findViewById(R.id.editNome);
         txtEmail = findViewById(R.id.editEmail);
+        txtBio = findViewById(R.id.editDescription);
         imagemPerfil = findViewById(R.id.imagemPerfil);
         button_profile = findViewById(R.id.button_profile);
 
@@ -463,16 +465,25 @@ public class EditProfileActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Uri> task) {
                             if(task.isSuccessful()){
 
+
                                 Uri uri = task.getResult();
+                                UserProfileChangeRequest profileUpdate;
 
-                                UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
-                                        .setPhotoUri(uri)
-                                        .setDisplayName(nome)
-                                        .build();
+                                if(uriImagem != null) {
 
+                                   profileUpdate = new UserProfileChangeRequest.Builder()
+                                            .setPhotoUri(uri)
+                                            .setDisplayName(nome)
+                                            .build();
 
-                                assert uri != null;
-                                atualizarImagem(uri.toString(), nome);
+                                    atualizarImagem(uri.toString(), nome);
+
+                                }else {
+                                    profileUpdate = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(nome)
+                                            .build();
+                                    updateInfo(nome);
+                                }
 
                                 currentUser.updateProfile(profileUpdate)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -533,6 +544,17 @@ public class EditProfileActivity extends AppCompatActivity {
         DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
 
         usuarioRef.child("imagem").setValue(imagem);
+        usuarioRef.child("nome").setValue(nome);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void updateInfo(String nome){
+
+        String emailUsuario = Objects.requireNonNull(autenticacao.getCurrentUser()).getEmail();
+        assert emailUsuario != null;
+        String idUsuario = Base64Custom.codificarBase64(emailUsuario);
+        DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
+
         usuarioRef.child("nome").setValue(nome);
     }
 

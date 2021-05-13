@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -80,9 +81,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     //SwipeRefresh
-    private SwipeRefreshLayout swipeRefresh;
+    //private SwipeRefreshLayout swipeRefresh;
     private ProgressBar progressBar;
-    private ConstraintLayout constraintPrincipal;
+    private CoordinatorLayout constraintPrincipal;
 
     //Configurações do banco de dados
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
@@ -132,9 +133,6 @@ public class ProfileFragment extends Fragment {
 
     private BottomSheetDialog bottomSheetDialog;
 
-    //AdMob
-    private AdView mAdView;
-
 
     private Animation modal_anima;
     private int score, nivelUser;
@@ -144,8 +142,6 @@ public class ProfileFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        mAdView = root.findViewById(R.id.adView);
-
         progressBar = root.findViewById(R.id.progressBar3);
         constraintPrincipal = root.findViewById(R.id.constraintPrincipal);
 
@@ -154,30 +150,12 @@ public class ProfileFragment extends Fragment {
         autenticacao = ConfigurationFirebase.getFirebaseAutenticacao();
         user = autenticacao.getCurrentUser();
 
-        swipeRefresh = root.findViewById(R.id.swipe);
-
         progressBar.setVisibility(View.VISIBLE);
         constraintPrincipal.setVisibility(View.GONE);
 
         //Animação da Modal de Tempo Esgotado
         modal_anima = AnimationUtils.loadAnimation(getActivity(), R.anim.modal_animation);
 
-        //Refresh
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                new Handler().postDelayed(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-                        onStart();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });
 
         //Toolbar
 
@@ -391,7 +369,6 @@ public class ProfileFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void viewProfile() {
 
-
         if (autenticacao.getCurrentUser() != null) {
 
             try {
@@ -451,19 +428,26 @@ public class ProfileFragment extends Fragment {
                                 listConquist(score);
                                 nivelUser = user.getNivel();
                                 txtRankingUsuarioPerfil.setText(user.getRanking() + "º");
-                                txtSeguindoUsuarioPerfil.setText("" + user.getSeguidores());
-                                txtSeguidoresUsuarioPerfil.setText("" + user.getSeguindo());
-                                bioDescription.setText("Sobre");
+                                txtSeguindoUsuarioPerfil.setText("" + user.getSeguindo());
+                                txtSeguidoresUsuarioPerfil.setText("" + user.getSeguidores());
+                                bioDescription.setText("SOBRE MIM");
 
                                 //INFO
                                 txtNivelStatus.setText(user.getNivel()+"");
                                 txtRankingStatus.setText(user.getRanking() + "");
-                                txtSeguindoStatus.setText("" + user.getSeguidores());
-                                txtSeguidoresStatus.setText("" + user.getSeguindo());
+                                txtSeguindoStatus.setText("" + user.getSeguindo());
+                                txtSeguidoresStatus.setText("" + user.getSeguidores());
                                 txtVictoryStatus.setText("" + user.getVitorias());
                                 txtEmpatedStatus.setText("" + user.getEmpates());
                                 txtDerrotedStatus.setText("" + user.getDerrotas());
-                                txtBioUserStatus.setText("" + getString(R.string.lorem2));
+                                String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. " +
+                                        "Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. " +
+                                        "Duis sodales diam eu placerat dapibus.</string>\n";
+                                if(user.getDescription().isEmpty() || user.getDescription() == null){
+                                    txtBioUserStatus.setText(description);
+                                }else {
+                                    txtBioUserStatus.setText("" + user.getDescription());
+                                }
                             }
                         }
 
@@ -484,8 +468,7 @@ public class ProfileFragment extends Fragment {
             }
 
 
-            progressBar.setVisibility(View.GONE);
-            constraintPrincipal.setVisibility(View.VISIBLE);
+
 
         }
     }
@@ -534,7 +517,7 @@ public class ProfileFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void openAnotattion() {
-        startActivity(new Intent(requireActivity(), AnotattionActivity.class));
+        startActivity(new Intent(requireActivity(), EditProfileActivity.class));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -545,10 +528,10 @@ public class ProfileFragment extends Fragment {
         listConquist.add(new ConquistesModel("Cadastro", 20, true));
 
         int count = 1;
-        int countNivel = 50;
+        int countNivel = 200;
         int nivelUser = 0;
 
-        for (int i = countNivel; i <= 2000; i += countNivel) {
+        for (int i = countNivel; i <= 10000; i += countNivel) {
 
             if (score > i) {
                 listConquist.add(new ConquistesModel("Nível " + count, i, true));
@@ -679,7 +662,7 @@ public class ProfileFragment extends Fragment {
 
                         //listMatches.add(p);
 
-                        Log.d("partida", "partida " + dados.getValue());
+                        //Log.d("partida", "partida " + dados.getValue());
 
                     }
 
@@ -701,24 +684,24 @@ public class ProfileFragment extends Fragment {
 
         listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
         listMatches.add(new MatchModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("23/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "e", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("23/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
+        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
 
 
         adapterMatches.notifyDataSetChanged();
 
-    }
-
-    private void loadBannerAdMob() {
         new Handler().postDelayed(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
-                AdRequest adRequest = new AdRequest.Builder().build();
-                mAdView.loadAd(adRequest);
+                progressBar.setVisibility(View.GONE);
+                constraintPrincipal.setVisibility(View.VISIBLE);
             }
-        }, 1200);
+        }, 1000);
+
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -727,7 +710,7 @@ public class ProfileFragment extends Fragment {
         getAllNotifications();
         listBookFavorites();
         listMatches();
-        loadBannerAdMob();
+
         super.onStart();
     }
 }

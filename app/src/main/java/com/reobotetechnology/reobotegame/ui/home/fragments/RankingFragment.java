@@ -433,6 +433,7 @@ public class RankingFragment extends Fragment {
                     });
 
                     adapterRanking.notifyDataSetChanged();
+
                     new Handler().postDelayed(new Runnable() {
                         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                         @Override

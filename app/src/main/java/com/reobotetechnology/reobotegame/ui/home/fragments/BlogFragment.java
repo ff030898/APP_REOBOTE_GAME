@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ import com.reobotetechnology.reobotegame.ui.notifications.NotificationsActivity;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -64,26 +66,37 @@ public class BlogFragment extends Fragment {
     //Blog Story
     private BlogPostStoryAdapters adapterStory;
     private ArrayList<BlogPostModel> listStory = new ArrayList<>();
+    private ConstraintLayout layout_story;
 
     //Blog Story2
     private BlogPostStoryAdapters adapterStory2;
     private ArrayList<BlogPostModel> listStory2 = new ArrayList<>();
+    private ConstraintLayout layout_story2;
 
     //Blog Story3
     private BlogPostStoryAdapters adapterStory3;
     private ArrayList<BlogPostModel> listStory3 = new ArrayList<>();
+    private ConstraintLayout layout_story3;
 
     //Blog Story4
     private BlogPostStoryAdapters adapterStory4;
     private ArrayList<BlogPostModel> listStory4 = new ArrayList<>();
+    private ConstraintLayout layout_story4;
 
     //Blog Story5
     private BlogPostStoryAdapters adapterStory5;
     private ArrayList<BlogPostModel> listStory5 = new ArrayList<>();
+    private ConstraintLayout layout_story5;
 
     //Blog Story6
     private BlogPostStoryAdapters adapterStory6;
     private ArrayList<BlogPostModel> listStory6 = new ArrayList<>();
+    private ConstraintLayout layout_story6;
+
+    //Blog Story7
+    private BlogPostStoryAdapters adapterStory7;
+    private ArrayList<BlogPostModel> listStory7 = new ArrayList<>();
+    private ConstraintLayout layout_story7;
 
 
     //Toolbar
@@ -93,7 +106,6 @@ public class BlogFragment extends Fragment {
 
     //AdMob
     private AdView mAdView;
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -164,12 +176,22 @@ public class BlogFragment extends Fragment {
 
         //configurarAdapter
 
+        layout_story = root.findViewById(R.id.layout_story);
+        layout_story2 = root.findViewById(R.id.layout_story2);
+        layout_story3 = root.findViewById(R.id.layout_story3);
+        layout_story4 = root.findViewById(R.id.layout_story4);
+        layout_story5 = root.findViewById(R.id.layout_story5);
+        layout_story6 = root.findViewById(R.id.layout_story6);
+        layout_story7 = root.findViewById(R.id.layout_story7);
+
+
         adapterStory = new BlogPostStoryAdapters(listStory, getActivity());
         adapterStory2 = new BlogPostStoryAdapters(listStory2, getActivity());
         adapterStory3 = new BlogPostStoryAdapters(listStory3, getActivity());
         adapterStory4 = new BlogPostStoryAdapters(listStory4, getActivity());
         adapterStory5 = new BlogPostStoryAdapters(listStory5, getActivity());
         adapterStory6 = new BlogPostStoryAdapters(listStory6, getActivity());
+        adapterStory7 = new BlogPostStoryAdapters(listStory7, getActivity());
 
 
         //Configuraçoes de Layout do Recycler
@@ -214,7 +236,7 @@ public class BlogFragment extends Fragment {
         RecyclerView.LayoutManager layoutManagerMenu7 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerStory7.setLayoutManager(layoutManagerMenu7);
 
-        recyclerStory7.setAdapter(adapterStory);
+        recyclerStory7.setAdapter(adapterStory7);
 
 
         return root;
@@ -281,8 +303,8 @@ public class BlogFragment extends Fragment {
                         Notification notification = new Notification();
                         String view = Objects.requireNonNull(dados.child("view").getValue()).toString();
                         notification.setView(Boolean.parseBoolean(view));
-                        if(!notification.isView()){
-                            countNoitificationsView  = countNoitificationsView + 1;
+                        if (!notification.isView()) {
+                            countNoitificationsView = countNoitificationsView + 1;
                         }
                     }
 
@@ -302,11 +324,9 @@ public class BlogFragment extends Fragment {
         });
 
 
-
     }
 
-
-    private void listPostBlog(){
+    private void listPostBlog() {
 
         constraintPrincipal.setVisibility(View.GONE);
         progressBar3.setVisibility(View.VISIBLE);
@@ -319,6 +339,7 @@ public class BlogFragment extends Fragment {
             listStory4.clear();
             listStory5.clear();
             listStory6.clear();
+            listStory7.clear();
 
             firebaseRef.child("blog").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
@@ -331,12 +352,55 @@ public class BlogFragment extends Fragment {
                         assert blog != null;
 
                         listStory.add(blog);
-                        listStory2.add(blog);
-                        listStory3.add(blog);
-                        listStory4.add(blog);
-                        listStory5.add(blog);
-                        listStory6.add(blog);
+                        Collections.reverse(listStory);
+                        if (blog.getCategory().equals(getString(R.string.escatologia))) {
+                            listStory2.add(blog);
+                        }
+                        if (blog.getCategory().equals(getString(R.string.cristologia))) {
+                            listStory3.add(blog);
+                        }
+                        if (blog.getCategory().equals(getString(R.string.jovens))) {
+                            listStory4.add(blog);
+                        }
+                        if (blog.getCategory().equals(getString(R.string.crian_as))) {
+                            listStory5.add(blog);
+                        }
+                        if (blog.getCategory().equals(getString(R.string.mulheres))) {
+                            listStory6.add(blog);
+                        }
+                        if (blog.getCategory().equals(getString(R.string.homens))) {
+                            listStory7.add(blog);
+                        }
 
+                    }
+
+                    if (listStory.size() == 0) {
+                        layout_story.setVisibility(View.GONE);
+                        layout_story2.setVisibility(View.GONE);
+                        layout_story3.setVisibility(View.GONE);
+                        layout_story4.setVisibility(View.GONE);
+                        layout_story5.setVisibility(View.GONE);
+                        layout_story6.setVisibility(View.GONE);
+                        layout_story7.setVisibility(View.GONE);
+                    } else {
+                        if (listStory2.size() == 0) {
+                            layout_story2.setVisibility(View.GONE);
+                        }
+                        if (listStory3.size() == 0) {
+                            layout_story3.setVisibility(View.GONE);
+                        }
+                        if (listStory4.size() == 0) {
+                            layout_story4.setVisibility(View.GONE);
+                        }
+                        if (listStory5.size() == 0) {
+                            layout_story5.setVisibility(View.GONE);
+                        }
+                        if (listStory6.size() == 0) {
+                            layout_story6.setVisibility(View.GONE);
+                        }
+                        if (listStory7.size() == 0) {
+                            layout_story7.setVisibility(View.GONE);
+                        }
                     }
 
                     adapterStory.notifyDataSetChanged();
@@ -345,6 +409,7 @@ public class BlogFragment extends Fragment {
                     adapterStory4.notifyDataSetChanged();
                     adapterStory5.notifyDataSetChanged();
                     adapterStory6.notifyDataSetChanged();
+                    adapterStory7.notifyDataSetChanged();
                 }
 
                 @Override
@@ -353,6 +418,7 @@ public class BlogFragment extends Fragment {
                 }
             });
 
+
             new Handler().postDelayed(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
@@ -360,18 +426,17 @@ public class BlogFragment extends Fragment {
                     progressBar3.setVisibility(View.GONE);
                     constraintPrincipal.setVisibility(View.VISIBLE);
                 }
-            }, 1200);
+            }, 1000);
+
 
         } catch (Exception ignored) {
 
         }
 
 
-
-
     }
 
-    private void loadBannerAdMob(){
+    private void loadBannerAdMob() {
         new Handler().postDelayed(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override

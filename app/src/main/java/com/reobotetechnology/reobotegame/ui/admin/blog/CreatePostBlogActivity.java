@@ -238,13 +238,13 @@ public class CreatePostBlogActivity extends AppCompatActivity {
     private void listCategory() {
         List<String> listCategory = new ArrayList<>();
         listCategory.add("Selecione uma categoria");
-        listCategory.add("Todos");
-        listCategory.add("Escatologia");
-        listCategory.add("Cristologia");
-        listCategory.add("Mulheres");
-        listCategory.add("Jovens");
-        listCategory.add("Crianças");
-        listCategory.add("Homens");
+        listCategory.add("TODOS");
+        listCategory.add(getString(R.string.escatologia));
+        listCategory.add(getString(R.string.cristologia));
+        listCategory.add(getString(R.string.mulheres));
+        listCategory.add(getString(R.string.jovens));
+        listCategory.add(getString(R.string.crian_as));
+        listCategory.add(getString(R.string.homens));
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listCategory);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -447,20 +447,6 @@ public class CreatePostBlogActivity extends AppCompatActivity {
                         .show();
             }
 
-        } else {
-            Alerter.create(CreatePostBlogActivity.this)
-                    .setTitle("Oops...")
-                    .setText("Erro ao carregar imagem")
-                    .setIcon(R.drawable.ic_warning)
-                    .setDuration(5000)
-                    .setBackgroundColorRes(R.color.colorWarning)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Alerter.hide();
-                        }
-                    })
-                    .show();
         }
     }
 
@@ -658,7 +644,7 @@ public class CreatePostBlogActivity extends AppCompatActivity {
                             finish();
 
                         }
-                    }, 2300);
+                    }, 2150);
 
                 }
 

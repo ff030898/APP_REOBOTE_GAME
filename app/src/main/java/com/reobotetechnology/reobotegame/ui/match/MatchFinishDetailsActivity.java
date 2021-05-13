@@ -494,84 +494,88 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SetTextI18n")
     private void openModal() {
-        final Dialog welcomeModal = new Dialog(this);
-        welcomeModal.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        welcomeModal.setCancelable(false);
-        welcomeModal.setContentView(R.layout.include_modal_availabled);
+        try {
+            final Dialog welcomeModal = new Dialog(this);
+            welcomeModal.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            welcomeModal.setCancelable(false);
+            welcomeModal.setContentView(R.layout.include_modal_availabled);
 
-        CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
-        cardModal.startAnimation(modal_anima);
-        CircleImageView profile = welcomeModal.findViewById(R.id.profile);
-        final RatingBar availabled = welcomeModal.findViewById(R.id.rating);
-        final TextView txtStartSelected = welcomeModal.findViewById(R.id.txtStartSelected);
-        Button btnAction = welcomeModal.findViewById(R.id.btnSend);
+            CardView cardModal = welcomeModal.findViewById(R.id.cardModal);
+            cardModal.startAnimation(modal_anima);
+            CircleImageView profile = welcomeModal.findViewById(R.id.profile);
+            final RatingBar availabled = welcomeModal.findViewById(R.id.rating);
+            final TextView txtStartSelected = welcomeModal.findViewById(R.id.txtStartSelected);
+            Button btnAction = welcomeModal.findViewById(R.id.btnSend);
 
-        txtStartSelected.setText("5/5");
+            txtStartSelected.setText("5/5");
 
 
-        availabled.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                String valor = String.valueOf((int) (availabled.getRating()));
+            availabled.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    String valor = String.valueOf((int) (availabled.getRating()));
 
-                switch (valor) {
-                    case "1":
-                        txtStartSelected.setText(valor + "/5");
-                        break;
-                    case "2":
+                    switch (valor) {
+                        case "1":
+                            txtStartSelected.setText(valor + "/5");
+                            break;
+                        case "2":
 
-                        txtStartSelected.setText(valor + "/5");
-                        break;
-                    case "3":
-                        txtStartSelected.setText(valor + "/5");
-                        break;
-                    case "4":
-                        txtStartSelected.setText(valor + "/5");
-                        break;
-                    case "5":
-                        txtStartSelected.setText(valor + "/5");
-                        break;
+                            txtStartSelected.setText(valor + "/5");
+                            break;
+                        case "3":
+                            txtStartSelected.setText(valor + "/5");
+                            break;
+                        case "4":
+                            txtStartSelected.setText(valor + "/5");
+                            break;
+                        case "5":
+                            txtStartSelected.setText(valor + "/5");
+                            break;
+                    }
                 }
+            });
+
+
+            if (user.getPhotoUrl() != null) {
+
+                Glide
+                        .with(getApplicationContext())
+                        .load(user.getPhotoUrl())
+                        .centerCrop()
+                        .placeholder(R.drawable.profile)
+                        .into(profile);
             }
-        });
 
-
-        if (user.getPhotoUrl() != null) {
-
-            Glide
-                    .with(getApplicationContext())
-                    .load(user.getPhotoUrl())
-                    .centerCrop()
-                    .placeholder(R.drawable.profile)
-                    .into(profile);
-        }
-
-        btnAction.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onClick(View v) {
-                welcomeModal.dismiss();
-                //sendAvailabled
-                String idUsuario = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                    idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+            btnAction.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("SetTextI18n")
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onClick(View v) {
+                    welcomeModal.dismiss();
+                    //sendAvailabled
+                    String idUsuario = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+                    }
+                    assert idUsuario != null;
+                    DatabaseReference userRefDB = firebaseRef.child("usuarios").child(idUsuario);
+                    userRefDB.child("availabled").setValue(true);
+                    Toast.makeText(getApplicationContext(), "Obrigado por avaliar !", Toast.LENGTH_LONG).show();
+                    finish();
                 }
-                assert idUsuario != null;
-                DatabaseReference userRefDB = firebaseRef.child("usuarios").child(idUsuario);
-                userRefDB.child("availabled").setValue(true);
-                Toast.makeText(getApplicationContext(), "Obrigado por avaliar !", Toast.LENGTH_LONG).show();
-                finish();
+            });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Objects.requireNonNull(welcomeModal.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
-        });
+            welcomeModal.setCancelable(false);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull(welcomeModal.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            welcomeModal.show();
+
+        }catch(Exception ignored){
+
         }
-        welcomeModal.setCancelable(false);
-
-        welcomeModal.show();
-
 
     }
 

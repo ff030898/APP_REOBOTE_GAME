@@ -103,18 +103,22 @@ public class ProfileMatchesAdapters extends RecyclerView.Adapter<ProfileMatchesA
 
 
         //holder.border.setBackground(ColorStateList.valueOf(R.color.colorBlue));
-        if (position == 1) {
-            holder.border.setBackgroundTintList(ColorStateList.valueOf(0xff9B111E));
-            holder.txt_placer1.setText("2");
-            holder.txt_placer2.setText("6");
-        } else if (position == 2) {
-            holder.border.setBackgroundTintList(ColorStateList.valueOf(0xffAE841A));
-            holder.txt_placer1.setText("7");
-            holder.txt_placer2.setText("7");
-        } else {
-            holder.border.setBackgroundTintList(ColorStateList.valueOf(0xff008000));
-            holder.txt_placer1.setText("6");
-            holder.txt_placer2.setText("3");
+        switch (match.getResultado()) {
+            case "d":
+                holder.border.setBackgroundTintList(ColorStateList.valueOf(0xff9B111E));
+                holder.txt_placer1.setText("2");
+                holder.txt_placer2.setText("6");
+                break;
+            case "e":
+                holder.border.setBackgroundTintList(ColorStateList.valueOf(0xffAE841A));
+                holder.txt_placer1.setText("7");
+                holder.txt_placer2.setText("7");
+                break;
+            case "v":
+                holder.border.setBackgroundTintList(ColorStateList.valueOf(0xff008000));
+                holder.txt_placer1.setText("6");
+                holder.txt_placer2.setText("3");
+                break;
         }
 
     }
