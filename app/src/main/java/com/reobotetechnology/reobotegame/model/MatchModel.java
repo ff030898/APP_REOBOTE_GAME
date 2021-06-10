@@ -10,9 +10,16 @@ public class MatchModel {
     private boolean desconectado, aceito, recusado, internet;
     private String resultado;
     private String datetime;
-    private UserModel user1, user2;
+    private String emailUser;
+    private String scoreUser;
+    private String scoreUser2;
+    private String emailUser2;
 
-    public MatchModel(String id, boolean desconectado, boolean aceito, boolean recusado, boolean internet, String resultado, String datetime) {
+
+    public MatchModel() {
+    }
+
+    public MatchModel(String id, boolean desconectado, boolean aceito, boolean recusado, boolean internet, String resultado, String datetime, String emailUser, String scoreUser, String scoreUser2, String emailUser2) {
         this.id = id;
         this.desconectado = desconectado;
         this.aceito = aceito;
@@ -20,6 +27,10 @@ public class MatchModel {
         this.internet = internet;
         this.resultado = resultado;
         this.datetime = datetime;
+        this.emailUser = emailUser;
+        this.scoreUser = scoreUser;
+        this.scoreUser2 = scoreUser2;
+        this.emailUser2 = emailUser2;
     }
 
     @Exclude
@@ -77,6 +88,43 @@ public class MatchModel {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    @Exclude
+    public String getEmailUser() {
+        return emailUser;
+    }
+
+    public void setEmailUser(String emailUser) {
+        this.emailUser = emailUser;
+    }
+
+    @Exclude
+    public String getScoreUser2() {
+        return scoreUser2;
+    }
+
+    public void setScoreUser2(String scoreUser2) {
+        this.scoreUser2 = scoreUser2;
+    }
+
+    @Exclude
+    public String getEmailUser2() {
+        return emailUser2;
+    }
+
+    public void setEmailUser2(String emailUser2) {
+        this.emailUser2 = emailUser2;
+    }
+
+
+    @Exclude
+    public String getScoreUser() {
+        return scoreUser;
+    }
+
+    public void setScoreUser(String scoreUser) {
+        this.scoreUser = scoreUser;
     }
 
     public void salvar(){

@@ -51,8 +51,8 @@ import static com.reobotetechnology.reobotegame.R.drawable.btn_quiz_timer_red;
 
 public class MatchFinishDetailsActivity extends AppCompatActivity {
 
-    private String resultado, imageUserInvite, nameUserInvite;
-    private int scoreUser, scoreUserInvite;
+    private String resultado, imageUserInvite, nameUserInvite, nameUser, imageUser, emailJogador;
+    private int scoreUser, scoreUserInvite, view;
     private CircleImageView imagemPerfil, imagemPerfil2, imageProfileWinner, imageProfileEquals1, imageProfileEquals2;
     private TextView txtNome1, txtNome2, txtPontos1, txtPontos2, txtResultDescription, txtDateTime, txtScoreTop,
             txtScoreCorrect, txtScoreIncorrect, txtScoreMedia, txtScoreMediaTitle, textGrapich;
@@ -60,7 +60,6 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
     //toolbar
     private TextView txt_title, txt_subtitle;
     Animation modal_anima;
-
 
 
     //Animation
@@ -115,10 +114,14 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         resultado = extras.getString("resultado");
-        imageUserInvite = extras.getString("imagem");
+        imageUser = extras.getString("imagem");
+        imageUserInvite = extras.getString("imagem2");
+        nameUser = extras.getString("jogador");
+        emailJogador = extras.getString("emailJogador");
         nameUserInvite = extras.getString("jogador2");
         scoreUser = extras.getInt("pontos");
         scoreUserInvite = extras.getInt("pontos2");
+        view = extras.getInt("view");
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -138,7 +141,11 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                availabled();
+                if(view == 1){
+                    finish();
+                }else {
+                    availabled();
+                }
             }
         });
 
@@ -146,7 +153,11 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                availabled();
+                if(view == 1){
+                    finish();
+                }else {
+                    availabled();
+                }
             }
         });
 
@@ -176,27 +187,27 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void loadResult() {
 
-        String[] linhas = Objects.requireNonNull(user.getDisplayName()).split(" ");
-        txtNome1.setText(linhas[0]);
+        txtNome1.setText(nameUser);
         txtPontos1.setText("" + scoreUser);
 
         try {
 
-            if (user.getPhotoUrl() == null) {
+            if (imageUser != null) {
+                Glide
+                        .with(getApplicationContext())
+                        .load(imageUser)
+                        .centerCrop()
+                        .placeholder(R.drawable.profile)
+                        .into(imagemPerfil);
+            }
+
+            else {
                 Glide
                         .with(getApplicationContext())
                         .load(R.drawable.profile)
                         .centerCrop()
-                        .placeholder(R.drawable.profile)
-                        .into(imagemPerfil);
-            } else {
+                        .placeholder(R.drawable.profile).into(imagemPerfil);
 
-                Glide
-                        .with(getApplicationContext())
-                        .load(user.getPhotoUrl())
-                        .centerCrop()
-                        .placeholder(R.drawable.profile)
-                        .into(imagemPerfil);
             }
 
         } catch (Exception e) {
@@ -252,25 +263,51 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
 
         String textoResult;
 
-        if (resultado.equals("vitoria")) {
-            textoResult = "Você ganhou :) ";
-            txtResultDescription.setText(textoResult.toUpperCase());
-            winnerUser();
+        if(emailJogador.equals(user.getEmail())) {
 
-        } else if (resultado.equals("empate")) {
-            textoResult = "Você empatou :| ";
-            txtResultDescription.setText(textoResult.toUpperCase());
-            txtResultDescription.setTextColor(ColorStateList.valueOf(0xffffd700));
-            winnerScoreEquals();
-        } else {
-            textoResult = "Você perdeu :( ";
-            txtResultDescription.setText(textoResult.toUpperCase());
-            txtResultDescription.setTextColor(ColorStateList.valueOf(0xff801b20));
-            winnerUserInvite();
+            if (resultado.equals("vitoria")) {
+                textoResult = "Você ganhou :) ";
+                txtResultDescription.setText(textoResult.toUpperCase());
+                winnerUser();
+
+            } else if (resultado.equals("empate")) {
+                textoResult = "Você empatou :| ";
+                txtResultDescription.setText(textoResult.toUpperCase());
+                txtResultDescription.setTextColor(ColorStateList.valueOf(0xffffd700));
+                winnerScoreEquals();
+            } else {
+                textoResult = "Você perdeu :( ";
+                txtResultDescription.setText(textoResult.toUpperCase());
+                txtResultDescription.setTextColor(ColorStateList.valueOf(0xff801b20));
+                winnerUserInvite();
+            }
+
+
+            txt_title.setText(getString(R.string.detailsMatch));
+            txt_subtitle.setText(textoResult);
+
+        }else{
+            if (resultado.equals("vitoria")) {
+                textoResult = nameUser+" ganhou :) ";
+                txtResultDescription.setText(textoResult.toUpperCase());
+                winnerUser();
+
+            } else if (resultado.equals("empate")) {
+                textoResult = nameUser+" empatou :| ";
+                txtResultDescription.setText(textoResult.toUpperCase());
+                txtResultDescription.setTextColor(ColorStateList.valueOf(0xffffd700));
+                winnerScoreEquals();
+            } else {
+                textoResult = nameUser+" perdeu :( ";
+                txtResultDescription.setText(textoResult.toUpperCase());
+                txtResultDescription.setTextColor(ColorStateList.valueOf(0xff801b20));
+                winnerUserInvite();
+            }
+
+
+            txt_title.setText(getString(R.string.partidarUser)+" "+nameUser);
+            txt_subtitle.setText(textoResult);
         }
-
-        txt_title.setText(getString(R.string.detailsMatch));
-        txt_subtitle.setText(textoResult);
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -284,7 +321,7 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
         String time = timeFormat.format(data_atual);
 
         txtDateTime.setText(dateNotification + " - " + time);
-        txtScoreTop.setText(scoreUser+" x "+scoreUserInvite);
+        txtScoreTop.setText(scoreUser + " x " + scoreUserInvite);
 
         int countQuestions = 10;
 
@@ -331,7 +368,7 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
 
                 Glide
                         .with(getApplicationContext())
-                        .load(user.getPhotoUrl())
+                        .load(imageUser)
                         .centerCrop()
                         .placeholder(R.drawable.profile)
                         .into(imageProfileEquals1);
@@ -402,7 +439,7 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
 
                 Glide
                         .with(getApplicationContext())
-                        .load(user.getPhotoUrl())
+                        .load(imageUser)
                         .centerCrop()
                         .placeholder(R.drawable.profile)
                         .into(imageProfileWinner);
@@ -470,12 +507,16 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    UserModel user = dataSnapshot.getValue(UserModel.class);
+                    try {
+                        UserModel user = dataSnapshot.getValue(UserModel.class);
 
-                    assert user != null;
-                    if (!user.isAvailabled()) {
-                        openModal();
-                    }else{
+                        assert user != null;
+                        if (!user.isAvailabled()) {
+                            openModal();
+                        } else {
+                            finish();
+                        }
+                    } catch (Exception e) {
                         finish();
                     }
                 }
@@ -509,7 +550,6 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
 
             txtStartSelected.setText("5/5");
 
-
             availabled.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -537,11 +577,11 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
             });
 
 
-            if (user.getPhotoUrl() != null) {
+            if (imageUser != null) {
 
                 Glide
                         .with(getApplicationContext())
-                        .load(user.getPhotoUrl())
+                        .load(imageUser)
                         .centerCrop()
                         .placeholder(R.drawable.profile)
                         .into(profile);
@@ -573,7 +613,7 @@ public class MatchFinishDetailsActivity extends AppCompatActivity {
 
             welcomeModal.show();
 
-        }catch(Exception ignored){
+        } catch (Exception ignored) {
 
         }
 

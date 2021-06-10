@@ -9,6 +9,7 @@ public class UserModel {
     private String id, nome, email, senha, imagem, token, description, lastAcessed;
     private int ranking, pontosG, seguidores, seguindo, nivel, partidas, vitorias, derrotas, empates, backPosition;
     private boolean online, jogando, verseDay, firstAcessed, notificationsAuthorize, dayMessageIA, availabled, permission, learnRules;
+    private boolean follow;
 
     public UserModel() {
     }
@@ -259,6 +260,15 @@ public class UserModel {
 
     public void setLearnRules(boolean learnRules) {
         this.learnRules = learnRules;
+    }
+
+    @Exclude
+    public boolean isFollow() {
+        return follow;
+    }
+
+    public void setFollow(boolean follow) {
+        this.follow = follow;
     }
 
     public void salvar(){

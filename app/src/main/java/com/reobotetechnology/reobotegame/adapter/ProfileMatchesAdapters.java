@@ -16,13 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
+import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
 import com.reobotetechnology.reobotegame.model.MatchModel;
+import com.reobotetechnology.reobotegame.model.UserModel;
+import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,76 +60,127 @@ public class ProfileMatchesAdapters extends RecyclerView.Adapter<ProfileMatchesA
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-
-        //configuracoes de objetos
-        autenticacao = ConfigurationFirebase.getFirebaseAutenticacao();
-        user = autenticacao.getCurrentUser();
-
+    public void onBindViewHolder(@NonNull final myViewHolder holder, int position) {
 
         MatchModel match = listMatch.get(position);
 
-        holder.txt_datetime.setText(match.getId());
-        String username[] = user.getDisplayName().split(" ");
-        holder.txt_username1.setText(username[0]);
-        holder.txt_username2.setText("Usuario2");
+        holder.txt_datetime.setText(match.getDatetime());
 
+        try {
 
-        if (autenticacao.getCurrentUser() != null) {
-            if (user.getPhotoUrl() == null) {
-                Glide
-                        .with(context)
-                        .load(R.drawable.profile)
-                        .centerCrop()
-                        .placeholder(R.drawable.profile)
-                        .into(holder.img_user1);
-            } else {
-                Glide
-                        .with(context)
-                        .load(user.getPhotoUrl())
-                        .centerCrop()
-                        .placeholder(R.drawable.profile)
-                        .into(holder.img_user1);
-            }
+            firebaseRef.child("usuarios").child(match.getEmailUser()).addValueEventListener(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                    try {
+                        UserModel user = dataSnapshot.getValue(UserModel.class);
 
-        } else {
-            Glide
-                    .with(context)
-                    .load(user.getPhotoUrl())
-                    .centerCrop()
-                    .placeholder(R.drawable.profile)
-                    .into(holder.img_user1);
+                        assert user != null;
+
+                        String[] username = user.getNome().split(" ");
+                        holder.txt_username1.setText(username[0]);
+
+                        Glide
+                                .with(context)
+                                .load(user.getImagem())
+                                .centerCrop()
+                                .placeholder(R.drawable.profile)
+                                .into(holder.img_user1);
+                    } catch (Exception ignored) {
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        } catch (Exception ignored) {
+
         }
 
-        Glide
-                .with(context)
-                .load(R.drawable.profile)
-                .centerCrop()
-                .placeholder(R.drawable.profile)
-                .into(holder.img_user2);
+
+        String emailRobot = Base64Custom.codificarBase64(context.getString(R.string.email_robot));
+
+        if (match.getEmailUser2().equals(emailRobot)) {
+
+            String[] username2 = context.getString(R.string.name_robot).split(" ");
+            holder.txt_username2.setText(username2[0]);
+
+            Glide
+                    .with(context)
+                    .load(R.drawable.reobote)
+                    .centerCrop()
+                    .placeholder(R.drawable.profile)
+                    .into(holder.img_user2);
+
+        } else {
+            try {
+
+                firebaseRef.child("usuarios").child(match.getEmailUser2()).addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        try {
+                            UserModel user = dataSnapshot.getValue(UserModel.class);
+
+
+                            assert user != null;
+
+                            String[] username = user.getNome().split(" ");
+                            holder.txt_username2.setText(username[0]);
+
+                            Glide
+                                    .with(context)
+                                    .load(user.getImagem())
+                                    .centerCrop()
+                                    .placeholder(R.drawable.profile)
+                                    .into(holder.img_user2);
+                        } catch (Exception ignored) {
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            } catch (Exception ignored) {
+
+            }
+
+        }
 
 
         //holder.border.setBackground(ColorStateList.valueOf(R.color.colorBlue));
         switch (match.getResultado()) {
-            case "d":
+            case "derrota":
                 holder.border.setBackgroundTintList(ColorStateList.valueOf(0xff9B111E));
-                holder.txt_placer1.setText("2");
-                holder.txt_placer2.setText("6");
+                holder.txt_placer1.setText(match.getScoreUser());
+                holder.txt_placer2.setText(match.getScoreUser2());
                 break;
-            case "e":
+            case "empate":
                 holder.border.setBackgroundTintList(ColorStateList.valueOf(0xffAE841A));
-                holder.txt_placer1.setText("7");
-                holder.txt_placer2.setText("7");
+                holder.txt_placer1.setText(match.getScoreUser());
+                holder.txt_placer2.setText(match.getScoreUser2());
                 break;
-            case "v":
+            case "vitoria":
                 holder.border.setBackgroundTintList(ColorStateList.valueOf(0xff008000));
-                holder.txt_placer1.setText("6");
-                holder.txt_placer2.setText("3");
+                holder.txt_placer1.setText(match.getScoreUser());
+                holder.txt_placer2.setText(match.getScoreUser2());
                 break;
         }
 
     }
+
 
     @Override
     public int getItemCount() {

@@ -52,6 +52,8 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.FriendsCircleAdapters;
 import com.reobotetechnology.reobotegame.adapter.BooksOfBibleAdapters;
 import com.reobotetechnology.reobotegame.adapter.ListHarpeCAdapters;
+import com.reobotetechnology.reobotegame.adapter.OracionAdapters;
+import com.reobotetechnology.reobotegame.adapter.PersonAdapters;
 import com.reobotetechnology.reobotegame.adapter.ThemesVersesOfBibleAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.dao.DataBaseAcess;
@@ -59,6 +61,8 @@ import com.reobotetechnology.reobotegame.dao.DataBaseHCAcess;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.ConfigurationFirebase;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
+import com.reobotetechnology.reobotegame.model.OracionModel;
+import com.reobotetechnology.reobotegame.model.PersonModel;
 import com.reobotetechnology.reobotegame.model.VerseDayModel;
 import com.reobotetechnology.reobotegame.model.VersesBibleModel;
 import com.reobotetechnology.reobotegame.model.HarpeCModel;
@@ -80,7 +84,10 @@ import com.reobotetechnology.reobotegame.ui.match.MatchLoadingIAActivity;
 import com.reobotetechnology.reobotegame.ui.match.MatchRulesActivity;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificationsActivity;
 import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
+import com.reobotetechnology.reobotegame.ui.oracion.OracionListActivity;
+import com.reobotetechnology.reobotegame.ui.persons.PersonsListActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
+import com.reobotetechnology.reobotegame.utils.GeneratorID;
 import com.tapadoo.alerter.Alerter;
 
 import java.text.SimpleDateFormat;
@@ -145,9 +152,17 @@ public class HomeFragment extends Fragment {
     private List<HarpeCModel> listHC = new ArrayList<>();
 
     //ic_theme
-
     private ThemesVersesOfBibleAdapters adapterTheme;
     private List<ThemesModel> listThemes = new ArrayList<>();
+
+    //Oracion
+
+    private OracionAdapters adapterOracion;
+    private List<OracionModel> listOracion = new ArrayList<>();
+
+    //Person
+    private PersonAdapters adapterPerson;
+    private List<PersonModel> listPerson = new ArrayList<>();
 
 
     //Vem da Modal Welcome
@@ -308,6 +323,9 @@ public class HomeFragment extends Fragment {
         TextView txtViewMoreBackTestament = root.findViewById(R.id.txtViewMoreBackTestament);
         TextView txtViewMoreNewTestament = root.findViewById(R.id.txtViewMoreNewTestament);
         TextView txtViewMoreHarpe = root.findViewById(R.id.txtViewMoreHarpe);
+        TextView txtViewMoreOracion = root.findViewById(R.id.txtViewMoreOracion);
+        TextView txtViewMorePerson = root.findViewById(R.id.txtViewMorePerson);
+
 
         textViewMoreFriends.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -353,6 +371,22 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        txtViewMoreOracion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), OracionListActivity.class);
+                startActivity(i);
+            }
+        });
+
+        txtViewMorePerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), PersonsListActivity.class);
+                startActivity(i);
+            }
+        });
+
 
         //Configurações Recycler
 
@@ -361,6 +395,8 @@ public class HomeFragment extends Fragment {
         RecyclerView recyclerAntigoTestamento = root.findViewById(R.id.recyclerLivrosAntigo);
         RecyclerView recyclerNovoTestamento = root.findViewById(R.id.recyclerLivrosNovo);
         RecyclerView recyclerHC = root.findViewById(R.id.recyclerHC);
+        RecyclerView recyclerOracion = root.findViewById(R.id.recyclerOracion);
+        RecyclerView recyclerPerson = root.findViewById(R.id.recyclerPerson);
 
 
         //configurarAdapter
@@ -370,6 +406,8 @@ public class HomeFragment extends Fragment {
         adapterAntigo = new BooksOfBibleAdapters(listaAntigo, getActivity());
         adapterNovo = new BooksOfBibleAdapters(listaNovo, getActivity());
         adapterHC = new ListHarpeCAdapters(listHC, getActivity());
+        adapterOracion = new OracionAdapters(listOracion, getActivity());
+        adapterPerson = new PersonAdapters(listPerson, getActivity());
 
         //Configuraçoes de Layout do Recycler
 
@@ -394,6 +432,14 @@ public class HomeFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerHC.setLayoutManager(layoutManager3);
         recyclerHC.setAdapter(adapterHC);
+
+        RecyclerView.LayoutManager layoutManager6 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerOracion.setLayoutManager(layoutManager6);
+        recyclerOracion.setAdapter(adapterOracion);
+
+        RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerPerson.setLayoutManager(layoutManager5);
+        recyclerPerson.setAdapter(adapterPerson);
 
 
         //Eventos de Clique
@@ -468,6 +514,7 @@ public class HomeFragment extends Fragment {
 
                                 Intent i = new Intent(getActivity(), ThemesActivity.class);
                                 i.putExtra("theme", themes.getThemeText());
+                                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left);
                                 startActivity(i);
 
                             }
@@ -1333,6 +1380,33 @@ public class HomeFragment extends Fragment {
         adapterHC.notifyDataSetChanged();
     }
 
+    private void listOracion(){
+
+        listOracion.clear();
+
+        listOracion.add(new OracionModel("1", "21 Dias de Daniel", "", "03/06/21", "24/06/21", "23:00 - 00:00", "Em andamento", 10));
+        listOracion.add(new OracionModel("2", "150 Dias de Salmos", "", "09/06/21", "31/08/21", "23:00 - 00:00", "Aguardando", 10));
+        listOracion.add(new OracionModel("3", "12 Dias de Gratidão", "", "05/06/21", "1/06/21", "23:00 - 00:00", "Em andamento", 10));
+
+        adapterOracion.notifyDataSetChanged();
+    }
+
+    private void listPerson() {
+
+        listPerson.clear();
+
+        listPerson.add(new PersonModel("1", "Elias", ""));
+        listPerson.add(new PersonModel("2", "Moises", ""));
+        listPerson.add(new PersonModel("3", "Noé", ""));
+        listPerson.add(new PersonModel("1", "Elias", ""));
+        listPerson.add(new PersonModel("2", "Moises", ""));
+        listPerson.add(new PersonModel("3", "Noé", ""));
+
+        adapterPerson.notifyDataSetChanged();
+
+    }
+
+
     private void atualizarRanking() {
         final List<UserModel> listaRankingAll = new ArrayList<>();
 
@@ -1363,8 +1437,14 @@ public class HomeFragment extends Fragment {
                         usuarioRef.child("ranking").setValue(pos);
                     }
 
-                    progressBar.setVisibility(View.GONE);
-                    constraintPrincipal.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(new Runnable() {
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            constraintPrincipal.setVisibility(View.VISIBLE);
+                        }
+                    }, 1000);
 
                 }
 
@@ -1447,6 +1527,22 @@ public class HomeFragment extends Fragment {
                         DatabaseReference userRefDB = firebaseRef.child("usuarios").child(idUsuario2);
                         userRefDB.child("dayMessageIA").setValue(true);
 
+                        Message m = new Message();
+                        String id = GeneratorID.id();
+                        m.setId(id);
+                        m.setText(Base64Custom.codificarBase64("Olá, "+user.getNome()+". Tudo bem? Eu sou a inteligência artifical do Reobote Game. É um prazer te conhecer.\n\nVocê é uma Bênção"));
+                        String date_time = dateNotification+"/"+time;
+                        m.setTimestamp(date_time);
+                        m.setFromId(Base64Custom.codificarBase64(getString(R.string.email_robot)));
+                        m.setToId(Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail())));
+                        m.setView(true);
+                        m.setType(1);
+                        m.save();
+
+
+
+                    }else {
+                        //sorteia mensagens diarias
                     }
                 }
 
@@ -1525,6 +1621,8 @@ public class HomeFragment extends Fragment {
         listThemesVerses();
         listarLivros();
         listHarpeC();
+        listOracion();
+        listPerson();
         atualizarRanking();
         loadBannerAdMob();
         super.onStart();

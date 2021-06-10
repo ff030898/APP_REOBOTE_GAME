@@ -9,15 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,10 +31,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.FriendsRectangleAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
+import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FriendsListActivity extends AppCompatActivity {
 
@@ -44,11 +49,19 @@ public class FriendsListActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    private TextView txt_subtitle;
+
     //Animation
     private Animation topAnim;
 
     private CoordinatorLayout constraintMain;
     private ImageButton btn_back;
+
+    private String child = "seguidores";
+    private String child2 = "seguindo";
+    private String eventList, userSearch, userName;
+
+    private List<String> usersList = new ArrayList<>();
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -60,7 +73,9 @@ public class FriendsListActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         //token = extras.getString("token");
-        String eventList = extras.getString("eventList");
+        eventList = extras.getString("eventList");
+        userSearch = extras.getString("userSearch");
+        userName = extras.getString("userName");
 
         //Configurações iniciais
         progressBar = findViewById(R.id.progressBar);
@@ -86,7 +101,6 @@ public class FriendsListActivity extends AppCompatActivity {
 
         //RecyclerFriends
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        //RecyclerView.LayoutManager layoutManagerMenu2 = new LinearLayoutManager(getApplicationContext());
         recyclerFriends.setLayoutManager(layoutManager);
         recyclerFriends.setHasFixedSize(true);
         recyclerFriends.setAdapter(adapter);
@@ -94,18 +108,34 @@ public class FriendsListActivity extends AppCompatActivity {
 
         //TOOLBAR
         TextView txt_title = findViewById(R.id.txt_title);
-        TextView txt_subtitle = findViewById(R.id.txt_subtitle);
+        txt_subtitle = findViewById(R.id.txt_subtitle);
 
         assert eventList != null;
         if (eventList.equals(getString(R.string.amigos_sugeridosM))) {
             txt_title.setText(eventList);
             txt_subtitle.setText(getString(R.string.pessoas_recomendadas_que_voc_talvez_conhe_a));
+            listFriends();
         } else if (eventList.equals(getString(R.string.seguidoresMin))) {
-            txt_title.setText(eventList);
-            txt_subtitle.setText(getString(R.string.descriptionFollow2) + " " + listFriends.size() + " " + eventList.toLowerCase());
+            if(userSearch != null){
+                String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(userSearch));
+                listFriendsFollow(idUser);
+                txt_title.setText(eventList + " de "+userName);
+
+            }else {
+                String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+                listFriendsFollow(idUser);
+                txt_title.setText(eventList);
+            }
         } else if (eventList.equals(getString(R.string.seguindoMin))) {
-            txt_title.setText(eventList);
-            txt_subtitle.setText(getString(R.string.descriptionFollow) + " " + listFriends.size() + " " + getString(R.string.pessoas));
+            if(userSearch != null){
+                String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(userSearch));
+                listFriendsFollow2(idUser);
+                txt_title.setText(eventList);
+            }else {
+                String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+                listFriendsFollow2(idUser);
+                txt_title.setText(eventList);
+            }
         }
 
     }
@@ -116,14 +146,37 @@ public class FriendsListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                usersList.clear();
                 listFriends.clear();
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-                    UserModel usuario2Model = dados.getValue(UserModel.class);
+                    final UserModel usuario2Model = dados.getValue(UserModel.class);
 
                     assert usuario2Model != null;
                     if (!usuario2Model.getEmail().equals(user.getEmail())) {
-                        listFriends.add(usuario2Model);
+                        String idUser = Base64Custom.codificarBase64(usuario2Model.getEmail());
+                        firebaseRef.child(child).child(idUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                try {
+                                    Objects.requireNonNull(dataSnapshot.getValue());
+                                    usuario2Model.setFollow(true);
+
+                                } catch (Exception e) {
+                                    usuario2Model.setFollow(false);
+                                    listFriends.add(usuario2Model);
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
 
                 }
@@ -154,10 +207,224 @@ public class FriendsListActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listFriendsFollow(String idUser) {
+
+        usersList.clear();
+
+
+        firebaseRef.child(child).child(idUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    String idUser = Objects.requireNonNull(dados.getValue()).toString();
+                    usersList.add(idUser);
+                    listFriendId(usersList);
+
+                }
+
+                if (usersList.size() == 0) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            adapter.notifyDataSetChanged();
+                            progressBar.setVisibility(View.GONE);
+                            constraintMain.setVisibility(View.VISIBLE);
+                            btn_back.setAnimation(topAnim);
+
+                        }
+                    }, 2000);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listFriendsFollow2(String idUser) {
+
+        usersList.clear();
+
+        firebaseRef.child(child2).child(idUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    String idUser = dados.getValue().toString();
+                    usersList.add(idUser);
+                    listFriendId2(usersList);
+
+                }
+
+                if (usersList.size() == 0) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            adapter.notifyDataSetChanged();
+                            progressBar.setVisibility(View.GONE);
+                            constraintMain.setVisibility(View.VISIBLE);
+                            btn_back.setAnimation(topAnim);
+
+                        }
+                    }, 2000);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void listFriendId(final List<String> usersList) {
+        firebaseRef.child("usuarios").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                listFriends.clear();
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    final UserModel usuario2Model = dados.getValue(UserModel.class);
+
+                    for (int i = 0; i < usersList.size(); i++) {
+                        assert usuario2Model != null;
+                        String email = Base64Custom.codificarBase64(usuario2Model.getEmail());
+                        if (email.equals(usersList.get(i))) {
+                            firebaseRef.child(child).child(usersList.get(i)).addValueEventListener(new ValueEventListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @SuppressLint("SetTextI18n")
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    try {
+                                        Objects.requireNonNull(dataSnapshot.getValue());
+                                        usuario2Model.setFollow(true);
+
+                                    } catch (Exception e) {
+                                        usuario2Model.setFollow(false);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            listFriends.add(usuario2Model);
+                            if(userSearch != null){
+
+                                txt_subtitle.setText(userName + " tem " + listFriends.size() + " " + eventList.toLowerCase());
+
+                            }else {
+
+                                txt_subtitle.setText(getString(R.string.descriptionFollow2) + " " + listFriends.size() + " " + eventList.toLowerCase());
+                            }
+                        }
+                    }
+
+
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                constraintMain.setVisibility(View.VISIBLE);
+                btn_back.setAnimation(topAnim);
+
+            }
+        }, 2000);
+    }
+
+    private void listFriendId2(final List<String> usersList) {
+        firebaseRef.child("usuarios").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                listFriends.clear();
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    UserModel usuario2Model = dados.getValue(UserModel.class);
+
+                    for (int i = 0; i < usersList.size(); i++) {
+                        assert usuario2Model != null;
+                        String email = Base64Custom.codificarBase64(usuario2Model.getEmail());
+                        if (email.equals(usersList.get(i))) {
+                            usuario2Model.setFollow(true);
+                            listFriends.add(usuario2Model);
+                        }
+                    }
+                }
+
+                if(userSearch != null){
+
+                    txt_subtitle.setText(userName + " está seguindo " + listFriends.size() + " " + getString(R.string.pessoas));
+                }else {
+
+                    txt_subtitle.setText(getString(R.string.descriptionFollow) + " " + listFriends.size() + " " + getString(R.string.pessoas));
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                constraintMain.setVisibility(View.VISIBLE);
+                btn_back.setAnimation(topAnim);
+
+            }
+        }, 2000);
+    }
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        listFriends();
     }
 }

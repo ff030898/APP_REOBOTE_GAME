@@ -2,7 +2,6 @@ package com.reobotetechnology.reobotegame.ui.home.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -23,21 +21,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,14 +55,11 @@ import com.reobotetechnology.reobotegame.model.MatchModel;
 import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
 import com.reobotetechnology.reobotegame.ui.bible.ListBiblieScreen;
-import com.reobotetechnology.reobotegame.ui.comment.AnotattionActivity;
 import com.reobotetechnology.reobotegame.ui.friends.FriendsListActivity;
+import com.reobotetechnology.reobotegame.ui.match.MatchFinishDetailsActivity;
 import com.reobotetechnology.reobotegame.ui.notifications.NotificationsActivity;
 import com.reobotetechnology.reobotegame.ui.main.EditProfileActivity;
 import com.reobotetechnology.reobotegame.ui.friends.ViewImageScreenActivity;
-import com.tapadoo.alerter.Alerter;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +127,8 @@ public class ProfileFragment extends Fragment {
     private Animation modal_anima;
     private int score, nivelUser;
 
+    private List<String> matches = new ArrayList<>();
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -202,6 +194,7 @@ public class ProfileFragment extends Fragment {
 
                 i.putExtra("nome", user.getDisplayName());
                 i.putExtra("imagem", imagem);
+                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left);
                 startActivity(i);
             }
         });
@@ -335,12 +328,99 @@ public class ProfileFragment extends Fragment {
         RecyclerView recyclerMatch = root.findViewById(R.id.recyclerMatches);
         adapterMatches = new ProfileMatchesAdapters(listMatches, getActivity());
 
-        //RecyclerRanking
+        //RecyclerMatch
         RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(getActivity());
         recyclerMatch.setLayoutManager(layoutManager5);
         recyclerMatch.setAdapter(adapterMatches);
 
-        //OpenFriendsList
+
+        //Recycler Match
+        recyclerMatch.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getActivity(),
+                        recyclerMatch,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                final MatchModel match = listMatches.get(position);
+
+                                String verificy = Base64Custom.decodificarBase64(match.getEmailUser2());
+                                if (verificy.equals(getString(R.string.email_robot))) {
+                                    int score = Integer.parseInt(match.getScoreUser());
+                                    int scoreUser2 = Integer.parseInt(match.getScoreUser2());
+
+                                    Intent i = new Intent(getActivity(), MatchFinishDetailsActivity.class);
+                                    i.putExtra("resultado", match.getResultado());
+                                    i.putExtra("pontos", score);
+                                    i.putExtra("jogador", user.getDisplayName());
+                                    i.putExtra("emailJogador", user.getEmail());
+                                    i.putExtra("jogador2", getString(R.string.name_robot));
+                                    i.putExtra("imagem", imagem);
+                                    i.putExtra("imagem2", "reobote");
+                                    i.putExtra("pontos2", scoreUser2);
+                                    i.putExtra("view", 1);
+                                    startActivity(i);
+                                } else {
+
+                                    firebaseRef.child("usuarios").child(match.getEmailUser2()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @SuppressLint("SetTextI18n")
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            try {
+
+                                                UserModel userModel = dataSnapshot.getValue(UserModel.class);
+
+                                                int score = Integer.parseInt(match.getScoreUser());
+                                                int scoreUser2 = Integer.parseInt(match.getScoreUser2());
+
+                                                if (userModel != null) {
+                                                    Intent i = new Intent(getActivity(), MatchFinishDetailsActivity.class);
+                                                    i.putExtra("resultado", match.getResultado());
+                                                    i.putExtra("pontos", score);
+                                                    i.putExtra("jogador", user.getDisplayName());
+                                                    i.putExtra("emailJogador", user.getEmail());
+                                                    i.putExtra("jogador2", userModel.getNome());
+                                                    i.putExtra("imagem", imagem);
+                                                    i.putExtra("imagem2", userModel.getImagem());
+                                                    i.putExtra("pontos2", scoreUser2);
+                                                    i.putExtra("view", 1);
+                                                    startActivity(i);
+                                                }
+
+
+                                            } catch (Exception ignored) {
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
+
+        //Follow
         txtSeguindoUsuarioPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -433,7 +513,7 @@ public class ProfileFragment extends Fragment {
                                 bioDescription.setText("SOBRE MIM");
 
                                 //INFO
-                                txtNivelStatus.setText(user.getNivel()+"");
+                                txtNivelStatus.setText(user.getNivel() + "");
                                 txtRankingStatus.setText(user.getRanking() + "");
                                 txtSeguindoStatus.setText("" + user.getSeguindo());
                                 txtSeguidoresStatus.setText("" + user.getSeguidores());
@@ -442,10 +522,10 @@ public class ProfileFragment extends Fragment {
                                 txtDerrotedStatus.setText("" + user.getDerrotas());
                                 String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. " +
                                         "Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. " +
-                                        "Duis sodales diam eu placerat dapibus.</string>\n";
-                                if(user.getDescription().isEmpty() || user.getDescription() == null){
+                                        "Duis sodales diam eu placerat dapibus.";
+                                if (user.getDescription().isEmpty() || user.getDescription() == null) {
                                     txtBioUserStatus.setText(description);
-                                }else {
+                                } else {
                                     txtBioUserStatus.setText("" + user.getDescription());
                                 }
                             }
@@ -466,8 +546,6 @@ public class ProfileFragment extends Fragment {
                 profileImage.setImageResource(R.drawable.profile);
                 profile_main.setImageResource(R.drawable.profile);
             }
-
-
 
 
         }
@@ -592,11 +670,11 @@ public class ProfileFragment extends Fragment {
 
         txt_title.setText(description);
         if (score <= count) {
-            txtProgresso.setText(score + "/" + count+" xp");
+            txtProgresso.setText(score + "/" + count + " xp");
         } else {
             image.setImageResource(R.drawable.ic_emogi_happy);
-            txtProgresso.setText(count + "/" + count+" xp");
-            String desc = getString(R.string.congratulations)+" "+description.toLowerCase();
+            txtProgresso.setText(count + "/" + count + " xp");
+            String desc = getString(R.string.congratulations) + " " + description.toLowerCase();
             txtDescription.setText(desc);
         }
 
@@ -640,36 +718,40 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void listMatches() {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listIdMatches() {
 
-        listMatches.clear();
+        matches.clear();
 
         try {
 
-            //firebaseRef.child("usuarios").orderByChild("pontosD").limitToLast(7)
+            String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
 
-            firebaseRef.child("partidas").addValueEventListener(new ValueEventListener() {
+            firebaseRef.child("userMatches").child(idUser).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    //listMatches.clear();
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-                        //PartidaModel p = dados.getValue(PartidaModel.class);
-
-
-                        //String t = dados.getValue().toString();
-
-                        //listMatches.add(p);
-
-                        //Log.d("partida", "partida " + dados.getValue());
+                        String idMatch = dados.getValue().toString();
+                        matches.add(idMatch);
+                        listMatches(matches);
 
                     }
 
+                    if (matches.size() == 0) {
+                        adapterMatches.notifyDataSetChanged();
 
-                    //adapterMatches.notifyDataSetChanged();
-                    //progressBar.setVisibility(View.GONE);
-                    //constraintPrincipal.setVisibility(View.VISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void run() {
+                                progressBar.setVisibility(View.GONE);
+                                constraintPrincipal.setVisibility(View.VISIBLE);
+                            }
+                        }, 1000);
+                    }
+
                 }
 
                 @Override
@@ -682,12 +764,99 @@ public class ProfileFragment extends Fragment {
 
         }
 
-        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "e", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("23/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listMatches(final List<String> id) {
+
+        try {
+
+            final String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+            //
+
+            firebaseRef.child("partidas").limitToLast(50).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    listMatches.clear();
+
+                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                        try {
+
+                            MatchModel p = dados.getValue(MatchModel.class);
+                            String score = Objects.requireNonNull(dados.child(idUser).getValue()).toString();
+                            assert p != null;
+                            p.setScoreUser(score);
+                            p.setEmailUser(idUser);
+
+
+                            for (int i = 0; i < id.size(); i++) {
+
+                                if (p.getDatetime().equals(id.get(i))) {
+                                    String winner = p.getResultado();
+
+                                    if (winner.equals(idUser)) {
+                                        p.setResultado("vitoria");
+
+                                        String user2 = Objects.requireNonNull(dados.child("user2").getValue()).toString();
+                                        String scoreUser2 = Objects.requireNonNull(dados.child(user2).getValue()).toString();
+
+                                        p.setScoreUser2(scoreUser2);
+                                        p.setEmailUser2(user2);
+
+                                        listMatches.add(new MatchModel(p.getDatetime(), p.isDesconectado(), p.isAceito(), p.isRecusado(), p.isInternet(), p.getResultado(), p.getDatetime(), p.getEmailUser(), p.getScoreUser(), p.getScoreUser2(), p.getEmailUser2()));
+
+                                    } else if (winner.equals("empate")) {
+                                        p.setResultado("empate");
+
+                                        String[] user2 = Objects.requireNonNull(dados.child("user2").getValue()).toString().split("/");
+
+                                        if (user2[0].equals(idUser)) {
+                                            p.setEmailUser2(user2[1]);
+                                            String scoreUser2 = Objects.requireNonNull(dados.child(user2[1]).getValue()).toString();
+                                            p.setScoreUser2(scoreUser2);
+                                        } else {
+                                            p.setEmailUser2(user2[0]);
+                                            String scoreUser2 = Objects.requireNonNull(dados.child(user2[0]).getValue()).toString();
+                                            p.setScoreUser2(scoreUser2);
+                                        }
+
+                                        listMatches.add(new MatchModel(p.getDatetime(), p.isDesconectado(), p.isAceito(), p.isRecusado(), p.isInternet(), p.getResultado(), p.getDatetime(), p.getEmailUser(), p.getScoreUser(), p.getScoreUser2(), p.getEmailUser2()));
+
+                                    } else {
+                                        p.setResultado("derrota");
+
+                                        String scoreUser2 = Objects.requireNonNull(dados.child(winner).getValue()).toString();
+                                        p.setScoreUser2(scoreUser2);
+                                        p.setEmailUser2(winner);
+
+                                        listMatches.add(new MatchModel(p.getDatetime(), p.isDesconectado(), p.isAceito(), p.isRecusado(), p.isInternet(), p.getResultado(), p.getDatetime(), p.getEmailUser(), p.getScoreUser(), p.getScoreUser2(), p.getEmailUser2()));
+
+                                    }
+                                }
+
+                            }
+
+
+                        } catch (Exception ignored) {
+
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+        } catch (Exception ignored) {
+
+        }
 
         adapterMatches.notifyDataSetChanged();
 
@@ -700,8 +869,8 @@ public class ProfileFragment extends Fragment {
             }
         }, 1000);
 
-    }
 
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -709,8 +878,7 @@ public class ProfileFragment extends Fragment {
         viewProfile();
         getAllNotifications();
         listBookFavorites();
-        listMatches();
-
+        listIdMatches();
         super.onStart();
     }
 }

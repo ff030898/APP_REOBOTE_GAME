@@ -76,6 +76,11 @@
 
                     <include layout="@layout/include_home_harpe_c" />
 
+
+                    <include layout="@layout/include_home_person" />
+
+                    <include layout="@layout/include_home_oracion" />
+
                     <include layout="@layout/include_all_banner_ads" />
 
 

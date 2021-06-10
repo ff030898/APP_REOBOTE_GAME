@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -62,7 +63,7 @@ public class BlogDetails extends AppCompatActivity {
 
 
     private ProgressBar progressBar;
-    private CoordinatorLayout constraintPrincipal;
+    private LinearLayout linearBlog;
     private ImageButton btn_back;
 
     //Configurações do banco de dados
@@ -97,7 +98,7 @@ public class BlogDetails extends AppCompatActivity {
         setContentView(R.layout.activity_blog_details);
 
         progressBar = findViewById(R.id.progressBar);
-        constraintPrincipal = findViewById(R.id.constraintPrincipal);
+        linearBlog = findViewById(R.id.linearBlog);
 
 
         //TOOLBAR
@@ -146,7 +147,7 @@ public class BlogDetails extends AppCompatActivity {
 
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
 
-        constraintPrincipal.setVisibility(View.GONE);
+        linearBlog.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         //Visualization
@@ -175,7 +176,7 @@ public class BlogDetails extends AppCompatActivity {
             public void run() {
 
                 progressBar.setVisibility(View.GONE);
-                constraintPrincipal.setVisibility(View.VISIBLE);
+                linearBlog.setVisibility(View.VISIBLE);
                 btn_back.setAnimation(topAnim);
 
             }
@@ -188,15 +189,15 @@ public class BlogDetails extends AppCompatActivity {
             }
         });
 
-        //Comment
+        /*Comment
 
-        txtCountComment = findViewById(R.id.textView44);
+        //txtCountComment = findViewById(R.id.textView44);
 
-        RecyclerView recyclerComments = findViewById(R.id.recyclerComments);
+        //RecyclerView recyclerComments = findViewById(R.id.recyclerComments);
 
         adapter = new CommentsAdapters(list, getApplicationContext());
 
-        //RecyclerComment
+        RecyclerComment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerComments.setLayoutManager(layoutManager);
         recyclerComments.setHasFixedSize(true);
@@ -208,7 +209,7 @@ public class BlogDetails extends AppCompatActivity {
             public void onClick(View v) {
                 openAnotattion();
             }
-        });
+        });*/
 
     }
 
@@ -360,6 +361,6 @@ public class BlogDetails extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         getAllFriendsVisualizations();
-        getAllComments();
+        //getAllComments();
     }
 }

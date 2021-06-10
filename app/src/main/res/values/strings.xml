@@ -184,9 +184,11 @@
     <string name="sobre_mim">SOBRE MIM</string>
     <string name="sobre_M">Sobre mim</string>
     <string name="name_robot">Reobote IA</string>
+    <string name="email_robot">reobote_ia@reobote.com.br</string>
     <string name="editar">(EDITAR)</string>
     <string name="conquistas">CONQUISTAS</string>
     <string name="partidas">PARTIDAS</string>
+    <string name="partidarUser">Partida de</string>
     <string name="partidasM">Partidas</string>
     <string name="livros_favoritos">LIVROS FAVORITOS</string>
     <string name="acompanhe_o_hist_rico_das_partidas">Acompanhe o histórico das partidas</string>
@@ -260,6 +262,9 @@
     <string name="descri_o">Descrição</string>
     <string name="escolha_uma_categoria">Escolha uma categoria:</string>
     <string name="novo">Novo</string>
+    <string name="oracion">CAMPANHAS DE ORAÇÃO</string>
+    <string name="personagens">PERSONAGENS</string>
+    <string name="participar">Participar</string>
 
 
 </resources>

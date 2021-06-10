@@ -46,19 +46,19 @@ public class CategoryAdapters extends RecyclerView.Adapter<CategoryAdapters.myVi
                 holder.image.setImageResource(R.drawable.verse_day);
                 break;
             case 2:
-                holder.image.setImageResource(R.drawable.verse_day2);
+                holder.image.setImageResource(R.drawable.amizade);
                 break;
             case 3:
-                holder.image.setImageResource(R.drawable.verse_day);
+                holder.image.setImageResource(R.drawable.oracao);
                 break;
             case 4:
                 holder.image.setImageResource(R.drawable.verse_day2);
                 break;
             case 5:
-                holder.image.setImageResource(R.drawable.verse_day);
+                holder.image.setImageResource(R.drawable.aprender);
                 break;
             case 6:
-                holder.image.setImageResource(R.drawable.verse_day2);
+                holder.image.setImageResource(R.drawable.match);
                 break;
 
 

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,10 +29,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.adapter.FriendsRectangleAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
+import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FindFriendsActivity extends AppCompatActivity {
 
@@ -50,6 +53,8 @@ public class FindFriendsActivity extends AppCompatActivity {
 
     private CoordinatorLayout constraintMain;
     private ImageButton btn_back;
+
+    private String child = "seguidores";
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -112,18 +117,41 @@ public class FindFriendsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 listFriends.clear();
-                for (DataSnapshot dados: dataSnapshot.getChildren() ){
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-                    UserModel usuario2Model = dados.getValue( UserModel.class );
+                    final UserModel usuario2Model = dados.getValue(UserModel.class);
 
                     assert usuario2Model != null;
                     if (!usuario2Model.getEmail().equals(user.getEmail())) {
-                        listFriends.add(usuario2Model);
+                        String idUser = Base64Custom.codificarBase64(usuario2Model.getEmail());
+                        firebaseRef.child(child).child(idUser).addValueEventListener(new ValueEventListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                try {
+                                    Objects.requireNonNull(dataSnapshot.getValue());
+                                    usuario2Model.setFollow(true);
+
+                                } catch (Exception e) {
+                                    usuario2Model.setFollow(false);
+                                    listFriends.add(usuario2Model);
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
 
                 }
 
                 adapter.notifyDataSetChanged();
+
 
             }
 
@@ -132,6 +160,7 @@ public class FindFriendsActivity extends AppCompatActivity {
 
             }
         });
+
 
         new Handler().postDelayed(new Runnable() {
             @Override

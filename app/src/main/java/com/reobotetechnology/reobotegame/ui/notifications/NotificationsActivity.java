@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,13 +44,20 @@ import com.reobotetechnology.reobotegame.adapter.NotificationsAdapters;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
 import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.helper.RecyclerItemClickListener;
+import com.reobotetechnology.reobotegame.model.Message;
 import com.reobotetechnology.reobotegame.model.Notification;
+import com.reobotetechnology.reobotegame.model.UserModel;
+import com.reobotetechnology.reobotegame.ui.friends.FriendProfileActivity;
 import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
+import com.reobotetechnology.reobotegame.ui.messages.ChatActivity;
 import com.reobotetechnology.reobotegame.ui.messages.MessagesListActivity;
 import com.reobotetechnology.reobotegame.ui.main.SettingsActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,6 +97,11 @@ public class NotificationsActivity extends AppCompatActivity {
     private int seguindoFollow = 0;
 
     private BottomSheetDialog bottomSheetDialog;
+
+
+    private boolean follow;
+    private String child = "seguidores";
+    private String child2 = "seguindo";
 
 
     @Override
@@ -181,7 +194,7 @@ public class NotificationsActivity extends AppCompatActivity {
                                         showMessageChat(idUpdate);
                                         break;
                                     case "follow":
-                                        showFollowFriend(notification.getFromName(), notification.getId(), idUsuario, idUpdate, notification.getFromImage());
+                                        showFollowFriend(notification.getFromName(),  idUsuario, idUpdate, notification.getFromImage());
                                         break;
                                 }
                             }
@@ -448,16 +461,21 @@ public class NotificationsActivity extends AppCompatActivity {
             DatabaseReference usuarioRef2 = firebaseRef.child("notifications").child(idUsuario).child(idUpdate);
             usuarioRef2.child("view").setValue(true);
 
-            Intent i = new Intent(getApplicationContext(), MessagesListActivity.class);
-            i.putExtra("idUpdate", idUpdate);
+            //Intent i = new Intent(getApplicationContext(), MessagesListActivity.class);
+            //i.putExtra("idUpdate", idUpdate);
+
+            Intent i = new Intent(getApplicationContext(), ChatActivity.class);
+            i.putExtra("nome", getString(R.string.name_robot));
+            i.putExtra("imagem", R.drawable.reobote);
             startActivity(i);
+
         } catch (Exception ignored) {
 
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void showFollowFriend(final String nome, final String idPartida, final String email, final String idUpdate, final String imagem) {
+    private void showFollowFriend(final String nome, final String email, final String idUpdate, final String imagem) {
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.include_bottom_sheet_invite_open_friend, null);
 
@@ -491,92 +509,61 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
-        Button btnFollow = view.findViewById(R.id.button8);
-        btnFollow.setText("Seguir de volta");
+        final Button btnFollow = view.findViewById(R.id.button8);
 
-        /*btnFollow.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
+        String idUsuarioFollow = Base64Custom.codificarBase64(Objects.requireNonNull(email));
+        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+
+        firebaseRef.child(child).child(idUsuarioFollow).addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                try {
+                    Objects.requireNonNull(dataSnapshot.child(idUserAuthenticate).getValue());
+                    follow = true;
+                    btnFollow.setText("Ver perfil");
+
+
+                } catch (Exception e) {
+                    follow = false;
+                    btnFollow.setText("Seguir de volta");
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        btnFollow.findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                try {
-
-                    firebaseRef.child("usuarios").child(idUsuario).addValueEventListener(new ValueEventListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            UsuarioModel user = dataSnapshot.getValue(UsuarioModel.class);
-
-                            assert user != null;
-
-                            seguindoFollow = user.getSeguindo();
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-                } catch (Exception ignored) {
-
+                getFollow(email);
+                if(!follow){
+                    followUser(email);
+                    Toast.makeText(getApplicationContext(), "Você começou a seguir " + nome, Toast.LENGTH_LONG).show();
+                }else {
+                    Intent i = new Intent(getApplicationContext(), FriendProfileActivity.class);
+                    i.putExtra("id", email);
+                    startActivity(i);
                 }
-
-                int updateFollow = (seguindoFollow + 1);
-                DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(idUsuario);
-                usuarioRef.child("seguindo").setValue(updateFollow);
-
-
-                //userFollow
-
-                final String idUserFollow = Base64Custom.codificarBase64(Objects.requireNonNull(email));
-                try {
-
-                    firebaseRef.child("usuarios").child(idUserFollow).addValueEventListener(new ValueEventListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            UsuarioModel userFollow = dataSnapshot.getValue(UsuarioModel.class);
-
-                            assert userFollow != null;
-
-
-                            seguidores = userFollow.getSeguidores();
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-                } catch (Exception ignored) {
-
-                }
-
-                int updateFollow2 = (seguidores + 1);
-
-                DatabaseReference usuarioRef2 = firebaseRef.child("usuarios").child(idUserFollow);
-                usuarioRef2.child("seguidores").setValue(updateFollow2);
 
                 bottomSheetDialog.dismiss();
             }
 
-        });*/
+        });
+
+        Button closed = view.findViewById(R.id.button9);
+        closed.setText(getString(R.string.fechar));
 
         view.findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                //OpenProfileFriend
-
                 bottomSheetDialog.dismiss();
             }
         });
@@ -598,6 +585,151 @@ public class NotificationsActivity extends AppCompatActivity {
 
         bottomSheetDialog.show();
 
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void getFollow(String id) {
+
+        String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(id));
+        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+
+        firebaseRef.child(child).child(idUsuario).addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                try {
+                    Objects.requireNonNull(dataSnapshot.child(idUserAuthenticate).getValue());
+                    follow = true;
+
+
+                } catch (Exception e) {
+                    follow = false;
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void followUser(String id){
+
+        final String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(id));
+        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+
+        if (!follow) {
+
+            sendNotification(idUserAuthenticate, idUsuario);
+
+            //Update Follow
+            DatabaseReference follow = firebaseRef.child(child);
+            String idUserAutenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+            follow.child(idUsuario).child(idUserAutenticate).setValue(idUserAutenticate);
+
+            DatabaseReference follow2 = firebaseRef.child(child2);
+            follow2.child(idUserAutenticate).child(idUsuario).setValue(idUsuario);
+
+            firebaseRef.child("usuarios").child(idUserAuthenticate).addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                    if (user != null) {
+                        int seguindoFollow = user.getSeguindo();
+                        int newUpdateFollow = seguindoFollow + 1;
+                        //Update Follow
+                        DatabaseReference follow = firebaseRef.child("usuarios");
+                        follow.child(idUserAuthenticate).child("seguindo").setValue(newUpdateFollow);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+            firebaseRef.child("usuarios").child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                    if (user != null) {
+                        int seguidores = user.getSeguidores();
+                        int newUpdateFollow = seguidores + 1;
+                        //Update Follow
+                        DatabaseReference follow = firebaseRef.child("usuarios");
+                        follow.child(idUsuario).child("seguidores").setValue(newUpdateFollow);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+    }
+
+    private void sendNotification(String idUsuario, String idUsuario2) {
+        long timestamp = System.currentTimeMillis();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+        Calendar cal = Calendar.getInstance();
+        Date data = new Date();
+        cal.setTime(data);
+        Date data_atual = cal.getTime();
+
+        String dateNotification = dateFormatNotification.format(data);
+        String time = timeFormat.format(data_atual);
+
+        //Cria uma partida
+        String idMessage = dateFormat.format(data_atual);
+
+        final Message message = new Message();
+        message.setFromId(idUsuario);
+        message.setToId(idUsuario2);
+        message.setTimestamp("" + timestamp);
+        message.setText("Começou a seguir você");
+
+
+        Notification notification = new Notification();
+        notification.setFromId(message.getFromId());
+        notification.setToId(message.getToId());
+        notification.setTimestamp(message.getTimestamp());
+        notification.setText(message.getText());
+        notification.setTipo("follow");
+        notification.setFromName(user.getDisplayName());
+        notification.setId(idMessage);
+        if (user.getPhotoUrl() != null) {
+            notification.setFromImage(user.getPhotoUrl().toString());
+        } else {
+            notification.setFromImage("");
+        }
+
+        notification.setDate(dateNotification);
+        notification.setTime(time);
+
+        notification.setView(false);
+        DatabaseReference usuarioRef = firebaseRef.child("notifications");
+        usuarioRef.child(idUsuario2).child("" + timestamp).setValue(notification);
 
     }
 

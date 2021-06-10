@@ -23,9 +23,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
+import com.reobotetechnology.reobotegame.helper.Base64Custom;
+import com.reobotetechnology.reobotegame.model.MatchModel;
 import com.reobotetechnology.reobotegame.ui.home.HomeActivity;
 import com.reobotetechnology.reobotegame.utils.ChecarSegundoPlano;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -51,6 +56,7 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
     private ImageButton btn_back;
 
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
+    private DatabaseReference firebaseRef = ConfigurationFireBase.getFirebaseDataBase();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
     CircleImageView imagemPerfil, imagemPerfil2;
@@ -260,14 +266,41 @@ public class MatchLoadingIAActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initalMatch(String name) {
 
         try {
 
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss");
+
+            Calendar cal = Calendar.getInstance();
+            Date data = new Date();
+            cal.setTime(data);
+            Date data_atual = cal.getTime();
+
+            String idPartida = dateFormat.format(data_atual);
+
+            MatchModel partida = new MatchModel(idPartida, false, false, false, true, "", idPartida, user.getEmail(), "0", "0", "");
+            partida.salvar();
+
+            String email_robot = getString(R.string.email_robot);
+
+            //Começa com 0 pontos cada jogador
+            String jogador1 = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(autenticacao.getCurrentUser()).getEmail()));
+            DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef.child(jogador1).setValue(0);
+
+            //Começa com 0 pontos cada jogador
+            String jogador2 = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(email_robot)));
+            DatabaseReference usuarioRef2 = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef2.child(jogador2).setValue(0);
+
         if (name.equals(getString(R.string.name_robot))) {
             Intent i = new Intent(getApplicationContext(), MatchActivity.class);
+            i.putExtra("id", idPartida);
             i.putExtra("nome", name);
             i.putExtra("imagem", "");
+            i.putExtra("email", email_robot);
             startActivity(i);
             finish();
         }

@@ -274,13 +274,7 @@ public class BlogFragment extends Fragment {
                 textDescriptionNotifications.setText(getString(R.string.conte_do_exclusivo_para_voc));
 
             } catch (Exception e) {
-                Glide
-                        .with(BlogFragment.this)
-                        .load(R.drawable.profile)
-                        .centerCrop()
-                        .placeholder(R.drawable.profile)
-                        .into(profileImage);
-
+               profileImage.setImageResource(R.drawable.profile);
             }
 
         }

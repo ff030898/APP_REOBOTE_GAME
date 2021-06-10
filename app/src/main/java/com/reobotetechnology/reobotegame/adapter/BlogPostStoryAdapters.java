@@ -25,10 +25,15 @@ import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.model.BlogPostModel;
 import com.reobotetechnology.reobotegame.ui.blog.BlogDetails;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class BlogPostStoryAdapters extends RecyclerView.Adapter<BlogPostStoryAdapters.myViewHolder> {
 
+    @SuppressLint("SimpleDateFormat")
+    private SimpleDateFormat dateFormatNotification = new SimpleDateFormat("dd-MM-yyyy");
 
     private List<BlogPostModel> listBlog;
     private Context context;
@@ -52,9 +57,43 @@ public class BlogPostStoryAdapters extends RecyclerView.Adapter<BlogPostStoryAda
 
         final BlogPostModel post = listBlog.get(position);
 
+        String dateText = post.getDate().replace("-", "/");
+
 
         holder.txt_title.setText("" + post.getTitle());
-        holder.txt_time.setText(post.getDate()+" - "+ post.getTime());
+        Calendar cal = Calendar.getInstance();
+        Date data = new Date();
+        cal.setTime(data);
+
+        String dateNotification = dateFormatNotification.format(data);
+
+        String[] dateSplit = dateNotification.split("-");
+
+        int yearDateSplit = Integer.parseInt(dateSplit[2]);
+        int monthDateSplit = Integer.parseInt(dateSplit[1]);
+        int dayDateSplit = Integer.parseInt(dateSplit[0]);
+
+        String[] dateDataBaseSplit = post.getDate().split("-");
+
+        int yearDataBaseSplit = Integer.parseInt(dateDataBaseSplit[2]);
+        int monthDataBaseSplit = Integer.parseInt(dateDataBaseSplit[1]);
+        int dayDataBaseSplit = Integer.parseInt(dateDataBaseSplit[0]);
+
+        if(yearDateSplit == yearDataBaseSplit){
+            if(monthDateSplit == monthDataBaseSplit){
+                int dateDifferent = (dayDateSplit - dayDataBaseSplit);
+                if(dateDifferent == 0){
+                    dateText = "Hoje ás "+post.getTime();
+                }else if(dateDifferent == 1){
+                    dateText = "Ontem ás "+post.getTime();
+                }else {
+                    dateText = "Há "+dateDifferent+" dias";
+                }
+            }
+        }
+
+
+        holder.txt_time.setText(dateText);
         holder.btnFavorited.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +142,7 @@ public class BlogPostStoryAdapters extends RecyclerView.Adapter<BlogPostStoryAda
                 i.putExtra("title", post.getTitle());
                 i.putExtra("description", post.getDescription());
                 i.putExtra("reference", post.getReference());
-                i.putExtra("date", post.getDate());
+                i.putExtra("date", post.getDate().replace("-", "/"));
                 i.putExtra("time", post.getTime());
                 context.startActivity(i);
             }

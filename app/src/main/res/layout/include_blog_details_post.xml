@@ -55,12 +55,14 @@
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/like"
         android:layout_width="22dp"
-        android:background="@android:color/transparent"
         android:layout_height="22dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@android:color/transparent"
         android:src="@drawable/ic_amei_blog"
+        app:layout_constraintBottom_toTopOf="@+id/divider5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_description" />
 
@@ -70,9 +72,11 @@
         android:layout_height="22dp"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_share_blog"
+        app:layout_constraintBottom_toTopOf="@+id/divider5"
         app:layout_constraintStart_toEndOf="@+id/like"
         app:layout_constraintTop_toBottomOf="@+id/txt_description" />
 
@@ -82,9 +86,11 @@
         android:layout_height="22dp"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_whatsapp_blog"
+        app:layout_constraintBottom_toTopOf="@+id/divider5"
         app:layout_constraintStart_toEndOf="@+id/share"
         app:layout_constraintTop_toBottomOf="@+id/txt_description" />
 
@@ -104,9 +110,11 @@
         android:id="@+id/txt_visualizations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="34dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider5"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout7"
         app:layout_constraintTop_toBottomOf="@+id/txt_description"
         tools:text="40 visualizações" />
@@ -116,11 +124,13 @@
         android:id="@+id/linearLayout7"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="34dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
         android:gravity="start"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/divider5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_description">
 

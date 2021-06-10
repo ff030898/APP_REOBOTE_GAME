@@ -93,6 +93,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
                 </LinearLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -100,6 +101,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerMatches"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
@@ -109,6 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

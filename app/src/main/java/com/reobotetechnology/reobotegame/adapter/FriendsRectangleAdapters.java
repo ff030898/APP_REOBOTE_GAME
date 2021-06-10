@@ -52,7 +52,6 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
     private int seguidores = 0;
     private int seguindoFollow = 0;
 
-    private boolean follow;
     private String child = "seguidores";
     private String child2 = "seguindo";
 
@@ -83,9 +82,8 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
         holder.userName.setText(userModel.getNome());
         holder.userPositionRanking.setText(userModel.getRanking() + "º");
 
-        getFollow(userModel.getEmail());
 
-        if (follow) {
+        if (userModel.isFollow()) {
             holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.btn_screen));
             holder.buttonMatch.setTextColor(ColorStateList.valueOf(0xffffffff));
             holder.buttonMatch.setText(context.getString(R.string.seguindo));
@@ -122,9 +120,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
         });
 
 
-
-
-        /* holder.buttonMatch.setOnClickListener(new View.OnClickListener() {
+        holder.buttonMatch.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
@@ -132,36 +128,53 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
                 String emailUsuario = Objects.requireNonNull(user.getEmail());
                 final String idUsuario = Base64Custom.codificarBase64(emailUsuario);
 
-                String emailUsuario2 = Objects.requireNonNull(userModel.getEmail());
+                final String emailUsuario2 = Objects.requireNonNull(userModel.getEmail());
                 final String idUsuario2 = Base64Custom.codificarBase64(emailUsuario2);
 
-                getFollow(emailUsuario2);
 
-                if (!follow) {
+                final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
 
-                    //enviar notification
-                    sendNotification(idUsuario, idUsuario2);
-                    followUser(emailUsuario2);
+                firebaseRef.child(child).child(idUsuario2).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.btn_screen));
-                    holder.buttonMatch.setTextColor(ColorStateList.valueOf(0xffffffff));
-                    holder.buttonMatch.setText(context.getString(R.string.seguindo));
+                        try {
+                            dataSnapshot.child(idUserAuthenticate).getValue().toString();
 
-                    Toast.makeText(context.getApplicationContext(), "Você começou a seguir " + userModel.getNome(), Toast.LENGTH_LONG).show();
+                            holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.btn_google));
+                            holder.buttonMatch.setTextColor(ColorStateList.valueOf(0xff707070));
+                            holder.buttonMatch.setText(context.getString(R.string.seguir));
+
+                            Toast.makeText(context, "Você deixou de seguir " + userModel.getNome(), Toast.LENGTH_LONG).show();
+
+                            nowFollow(idUsuario2);
 
 
-                } else {
-                    modalNowFollow(idUsuario, userModel.getNome());
 
-                    holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.btn_google));
-                    holder.buttonMatch.setTextColor(ColorStateList.valueOf(0xff707070));
-                    holder.buttonMatch.setText(context.getString(R.string.seguir));
+                        } catch (Exception e) {
 
-                    Toast.makeText(context, "Você deixou de seguir " + userModel.getNome(), Toast.LENGTH_LONG).show();
-                }
+                            followUser(emailUsuario2);
+                            sendNotification(idUsuario, idUsuario2);
+
+                            holder.buttonMatch.setBackground(context.getResources().getDrawable(R.drawable.btn_screen));
+                            holder.buttonMatch.setTextColor(ColorStateList.valueOf(0xffffffff));
+                            holder.buttonMatch.setText(context.getString(R.string.seguindo));
+                            Toast.makeText(context.getApplicationContext(), "Você começou a seguir " + userModel.getNome(), Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
-        });*/
+        });
 
 
     }
@@ -171,26 +184,35 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
         return usuario.size();
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void getFollow(String id) {
+    private void followUser(String email) {
 
-        String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(id));
-        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+        String emailUsuario2 = Objects.requireNonNull(email);
+        final String idUsuario = Base64Custom.codificarBase64(emailUsuario2);
 
-        firebaseRef.child(child).child(idUsuario).addValueEventListener(new ValueEventListener() {
+        //Update Follow
+        DatabaseReference follow = firebaseRef.child(child);
+        final String idUserAutenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
+        follow.child(idUsuario).child(idUserAutenticate).setValue(idUserAutenticate);
+
+        DatabaseReference follow2 = firebaseRef.child(child2);
+        follow2.child(idUserAutenticate).child(idUsuario).setValue(idUsuario);
+
+        firebaseRef.child("usuarios").child(idUserAutenticate).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                try {
-                    Objects.requireNonNull(dataSnapshot.child(idUserAuthenticate).getValue());
-                    follow = true;
+                UserModel user = dataSnapshot.getValue(UserModel.class);
 
-                } catch (Exception e) {
-                    follow = false;
-
+                if (user != null) {
+                    int seguindoFollow = user.getSeguindo();
+                    int newUpdateFollow = seguindoFollow + 1;
+                    //Update Follow
+                    DatabaseReference follow = firebaseRef.child("usuarios");
+                    follow.child(idUserAutenticate).child("seguindo").setValue(newUpdateFollow);
                 }
-
             }
 
             @Override
@@ -199,111 +221,35 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
             }
         });
 
+
+        firebaseRef.child("usuarios").child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                if (user != null) {
+                    int seguidores = user.getSeguidores();
+                    int newUpdateFollow = seguidores + 1;
+                    //Update Follow
+                    DatabaseReference follow = firebaseRef.child("usuarios");
+                    follow.child(idUsuario).child("seguidores").setValue(newUpdateFollow);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void followUser(String email) {
-        getFollow(email);
-
-        String emailUsuario2 = Objects.requireNonNull(email);
-        final String idUsuario = Base64Custom.codificarBase64(emailUsuario2);
-
-        final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
-
-        if (!follow) {
-
-            //Update Follow
-            DatabaseReference follow = firebaseRef.child(child);
-            String idUserAutenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
-            follow.child(idUsuario).child(idUserAutenticate).setValue(1);
-
-            DatabaseReference follow2 = firebaseRef.child(child2);
-            follow2.child(idUserAutenticate).child(idUsuario).setValue(1);
-
-            firebaseRef.child("usuarios").child(idUserAuthenticate).addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    UserModel user = dataSnapshot.getValue(UserModel.class);
-
-                    if (user != null) {
-                        int seguindoFollow = user.getSeguindo();
-                        int newUpdateFollow = seguindoFollow + 1;
-                        //Update Follow
-                        DatabaseReference follow = firebaseRef.child("usuarios");
-                        follow.child(idUserAuthenticate).child("seguindo").setValue(newUpdateFollow);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-
-            firebaseRef.child("usuarios").child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    UserModel user = dataSnapshot.getValue(UserModel.class);
-
-                    if (user != null) {
-                        int seguidores = user.getSeguidores();
-                        int newUpdateFollow = seguidores + 1;
-                        //Update Follow
-                        DatabaseReference follow = firebaseRef.child("usuarios");
-                        follow.child(idUsuario).child("seguidores").setValue(newUpdateFollow);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-
-
-        }
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void modalNowFollow(final String idUsuario, final String nome) {
-        try {
-
-            new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Deixa de Seguir")
-                    .setContentText("Tem certeza que deseja deixar de seguir " + nome)
-                    .setConfirmText("Sim")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            nowFollow(idUsuario);
-                            sDialog.hide();
-                            getFollow(idUsuario);
-                        }
-                    }).setCancelText("Não")
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.hide();
-                            getFollow(idUsuario);
-                        }
-                    })
-                    .show();
-
-
-        } catch (Exception ignored) {
-
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void nowFollow(final String idUsuario){
+    private void nowFollow(final String idUsuario) {
 
         final String idUserAuthenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
         DatabaseReference usuarioRef = firebaseRef.child(child).child(idUsuario);
@@ -358,6 +304,7 @@ public class FriendsRectangleAdapters extends RecyclerView.Adapter<FriendsRectan
         });
 
     }
+
 
     private void sendNotification(String idUsuario, String idUsuario2) {
         long timestamp = System.currentTimeMillis();

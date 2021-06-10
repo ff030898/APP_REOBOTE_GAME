@@ -185,7 +185,7 @@ public class MatchLoadingActivity extends AppCompatActivity {
 
             //Cria uma partida
             idPartida = dateFormat.format(data_atual);
-            MatchModel partida = new MatchModel(idPartida, false, false, false, true, "", idPartida);
+            MatchModel partida = new MatchModel(idPartida, false, false, false, true, "", idPartida, user.getEmail(), "0","0", "");
             partida.salvar();
 
             List<QuestionModel> lista2;
@@ -208,16 +208,15 @@ public class MatchLoadingActivity extends AppCompatActivity {
 
             //Começa com 0 pontos cada jogador
             String jogador1 = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(autenticacao.getCurrentUser()).getEmail()));
-            DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida).child(jogador1);
-            usuarioRef.child("pontos").setValue(0);
+            DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef.child(jogador1).setValue(0);
 
             //Começa com 0 pontos cada jogador
             String jogador2 = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(email)));
-            DatabaseReference usuarioRef2 = firebaseRef.child("partidas").child(idPartida).child(jogador2);
-            usuarioRef2.child("pontos").setValue(0);
+            DatabaseReference usuarioRef2 = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef2.child(jogador2).setValue(0);
 
             enviarNotificacao();
-
 
             if (txtPartida.getText().equals("AGUARDANDO RESPOSTA")) {
                 verificarConfirmacao();

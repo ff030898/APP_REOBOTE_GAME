@@ -332,9 +332,9 @@ public class MatchActivity extends AppCompatActivity {
 
         String emailUsuario = Objects.requireNonNull(emailJogador2);
         assert emailUsuario != null;
-        String idUsuario = Base64Custom.codificarBase64(emailUsuario);
+        final String idUsuario = Base64Custom.codificarBase64(emailUsuario);
 
-        DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida).child(idUsuario);
+        DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
 
         usuarioRef.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -342,7 +342,7 @@ public class MatchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 try {
-                    String pontos = Objects.requireNonNull(dataSnapshot.child("pontos").getValue()).toString();
+                    String pontos = Objects.requireNonNull(dataSnapshot.child(idUsuario).getValue()).toString();
                     if (!pontos.isEmpty()) {
                         acertos2.setText(pontos);
                         scoreJogador2 = Integer.parseInt(pontos);
@@ -585,7 +585,7 @@ public class MatchActivity extends AppCompatActivity {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         tempo.cancel();
-                        atualizarResultadoPartida(emailJogador2, "Derrota");
+                        atualizarResultadoPartida(emailJogador2, emailJogador2);
                         atualizarPontosJogador1(-3);
                         jogando(false);
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
@@ -748,8 +748,8 @@ public class MatchActivity extends AppCompatActivity {
             }
         } else {
             String jogador1 = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(autenticacao.getCurrentUser()).getEmail()));
-            DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida).child(jogador1);
-            usuarioRef.child("pontos").setValue(score);
+            DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef.child(jogador1).setValue(score);
             recuperarPontosJogador2();
         }
 
@@ -1005,14 +1005,14 @@ public class MatchActivity extends AppCompatActivity {
             //chama Modal de Empate
             atualizarPontosJogador1(5);
             resultado = "empate";
-            atualizarResultadoPartida(resultado, resultado);
+            atualizarResultadoPartida(resultado, emailJogador2);
             openModal(resultado);
 
         } else if (score < scoreJogador2) {
             //chama Modal de derrota
             atualizarPontosJogador1(-3);
             resultado = "derrota";
-            atualizarResultadoPartida(emailJogador2, resultado);
+            atualizarResultadoPartida(emailJogador2, userF.getEmail());
             openModal(resultado);
 
 
@@ -1020,7 +1020,7 @@ public class MatchActivity extends AppCompatActivity {
 
             atualizarPontosJogador1(10);
             resultado = "vitoria";
-            atualizarResultadoPartida(userF.getEmail(), resultado);
+            atualizarResultadoPartida(userF.getEmail(), emailJogador2);
             openModal(resultado);
 
 
@@ -1052,17 +1052,17 @@ public class MatchActivity extends AppCompatActivity {
             imageIcon.setImageResource(R.drawable.ic_emogi_happy);
             txt_title.setText("Parabéns, " + name[0] + "!");
             txtDescription.setText("Você venceu e ganhou\n +10 pontos");
-            btnAction.setText("GANHAR +10");
+            btnAction.setText(getString(R.string.fechar));
         } else if (resultado.equals("derrota")) {
             imageIcon.setImageResource(R.drawable.ic_emogi_sad);
             txt_title.setText("Oh não, " + name[0] + "!");
             txtDescription.setText("Você perdeu a partida\n -3 pontos");
-            btnAction.setText("GANHAR +3");
+            btnAction.setText(getString(R.string.fechar));
         } else {
             imageIcon.setImageResource(R.drawable.ic_emogi_cry);
             txt_title.setText("Faltou pouco, " + name[0] + "!");
             txtDescription.setText("Você empatou e ganhou\n +5 pontos");
-            btnAction.setText("GANHAR +5");
+            btnAction.setText(getString(R.string.fechar));
         }
 
 
@@ -1077,9 +1077,15 @@ public class MatchActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
                 i.putExtra("resultado", resultado);
                 i.putExtra("pontos", score);
+                i.putExtra("jogador", userF.getDisplayName());
+                i.putExtra("emailJogador", userF.getEmail());
                 i.putExtra("jogador2", nomeJogador2);
-                i.putExtra("imagem", imagem);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    i.putExtra("imagem", Objects.requireNonNull(userF.getPhotoUrl()).toString());
+                }
+                i.putExtra("imagem2", imagem);
                 i.putExtra("pontos2", scoreJogador2);
+                i.putExtra("view", 0);
                 startActivity(i);
                 finish();
 
@@ -1097,9 +1103,15 @@ public class MatchActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
                 i.putExtra("resultado", resultado);
                 i.putExtra("pontos", score);
+                i.putExtra("jogador", userF.getDisplayName());
+                i.putExtra("emailJogador", userF.getEmail());
                 i.putExtra("jogador2", nomeJogador2);
-                i.putExtra("imagem", imagem);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    i.putExtra("imagem", Objects.requireNonNull(userF.getPhotoUrl()).toString());
+                }
+                i.putExtra("imagem2", imagem);
                 i.putExtra("pontos2", scoreJogador2);
+                i.putExtra("view", 0);
                 startActivity(i);
                 finish();
                 //Abrir video premium Admob
@@ -1116,9 +1128,15 @@ public class MatchActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
                 i.putExtra("resultado", resultado);
                 i.putExtra("pontos", score);
+                i.putExtra("jogador", userF.getDisplayName());
+                i.putExtra("emailJogador", userF.getEmail());
                 i.putExtra("jogador2", nomeJogador2);
-                i.putExtra("imagem", imagem);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    i.putExtra("imagem", Objects.requireNonNull(userF.getPhotoUrl()).toString());
+                }
+                i.putExtra("imagem2", imagem);
                 i.putExtra("pontos2", scoreJogador2);
+                i.putExtra("view", 0);
                 startActivity(i);
                 finish();
             }
@@ -1136,17 +1154,79 @@ public class MatchActivity extends AppCompatActivity {
 
     //Método Responsável por inserir os dados da partida no banco
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void atualizarResultadoPartida(String email, String resultado) {
+    private void atualizarResultadoPartida(String resultado, String user2) {
 
         if (!nomeJogador2.equals(getString(R.string.name_robot))) {
-            DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
-            usuarioRef.child("resultado").setValue(email);
-            usuarioRef.child("perguntas").removeValue();
+
+            if(resultado.equals("empate")){
+                DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+                usuarioRef.child("resultado").setValue("empate");
+                usuarioRef.child("perguntas").removeValue();
+            }else {
+                DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+                String email_winner = Base64Custom.codificarBase64(resultado);
+                usuarioRef.child("resultado").setValue(email_winner);
+                usuarioRef.child("perguntas").removeValue();
+            }
 
             String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(userF.getEmail()));
             DatabaseReference usuarioRef2 = firebaseRef.child("userMatches").child(idUser);
-            usuarioRef2.child(idPartida).setValue(resultado);
+            usuarioRef2.child(idPartida).setValue(idPartida);
 
+            if(resultado.equals("empate")){
+                String jogadorDerroted = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(user2)));
+                DatabaseReference usuarioRefDerroted = firebaseRef.child("partidas").child(idPartida);
+                usuarioRefDerroted.child("user2").setValue(jogadorDerroted+ "/" +idUser);
+            }else {
+                String jogadorDerroted = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(user2)));
+                DatabaseReference usuarioRefDerroted = firebaseRef.child("partidas").child(idPartida);
+                usuarioRefDerroted.child("user2").setValue(jogadorDerroted);
+            }
+
+
+        }else {
+
+            if(resultado.equals("empate")){
+                DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+                usuarioRef.child("resultado").setValue("empate");
+                usuarioRef.child("perguntas").removeValue();
+            }else{
+                DatabaseReference usuarioRef = firebaseRef.child("partidas").child(idPartida);
+                String email_winner = Base64Custom.codificarBase64(resultado);
+                usuarioRef.child("resultado").setValue(email_winner);
+                usuarioRef.child("perguntas").removeValue();
+            }
+
+
+            String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(userF.getEmail()));
+            DatabaseReference usuarioRef2 = firebaseRef.child("userMatches").child(idUser);
+            usuarioRef2.child(idPartida).setValue(idPartida);
+
+            //Começa com 0 pontos cada jogador
+            if(score > scoreJogador2) {
+                String jogadorDerroted = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(emailJogador2)));
+                DatabaseReference usuarioRefDerroted = firebaseRef.child("partidas").child(idPartida);
+                usuarioRefDerroted.child("user2").setValue(jogadorDerroted);
+            }else if(score == scoreJogador2){
+                String jogadorDerroted = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(emailJogador2)));
+                DatabaseReference usuarioRefDerroted = firebaseRef.child("partidas").child(idPartida);
+                usuarioRefDerroted.child("user2").setValue(jogadorDerroted + "/" +idUser);
+            }else{
+                String jogadorDerroted = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(userF.getEmail())));
+                DatabaseReference usuarioRefDerroted = firebaseRef.child("partidas").child(idPartida);
+                usuarioRefDerroted.child("user2").setValue(jogadorDerroted);
+            }
+
+            //Começa com 0 pontos cada jogador
+            String jogador1 = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(autenticacao.getCurrentUser()).getEmail()));
+            DatabaseReference usuarioRef3 = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef3.child(jogador1).setValue(score);
+
+            //Começa com 0 pontos cada jogador
+            String email_robot = getString(R.string.email_robot);
+            String jogador2 = Base64Custom.codificarBase64(Objects.requireNonNull(Objects.requireNonNull(email_robot)));
+            DatabaseReference usuarioRef4 = firebaseRef.child("partidas").child(idPartida);
+            usuarioRef4.child(jogador2).setValue(scoreJogador2);
         }
 
     }

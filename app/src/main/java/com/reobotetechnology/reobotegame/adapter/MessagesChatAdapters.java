@@ -15,15 +15,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.reobotetechnology.reobotegame.R;
 import com.reobotetechnology.reobotegame.config.ConfigurationFireBase;
+import com.reobotetechnology.reobotegame.helper.Base64Custom;
 import com.reobotetechnology.reobotegame.model.MensagensModel;
+import com.reobotetechnology.reobotegame.model.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessagesChatAdapters extends RecyclerView.Adapter<MessagesChatAdapters.myViewHolder> {
 
-    private List<MensagensModel> mensagens;
+    private List<Message> mensagens;
     private Context context;
     private static final int TIPO_REMETENTE = 0;
     private static final int TIPO_DESTINATARIO = 1;
@@ -32,7 +35,7 @@ public class MessagesChatAdapters extends RecyclerView.Adapter<MessagesChatAdapt
     private FirebaseAuth autenticacao = ConfigurationFireBase.getFirebaseAutenticacao();
     private FirebaseUser user = autenticacao.getCurrentUser();
 
-    public MessagesChatAdapters(List<MensagensModel> mensagens, Context context) {
+    public MessagesChatAdapters(ArrayList<Message> mensagens, Context context) {
         this.mensagens = mensagens;
         this.context = context;
     }
@@ -54,15 +57,15 @@ public class MessagesChatAdapters extends RecyclerView.Adapter<MessagesChatAdapt
 
     @Override
     public void onBindViewHolder(@NonNull final myViewHolder holder, int position) {
-        MensagensModel mensagem = mensagens.get(position);
+        Message mensagem = mensagens.get(position);
 
-        String msg = mensagem.getTexto();
-        String hora = mensagem.getHora();
+        String msg = mensagem.getText();
+        String[] hora = mensagem.getTimestamp().split("/");
 
-        holder.textMensagemTexto.setText(msg);
-        holder.textMensagemHora.setText(hora);
+        holder.textMensagemTexto.setText(Base64Custom.decodificarBase64(msg));
+        holder.textMensagemHora.setText(hora[1]);
 
-        if (mensagem.getTipo() == 0) {
+        if (mensagem.getType() == 0) {
 
             Glide
                     .with(context)
@@ -100,11 +103,9 @@ public class MessagesChatAdapters extends RecyclerView.Adapter<MessagesChatAdapt
     @Override
     public int getItemViewType(int position) {
 
-        MensagensModel mensagem = mensagens.get(position);
+        Message mensagem = mensagens.get(position);
 
-        ///String idUsuario = UsuarioFirebase.getIdentificadorUsuario();
-
-        int tipo = mensagem.getTipo();
+        int tipo = mensagem.getType();
 
         if (tipo == 0) {
             return TIPO_REMETENTE;

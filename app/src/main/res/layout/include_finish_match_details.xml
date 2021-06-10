@@ -59,6 +59,9 @@
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
+            android:maxLines="1"
+            android:maxLength="13"
+            android:ellipsize="end"
             android:textStyle="bold"
             android:textColor="@color/colorPreto"
             app:layout_constraintEnd_toEndOf="@+id/imagemPerfil"
@@ -77,6 +80,9 @@
             android:textAlignment="center"
             android:textColor="@color/colorPreto"
             android:textStyle="bold"
+            android:maxLines="1"
+            android:maxLength="13"
+            android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/imagemPerfil2"
             app:layout_constraintStart_toStartOf="@+id/imagemPerfil2"
@@ -134,6 +140,7 @@
             android:layout_marginTop="32dp"
             android:textColor="@color/colorPreto"
             android:textStyle="bold"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtResultDescription"
@@ -157,7 +164,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView6"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:src="@drawable/trofeu"
@@ -185,6 +192,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/profile"
+        android:visibility="visible"
         app:civ_border_color="@color/colorBranco"
         app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
@@ -347,18 +355,18 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProfileEquals2"
-        android:visibility="gone"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
-        app:civ_border_width="2dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
+        android:src="@drawable/profile"
+        android:visibility="gone"
         app:civ_border_color="@color/colorBranco"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintStart_toEndOf="@+id/imageProfileEquals1"
-        app:layout_constraintTop_toBottomOf="@+id/imageProfileWinner"
-        android:src="@drawable/profile" />
+        app:layout_constraintTop_toBottomOf="@+id/imageProfileWinner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

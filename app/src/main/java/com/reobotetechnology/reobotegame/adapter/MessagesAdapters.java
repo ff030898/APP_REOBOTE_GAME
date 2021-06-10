@@ -22,8 +22,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessagesAdapters extends RecyclerView.Adapter<MessagesAdapters.myViewHolder> {
 
-    List<MensagensModel> lista;
-    Context context;
+    private List<MensagensModel> lista;
+    private Context context;
 
     public MessagesAdapters(List<MensagensModel> lista, Context context) {
         this.lista = lista;

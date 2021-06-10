@@ -4,11 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -54,8 +52,8 @@ import com.reobotetechnology.reobotegame.model.Notification;
 import com.reobotetechnology.reobotegame.model.UserModel;
 import com.reobotetechnology.reobotegame.ui.bible.ChaptersActivity;
 import com.reobotetechnology.reobotegame.ui.bible.ListBiblieScreen;
+import com.reobotetechnology.reobotegame.ui.match.MatchFinishDetailsActivity;
 import com.reobotetechnology.reobotegame.ui.match.MatchLoadingActivity;
-import com.reobotetechnology.reobotegame.utils.VerificyFollowUser;
 
 
 import java.text.SimpleDateFormat;
@@ -131,6 +129,11 @@ public class FriendProfileActivity extends AppCompatActivity {
     private String child = "seguidores";
     private String child2 = "seguindo";
 
+    //Matches
+    private List<String> matches = new ArrayList<>();
+
+    private RecyclerView recyclerMatch;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +186,7 @@ public class FriendProfileActivity extends AppCompatActivity {
         bioDescription = findViewById(R.id.textView13);
         TextView editBio = findViewById(R.id.editar);
         editBio.setVisibility(View.GONE);
+        bioDescription.setText(getString(R.string.sobre).toUpperCase());
 
         Bundle extras = getIntent().getExtras();
         assert extras != null;
@@ -305,14 +309,103 @@ public class FriendProfileActivity extends AppCompatActivity {
 
         //List Matches
 
-        RecyclerView recyclerMatch = findViewById(R.id.recyclerMatches);
+        recyclerMatch = findViewById(R.id.recyclerMatches);
         adapterMatches = new ProfileMatchesAdapters(listMatches, getApplicationContext());
 
-        //RecyclerRanking
+        //RecyclerMatch
         RecyclerView.LayoutManager layoutManager5 = new LinearLayoutManager(getApplicationContext());
         recyclerMatch.setLayoutManager(layoutManager5);
         recyclerMatch.setAdapter(adapterMatches);
 
+        //Recycler Match
+        recyclerMatch.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getApplicationContext(),
+                        recyclerMatch,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                final MatchModel match = listMatches.get(position);
+
+                                String verificy = Base64Custom.decodificarBase64(match.getEmailUser2());
+                                if (verificy.equals(getString(R.string.email_robot))) {
+                                    int score = Integer.parseInt(match.getScoreUser());
+                                    int scoreUser2 = Integer.parseInt(match.getScoreUser2());
+
+                                    Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
+                                    i.putExtra("resultado", match.getResultado());
+                                    i.putExtra("pontos", score);
+                                    i.putExtra("jogador", nome);
+                                    i.putExtra("emailJogador", email);
+                                    i.putExtra("jogador2", getString(R.string.name_robot));
+                                    i.putExtra("imagem", imagem);
+                                    i.putExtra("imagem2", "reobote");
+                                    i.putExtra("pontos2", scoreUser2);
+                                    i.putExtra("view", 1);
+                                    startActivity(i);
+                                } else {
+
+                                    firebaseRef.child("usuarios").child(match.getEmailUser2()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @SuppressLint("SetTextI18n")
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            try {
+
+                                                UserModel userModel = dataSnapshot.getValue(UserModel.class);
+
+                                                int score = Integer.parseInt(match.getScoreUser());
+                                                int scoreUser2 = Integer.parseInt(match.getScoreUser2());
+
+                                                if (user != null) {
+                                                    Intent i = new Intent(getApplicationContext(), MatchFinishDetailsActivity.class);
+                                                    i.putExtra("resultado", match.getResultado());
+                                                    i.putExtra("pontos", score);
+                                                    i.putExtra("jogador", nome);
+                                                    i.putExtra("emailJogador", email);
+                                                    assert userModel != null;
+                                                    i.putExtra("jogador2", userModel.getNome());
+                                                    i.putExtra("imagem", imagem);
+                                                    i.putExtra("imagem2", userModel.getImagem());
+                                                    i.putExtra("pontos2", scoreUser2);
+                                                    i.putExtra("view", 1);
+                                                    startActivity(i);
+                                                }
+
+
+                                            } catch (Exception ignored) {
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
+
+
+        //Follow
         Button buttonInviteFriend = findViewById(R.id.buttonInviteFriend);
         buttonInviteFriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,6 +420,8 @@ public class FriendProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), FriendsListActivity.class);
                 i.putExtra("eventList", getString(R.string.seguindoMin));
+                i.putExtra("userSearch", email);
+                i.putExtra("userName", nome);
                 startActivity(i);
 
             }
@@ -337,9 +432,12 @@ public class FriendProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), FriendsListActivity.class);
                 i.putExtra("eventList", getString(R.string.seguidoresMin));
+                i.putExtra("userSearch", email);
+                i.putExtra("userName", nome);
                 startActivity(i);
             }
         });
+
 
     }
 
@@ -378,7 +476,6 @@ public class FriendProfileActivity extends AppCompatActivity {
                         txtRankingUsuarioPerfil.setText(user.getRanking() + "º");
                         txtSeguindoUsuarioPerfil.setText("" + user.getSeguindo());
                         txtSeguidoresUsuarioPerfil.setText("" + user.getSeguidores());
-                        bioDescription.setText("SOBRE MIM");
 
                         //INFO
                         txtNivelStatus.setText(user.getNivel() + "");
@@ -390,10 +487,10 @@ public class FriendProfileActivity extends AppCompatActivity {
                         txtDerrotedStatus.setText("" + user.getDerrotas());
                         String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. is. Sed tempus laoreea. " +
                                 "Ut vitae neque venenatis neque facilisis pellentesque. Sed tincidunt laoreet mauris sed molestie. " +
-                                "Duis sodales diam eu placerat dapibus.</string>\n";
-                        if(user.getDescription().isEmpty() || user.getDescription() == null){
+                                "Duis sodales diam eu placerat dapibus.";
+                        if (user.getDescription().isEmpty() || user.getDescription() == null) {
                             txtBioUserStatus.setText(description);
-                        }else {
+                        } else {
                             txtBioUserStatus.setText("" + user.getDescription());
                         }
 
@@ -488,7 +585,7 @@ public class FriendProfileActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void followUser(){
+    private void followUser() {
         getFollow();
 
         final String idUsuario = Base64Custom.codificarBase64(Objects.requireNonNull(id));
@@ -503,10 +600,10 @@ public class FriendProfileActivity extends AppCompatActivity {
             //Update Follow
             DatabaseReference follow = firebaseRef.child(child);
             String idUserAutenticate = Base64Custom.codificarBase64(Objects.requireNonNull(user.getEmail()));
-            follow.child(idUsuario).child(idUserAutenticate).setValue(1);
+            follow.child(idUsuario).child(idUserAutenticate).setValue(idUserAutenticate);
 
             DatabaseReference follow2 = firebaseRef.child(child2);
-            follow2.child(idUserAutenticate).child(idUsuario).setValue(1);
+            follow2.child(idUserAutenticate).child(idUsuario).setValue(idUsuario);
 
             firebaseRef.child("usuarios").child(idUserAuthenticate).addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
@@ -594,7 +691,7 @@ public class FriendProfileActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void nowFollow(final String idUsuario){
+    private void nowFollow(final String idUsuario) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             btn_edit.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.bg_ranking_position));
             btn_edit.setImageResource(R.drawable.ic_add);
@@ -819,36 +916,30 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
 
-    private void listMatches() {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listIdMatches() {
 
-        listMatches.clear();
+        matches.clear();
 
-        /*try {
+        try {
 
-            //firebaseRef.child("usuarios").orderByChild("pontosD").limitToLast(7)
+            String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(id));
 
-            firebaseRef.child("partidas").addValueEventListener(new ValueEventListener() {
+            firebaseRef.child("userMatches").child(idUser).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    listMatches.clear();
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-                        //PartidaModel p = dados.getValue(PartidaModel.class);
+                        String idMatch = Objects.requireNonNull(dados.getValue()).toString();
+                        matches.add(idMatch);
+                        listMatches(matches);
+                    }
 
-
-                        //String t = dados.getValue().toString();
-
-                        //listMatches.add(p);
-
-                        //Log.d("partida", "id: "+t);
+                    if (matches.size() == 0) {
 
                     }
 
-
-                    adapterMatches.notifyDataSetChanged();
-                    //progressBar.setVisibility(View.GONE);
-                    //constraintPrincipal.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -857,18 +948,116 @@ public class FriendProfileActivity extends AppCompatActivity {
                 }
             });
 
+
         } catch (Exception ignored) {
 
-        }*/
+        }
 
-        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("25/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("22/02/2021 - 02:12", false, true, false, true, "d", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("23/02/2021 - 02:12", false, true, false, true, "v", "27/02/2021 - 02:12"));
-        listMatches.add(new MatchModel("27/02/2021 - 02:12", false, true, false, true, "e", "27/02/2021 - 02:12"));
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void listMatches(final List<String> idMatches) {
+
+        try {
+
+            final String idUser = Base64Custom.codificarBase64(Objects.requireNonNull(id));
+
+
+            firebaseRef.child("partidas").limitToLast(50).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    listMatches.clear();
+
+                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                        try {
+
+                            MatchModel p = dados.getValue(MatchModel.class);
+                            String score = Objects.requireNonNull(dados.child(idUser).getValue()).toString();
+                            assert p != null;
+                            p.setScoreUser(score);
+                            p.setEmailUser(idUser);
+
+
+                            for (int i = 0; i < idMatches.size(); i++) {
+
+                                if (p.getDatetime().equals(idMatches.get(i))) {
+                                    String winner = p.getResultado();
+
+                                    if (winner.equals(idUser)) {
+                                        p.setResultado("vitoria");
+
+                                        String user2 = Objects.requireNonNull(dados.child("user2").getValue()).toString();
+                                        String scoreUser2 = Objects.requireNonNull(dados.child(user2).getValue()).toString();
+
+                                        p.setScoreUser2(scoreUser2);
+                                        p.setEmailUser2(user2);
+
+                                        listMatches.add(new MatchModel(p.getDatetime(), p.isDesconectado(), p.isAceito(), p.isRecusado(), p.isInternet(), p.getResultado(), p.getDatetime(), p.getEmailUser(), p.getScoreUser(), p.getScoreUser2(), p.getEmailUser2()));
+
+                                    } else if (winner.equals("empate")) {
+                                        p.setResultado("empate");
+
+                                        String[] user2 = Objects.requireNonNull(dados.child("user2").getValue()).toString().split("/");
+
+                                        if (user2[0].equals(idUser)) {
+                                            p.setEmailUser2(user2[1]);
+                                            String scoreUser2 = Objects.requireNonNull(dados.child(user2[1]).getValue()).toString();
+                                            p.setScoreUser2(scoreUser2);
+                                        } else {
+                                            p.setEmailUser2(user2[0]);
+                                            String scoreUser2 = Objects.requireNonNull(dados.child(user2[0]).getValue()).toString();
+                                            p.setScoreUser2(scoreUser2);
+                                        }
+
+
+                                        listMatches.add(new MatchModel(p.getDatetime(), p.isDesconectado(), p.isAceito(), p.isRecusado(), p.isInternet(), p.getResultado(), p.getDatetime(), p.getEmailUser(), p.getScoreUser(), p.getScoreUser2(), p.getEmailUser2()));
+
+                                    } else {
+                                        p.setResultado("derrota");
+
+                                        String scoreUser2 = Objects.requireNonNull(dados.child(winner).getValue()).toString();
+                                        p.setScoreUser2(scoreUser2);
+                                        p.setEmailUser2(winner);
+
+                                        listMatches.add(new MatchModel(p.getDatetime(), p.isDesconectado(), p.isAceito(), p.isRecusado(), p.isInternet(), p.getResultado(), p.getDatetime(), p.getEmailUser(), p.getScoreUser(), p.getScoreUser2(), p.getEmailUser2()));
+
+                                    }
+                                }
+
+                            }
+
+
+                        } catch (Exception ignored) {
+
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+        } catch (Exception ignored) {
+
+        }
 
         adapterMatches.notifyDataSetChanged();
+
+        new Handler().postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+                constraintPrincipal.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
 
 
     }
@@ -926,6 +1115,6 @@ public class FriendProfileActivity extends AppCompatActivity {
         getUser();
         getFollow();
         listBookFavorites();
-        listMatches();
+        listIdMatches();
     }
 }
